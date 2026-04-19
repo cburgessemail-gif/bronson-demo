@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 type Screen =
   | "home"
@@ -18,30 +18,7 @@ type Screen =
 
 type Language = "English" | "Español" | "Tagalog" | "Italiano" | "Patwa" | "Hebrew";
 
-const images: Record<string, string> = {
-  home: "/GrowArea2.jpg",
-  story: "/SAM_0220.JPG",
-  guest: "/SAM_0221.JPG",
-  customer: "/SAM_0222.JPG",
-  grower: "/SAM_0223.JPG",
-  producer: "/SAM_0229.JPG",
-  youth: "/SAM_0238.JPG",
-  supervisor: "/SAM_0249.JPG",
-  marketplace: "/SAM_0257.JPG",
-  calendar: "/SAM_0274.JPG",
-  events: "/SAM_0275.JPG",
-  nutrition: "/SAM_0281.JPG",
-  recipes: "/SAM_0282.JPG",
-  weather: "/SAM_0288.JPG",
-  g1: "/SAM_0289.JPG",
-  g2: "/SAM_0290.JPG",
-  g3: "/SAM_0291.JPG",
-  g4: "/SAM_0293.JPG",
-  g5: "/SAM_0301.JPG",
-  g6: "/SAM_0303.JPG",
-};
-
-const guidedRoute: Screen[] = [
+const route: Screen[] = [
   "home",
   "story",
   "guest",
@@ -57,227 +34,455 @@ const guidedRoute: Screen[] = [
   "weather",
 ];
 
-const labels: Record<
-  Language,
+const images: Record<string, string> = {
+  home: "/GrowArea2.jpg",
+  story: "/SAM_0220.JPG",
+  guest: "/SAM_0221.JPG",
+  customer: "/SAM_0222.JPG",
+  grower: "/SAM_0223.JPG",
+  producer: "/SAM_0229.JPG",
+  youth: "/SAM_0238.JPG",
+  supervisor: "/SAM_0249.JPG",
+  marketplace: "/SAM_0257.JPG",
+  calendar: "/SAM_0274.JPG",
+  events: "/SAM_0275.JPG",
+  nutrition: "/SAM_0281.JPG",
+  recipes: "/SAM_0282.JPG",
+  weather: "/SAM_0288.JPG",
+};
+
+const text: Record<
+  Screen,
   {
     title: string;
-    subtitle: string;
-    explore: string;
-    back: string;
-    marketplaceButton: string;
-    guidedTour: string;
-    stopTour: string;
-    voiceOn: string;
-    voiceOff: string;
-    farmGallery: string;
-    farmConditions: string;
-    nextExperience: string;
-    upcomingEvent: string;
-    countdown: string;
-    moreFarm: string;
-    story: string;
-    guest: string;
-    customer: string;
-    grower: string;
-    producer: string;
-    youth: string;
-    supervisor: string;
-    marketplace: string;
-    calendar: string;
-    events: string;
-    nutrition: string;
-    recipes: string;
-    weather: string;
-    customerReturn: string;
+    body: string;
   }
 > = {
-  English: {
+  home: {
     title: "Bronson Family Farm",
-    subtitle: "A living ecosystem, not just a website.",
-    explore: "Explore Pathway",
-    back: "Back to Entrance",
-    marketplaceButton: "Go to Marketplace",
-    guidedTour: "Start Guided Tour",
-    stopTour: "Stop Tour",
-    voiceOn: "Voice On",
-    voiceOff: "Voice Off",
-    farmGallery: "Farm Gallery",
-    farmConditions: "Farm Conditions",
-    nextExperience: "Next Experience",
-    upcomingEvent: "Growers Supply Market",
-    countdown: "Countdown",
-    moreFarm: "More from the Farm",
-    story: "Our Story",
-    guest: "Guest",
-    customer: "Customer",
-    grower: "Grower",
-    producer: "Value-Added Producer",
-    youth: "Youth Workforce",
-    supervisor: "Supervisor",
-    marketplace: "Marketplace",
-    calendar: "Crop Planner",
-    events: "Events",
-    nutrition: "Health & Nutrition",
-    recipes: "Recipes",
-    weather: "Farm Conditions",
-    customerReturn: "Made for return visits",
+    body:
+      "Welcome to a living ecosystem built around food access, restoration, education, wellness, and opportunity.",
   },
-  Español: {
-    title: "Bronson Family Farm",
-    subtitle: "Un ecosistema vivo, no solo un sitio web.",
-    explore: "Explorar",
-    back: "Volver al Inicio",
-    marketplaceButton: "Ir al Mercado",
-    guidedTour: "Iniciar Recorrido",
-    stopTour: "Detener Recorrido",
-    voiceOn: "Voz Activada",
-    voiceOff: "Voz Desactivada",
-    farmGallery: "Galería de la Finca",
-    farmConditions: "Condiciones de la Finca",
-    nextExperience: "Próxima Experiencia",
-    upcomingEvent: "Growers Supply Market",
-    countdown: "Cuenta regresiva",
-    moreFarm: "Más de la Finca",
-    story: "Nuestra Historia",
-    guest: "Invitado",
-    customer: "Cliente",
-    grower: "Productor",
-    producer: "Productor de Valor Agregado",
-    youth: "Fuerza Laboral Juvenil",
-    supervisor: "Supervisor",
-    marketplace: "Mercado",
-    calendar: "Planificador",
-    events: "Eventos",
-    nutrition: "Salud y Nutrición",
-    recipes: "Recetas",
-    weather: "Condiciones de la Finca",
-    customerReturn: "Pensado para volver",
+  story: {
+    title: "Our Story",
+    body:
+      "A family legacy transformed into a future-focused farm vision for Youngstown.",
   },
-  Tagalog: {
-    title: "Bronson Family Farm",
-    subtitle: "Isang buhay na ecosystem, hindi lang website.",
-    explore: "Explore",
-    back: "Balik sa Simula",
-    marketplaceButton: "Punta sa Marketplace",
-    guidedTour: "Start Guided Tour",
-    stopTour: "Stop Tour",
-    voiceOn: "Voice On",
-    voiceOff: "Voice Off",
-    farmGallery: "Farm Gallery",
-    farmConditions: "Farm Conditions",
-    nextExperience: "Next Experience",
-    upcomingEvent: "Growers Supply Market",
-    countdown: "Countdown",
-    moreFarm: "More from the Farm",
-    story: "Kuwento",
-    guest: "Bisita",
-    customer: "Customer",
-    grower: "Grower",
-    producer: "Producer",
-    youth: "Youth Workforce",
-    supervisor: "Supervisor",
-    marketplace: "Marketplace",
-    calendar: "Crop Planner",
-    events: "Events",
-    nutrition: "Health & Nutrition",
-    recipes: "Recipes",
-    weather: "Farm Conditions",
-    customerReturn: "Babalikan ng customer",
+  guest: {
+    title: "Guest Experience",
+    body:
+      "Visitors enjoy discovery, atmosphere, events, and reasons to return again.",
   },
-  Italiano: {
-    title: "Bronson Family Farm",
-    subtitle: "Un ecosistema vivo, non solo un sito web.",
-    explore: "Esplora",
-    back: "Torna all'Ingresso",
-    marketplaceButton: "Vai al Mercato",
-    guidedTour: "Avvia Tour",
-    stopTour: "Ferma Tour",
-    voiceOn: "Voce Attiva",
-    voiceOff: "Voce Spenta",
-    farmGallery: "Galleria della Fattoria",
-    farmConditions: "Condizioni della Fattoria",
-    nextExperience: "Prossima Esperienza",
-    upcomingEvent: "Growers Supply Market",
-    countdown: "Conto alla rovescia",
-    moreFarm: "Altro dalla Fattoria",
-    story: "La Nostra Storia",
-    guest: "Ospite",
-    customer: "Cliente",
-    grower: "Coltivatore",
-    producer: "Produttore",
-    youth: "Forza Lavoro Giovanile",
-    supervisor: "Supervisore",
-    marketplace: "Mercato",
-    calendar: "Pianificatore",
-    events: "Eventi",
-    nutrition: "Salute e Nutrizione",
-    recipes: "Ricette",
-    weather: "Condizioni della Fattoria",
-    customerReturn: "Pensato per ritornare",
+  customer: {
+    title: "Customer Journey",
+    body:
+      "Customers move into healthier buying habits, produce access, recipes, and nutrition support.",
   },
-  Patwa: {
-    title: "Bronson Family Farm",
-    subtitle: "A living ecosystem, not just one website.",
-    explore: "Explore",
-    back: "Back to Entrance",
-    marketplaceButton: "Go a Marketplace",
-    guidedTour: "Start Guided Tour",
-    stopTour: "Stop Tour",
-    voiceOn: "Voice On",
-    voiceOff: "Voice Off",
-    farmGallery: "Farm Gallery",
-    farmConditions: "Farm Conditions",
-    nextExperience: "Next Experience",
-    upcomingEvent: "Growers Supply Market",
-    countdown: "Countdown",
-    moreFarm: "More from the Farm",
-    story: "Wi Story",
-    guest: "Guest",
-    customer: "Customer",
-    grower: "Grower",
-    producer: "Producer",
-    youth: "Youth Workforce",
-    supervisor: "Supervisor",
-    marketplace: "Marketplace",
-    calendar: "Crop Planner",
-    events: "Events",
-    nutrition: "Health & Nutrition",
-    recipes: "Recipes",
-    weather: "Farm Conditions",
-    customerReturn: "Built fi return visits",
+  grower: {
+    title: "Grower Pathway",
+    body:
+      "Growers gain planning tools, coordination, learning, and practical opportunity.",
   },
-  Hebrew: {
-    title: "Bronson Family Farm",
-    subtitle: "מערכת חיה, לא רק אתר אינטרנט.",
-    explore: "כניסה למסלול",
-    back: "חזרה לכניסה",
-    marketplaceButton: "לשוק",
-    guidedTour: "התחל סיור",
-    stopTour: "עצור סיור",
-    voiceOn: "קול פועל",
-    voiceOff: "קול כבוי",
-    farmGallery: "גלריית החווה",
-    farmConditions: "תנאי החווה",
-    nextExperience: "החוויה הבאה",
-    upcomingEvent: "Growers Supply Market",
-    countdown: "ספירה לאחור",
-    moreFarm: "עוד מהחווה",
-    story: "הסיפור שלנו",
-    guest: "אורח",
-    customer: "לקוח",
-    grower: "מגדל",
-    producer: "יצרן",
-    youth: "כוח עבודה לנוער",
-    supervisor: "מפקח",
-    marketplace: "שוק",
-    calendar: "מתכנן גידולים",
-    events: "אירועים",
-    nutrition: "בריאות ותזונה",
-    recipes: "מתכונים",
-    weather: "תנאי החווה",
-    customerReturn: "בנוי לחזרה",
+  producer: {
+    title: "Value Added Producer",
+    body:
+      "Prepared goods, branded products, and future local commerce opportunities.",
+  },
+  youth: {
+    title: "Youth Workforce",
+    body:
+      "Hands-on learning, readiness, stewardship, and future pathways.",
+  },
+  supervisor: {
+    title: "Supervisor Role",
+    body:
+      "Support staff provide structure, logistics, accountability, and encouragement.",
+  },
+  marketplace: {
+    title: "Marketplace",
+    body:
+      "The bridge to produce, seedlings, products, and return visits.",
+  },
+  calendar: {
+    title: "Crop Planner",
+    body:
+      "The seasonal rhythm of timing, readiness, and productive coordination.",
+  },
+  events: {
+    title: "Events",
+    body:
+      "Demonstrations, education, agritourism, and family experiences on the land.",
+  },
+  nutrition: {
+    title: "Health & Nutrition",
+    body:
+      "Helping people compare natural food with overprocessed choices.",
+  },
+  recipes: {
+    title: "Recipes",
+    body:
+      "Turning farm products into real meals and healthy habits.",
+  },
+  weather: {
+    title: "Farm Conditions",
+    body:
+      "A live feeling connected to season, land, work, and growth.",
   },
 };
 
-const content: Record<
-  Screen,
+function App() {
+  const [screen, setScreen] = useState<Screen>("home");
+  const [tour, setTour] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [voiceOn, setVoiceOn] = useState(true);
+  const [language, setLanguage] = useState<Language>("English");
+
+  const synthRef = useRef<SpeechSynthesis | null>(null);
+
+  const current = text[screen];
+
+  useEffect(() => {
+    synthRef.current = window.speechSynthesis;
+  }, []);
+
+  useEffect(() => {
+    if (!voiceOn) return;
+
+    const utter = new SpeechSynthesisUtterance(
+      `${current.title}. ${current.body}`
+    );
+
+    utter.rate = 0.95;
+    utter.pitch = 1;
+    utter.volume = 1;
+
+    const voices = speechSynthesis.getVoices();
+
+    if (language === "Español") {
+      utter.lang = "es-ES";
+      const v = voices.find((x) => x.lang.startsWith("es"));
+      if (v) utter.voice = v;
+    } else if (language === "Italiano") {
+      utter.lang = "it-IT";
+      const v = voices.find((x) => x.lang.startsWith("it"));
+      if (v) utter.voice = v;
+    } else if (language === "Hebrew") {
+      utter.lang = "he-IL";
+      const v = voices.find((x) => x.lang.startsWith("he"));
+      if (v) utter.voice = v;
+    } else {
+      utter.lang = "en-US";
+    }
+
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utter);
+  }, [screen, voiceOn, language]);
+
+  useEffect(() => {
+    if (!tour) return;
+
+    const timer = setTimeout(() => {
+      const next = index + 1;
+
+      if (next >= route.length) {
+        setTour(false);
+        setIndex(0);
+        setScreen("home");
+      } else {
+        setIndex(next);
+        setScreen(route[next]);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [tour, index]);
+
+  const bg = images[screen];
+
+  const cards = useMemo(
+    () =>
+      route.filter((x) => x !== "home").map((item) => (
+        <button
+          key={item}
+          onClick={() => {
+            setTour(false);
+            setScreen(item);
+          }}
+          style={{
+            border: "1px solid rgba(255,255,255,.12)",
+            borderRadius: 24,
+            overflow: "hidden",
+            cursor: "pointer",
+            background: "rgba(255,255,255,.05)",
+            color: "#fff",
+            padding: 0,
+            textAlign: "left",
+          }}
+        >
+          <div
+            style={{
+              height: 130,
+              backgroundImage: `linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.55)),url(${images[item]})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: 18 }}>{text[item].title}</div>
+            <div style={{ marginTop: 6, opacity: 0.82, fontSize: 14 }}>
+              {text[item].body}
+            </div>
+          </div>
+        </button>
+      )),
+    []
+  );
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        color: "#fff",
+        fontFamily:
+          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        backgroundImage: `linear-gradient(rgba(4,8,6,.30),rgba(4,8,6,.84)),url(${bg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: 24 }}>
+        <div
+          style={{
+            borderRadius: 28,
+            padding: 18,
+            display: "flex",
+            gap: 12,
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            alignItems: "center",
+            background: "rgba(8,18,12,.62)",
+            border: "1px solid rgba(255,255,255,.10)",
+            backdropFilter: "blur(12px)",
+          }}
+        >
+          <div>
+            <div style={{ fontSize: 36, fontWeight: 900 }}>
+              Bronson Family Farm
+            </div>
+            <div style={{ opacity: 0.86 }}>
+              Guided Ecosystem Experience
+            </div>
+          </div>
+
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <button
+              onClick={() => setScreen("home")}
+              style={btn()}
+            >
+              Home
+            </button>
+
+            {!tour ? (
+              <button
+                onClick={() => {
+                  setTour(true);
+                  setIndex(0);
+                  setScreen("home");
+                }}
+                style={btn(true)}
+              >
+                Start Guided Tour
+              </button>
+            ) : (
+              <button
+                onClick={() => setTour(false)}
+                style={btn()}
+              >
+                Stop Tour
+              </button>
+            )}
+
+            <button
+              onClick={() => setVoiceOn(!voiceOn)}
+              style={btn()}
+            >
+              {voiceOn ? "Voice On" : "Voice Off"}
+            </button>
+
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as Language)}
+              style={{
+                ...btnStyle,
+                minWidth: 140,
+              }}
+            >
+              <option>English</option>
+              <option>Español</option>
+              <option>Tagalog</option>
+              <option>Italiano</option>
+              <option>Patwa</option>
+              <option>Hebrew</option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: 24,
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.25fr) minmax(340px,.75fr)",
+            gap: 24,
+          }}
+        >
+          <div
+            style={{
+              borderRadius: 30,
+              padding: 34,
+              background: "rgba(8,18,12,.60)",
+              border: "1px solid rgba(255,255,255,.10)",
+              backdropFilter: "blur(12px)",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                padding: "8px 14px",
+                borderRadius: 999,
+                background: "rgba(167,211,125,.18)",
+                fontWeight: 800,
+                fontSize: 12,
+                letterSpacing: ".08em",
+                textTransform: "uppercase",
+              }}
+            >
+              Live Demo
+            </div>
+
+            <h1
+              style={{
+                fontSize: 62,
+                lineHeight: 1.02,
+                margin: "18px 0 0",
+                fontWeight: 900,
+              }}
+            >
+              {current.title}
+            </h1>
+
+            <p
+              style={{
+                marginTop: 18,
+                fontSize: 22,
+                lineHeight: 1.7,
+                color: "rgba(245,255,247,.92)",
+                maxWidth: 850,
+              }}
+            >
+              {current.body}
+            </p>
+
+            {tour && (
+              <div
+                style={{
+                  marginTop: 18,
+                  color: "#dff2c8",
+                  fontWeight: 700,
+                }}
+              >
+                Guided Tour Progress: {index + 1} / {route.length}
+              </div>
+            )}
+
+            <div
+              style={{
+                marginTop: 28,
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+                gap: 18,
+              }}
+            >
+              {cards}
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gap: 24 }}>
+            <Panel title="Marketplace Preview">
+              Produce • Seedlings • Bubble Babies™ • Repeat Visits
+            </Panel>
+
+            <Panel title="Live Conditions">
+              Youngstown • 46°F • Seasonal • Regenerative
+            </Panel>
+
+            <Panel title="Next Event">
+              Growers Supply Market • May 16, 2026
+            </Panel>
+
+            <Panel title="Why It Works">
+              People return for food, learning, events, and opportunity.
+            </Panel>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const btnStyle: React.CSSProperties = {
+  borderRadius: 999,
+  border: "1px solid rgba(255,255,255,.14)",
+  background: "rgba(255,255,255,.08)",
+  color: "#fff",
+  padding: "12px 18px",
+  fontWeight: 700,
+  cursor: "pointer",
+};
+
+function btn(primary = false): React.CSSProperties {
+  return primary
+    ? {
+        ...btnStyle,
+        background: "linear-gradient(180deg,#b8e68d,#9ed26d)",
+        color: "#0b160d",
+      }
+    : btnStyle;
+}
+
+function Panel({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      style={{
+        borderRadius: 28,
+        padding: 22,
+        background: "rgba(8,18,12,.60)",
+        border: "1px solid rgba(255,255,255,.10)",
+        backdropFilter: "blur(12px)",
+      }}
+    >
+      <div
+        style={{
+          fontSize: 12,
+          letterSpacing: ".18em",
+          textTransform: "uppercase",
+          color: "#dff2c8",
+          fontWeight: 800,
+        }}
+      >
+        {title}
+      </div>
+      <div style={{ marginTop: 14, fontSize: 18, lineHeight: 1.7 }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export default App;
