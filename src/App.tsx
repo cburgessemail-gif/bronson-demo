@@ -18,6 +18,10 @@ type Screen =
 
 type Language = "English" | "Español" | "Tagalog" | "Italiano" | "Patwa" | "Hebrew";
 
+const LIVE_MARKETPLACE_URL = "https://grownby.com/farms/bronson-family-farm/shop";
+const LIVE_WEATHER_URL =
+  "https://www.accuweather.com/en/us/youngstown/44503/minute-weather-forecast/330121";
+
 const route: Screen[] = [
   "home",
   "story",
@@ -101,7 +105,7 @@ const content: Record<
   marketplace: {
     title: "Marketplace",
     body:
-      "The marketplace is the bridge to produce, seedlings, Bubble Babies, value-added goods, customer return, and future GrownBy-style commerce.",
+      "The marketplace is the bridge to produce, seedlings, Bubble Babies, value-added goods, customer return, and live GrownBy commerce.",
     blurb: "Where interest becomes action.",
     links: ["customer", "nutrition", "recipes"],
   },
@@ -170,23 +174,40 @@ const content: Record<
   },
 };
 
+function getCountdownParts(target: Date) {
+  const now = new Date();
+  const diff = Math.max(target.getTime() - now.getTime(), 0);
+  return {
+    days: Math.floor(diff / 86400000),
+    hours: Math.floor((diff / 3600000) % 24),
+    minutes: Math.floor((diff / 60000) % 60),
+  };
+}
+
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [language, setLanguage] = useState<Language>("English");
   const [autoTour, setAutoTour] = useState(false);
   const [voiceOn, setVoiceOn] = useState(true);
+  const [hoveredCard, setHoveredCard] = useState<Screen | null>(null);
+  const [now, setNow] = useState(new Date());
   const synthRef = useRef<SpeechSynthesis | null>(null);
 
   const currentIndex = route.indexOf(screen);
   const current = content[screen];
   const progress = ((currentIndex + 1) / route.length) * 100;
+  const countdown = getCountdownParts(new Date("2026-05-16T09:00:00-04:00"));
+  const timeText = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 
   useEffect(() => {
     synthRef.current = window.speechSynthesis;
+    const timer = window.setInterval(() => setNow(new Date()), 30000);
+    return () => window.clearInterval(timer);
   }, []);
 
   useEffect(() => {
     if (!voiceOn || !synthRef.current) return;
+
     const utter = new SpeechSynthesisUtterance(`${current.title}. ${current.body}`);
     utter.rate = 0.94;
     utter.pitch = 1;
@@ -212,7 +233,8 @@ function App() {
       } else {
         setScreen(route[currentIndex + 1]);
       }
-    }, 4800);
+    }, 5000);
+
     return () => window.clearTimeout(timer);
   }, [autoTour, currentIndex]);
 
@@ -227,8 +249,12 @@ function App() {
   };
 
   const startTour = () => {
-    setScreen("home");
     setAutoTour(true);
+    setScreen("home");
+  };
+
+  const openLink = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const bg = images[screen];
@@ -278,20 +304,29 @@ function App() {
           <button
             key={item}
             onClick={() => {
-              setAutoTour(false);
-              setScreen(item);
+              if (item === "marketplace") {
+                openLink(LIVE_MARKETPLACE_URL);
+              } else if (item === "weather") {
+                openLink(LIVE_WEATHER_URL);
+              } else {
+                setAutoTour(false);
+                setScreen(item);
+              }
             }}
+            onMouseEnter={() => setHoveredCard(item)}
+            onMouseLeave={() => setHoveredCard(null)}
             style={{
               ...glass,
               overflow: "hidden",
               padding: 0,
               cursor: "pointer",
               textAlign: "left",
-              transform: item === screen ? "translateY(-3px)" : "none",
+              transform: hoveredCard === item ? "translateY(-4px)" : "none",
               boxShadow:
-                item === screen
+                hoveredCard === item || item === screen
                   ? "0 24px 70px rgba(0,0,0,0.42), 0 0 0 1px rgba(184,230,141,0.24) inset"
                   : "0 18px 60px rgba(0,0,0,0.28)",
+              transition: "all 0.2s ease",
             }}
           >
             <div
@@ -308,7 +343,7 @@ function App() {
             </div>
           </button>
         )),
-    [screen]
+    [screen, hoveredCard]
   );
 
   return (
@@ -327,11 +362,17 @@ function App() {
         >
           <div>
             <div style={{ fontSize: 38, fontWeight: 900 }}>Bronson Family Farm</div>
-            <div style={{ opacity: 0.88 }}>Guided Ecosystem Experience</div>
+            <div style={{ opacity: 0.88 }}>Final Master Guided Ecosystem Experience</div>
           </div>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button style={btn} onClick={() => { setAutoTour(false); setScreen("home"); }}>
+            <button
+              style={btn}
+              onClick={() => {
+                setAutoTour(false);
+                setScreen("home");
+              }}
+            >
               Home
             </button>
             <button style={primaryBtn} onClick={startTour}>
@@ -342,6 +383,12 @@ function App() {
             </button>
             <button style={btn} onClick={() => setVoiceOn((v) => !v)}>
               {voiceOn ? "Voice On" : "Voice Off"}
+            </button>
+            <button style={primaryBtn} onClick={() => openLink(LIVE_MARKETPLACE_URL)}>
+              Open Live Marketplace
+            </button>
+            <button style={btn} onClick={() => openLink(LIVE_WEATHER_URL)}>
+              Live Weather
             </button>
             <select
               value={language}
@@ -461,14 +508,108 @@ function App() {
                     key={link}
                     style={btn}
                     onClick={() => {
-                      setAutoTour(false);
-                      setScreen(link);
+                      if (link === "marketplace") {
+                        openLink(LIVE_MARKETPLACE_URL);
+                      } else if (link === "weather") {
+                        openLink(LIVE_WEATHER_URL);
+                      } else {
+                        setAutoTour(false);
+                        setScreen(link);
+                      }
                     }}
                   >
                     {content[link].title}
                   </button>
                 ))}
               </div>
+
+              {screen === "marketplace" && (
+                <div
+                  style={{
+                    ...glass,
+                    marginTop: 24,
+                    padding: 24,
+                    display: "grid",
+                    gap: 16,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      letterSpacing: ".18em",
+                      textTransform: "uppercase",
+                      color: "#dff2c8",
+                    }}
+                  >
+                    Live Marketplace
+                  </div>
+                  <div style={{ fontSize: 28, fontWeight: 900 }}>
+                    Bronson Family Farm on GrownBy
+                  </div>
+                  <div style={{ fontSize: 18, lineHeight: 1.7, color: "rgba(245,255,247,.9)" }}>
+                    Shop live produce, seedlings, and farm offerings through the Bronson Family Farm GrownBy store.
+                  </div>
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                    <button style={primaryBtn} onClick={() => openLink(LIVE_MARKETPLACE_URL)}>
+                      Enter Live Store
+                    </button>
+                    <button
+                      style={btn}
+                      onClick={() =>
+                        openLink(
+                          "https://grownby.com/farms/bronson-family-farm/shop/product/Xiam8pgvwgBNI2KETOBg"
+                        )
+                      }
+                    >
+                      View Tomato Seedlings
+                    </button>
+                    <button
+                      style={btn}
+                      onClick={() =>
+                        openLink(
+                          "https://grownby.com/farms/bronson-family-farm/shop/product/tixqiXNbUfUCwIxjVOzS"
+                        )
+                      }
+                    >
+                      View Jalapeño Pepper
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {screen === "weather" && (
+                <div
+                  style={{
+                    ...glass,
+                    marginTop: 24,
+                    padding: 24,
+                    display: "grid",
+                    gap: 16,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 800,
+                      letterSpacing: ".18em",
+                      textTransform: "uppercase",
+                      color: "#dff2c8",
+                    }}
+                  >
+                    Live Farm Conditions
+                  </div>
+                  <div style={{ fontSize: 28, fontWeight: 900 }}>Youngstown Weather</div>
+                  <div style={{ fontSize: 18, lineHeight: 1.7, color: "rgba(245,255,247,.9)" }}>
+                    Open the live AccuWeather feed for minute-by-minute weather and forecast conditions.
+                  </div>
+                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                    <button style={primaryBtn} onClick={() => openLink(LIVE_WEATHER_URL)}>
+                      Open Live Weather
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div
@@ -508,10 +649,34 @@ function App() {
 
             <Panel title="Next Event">
               Growers Supply Market • May 16, 2026 • 9:00 AM–2:00 PM
+              <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+                {[
+                  ["Days", countdown.days],
+                  ["Hours", countdown.hours],
+                  ["Min", countdown.minutes],
+                ].map(([label, value]) => (
+                  <div
+                    key={String(label)}
+                    style={{
+                      minWidth: 82,
+                      padding: "12px 10px",
+                      borderRadius: 18,
+                      textAlign: "center",
+                      background: "rgba(7,13,10,0.38)",
+                    }}
+                  >
+                    <div style={{ fontSize: 24, fontWeight: 900 }}>{value}</div>
+                    <div style={{ fontSize: 11, color: "rgba(234,246,236,0.76)", marginTop: 4 }}>
+                      {label}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </Panel>
 
             <Panel title="Farm Conditions">
               Youngstown • 46°F • Seasonal • Regenerative • Welcoming
+              <div style={{ marginTop: 14, fontSize: 14, opacity: 0.85 }}>Local Time: {timeText}</div>
             </Panel>
 
             <Panel title="Gallery">
