@@ -66,156 +66,123 @@ export default function App() {
     </div>
   );
 
-  if (page === "guest") {
-    return shell(
-      <Section
-        title="Guest Experience the Meaning"
-        subtitle="This is not just a visit. This is why the farm exists."
-      >
-        <Grid4
-          items={[
-            [
-              "Why the Land Matters",
-              "This land represents restoration, stewardship, and future opportunity.",
-            ],
-            [
-              "Why the Farm Exists",
-              "Rising food costs and unhealthy substitutes create a need for local healthier pathways.",
-            ],
-            [
-              "Family Legacy",
-              "Inspired by agricultural roots, family history, and the belief that land can still nourish communities.",
-            ],
-            [
-              "Why People Return",
-              "Visitors feel purpose, welcome, beauty, learning, and hope.",
-            ],
-          ]}
-        />
-      </Section>
-    );
-  }
+  const pageData: Record<string, { title: string; subtitle: string; items: [string, string][] }> = {
+    guest: {
+      title: "Guest Experience the Meaning",
+      subtitle: "This land exists for restoration, wellness, and opportunity.",
+      items: [
+        ["Why the Land Matters", "Restoration and stewardship."],
+        ["Why the Farm Exists", "Healthy food and pathways forward."],
+        ["Family Legacy", "Inspired by generations of growers."],
+        ["Why People Return", "Hope, learning, welcome, beauty."],
+      ],
+    },
+    customer: {
+      title: "Customer Marketplace",
+      subtitle: "Fresh produce, Bubble Babies, recipes, nutrition.",
+      items: [
+        ["Marketplace", "Order and pickup produce."],
+        ["Recipes", "Simple healthy meals."],
+        ["Nutrition", "Learn real food benefits."],
+        ["Specials", "Returning customer updates."],
+      ],
+    },
+    grower: {
+      title: "Grower Network",
+      subtitle: "Planning, supplies, collaboration, sales.",
+      items: [
+        ["Crop Calendar", "Season planning support."],
+        ["Supply Access", "Tools, seedlings, inputs."],
+        ["Sell Through Network", "Marketplace pathways."],
+        ["Community", "Connect with growers."],
+      ],
+    },
+    youth: {
+      title: "Youth Workforce Program",
+      subtitle: "Hands-on learning, leadership, future pathways.",
+      items: [
+        ["Learn", "Growing and teamwork."],
+        ["Earn Experience", "Real participation."],
+        ["Leadership", "Confidence building."],
+        ["Future Pathways", "Business, trades, agriculture."],
+      ],
+    },
+    supervisor: {
+      title: "Supervisor Portal",
+      subtitle: "Support structure for youth workforce.",
+      items: [
+        ["Attendance", "Track participation."],
+        ["Assignments", "Manage tasks."],
+        ["Safety", "Safe environment."],
+        ["Support", "Mentoring resources."],
+      ],
+    },
+    partner: {
+      title: "Partner Opportunity",
+      subtitle: "Food access, workforce, restoration, growth.",
+      items: [
+        ["118+ Acre Vision", "Transformative land use."],
+        ["Food Access", "Healthy local pathways."],
+        ["Youth Impact", "Workforce development."],
+        ["Visibility", "Community sponsorship."],
+      ],
+    },
+  };
 
-  if (page === "customer") {
+  if (page !== "home") {
+    const p = pageData[page];
     return shell(
-      <Section
-        title="Customer Marketplace"
-        subtitle="Fresh produce, Bubble Babies, recipes, nutrition, and pickup ordering."
-      >
-        <Grid4
-          items={[
-            ["Marketplace", "Enter store ordering flow and pickup experience."],
-            ["Recipes", "Simple healthy meals using seasonal produce."],
-            ["Nutrition", "Learn how real food supports family wellness."],
-            ["Buying Habits", "Return customers receive updates and specials."],
-          ]}
-        />
+      <>
+        <h1 className="text-4xl font-bold">{p.title}</h1>
+        <p className="mt-2 text-white/75 max-w-3xl">{p.subtitle}</p>
 
-        <a
-          href="https://grownby.com/farms/bronson-family-farm/shop"
-          target="_blank"
-          rel="noreferrer"
-          className="mt-8 inline-block px-5 py-3 rounded-xl bg-lime-500 text-black font-bold"
-        >
-          Enter Marketplace
-        </a>
-      </Section>
-    );
-  }
+        <div className="grid md:grid-cols-2 gap-4 mt-8">
+          {p.items.map((x, i) => (
+            <div
+              key={i}
+              className="rounded-2xl p-5 bg-white/5 border border-white/10"
+            >
+              <div className="font-bold text-lg text-lime-300">{x[0]}</div>
+              <div className="mt-2 text-white/80">{x[1]}</div>
+            </div>
+          ))}
+        </div>
 
-  if (page === "grower") {
-    return shell(
-      <Section
-        title="Grower Network"
-        subtitle="Crop planning, supplies, collaboration, and seasonal opportunity."
-      >
-        <Grid4
-          items={[
-            ["Crop Calendar", "Plan planting windows and harvest cycles."],
-            ["Supply Access", "Inputs, seedlings, tools, and grower support."],
-            ["Sell Through Network", "Marketplace pathways and event sales."],
-            ["Community", "Connect with local growers and producers."],
-          ]}
-        />
-      </Section>
-    );
-  }
-
-  if (page === "youth") {
-    return shell(
-      <Section
-        title="Youth Workforce Program"
-        subtitle="Hands-on pathways in agriculture, logistics, customer service, and leadership."
-      >
-        <Grid4
-          items={[
-            ["Learn", "Growing, harvesting, teamwork, responsibility."],
-            ["Earn Experience", "Real project participation."],
-            ["Leadership", "Confidence and communication development."],
-            ["Future Pathways", "Agriculture, trades, business, entrepreneurship."],
-          ]}
-        />
-      </Section>
-    );
-  }
-
-  if (page === "supervisor") {
-    return shell(
-      <Section
-        title="Supervisor Portal"
-        subtitle="Support structure for the Youth Workforce Program."
-      >
-        <Grid4
-          items={[
-            ["Attendance", "Track participation and punctuality."],
-            ["Assignments", "Manage teams and daily tasks."],
-            ["Safety", "Ensure safe work environments."],
-            ["Support", "Coordinate mentoring and wellness resources."],
-          ]}
-        />
-      </Section>
-    );
-  }
-
-  if (page === "partner") {
-    return shell(
-      <Section
-        title="Partner and Funder Opportunity"
-        subtitle="A place-based model for food access, youth workforce, land restoration, and economic growth."
-      >
-        <Grid4
-          items={[
-            ["118+ Acre Vision", "Transformative land use opportunity."],
-            ["Food Access", "Healthy local pathways for families."],
-            ["Youth Impact", "Workforce development and future readiness."],
-            ["Visibility", "Meaningful community-aligned sponsorships."],
-          ]}
-        />
-      </Section>
+        {page === "customer" && (
+          <a
+            href="https://grownby.com/farms/bronson-family-farm/shop"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-8 inline-block px-5 py-3 rounded-xl bg-lime-500 text-black font-bold"
+          >
+            Enter Marketplace
+          </a>
+        )}
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen text-white relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-[#08130c] text-white">
       <img
         src={heroImages[hero]}
-        className="absolute inset-0 w-full h-full object-cover"
-        alt="Farm landscape"
+        alt="Farm"
+        className="absolute inset-0 w-full h-full object-cover opacity-30"
       />
-      <div className="absolute inset-0 bg-black/55" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
         <div className="text-center mt-8">
           <div className="text-sm tracking-[0.4em] text-lime-300">
             WELCOME TO
           </div>
+
           <h1 className="text-5xl md:text-7xl font-bold mt-4">
             Bronson Family Farm
           </h1>
 
           <p className="mt-5 max-w-3xl mx-auto text-lg text-white/90">
             A regenerative ecosystem responding to rising food costs,
-            unhealthy substitutes, community disconnection, and the need for opportunity.
+            unhealthy substitutes, and the need for opportunity.
           </p>
 
           <button
@@ -228,21 +195,9 @@ export default function App() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-4 mt-12">
-          <QuickCard
-            icon={<Sun />}
-            title="Youngstown Weather"
-            text="Live conditions integrated"
-          />
-          <QuickCard
-            icon={<CalendarDays />}
-            title="Events"
-            text="Growers Supply Market and more"
-          />
-          <QuickCard
-            icon={<Leaf />}
-            title="Season Focus"
-            text="Spring planting and community growth"
-          />
+          <QuickCard icon={<Sun />} title="Youngstown Weather" text="Live conditions integrated" />
+          <QuickCard icon={<CalendarDays />} title="Events" text="Growers Supply Market and more" />
+          <QuickCard icon={<Leaf />} title="Season Focus" text="Spring planting and growth" />
         </div>
 
         <div className="grid md:grid-cols-3 gap-4 mt-8">
@@ -292,44 +247,6 @@ function QuickCard({
       <div className="text-lime-300 mb-2">{icon}</div>
       <div className="font-semibold">{title}</div>
       <div className="text-sm text-white/75">{text}</div>
-    </div>
-  );
-}
-
-function Section({
-  title,
-  subtitle,
-  children,
-}: {
-  title: string;
-  subtitle: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <>
-      <h1 className="text-4xl font-bold">{title}</h1>
-      <p className="mt-2 text-white/75 max-w-3xl">{subtitle}</p>
-      <div className="mt-8">{children}</div>
-    </>
-  );
-}
-
-function Grid4({
-  items,
-}: {
-  items: [string, string][];
-}) {
-  return (
-    <div className="grid md:grid-cols-2 gap-4">
-      {items.map((x, i) => (
-        <div
-          key={i}
-          className="rounded-2xl p-5 bg-white/5 border border-white/10"
-        >
-          <div className="font-bold text-lg text-lime-300">{x[0]}</div>
-          <div className="mt-2 text-white/80">{x[1]}</div>
-        </div>
-      ))}
     </div>
   );
 }
