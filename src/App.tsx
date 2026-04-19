@@ -57,6 +57,15 @@ const guidedRoute: Screen[] = [
   "weather",
 ];
 
+const languageVoices: Record<Language, string> = {
+  English: "en-US",
+  Español: "es-ES",
+  Tagalog: "fil-PH",
+  Italiano: "it-IT",
+  Patwa: "en-US",
+  Hebrew: "he-IL",
+};
+
 const labels: Record<
   Language,
   {
@@ -67,7 +76,11 @@ const labels: Record<
     marketplaceButton: string;
     guidedTour: string;
     stopTour: string;
+    voiceOn: string;
+    voiceOff: string;
+    narrationReady: string;
     farmGallery: string;
+    moreFarm: string;
     farmConditions: string;
     nextExperience: string;
     upcomingEvent: string;
@@ -86,6 +99,8 @@ const labels: Record<
     recipes: string;
     weather: string;
     customerReturn: string;
+    tourLabel: string;
+    marketplacePreview: string;
   }
 > = {
   English: {
@@ -96,7 +111,11 @@ const labels: Record<
     marketplaceButton: "Go to Marketplace",
     guidedTour: "Start Guided Tour",
     stopTour: "Stop Tour",
+    voiceOn: "Voice On",
+    voiceOff: "Voice Off",
+    narrationReady: "Narration ready",
     farmGallery: "Farm Gallery",
+    moreFarm: "More from the Farm",
     farmConditions: "Farm Conditions",
     nextExperience: "Next Experience",
     upcomingEvent: "Growers Supply Market",
@@ -115,6 +134,8 @@ const labels: Record<
     recipes: "Recipes",
     weather: "Farm Conditions",
     customerReturn: "Made for return visits",
+    tourLabel: "Guided Demo",
+    marketplacePreview: "Marketplace Preview",
   },
   Español: {
     title: "Bronson Family Farm",
@@ -124,7 +145,11 @@ const labels: Record<
     marketplaceButton: "Ir al Mercado",
     guidedTour: "Iniciar Recorrido",
     stopTour: "Detener Recorrido",
+    voiceOn: "Voz Activada",
+    voiceOff: "Voz Desactivada",
+    narrationReady: "Narración lista",
     farmGallery: "Galería de la Finca",
+    moreFarm: "Más de la Finca",
     farmConditions: "Condiciones de la Finca",
     nextExperience: "Próxima Experiencia",
     upcomingEvent: "Growers Supply Market",
@@ -143,6 +168,8 @@ const labels: Record<
     recipes: "Recetas",
     weather: "Condiciones de la Finca",
     customerReturn: "Pensado para volver",
+    tourLabel: "Demo Guiada",
+    marketplacePreview: "Vista del Mercado",
   },
   Tagalog: {
     title: "Bronson Family Farm",
@@ -152,7 +179,11 @@ const labels: Record<
     marketplaceButton: "Punta sa Marketplace",
     guidedTour: "Start Guided Tour",
     stopTour: "Stop Tour",
+    voiceOn: "Voice On",
+    voiceOff: "Voice Off",
+    narrationReady: "Narration ready",
     farmGallery: "Farm Gallery",
+    moreFarm: "More from the Farm",
     farmConditions: "Farm Conditions",
     nextExperience: "Next Experience",
     upcomingEvent: "Growers Supply Market",
@@ -171,6 +202,8 @@ const labels: Record<
     recipes: "Recipes",
     weather: "Farm Conditions",
     customerReturn: "Babalikan ng customer",
+    tourLabel: "Guided Demo",
+    marketplacePreview: "Marketplace Preview",
   },
   Italiano: {
     title: "Bronson Family Farm",
@@ -180,7 +213,11 @@ const labels: Record<
     marketplaceButton: "Vai al Mercato",
     guidedTour: "Avvia Tour",
     stopTour: "Ferma Tour",
+    voiceOn: "Voce Attiva",
+    voiceOff: "Voce Disattiva",
+    narrationReady: "Narrazione pronta",
     farmGallery: "Galleria della Fattoria",
+    moreFarm: "Altro dalla Fattoria",
     farmConditions: "Condizioni della Fattoria",
     nextExperience: "Prossima Esperienza",
     upcomingEvent: "Growers Supply Market",
@@ -199,6 +236,8 @@ const labels: Record<
     recipes: "Ricette",
     weather: "Condizioni della Fattoria",
     customerReturn: "Pensato per ritornare",
+    tourLabel: "Demo Guidata",
+    marketplacePreview: "Anteprima Mercato",
   },
   Patwa: {
     title: "Bronson Family Farm",
@@ -208,7 +247,11 @@ const labels: Record<
     marketplaceButton: "Go a Marketplace",
     guidedTour: "Start Guided Tour",
     stopTour: "Stop Tour",
+    voiceOn: "Voice On",
+    voiceOff: "Voice Off",
+    narrationReady: "Narration ready",
     farmGallery: "Farm Gallery",
+    moreFarm: "More from the Farm",
     farmConditions: "Farm Conditions",
     nextExperience: "Next Experience",
     upcomingEvent: "Growers Supply Market",
@@ -227,6 +270,8 @@ const labels: Record<
     recipes: "Recipes",
     weather: "Farm Conditions",
     customerReturn: "Built fi return visits",
+    tourLabel: "Guided Demo",
+    marketplacePreview: "Marketplace Preview",
   },
   Hebrew: {
     title: "Bronson Family Farm",
@@ -236,7 +281,11 @@ const labels: Record<
     marketplaceButton: "לשוק",
     guidedTour: "התחל סיור",
     stopTour: "עצור סיור",
+    voiceOn: "קול פעיל",
+    voiceOff: "כבה קול",
+    narrationReady: "הקריינות מוכנה",
     farmGallery: "גלריית החווה",
+    moreFarm: "עוד מהחווה",
     farmConditions: "תנאי החווה",
     nextExperience: "החוויה הבאה",
     upcomingEvent: "Growers Supply Market",
@@ -255,12 +304,21 @@ const labels: Record<
     recipes: "מתכונים",
     weather: "תנאי החווה",
     customerReturn: "בנוי לחזרה",
+    tourLabel: "דמו מודרך",
+    marketplacePreview: "תצוגת שוק",
   },
 };
 
 const content: Record<
   Screen,
-  { titleKey: keyof (typeof labels)["English"]; image: string; body: string; links: Screen[]; blurb: string }
+  {
+    titleKey: keyof (typeof labels)["English"];
+    image: string;
+    body: string;
+    links: Screen[];
+    blurb: string;
+    narration: string;
+  }
 > = {
   home: {
     titleKey: "story",
@@ -269,6 +327,8 @@ const content: Record<
       "Step into a welcoming farm ecosystem built around food access, land restoration, education, wellness, workforce pathways, and marketplace opportunity.",
     links: ["story", "customer", "grower", "youth", "marketplace", "events"],
     blurb: "Start here to experience the full ecosystem.",
+    narration:
+      "Welcome to Bronson Family Farm. This is a living ecosystem where food access, learning, wellness, land restoration, and marketplace opportunity come together.",
   },
   story: {
     titleKey: "story",
@@ -277,6 +337,8 @@ const content: Record<
       "Bronson Family Farm carries family legacy into a future-focused Youngstown vision shaped by regenerative growing, agritourism, education, and community restoration.",
     links: ["events", "marketplace", "nutrition"],
     blurb: "Legacy, land, restoration, and return.",
+    narration:
+      "Our story begins with family legacy, regenerative growing, and a vision for restoration, education, and return in Youngstown.",
   },
   guest: {
     titleKey: "guest",
@@ -285,6 +347,8 @@ const content: Record<
       "Guests discover the atmosphere of the land, the story of the farm, special experiences, and reasons to return again and again.",
     links: ["story", "events", "weather"],
     blurb: "A welcoming first experience for visitors.",
+    narration:
+      "The guest pathway introduces people to the land, the atmosphere, and the experiences that make the farm feel welcoming and worth revisiting.",
   },
   customer: {
     titleKey: "customer",
@@ -293,38 +357,8 @@ const content: Record<
       "Customers move from discovery to healthy buying, produce access, recipes, and useful nutrition guidance that makes the marketplace worth revisiting.",
     links: ["marketplace", "nutrition", "recipes"],
     blurb: "A healthier buying journey.",
-  },
-  grower: {
-    titleKey: "grower",
-    image: images.grower,
-    body:
-      "Growers connect to seasonal planning, learning, coordination, and an ecosystem designed to support long-term participation and practical opportunity.",
-    links: ["calendar", "events", "weather"],
-    blurb: "Planning, growing, and shared opportunity.",
-  },
-  producer: {
-    titleKey: "producer",
-    image: images.producer,
-    body:
-      "Value-added producers can grow into branding, prepared goods, collaborative sales, and future product opportunities tied to the farm ecosystem.",
-    links: ["marketplace", "events", "nutrition"],
-    blurb: "Future-ready products and local value.",
-  },
-  youth: {
-    titleKey: "youth",
-    image: images.youth,
-    body:
-      "Youth workforce participants encounter hands-on learning, food systems awareness, work readiness, land stewardship, and meaningful pathways forward.",
-    links: ["supervisor", "calendar", "events"],
-    blurb: "Learning, work, and future pathways.",
-  },
-  supervisor: {
-    titleKey: "supervisor",
-    image: images.supervisor,
-    body:
-      "Supervisors support youth workers with structure, encouragement, accountability, logistics, and wraparound care within the program.",
-    links: ["youth", "calendar", "events"],
-    blurb: "Support, structure, and oversight.",
+    narration:
+      "The customer pathway guides visitors from interest to healthy buying, nutrition, recipes, and repeat marketplace visits.",
   },
   marketplace: {
     titleKey: "marketplace",
@@ -333,22 +367,8 @@ const content: Record<
       "The marketplace is the bridge to produce, seedlings, value-added goods, customer return, and future GrownBy-style commerce.",
     links: ["customer", "nutrition", "recipes"],
     blurb: "Where interest becomes action.",
-  },
-  calendar: {
-    titleKey: "calendar",
-    image: images.calendar,
-    body:
-      "Crop planning keeps the ecosystem feeling alive through seasonality, timing, coordination, readiness, and practical farm rhythm.",
-    links: ["grower", "weather", "events"],
-    blurb: "The seasonal rhythm of the farm.",
-  },
-  events: {
-    titleKey: "events",
-    image: images.events,
-    body:
-      "Events bring people onto the land through demonstrations, education, agritourism, marketplace engagement, and family-centered experiences.",
-    links: ["guest", "marketplace", "story"],
-    blurb: "The public-facing life of the farm.",
+    narration:
+      "The marketplace is designed as a welcoming bridge to produce, seedlings, value-added goods, and repeat customer engagement.",
   },
   nutrition: {
     titleKey: "nutrition",
@@ -357,6 +377,8 @@ const content: Record<
       "Health and nutrition help people compare natural food with overprocessed choices, making wellness practical and easier to understand.",
     links: ["recipes", "marketplace", "customer"],
     blurb: "Food education that supports wellbeing.",
+    narration:
+      "Nutrition turns information into practical wellness by helping people compare natural food with overprocessed choices.",
   },
   recipes: {
     titleKey: "recipes",
@@ -365,6 +387,58 @@ const content: Record<
       "Recipes turn interest into action by showing how farm products can become real meals, real habits, and real reasons to come back.",
     links: ["marketplace", "nutrition", "customer"],
     blurb: "Simple inspiration for real meals.",
+    narration:
+      "Recipes help turn curiosity into confidence, showing how farm products become everyday meals and reasons to return.",
+  },
+  grower: {
+    titleKey: "grower",
+    image: images.grower,
+    body:
+      "Growers connect to seasonal planning, learning, coordination, and an ecosystem designed to support long-term participation and practical opportunity.",
+    links: ["calendar", "events", "weather"],
+    blurb: "Planning, growing, and shared opportunity.",
+    narration:
+      "The grower pathway supports planning, learning, coordination, and long-term participation within the ecosystem.",
+  },
+  calendar: {
+    titleKey: "calendar",
+    image: images.calendar,
+    body:
+      "Crop planning keeps the ecosystem feeling alive through seasonality, timing, coordination, readiness, and practical farm rhythm.",
+    links: ["grower", "weather", "events"],
+    blurb: "The seasonal rhythm of the farm.",
+    narration:
+      "The crop planner brings the seasonal rhythm of the farm into view through timing, readiness, and coordination.",
+  },
+  youth: {
+    titleKey: "youth",
+    image: images.youth,
+    body:
+      "Youth workforce participants encounter hands-on learning, food systems awareness, work readiness, land stewardship, and meaningful pathways forward.",
+    links: ["supervisor", "calendar", "events"],
+    blurb: "Learning, work, and future pathways.",
+    narration:
+      "The youth workforce pathway connects hands-on learning, food systems awareness, land stewardship, and future opportunity.",
+  },
+  supervisor: {
+    titleKey: "supervisor",
+    image: images.supervisor,
+    body:
+      "Supervisors support youth workers with structure, encouragement, accountability, logistics, and wraparound care within the program.",
+    links: ["youth", "calendar", "events"],
+    blurb: "Support, structure, and oversight.",
+    narration:
+      "The supervisor pathway provides structure, accountability, encouragement, and care to support youth workforce success.",
+  },
+  events: {
+    titleKey: "events",
+    image: images.events,
+    body:
+      "Events bring people onto the land through demonstrations, education, agritourism, marketplace engagement, and family-centered experiences.",
+    links: ["guest", "marketplace", "story"],
+    blurb: "The public-facing life of the farm.",
+    narration:
+      "Events bring the public onto the land through demonstrations, education, agritourism, and family-centered experiences.",
   },
   weather: {
     titleKey: "weather",
@@ -373,23 +447,20 @@ const content: Record<
       "Farm conditions keep the platform grounded in the land, the season, and the living rhythm of work, events, and growth.",
     links: ["calendar", "guest", "events"],
     blurb: "A live feeling rooted in the land.",
+    narration:
+      "Farm conditions keep the experience grounded in the season, the land, and the living rhythm of work, events, and growth.",
+  },
+  producer: {
+    titleKey: "producer",
+    image: images.producer,
+    body:
+      "Value-added producers can grow into branding, prepared goods, collaborative sales, and future product opportunities tied to the farm ecosystem.",
+    links: ["marketplace", "events", "nutrition"],
+    blurb: "Future-ready products and local value.",
+    narration:
+      "Value-added producers can grow into prepared goods, branding, and future product opportunities connected to the farm ecosystem.",
   },
 };
-
-const cards: Screen[] = [
-  "story",
-  "guest",
-  "customer",
-  "grower",
-  "producer",
-  "youth",
-  "supervisor",
-  "marketplace",
-  "calendar",
-  "events",
-  "nutrition",
-  "recipes",
-];
 
 function getCountdownParts(target: Date) {
   const now = new Date();
@@ -408,6 +479,7 @@ function App() {
   const [tourRunning, setTourRunning] = useState(false);
   const [tourIndex, setTourIndex] = useState(0);
   const [now, setNow] = useState(new Date());
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
 
   useEffect(() => {
     const interval = window.setInterval(() => setNow(new Date()), 30000);
@@ -424,9 +496,25 @@ function App() {
       } else {
         setTourIndex((v) => v + 1);
       }
-    }, 4200);
+    }, 4300);
     return () => window.clearTimeout(timeout);
   }, [tourRunning, tourIndex]);
+
+  useEffect(() => {
+    if (!voiceEnabled || typeof window === "undefined" || !("speechSynthesis" in window)) return;
+
+    const utterance = new SpeechSynthesisUtterance(content[screen].narration);
+    utterance.lang = languageVoices[language];
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, [screen, language, voiceEnabled]);
 
   const t = labels[language];
   const current = content[screen];
@@ -520,12 +608,20 @@ function App() {
             </div>
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-              <button style={button} onClick={() => { setTourRunning(false); setScreen("home"); }}>
+              <button
+                style={button}
+                onClick={() => {
+                  setTourRunning(false);
+                  setScreen("home");
+                }}
+              >
                 {t.back}
               </button>
+
               <button style={primaryButton} onClick={() => setScreen("marketplace")}>
                 {t.marketplaceButton}
               </button>
+
               {!tourRunning ? (
                 <button
                   style={button}
@@ -547,6 +643,14 @@ function App() {
                   {t.stopTour}
                 </button>
               )}
+
+              <button
+                style={button}
+                onClick={() => setVoiceEnabled((v) => !v)}
+              >
+                {voiceEnabled ? t.voiceOff : t.voiceOn}
+              </button>
+
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as Language)}
@@ -617,6 +721,44 @@ function App() {
 
                 <div
                   style={{
+                    marginTop: 18,
+                    display: "flex",
+                    gap: 12,
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      borderRadius: 999,
+                      padding: "8px 14px",
+                      background: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "rgba(237,248,239,0.88)",
+                    }}
+                  >
+                    {t.tourLabel}: {tourRunning ? `${tourIndex + 1}/${guidedRoute.length}` : "Ready"}
+                  </div>
+
+                  <div
+                    style={{
+                      borderRadius: 999,
+                      padding: "8px 14px",
+                      background: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "rgba(223,242,200,0.92)",
+                    }}
+                  >
+                    {t.narrationReady}
+                  </div>
+                </div>
+
+                <div
+                  style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
                     gap: 18,
@@ -675,6 +817,7 @@ function App() {
                   <p style={{ margin: 0, lineHeight: 1.8, color: "rgba(237,248,239,0.84)" }}>
                     A place people want to return to for food, learning, growing, events, and community connection.
                   </p>
+
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     <div style={{ borderRadius: 20, padding: 14, background: "rgba(255,255,255,0.05)" }}>
                       <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfe6b5", fontWeight: 800 }}>
@@ -781,6 +924,20 @@ function App() {
                   {current.blurb}
                 </div>
 
+                <div
+                  style={{
+                    marginTop: 18,
+                    padding: 16,
+                    borderRadius: 22,
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    color: "rgba(238,248,240,0.9)",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {current.narration}
+                </div>
+
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 26 }}>
                   {current.links.map((link) => (
                     <button
@@ -826,6 +983,17 @@ function App() {
 
                 <div style={{ ...glass, padding: 18 }}>
                   <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#dff2c8", marginBottom: 14 }}>
+                    {t.marketplacePreview}
+                  </div>
+                  <div style={{ color: "rgba(236,248,239,0.88)", lineHeight: 1.75 }}>
+                    {screen === "marketplace"
+                      ? "This area is designed to feel like a welcoming bridge to produce, seedlings, healthy buying habits, and repeat visits."
+                      : current.blurb}
+                  </div>
+                </div>
+
+                <div style={{ ...glass, padding: 18 }}>
+                  <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: "#dff2c8", marginBottom: 14 }}>
                     {t.moreFarm}
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
@@ -835,21 +1003,4 @@ function App() {
                         style={{
                           height: 112,
                           borderRadius: 20,
-                          backgroundImage: `linear-gradient(rgba(0,0,0,0.06), rgba(0,0,0,0.16)), url(${img})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default App;
+                         
