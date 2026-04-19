@@ -61,8 +61,14 @@ const labels: Record<Language, Record<string, string>> = {
     weather: "Farm Conditions",
     explore: "Explore Pathway",
     back: "Back to Entrance",
-    language: "Language",
     marketplaceButton: "Go to Marketplace",
+    welcome: "Farm & Family Alliance Ecosystem Demo",
+    farmGallery: "Farm Gallery",
+    moreFarm: "More from the Farm",
+    farmConditions: "Farm Conditions",
+    farmConditionsText: "Seasonal. Regenerative. Welcoming.",
+    farmConditionsBody:
+      "A place people want to return to for food, learning, growing, events, and community connection.",
   },
   Español: {
     title: "Bronson Family Farm",
@@ -83,8 +89,14 @@ const labels: Record<Language, Record<string, string>> = {
     weather: "Condiciones de la Finca",
     explore: "Explorar",
     back: "Volver al Inicio",
-    language: "Idioma",
     marketplaceButton: "Ir al Mercado",
+    welcome: "Demo del Ecosistema Farm & Family Alliance",
+    farmGallery: "Galería de la Finca",
+    moreFarm: "Más de la Finca",
+    farmConditions: "Condiciones de la Finca",
+    farmConditionsText: "Estacional. Regenerativa. Acogedora.",
+    farmConditionsBody:
+      "Un lugar al que la gente quiere volver por comida, aprendizaje, cultivo, eventos y conexión comunitaria.",
   },
   Tagalog: {
     title: "Bronson Family Farm",
@@ -105,8 +117,14 @@ const labels: Record<Language, Record<string, string>> = {
     weather: "Farm Conditions",
     explore: "Explore",
     back: "Balik sa Simula",
-    language: "Wika",
     marketplaceButton: "Punta sa Marketplace",
+    welcome: "Farm & Family Alliance Ecosystem Demo",
+    farmGallery: "Farm Gallery",
+    moreFarm: "More from the Farm",
+    farmConditions: "Farm Conditions",
+    farmConditionsText: "Seasonal. Regenerative. Welcoming.",
+    farmConditionsBody:
+      "Isang lugar na gustong balikan ng mga tao para sa pagkain, pag-aaral, pagtatanim, mga event, at koneksyon sa komunidad.",
   },
   Italiano: {
     title: "Bronson Family Farm",
@@ -127,8 +145,14 @@ const labels: Record<Language, Record<string, string>> = {
     weather: "Condizioni della Fattoria",
     explore: "Esplora",
     back: "Torna all'Ingresso",
-    language: "Lingua",
     marketplaceButton: "Vai al Mercato",
+    welcome: "Demo Ecosistema Farm & Family Alliance",
+    farmGallery: "Galleria della Fattoria",
+    moreFarm: "Altro dalla Fattoria",
+    farmConditions: "Condizioni della Fattoria",
+    farmConditionsText: "Stagionale. Rigenerativa. Accogliente.",
+    farmConditionsBody:
+      "Un luogo dove le persone vogliono tornare per cibo, apprendimento, coltivazione, eventi e connessione comunitaria.",
   },
   Patwa: {
     title: "Bronson Family Farm",
@@ -149,8 +173,14 @@ const labels: Record<Language, Record<string, string>> = {
     weather: "Farm Conditions",
     explore: "Explore",
     back: "Back to Entrance",
-    language: "Language",
     marketplaceButton: "Go a Marketplace",
+    welcome: "Farm & Family Alliance Ecosystem Demo",
+    farmGallery: "Farm Gallery",
+    moreFarm: "More from the Farm",
+    farmConditions: "Farm Conditions",
+    farmConditionsText: "Seasonal. Regenerative. Welcoming.",
+    farmConditionsBody:
+      "A one place people waan come back to fi food, learning, growing, events, an community connection.",
   },
   Hebrew: {
     title: "Bronson Family Farm",
@@ -171,15 +201,18 @@ const labels: Record<Language, Record<string, string>> = {
     weather: "תנאי החווה",
     explore: "כניסה למסלול",
     back: "חזרה לכניסה",
-    language: "שפה",
     marketplaceButton: "לשוק",
+    welcome: "הדגמת מערכת Farm & Family Alliance",
+    farmGallery: "גלריית החווה",
+    moreFarm: "עוד מהחווה",
+    farmConditions: "תנאי החווה",
+    farmConditionsText: "עונתי. מתחדש. מזמין.",
+    farmConditionsBody:
+      "מקום שאנשים ירצו לחזור אליו בשביל מזון, למידה, גידול, אירועים וחיבור לקהילה.",
   },
 };
 
-const content: Record<
-  Screen,
-  { titleKey: string; image: string; body: string; links: Screen[] }
-> = {
+const content: Record<Screen, { titleKey: string; image: string; body: string; links: Screen[] }> = {
   home: {
     titleKey: "entrance",
     image: images.home,
@@ -298,15 +331,17 @@ const cards: Screen[] = [
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [language, setLanguage] = useState<Language>("English");
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const t = labels[language];
   const current = content[screen];
+  const isHebrew = language === "Hebrew";
 
   const gallery = useMemo(() => [images.g1, images.g2, images.g3, images.g4, images.g5, images.g6], []);
 
   const pageStyle: React.CSSProperties = {
     minHeight: "100vh",
-    backgroundColor: "#102018",
+    backgroundColor: "#08120d",
     color: "#ffffff",
     fontFamily:
       'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
@@ -314,52 +349,96 @@ function App() {
 
   const heroStyle: React.CSSProperties = {
     minHeight: "100vh",
-    backgroundImage: `linear-gradient(rgba(10,20,14,0.52), rgba(7,14,10,0.82)), url(${current.image})`,
+    backgroundImage: `linear-gradient(rgba(5,12,9,0.34), rgba(4,10,7,0.78)), url(${current.image})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
+    backgroundAttachment: "fixed",
   };
 
   const shellStyle: React.CSSProperties = {
-    maxWidth: 1280,
+    maxWidth: 1320,
     margin: "0 auto",
-    padding: "24px 18px 40px",
+    padding: "26px 20px 48px",
   };
 
   const glassStyle: React.CSSProperties = {
-    background: "rgba(12, 22, 16, 0.56)",
-    border: "1px solid rgba(255,255,255,0.14)",
-    borderRadius: 28,
-    backdropFilter: "blur(10px)",
-    boxShadow: "0 18px 50px rgba(0,0,0,0.22)",
+    background: "linear-gradient(180deg, rgba(8,22,14,0.74), rgba(8,18,12,0.62))",
+    border: "1px solid rgba(222,255,229,0.12)",
+    borderRadius: 30,
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
+    boxShadow: "0 18px 60px rgba(0,0,0,0.34)",
   };
 
   const buttonStyle: React.CSSProperties = {
     borderRadius: 999,
-    border: "1px solid rgba(255,255,255,0.16)",
-    background: "rgba(255,255,255,0.10)",
-    color: "white",
-    padding: "11px 16px",
+    border: "1px solid rgba(255,255,255,0.15)",
+    background: "rgba(255,255,255,0.09)",
+    color: "#f7fff8",
+    padding: "12px 18px",
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: 700,
     cursor: "pointer",
+    transition: "all 0.2s ease",
   };
 
   const primaryButtonStyle: React.CSSProperties = {
     ...buttonStyle,
-    background: "#a7d37d",
-    color: "#102018",
-    border: "1px solid #a7d37d",
+    background: "linear-gradient(180deg, #b8e68d, #9ed26d)",
+    color: "#0c170f",
+    border: "1px solid rgba(184,230,141,0.95)",
+    boxShadow: "0 10px 24px rgba(158,210,109,0.24)",
   };
 
-  const cardButtonStyle: React.CSSProperties = {
+  const headlineStyle: React.CSSProperties = {
+    fontSize: screen === "home" ? 64 : 52,
+    lineHeight: 1.02,
+    fontWeight: 800,
+    letterSpacing: "-0.045em",
+    color: "#ffffff",
+    textShadow: "0 3px 20px rgba(0,0,0,0.28)",
+    margin: 0,
+  };
+
+  const bodyStyle: React.CSSProperties = {
+    marginTop: 20,
+    fontSize: 20,
+    lineHeight: 1.75,
+    maxWidth: 860,
+    color: "rgba(246,255,248,0.92)",
+  };
+
+  const sectionEyebrow: React.CSSProperties = {
+    fontSize: 12,
+    fontWeight: 800,
+    letterSpacing: "0.22em",
+    textTransform: "uppercase",
+    color: "#dff2c8",
+  };
+
+  const tileTitleStyle: React.CSSProperties = {
+    fontSize: 17,
+    fontWeight: 800,
+    color: "#fafffb",
+    lineHeight: 1.2,
+    textShadow: "0 1px 10px rgba(0,0,0,0.22)",
+  };
+
+  const cardBase = (card: Screen): React.CSSProperties => ({
     ...glassStyle,
     overflow: "hidden",
     padding: 0,
     cursor: "pointer",
-  };
+    transform: hoveredCard === card ? "translateY(-5px) scale(1.01)" : "translateY(0) scale(1)",
+    boxShadow:
+      hoveredCard === card
+        ? "0 24px 70px rgba(0,0,0,0.42)"
+        : "0 18px 60px rgba(0,0,0,0.28)",
+    transition: "all 0.22s ease",
+  });
 
   return (
-    <div style={pageStyle}>
+    <div style={pageStyle} dir={isHebrew ? "rtl" : "ltr"}>
       <div style={heroStyle}>
         <div style={shellStyle}>
           <div
@@ -371,12 +450,31 @@ function App() {
               justifyContent: "space-between",
               alignItems: "center",
               flexWrap: "wrap",
-              marginBottom: 22,
+              marginBottom: 24,
             }}
           >
             <div>
-              <div style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.03em" }}>{t.title}</div>
-              <div style={{ fontSize: 15, opacity: 0.86, marginTop: 4 }}>{t.subtitle}</div>
+              <div
+                style={{
+                  fontSize: 38,
+                  fontWeight: 900,
+                  letterSpacing: "-0.04em",
+                  color: "#ffffff",
+                  textShadow: "0 3px 18px rgba(0,0,0,0.24)",
+                }}
+              >
+                {t.title}
+              </div>
+              <div
+                style={{
+                  fontSize: 15,
+                  opacity: 0.92,
+                  marginTop: 4,
+                  color: "rgba(245,255,247,0.88)",
+                }}
+              >
+                {t.subtitle}
+              </div>
             </div>
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
@@ -391,8 +489,8 @@ function App() {
                 onChange={(e) => setLanguage(e.target.value as Language)}
                 style={{
                   ...buttonStyle,
-                  background: "rgba(16,32,24,0.85)",
-                  minWidth: 150,
+                  background: "rgba(10,20,14,0.86)",
+                  minWidth: 155,
                   outline: "none",
                 }}
               >
@@ -410,104 +508,133 @@ function App() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "minmax(0, 1.3fr) minmax(320px, 0.7fr)",
-                gap: 22,
+                gridTemplateColumns: "minmax(0, 1.32fr) minmax(320px, 0.68fr)",
+                gap: 24,
+                alignItems: "start",
               }}
             >
-              <div style={{ ...glassStyle, padding: 30 }}>
+              <div style={{ ...glassStyle, padding: 32 }}>
                 <div
                   style={{
                     display: "inline-block",
-                    padding: "8px 14px",
+                    padding: "9px 15px",
                     borderRadius: 999,
                     background: "rgba(167,211,125,0.18)",
-                    border: "1px solid rgba(167,211,125,0.35)",
-                    color: "#dff2c8",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    marginBottom: 16,
-                  }}
-                >
-                  Farm & Family Alliance Ecosystem Demo
-                </div>
-
-                <div
-                  style={{
-                    fontSize: 62,
-                    lineHeight: 1.03,
+                    border: "1px solid rgba(167,211,125,0.32)",
+                    color: "#e8f7d8",
+                    fontSize: 12,
                     fontWeight: 800,
-                    letterSpacing: "-0.045em",
-                    maxWidth: 850,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    marginBottom: 18,
                   }}
                 >
-                  {t.subtitle}
+                  {t.welcome}
                 </div>
 
-                <p
-                  style={{
-                    marginTop: 20,
-                    fontSize: 20,
-                    lineHeight: 1.7,
-                    maxWidth: 900,
-                    color: "rgba(255,255,255,0.90)",
-                  }}
-                >
-                  {content.home.body}
-                </p>
+                <h1 style={headlineStyle}>{t.subtitle}</h1>
+
+                <p style={bodyStyle}>{content.home.body}</p>
 
                 <div
                   style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                    gap: 16,
-                    marginTop: 26,
+                    gap: 18,
+                    marginTop: 28,
                   }}
                 >
                   {cards.map((card) => (
-                    <button key={card} style={cardButtonStyle} onClick={() => setScreen(card)}>
+                    <button
+                      key={card}
+                      style={cardBase(card)}
+                      onClick={() => setScreen(card)}
+                      onMouseEnter={() => setHoveredCard(card)}
+                      onMouseLeave={() => setHoveredCard(null)}
+                    >
                       <div
                         style={{
-                          height: 150,
-                          backgroundImage: `url(${content[card].image})`,
+                          height: 154,
+                          backgroundImage: `linear-gradient(rgba(0,0,0,0.04), rgba(0,0,0,0.22)), url(${content[card].image})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                         }}
                       />
-                      <div style={{ padding: 16 }}>
-                        <div style={{ fontSize: 18, fontWeight: 800 }}>{t[content[card].titleKey]}</div>
-                        <div style={{ marginTop: 6, fontSize: 13, opacity: 0.78 }}>{t.explore}</div>
+                      <div style={{ padding: 16, textAlign: "center" }}>
+                        <div style={tileTitleStyle}>{t[content[card].titleKey]}</div>
+                        <div
+                          style={{
+                            marginTop: 7,
+                            fontSize: 13,
+                            color: "rgba(228,245,231,0.82)",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {t.explore}
+                        </div>
                       </div>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div style={{ display: "grid", gap: 22 }}>
-                <div style={{ ...glassStyle, padding: 24 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#dff2c8" }}>
-                    Farm Conditions
+              <div style={{ display: "grid", gap: 24 }}>
+                <div
+                  style={{
+                    ...glassStyle,
+                    padding: 26,
+                    minHeight: 200,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div style={sectionEyebrow}>{t.farmConditions}</div>
+                  <div
+                    style={{
+                      fontSize: 34,
+                      fontWeight: 900,
+                      marginTop: 12,
+                      color: "#ffffff",
+                      textShadow: "0 2px 12px rgba(0,0,0,0.2)",
+                    }}
+                  >
+                    Youngstown
                   </div>
-                  <div style={{ fontSize: 34, fontWeight: 800, marginTop: 12 }}>Youngstown</div>
-                  <div style={{ fontSize: 18, marginTop: 6, opacity: 0.9 }}>Seasonal. Regenerative. Welcoming.</div>
-                  <p style={{ marginTop: 14, lineHeight: 1.8, opacity: 0.82 }}>
-                    A place people want to return to for food, learning, growing, events, and community connection.
+                  <div
+                    style={{
+                      fontSize: 18,
+                      marginTop: 8,
+                      color: "#eef9f0",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {t.farmConditionsText}
+                  </div>
+                  <p
+                    style={{
+                      marginTop: 14,
+                      lineHeight: 1.8,
+                      color: "rgba(237,248,239,0.84)",
+                    }}
+                  >
+                    {t.farmConditionsBody}
                   </p>
                 </div>
 
                 <div style={{ ...glassStyle, padding: 18 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#dff2c8", marginBottom: 12 }}>
-                    Farm Gallery
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  <div style={{ ...sectionEyebrow, marginBottom: 14 }}>{t.farmGallery}</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     {gallery.map((img, i) => (
                       <div
                         key={i}
                         style={{
-                          height: 112,
-                          borderRadius: 18,
-                          backgroundImage: `url(${img})`,
+                          height: 116,
+                          borderRadius: 20,
+                          backgroundImage: `linear-gradient(rgba(0,0,0,0.06), rgba(0,0,0,0.16)), url(${img})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
+                          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.06)",
                         }}
                       />
                     ))}
@@ -519,30 +646,17 @@ function App() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "minmax(0, 1.1fr) minmax(320px, 0.9fr)",
-                gap: 22,
+                gridTemplateColumns: "minmax(0, 1.08fr) minmax(320px, 0.92fr)",
+                gap: 24,
+                alignItems: "start",
               }}
             >
-              <div style={{ ...glassStyle, padding: 30 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.24em", textTransform: "uppercase", color: "#dff2c8" }}>
-                  {t[content[screen].titleKey]}
-                </div>
-                <div style={{ fontSize: 52, lineHeight: 1.05, fontWeight: 800, letterSpacing: "-0.04em", marginTop: 12 }}>
-                  {t[content[screen].titleKey]}
-                </div>
-                <p
-                  style={{
-                    marginTop: 20,
-                    fontSize: 20,
-                    lineHeight: 1.8,
-                    maxWidth: 840,
-                    color: "rgba(255,255,255,0.90)",
-                  }}
-                >
-                  {current.body}
-                </p>
+              <div style={{ ...glassStyle, padding: 32 }}>
+                <div style={sectionEyebrow}>{t[content[screen].titleKey]}</div>
+                <h2 style={{ ...headlineStyle, marginTop: 12 }}>{t[content[screen].titleKey]}</h2>
+                <p style={bodyStyle}>{current.body}</p>
 
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 24 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 26 }}>
                   {current.links.map((link) => (
                     <button key={link} style={buttonStyle} onClick={() => setScreen(link)}>
                       {t[content[link].titleKey]}
@@ -551,30 +665,29 @@ function App() {
                 </div>
               </div>
 
-              <div style={{ display: "grid", gap: 22 }}>
+              <div style={{ display: "grid", gap: 24 }}>
                 <div
                   style={{
                     ...glassStyle,
-                    minHeight: 360,
-                    backgroundImage: `url(${current.image})`,
+                    minHeight: 380,
+                    backgroundImage: `linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.22)), url(${current.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
                 />
                 <div style={{ ...glassStyle, padding: 18 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#dff2c8", marginBottom: 12 }}>
-                    More from the Farm
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                  <div style={{ ...sectionEyebrow, marginBottom: 14 }}>{t.moreFarm}</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     {gallery.slice(0, 4).map((img, i) => (
                       <div
                         key={i}
                         style={{
-                          height: 110,
-                          borderRadius: 18,
-                          backgroundImage: `url(${img})`,
+                          height: 112,
+                          borderRadius: 20,
+                          backgroundImage: `linear-gradient(rgba(0,0,0,0.06), rgba(0,0,0,0.16)), url(${img})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
+                          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.06)",
                         }}
                       />
                     ))}
