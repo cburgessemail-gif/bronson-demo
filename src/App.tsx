@@ -5,15 +5,15 @@ type Screen =
   | "story"
   | "guest"
   | "customer"
+  | "marketplace"
+  | "nutrition"
+  | "recipes"
   | "grower"
+  | "calendar"
   | "producer"
   | "youth"
   | "supervisor"
-  | "marketplace"
-  | "calendar"
   | "events"
-  | "nutrition"
-  | "recipes"
   | "weather";
 
 type Language = "English" | "Español" | "Tagalog" | "Italiano" | "Patwa" | "Hebrew";
@@ -28,295 +28,325 @@ const route: Screen[] = [
   "recipes",
   "grower",
   "calendar",
+  "producer",
   "youth",
   "supervisor",
   "events",
   "weather",
 ];
 
-const images: Record<string, string> = {
+const images: Record<Screen, string> = {
   home: "/GrowArea2.jpg",
   story: "/SAM_0220.JPG",
   guest: "/SAM_0221.JPG",
   customer: "/SAM_0222.JPG",
+  marketplace: "/SAM_0257.JPG",
+  nutrition: "/SAM_0281.JPG",
+  recipes: "/SAM_0282.JPG",
   grower: "/SAM_0223.JPG",
+  calendar: "/SAM_0274.JPG",
   producer: "/SAM_0229.JPG",
   youth: "/SAM_0238.JPG",
   supervisor: "/SAM_0249.JPG",
-  marketplace: "/SAM_0257.JPG",
-  calendar: "/SAM_0274.JPG",
   events: "/SAM_0275.JPG",
-  nutrition: "/SAM_0281.JPG",
-  recipes: "/SAM_0282.JPG",
   weather: "/SAM_0288.JPG",
 };
 
-const text: Record<
+const gallery = [
+  "/SAM_0289.JPG",
+  "/SAM_0290.JPG",
+  "/SAM_0291.JPG",
+  "/SAM_0293.JPG",
+  "/SAM_0301.JPG",
+  "/SAM_0303.JPG",
+];
+
+const content: Record<
   Screen,
   {
     title: string;
     body: string;
+    blurb: string;
+    links: Screen[];
   }
 > = {
   home: {
     title: "Bronson Family Farm",
     body:
-      "Welcome to a living ecosystem built around food access, restoration, education, wellness, and opportunity.",
+      "Step into a living ecosystem built around food access, land restoration, education, wellness, workforce pathways, and marketplace opportunity.",
+    blurb: "Start here to experience the full ecosystem.",
+    links: ["story", "customer", "grower", "youth", "events", "marketplace"],
   },
   story: {
     title: "Our Story",
     body:
-      "A family legacy transformed into a future-focused farm vision for Youngstown.",
+      "Bronson Family Farm carries family legacy into a future-focused Youngstown vision shaped by regenerative growing, agritourism, education, and community restoration.",
+    blurb: "Legacy, land, restoration, and return.",
+    links: ["guest", "events", "marketplace"],
   },
   guest: {
     title: "Guest Experience",
     body:
-      "Visitors enjoy discovery, atmosphere, events, and reasons to return again.",
+      "Guests discover the atmosphere of the land, the story of the farm, special experiences, and reasons to return again and again.",
+    blurb: "A welcoming first experience for visitors.",
+    links: ["story", "events", "weather"],
   },
   customer: {
     title: "Customer Journey",
     body:
-      "Customers move into healthier buying habits, produce access, recipes, and nutrition support.",
-  },
-  grower: {
-    title: "Grower Pathway",
-    body:
-      "Growers gain planning tools, coordination, learning, and practical opportunity.",
-  },
-  producer: {
-    title: "Value Added Producer",
-    body:
-      "Prepared goods, branded products, and future local commerce opportunities.",
-  },
-  youth: {
-    title: "Youth Workforce",
-    body:
-      "Hands-on learning, readiness, stewardship, and future pathways.",
-  },
-  supervisor: {
-    title: "Supervisor Role",
-    body:
-      "Support staff provide structure, logistics, accountability, and encouragement.",
+      "Customers move from discovery to healthy buying, produce access, recipes, and practical nutrition guidance that makes the marketplace worth revisiting.",
+    blurb: "A healthier buying journey.",
+    links: ["marketplace", "nutrition", "recipes"],
   },
   marketplace: {
     title: "Marketplace",
     body:
-      "The bridge to produce, seedlings, products, and return visits.",
-  },
-  calendar: {
-    title: "Crop Planner",
-    body:
-      "The seasonal rhythm of timing, readiness, and productive coordination.",
-  },
-  events: {
-    title: "Events",
-    body:
-      "Demonstrations, education, agritourism, and family experiences on the land.",
+      "The marketplace is the bridge to produce, seedlings, Bubble Babies, value-added goods, customer return, and future GrownBy-style commerce.",
+    blurb: "Where interest becomes action.",
+    links: ["customer", "nutrition", "recipes"],
   },
   nutrition: {
     title: "Health & Nutrition",
     body:
-      "Helping people compare natural food with overprocessed choices.",
+      "Health and nutrition help people compare natural food with overprocessed choices, making wellness practical and easier to understand.",
+    blurb: "Food education that supports wellbeing.",
+    links: ["recipes", "marketplace", "customer"],
   },
   recipes: {
     title: "Recipes",
     body:
-      "Turning farm products into real meals and healthy habits.",
+      "Recipes turn interest into action by showing how farm products can become real meals, real habits, and real reasons to come back.",
+    blurb: "Simple inspiration for real meals.",
+    links: ["marketplace", "nutrition", "customer"],
+  },
+  grower: {
+    title: "Grower Pathway",
+    body:
+      "Growers connect to seasonal planning, learning, coordination, and an ecosystem designed to support long-term participation and practical opportunity.",
+    blurb: "Planning, growing, and shared opportunity.",
+    links: ["calendar", "producer", "events"],
+  },
+  calendar: {
+    title: "Crop Planner",
+    body:
+      "Crop planning gives the ecosystem a living seasonal rhythm through timing, readiness, coordination, and practical farm momentum.",
+    blurb: "The seasonal rhythm of the farm.",
+    links: ["grower", "weather", "events"],
+  },
+  producer: {
+    title: "Value-Added Producer",
+    body:
+      "Prepared goods, branded products, local value creation, and future commerce opportunities can grow from this ecosystem.",
+    blurb: "Future-ready products and local value.",
+    links: ["marketplace", "grower", "events"],
+  },
+  youth: {
+    title: "Youth Workforce",
+    body:
+      "Youth workforce participants encounter hands-on learning, food systems awareness, work readiness, land stewardship, and meaningful future pathways.",
+    blurb: "Learning, work, and future pathways.",
+    links: ["supervisor", "calendar", "events"],
+  },
+  supervisor: {
+    title: "Supervisor Role",
+    body:
+      "Supervisors support youth workers with structure, encouragement, accountability, logistics, and wraparound care within the program.",
+    blurb: "Support, structure, and oversight.",
+    links: ["youth", "events", "calendar"],
+  },
+  events: {
+    title: "Events",
+    body:
+      "Events bring people onto the land through demonstrations, education, agritourism, marketplace engagement, and family-centered experiences.",
+    blurb: "The public-facing life of the farm.",
+    links: ["guest", "marketplace", "weather"],
   },
   weather: {
     title: "Farm Conditions",
     body:
-      "A live feeling connected to season, land, work, and growth.",
+      "Farm conditions keep the platform grounded in the land, the season, and the living rhythm of work, events, and growth.",
+    blurb: "A live feeling rooted in the land.",
+    links: ["calendar", "events", "guest"],
   },
 };
 
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
-  const [tour, setTour] = useState(false);
-  const [index, setIndex] = useState(0);
-  const [voiceOn, setVoiceOn] = useState(true);
   const [language, setLanguage] = useState<Language>("English");
-
+  const [autoTour, setAutoTour] = useState(false);
+  const [voiceOn, setVoiceOn] = useState(true);
   const synthRef = useRef<SpeechSynthesis | null>(null);
 
-  const current = text[screen];
+  const currentIndex = route.indexOf(screen);
+  const current = content[screen];
+  const progress = ((currentIndex + 1) / route.length) * 100;
 
   useEffect(() => {
     synthRef.current = window.speechSynthesis;
   }, []);
 
   useEffect(() => {
-    if (!voiceOn) return;
-
-    const utter = new SpeechSynthesisUtterance(
-      `${current.title}. ${current.body}`
-    );
-
-    utter.rate = 0.95;
+    if (!voiceOn || !synthRef.current) return;
+    const utter = new SpeechSynthesisUtterance(`${current.title}. ${current.body}`);
+    utter.rate = 0.94;
     utter.pitch = 1;
     utter.volume = 1;
 
-    const voices = speechSynthesis.getVoices();
+    if (language === "Español") utter.lang = "es-ES";
+    else if (language === "Italiano") utter.lang = "it-IT";
+    else if (language === "Hebrew") utter.lang = "he-IL";
+    else utter.lang = "en-US";
 
-    if (language === "Español") {
-      utter.lang = "es-ES";
-      const v = voices.find((x) => x.lang.startsWith("es"));
-      if (v) utter.voice = v;
-    } else if (language === "Italiano") {
-      utter.lang = "it-IT";
-      const v = voices.find((x) => x.lang.startsWith("it"));
-      if (v) utter.voice = v;
-    } else if (language === "Hebrew") {
-      utter.lang = "he-IL";
-      const v = voices.find((x) => x.lang.startsWith("he"));
-      if (v) utter.voice = v;
-    } else {
-      utter.lang = "en-US";
-    }
+    synthRef.current.cancel();
+    synthRef.current.speak(utter);
 
-    speechSynthesis.cancel();
-    speechSynthesis.speak(utter);
-  }, [screen, voiceOn, language]);
+    return () => synthRef.current?.cancel();
+  }, [screen, voiceOn, language, current.title, current.body]);
 
   useEffect(() => {
-    if (!tour) return;
-
-    const timer = setTimeout(() => {
-      const next = index + 1;
-
-      if (next >= route.length) {
-        setTour(false);
-        setIndex(0);
+    if (!autoTour) return;
+    const timer = window.setTimeout(() => {
+      if (currentIndex >= route.length - 1) {
+        setAutoTour(false);
         setScreen("home");
       } else {
-        setIndex(next);
-        setScreen(route[next]);
+        setScreen(route[currentIndex + 1]);
       }
-    }, 5000);
+    }, 4800);
+    return () => window.clearTimeout(timer);
+  }, [autoTour, currentIndex]);
 
-    return () => clearTimeout(timer);
-  }, [tour, index]);
+  const goPrev = () => {
+    setAutoTour(false);
+    setScreen(route[Math.max(0, currentIndex - 1)]);
+  };
+
+  const goNext = () => {
+    setAutoTour(false);
+    setScreen(route[Math.min(route.length - 1, currentIndex + 1)]);
+  };
+
+  const startTour = () => {
+    setScreen("home");
+    setAutoTour(true);
+  };
 
   const bg = images[screen];
 
-  const cards = useMemo(
+  const frame: React.CSSProperties = {
+    minHeight: "100vh",
+    color: "#fff",
+    backgroundImage: `linear-gradient(rgba(4,8,6,0.28), rgba(4,8,6,0.84)), url(${bg})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundAttachment: "fixed",
+    fontFamily:
+      'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  };
+
+  const glass: React.CSSProperties = {
+    background: "linear-gradient(180deg, rgba(10,24,16,0.78), rgba(8,18,12,0.66))",
+    border: "1px solid rgba(227,255,233,0.11)",
+    borderRadius: 30,
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
+    boxShadow: "0 18px 60px rgba(0,0,0,0.34)",
+  };
+
+  const btn: React.CSSProperties = {
+    borderRadius: 999,
+    border: "1px solid rgba(255,255,255,0.15)",
+    background: "rgba(255,255,255,0.08)",
+    color: "#fff",
+    padding: "12px 18px",
+    fontWeight: 700,
+    cursor: "pointer",
+  };
+
+  const primaryBtn: React.CSSProperties = {
+    ...btn,
+    background: "linear-gradient(180deg, #b8e68d, #9ed26d)",
+    color: "#0c170f",
+    border: "1px solid rgba(184,230,141,0.95)",
+  };
+
+  const chapterCards = useMemo(
     () =>
-      route.filter((x) => x !== "home").map((item) => (
-        <button
-          key={item}
-          onClick={() => {
-            setTour(false);
-            setScreen(item);
-          }}
-          style={{
-            border: "1px solid rgba(255,255,255,.12)",
-            borderRadius: 24,
-            overflow: "hidden",
-            cursor: "pointer",
-            background: "rgba(255,255,255,.05)",
-            color: "#fff",
-            padding: 0,
-            textAlign: "left",
-          }}
-        >
-          <div
-            style={{
-              height: 130,
-              backgroundImage: `linear-gradient(rgba(0,0,0,.08),rgba(0,0,0,.55)),url(${images[item]})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+      route
+        .filter((s) => s !== "home")
+        .map((item) => (
+          <button
+            key={item}
+            onClick={() => {
+              setAutoTour(false);
+              setScreen(item);
             }}
-          />
-          <div style={{ padding: 14 }}>
-            <div style={{ fontWeight: 800, fontSize: 18 }}>{text[item].title}</div>
-            <div style={{ marginTop: 6, opacity: 0.82, fontSize: 14 }}>
-              {text[item].body}
+            style={{
+              ...glass,
+              overflow: "hidden",
+              padding: 0,
+              cursor: "pointer",
+              textAlign: "left",
+              transform: item === screen ? "translateY(-3px)" : "none",
+              boxShadow:
+                item === screen
+                  ? "0 24px 70px rgba(0,0,0,0.42), 0 0 0 1px rgba(184,230,141,0.24) inset"
+                  : "0 18px 60px rgba(0,0,0,0.28)",
+            }}
+          >
+            <div
+              style={{
+                height: 126,
+                backgroundImage: `linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.58)), url(${images[item]})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+            <div style={{ padding: 14 }}>
+              <div style={{ fontSize: 18, fontWeight: 800 }}>{content[item].title}</div>
+              <div style={{ marginTop: 6, fontSize: 14, opacity: 0.84 }}>{content[item].blurb}</div>
             </div>
-          </div>
-        </button>
-      )),
-    []
+          </button>
+        )),
+    [screen]
   );
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        color: "#fff",
-        fontFamily:
-          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        backgroundImage: `linear-gradient(rgba(4,8,6,.30),rgba(4,8,6,.84)),url(${bg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
-    >
-      <div style={{ maxWidth: 1320, margin: "0 auto", padding: 24 }}>
+    <div style={frame}>
+      <div style={{ maxWidth: 1340, margin: "0 auto", padding: 24 }}>
         <div
           style={{
-            borderRadius: 28,
+            ...glass,
             padding: 18,
             display: "flex",
+            justifyContent: "space-between",
             gap: 12,
             flexWrap: "wrap",
-            justifyContent: "space-between",
             alignItems: "center",
-            background: "rgba(8,18,12,.62)",
-            border: "1px solid rgba(255,255,255,.10)",
-            backdropFilter: "blur(12px)",
           }}
         >
           <div>
-            <div style={{ fontSize: 36, fontWeight: 900 }}>
-              Bronson Family Farm
-            </div>
-            <div style={{ opacity: 0.86 }}>
-              Guided Ecosystem Experience
-            </div>
+            <div style={{ fontSize: 38, fontWeight: 900 }}>Bronson Family Farm</div>
+            <div style={{ opacity: 0.88 }}>Guided Ecosystem Experience</div>
           </div>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button
-              onClick={() => setScreen("home")}
-              style={btn()}
-            >
+            <button style={btn} onClick={() => { setAutoTour(false); setScreen("home"); }}>
               Home
             </button>
-
-            {!tour ? (
-              <button
-                onClick={() => {
-                  setTour(true);
-                  setIndex(0);
-                  setScreen("home");
-                }}
-                style={btn(true)}
-              >
-                Start Guided Tour
-              </button>
-            ) : (
-              <button
-                onClick={() => setTour(false)}
-                style={btn()}
-              >
-                Stop Tour
-              </button>
-            )}
-
-            <button
-              onClick={() => setVoiceOn(!voiceOn)}
-              style={btn()}
-            >
+            <button style={primaryBtn} onClick={startTour}>
+              Start Guided Tour
+            </button>
+            <button style={btn} onClick={() => setAutoTour(false)}>
+              Stop Tour
+            </button>
+            <button style={btn} onClick={() => setVoiceOn((v) => !v)}>
               {voiceOn ? "Voice On" : "Voice Off"}
             </button>
-
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as Language)}
-              style={{
-                ...btnStyle,
-                minWidth: 140,
-              }}
+              style={{ ...btn, minWidth: 150 }}
             >
               <option>English</option>
               <option>Español</option>
@@ -330,98 +360,175 @@ function App() {
 
         <div
           style={{
-            marginTop: 24,
-            display: "grid",
-            gridTemplateColumns: "minmax(0,1.25fr) minmax(340px,.75fr)",
-            gap: 24,
+            ...glass,
+            marginTop: 18,
+            padding: 16,
           }}
         >
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, opacity: 0.88 }}>
+            <div>Journey Progress</div>
+            <div>
+              {currentIndex + 1} / {route.length}
+            </div>
+          </div>
           <div
             style={{
-              borderRadius: 30,
-              padding: 34,
-              background: "rgba(8,18,12,.60)",
-              border: "1px solid rgba(255,255,255,.10)",
-              backdropFilter: "blur(12px)",
+              marginTop: 10,
+              height: 10,
+              borderRadius: 999,
+              background: "rgba(255,255,255,0.08)",
+              overflow: "hidden",
             }}
           >
             <div
               style={{
-                display: "inline-block",
-                padding: "8px 14px",
-                borderRadius: 999,
-                background: "rgba(167,211,125,.18)",
-                fontWeight: 800,
-                fontSize: 12,
-                letterSpacing: ".08em",
-                textTransform: "uppercase",
+                width: `${progress}%`,
+                height: "100%",
+                background: "linear-gradient(90deg, #b8e68d, #9ed26d)",
               }}
-            >
-              Live Demo
-            </div>
+            />
+          </div>
+        </div>
 
-            <h1
-              style={{
-                fontSize: 62,
-                lineHeight: 1.02,
-                margin: "18px 0 0",
-                fontWeight: 900,
-              }}
-            >
-              {current.title}
-            </h1>
-
-            <p
-              style={{
-                marginTop: 18,
-                fontSize: 22,
-                lineHeight: 1.7,
-                color: "rgba(245,255,247,.92)",
-                maxWidth: 850,
-              }}
-            >
-              {current.body}
-            </p>
-
-            {tour && (
+        <div
+          style={{
+            marginTop: 22,
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1.15fr) minmax(360px, 0.85fr)",
+            gap: 24,
+          }}
+        >
+          <div style={{ display: "grid", gap: 24 }}>
+            <div style={{ ...glass, padding: 34 }}>
               <div
                 style={{
-                  marginTop: 18,
-                  color: "#dff2c8",
-                  fontWeight: 700,
+                  display: "inline-block",
+                  padding: "8px 14px",
+                  borderRadius: 999,
+                  background: "rgba(167,211,125,0.18)",
+                  fontWeight: 800,
+                  fontSize: 12,
+                  letterSpacing: ".08em",
+                  textTransform: "uppercase",
                 }}
               >
-                Guided Tour Progress: {index + 1} / {route.length}
+                Live Journey Mode
               </div>
-            )}
+
+              <h1
+                style={{
+                  fontSize: 62,
+                  lineHeight: 1.02,
+                  margin: "18px 0 0",
+                  fontWeight: 900,
+                }}
+              >
+                {current.title}
+              </h1>
+
+              <p
+                style={{
+                  marginTop: 18,
+                  fontSize: 22,
+                  lineHeight: 1.7,
+                  maxWidth: 860,
+                  color: "rgba(245,255,247,0.92)",
+                }}
+              >
+                {current.body}
+              </p>
+
+              <div
+                style={{
+                  marginTop: 16,
+                  color: "#dff2c8",
+                  fontWeight: 700,
+                  fontSize: 16,
+                }}
+              >
+                {current.blurb}
+              </div>
+
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 26 }}>
+                <button style={btn} onClick={goPrev} disabled={currentIndex === 0}>
+                  Previous
+                </button>
+                <button style={primaryBtn} onClick={goNext} disabled={currentIndex === route.length - 1}>
+                  Next
+                </button>
+                {current.links.map((link) => (
+                  <button
+                    key={link}
+                    style={btn}
+                    onClick={() => {
+                      setAutoTour(false);
+                      setScreen(link);
+                    }}
+                  >
+                    {content[link].title}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <div
               style={{
-                marginTop: 28,
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
-                gap: 18,
+                ...glass,
+                padding: 18,
               }}
             >
-              {cards}
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 800,
+                  letterSpacing: ".18em",
+                  textTransform: "uppercase",
+                  color: "#dff2c8",
+                  marginBottom: 14,
+                }}
+              >
+                Journey Chapters
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                  gap: 18,
+                }}
+              >
+                {chapterCards}
+              </div>
             </div>
           </div>
 
           <div style={{ display: "grid", gap: 24 }}>
             <Panel title="Marketplace Preview">
-              Produce • Seedlings • Bubble Babies™ • Repeat Visits
-            </Panel>
-
-            <Panel title="Live Conditions">
-              Youngstown • 46°F • Seasonal • Regenerative
+              Produce • Seedlings • Bubble Babies™ • Healthy buying habits • Return visits
             </Panel>
 
             <Panel title="Next Event">
-              Growers Supply Market • May 16, 2026
+              Growers Supply Market • May 16, 2026 • 9:00 AM–2:00 PM
             </Panel>
 
-            <Panel title="Why It Works">
-              People return for food, learning, events, and opportunity.
+            <Panel title="Farm Conditions">
+              Youngstown • 46°F • Seasonal • Regenerative • Welcoming
+            </Panel>
+
+            <Panel title="Gallery">
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                {gallery.slice(0, 4).map((img, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      height: 104,
+                      borderRadius: 18,
+                      backgroundImage: `linear-gradient(rgba(0,0,0,0.06), rgba(0,0,0,0.16)), url(${img})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  />
+                ))}
+              </div>
             </Panel>
           </div>
         </div>
@@ -430,41 +537,17 @@ function App() {
   );
 }
 
-const btnStyle: React.CSSProperties = {
-  borderRadius: 999,
-  border: "1px solid rgba(255,255,255,.14)",
-  background: "rgba(255,255,255,.08)",
-  color: "#fff",
-  padding: "12px 18px",
-  fontWeight: 700,
-  cursor: "pointer",
-};
-
-function btn(primary = false): React.CSSProperties {
-  return primary
-    ? {
-        ...btnStyle,
-        background: "linear-gradient(180deg,#b8e68d,#9ed26d)",
-        color: "#0b160d",
-      }
-    : btnStyle;
-}
-
-function Panel({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div
       style={{
-        borderRadius: 28,
-        padding: 22,
-        background: "rgba(8,18,12,.60)",
-        border: "1px solid rgba(255,255,255,.10)",
+        background: "linear-gradient(180deg, rgba(10,24,16,0.78), rgba(8,18,12,0.66))",
+        border: "1px solid rgba(227,255,233,0.11)",
+        borderRadius: 30,
         backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        boxShadow: "0 18px 60px rgba(0,0,0,0.34)",
+        padding: 22,
       }}
     >
       <div
@@ -478,9 +561,7 @@ function Panel({
       >
         {title}
       </div>
-      <div style={{ marginTop: 14, fontSize: 18, lineHeight: 1.7 }}>
-        {children}
-      </div>
+      <div style={{ marginTop: 14, fontSize: 18, lineHeight: 1.7 }}>{children}</div>
     </div>
   );
 }
