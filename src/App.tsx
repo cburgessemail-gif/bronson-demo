@@ -253,10 +253,6 @@ function App() {
     setScreen("home");
   };
 
-  const openLink = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
-
   const bg = images[screen];
 
   const frame: React.CSSProperties = {
@@ -287,6 +283,10 @@ function App() {
     padding: "12px 18px",
     fontWeight: 700,
     cursor: "pointer",
+    textDecoration: "none",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   const primaryBtn: React.CSSProperties = {
@@ -300,49 +300,94 @@ function App() {
     () =>
       route
         .filter((s) => s !== "home")
-        .map((item) => (
-          <button
-            key={item}
-            onClick={() => {
-              if (item === "marketplace") {
-                openLink(LIVE_MARKETPLACE_URL);
-              } else if (item === "weather") {
-                openLink(LIVE_WEATHER_URL);
-              } else {
+        .map((item) => {
+          const href =
+            item === "marketplace"
+              ? LIVE_MARKETPLACE_URL
+              : item === "weather"
+              ? LIVE_WEATHER_URL
+              : null;
+
+          if (href) {
+            return (
+              <a
+                key={item}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => setHoveredCard(item)}
+                onMouseLeave={() => setHoveredCard(null)}
+                style={{
+                  ...glass,
+                  overflow: "hidden",
+                  padding: 0,
+                  cursor: "pointer",
+                  textAlign: "left",
+                  textDecoration: "none",
+                  color: "#fff",
+                  transform: hoveredCard === item ? "translateY(-4px)" : "none",
+                  boxShadow:
+                    hoveredCard === item
+                      ? "0 24px 70px rgba(0,0,0,0.42), 0 0 0 1px rgba(184,230,141,0.24) inset"
+                      : "0 18px 60px rgba(0,0,0,0.28)",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <div
+                  style={{
+                    height: 126,
+                    backgroundImage: `linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.58)), url(${images[item]})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+                <div style={{ padding: 14 }}>
+                  <div style={{ fontSize: 18, fontWeight: 800 }}>{content[item].title}</div>
+                  <div style={{ marginTop: 6, fontSize: 14, opacity: 0.84 }}>{content[item].blurb}</div>
+                </div>
+              </a>
+            );
+          }
+
+          return (
+            <button
+              key={item}
+              onClick={() => {
                 setAutoTour(false);
                 setScreen(item);
-              }
-            }}
-            onMouseEnter={() => setHoveredCard(item)}
-            onMouseLeave={() => setHoveredCard(null)}
-            style={{
-              ...glass,
-              overflow: "hidden",
-              padding: 0,
-              cursor: "pointer",
-              textAlign: "left",
-              transform: hoveredCard === item ? "translateY(-4px)" : "none",
-              boxShadow:
-                hoveredCard === item || item === screen
-                  ? "0 24px 70px rgba(0,0,0,0.42), 0 0 0 1px rgba(184,230,141,0.24) inset"
-                  : "0 18px 60px rgba(0,0,0,0.28)",
-              transition: "all 0.2s ease",
-            }}
-          >
-            <div
-              style={{
-                height: 126,
-                backgroundImage: `linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.58)), url(${images[item]})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
               }}
-            />
-            <div style={{ padding: 14 }}>
-              <div style={{ fontSize: 18, fontWeight: 800 }}>{content[item].title}</div>
-              <div style={{ marginTop: 6, fontSize: 14, opacity: 0.84 }}>{content[item].blurb}</div>
-            </div>
-          </button>
-        )),
+              onMouseEnter={() => setHoveredCard(item)}
+              onMouseLeave={() => setHoveredCard(null)}
+              style={{
+                ...glass,
+                overflow: "hidden",
+                padding: 0,
+                cursor: "pointer",
+                textAlign: "left",
+                transform: hoveredCard === item ? "translateY(-4px)" : "none",
+                boxShadow:
+                  hoveredCard === item || item === screen
+                    ? "0 24px 70px rgba(0,0,0,0.42), 0 0 0 1px rgba(184,230,141,0.24) inset"
+                    : "0 18px 60px rgba(0,0,0,0.28)",
+                transition: "all 0.2s ease",
+                color: "#fff",
+              }}
+            >
+              <div
+                style={{
+                  height: 126,
+                  backgroundImage: `linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.58)), url(${images[item]})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              <div style={{ padding: 14 }}>
+                <div style={{ fontSize: 18, fontWeight: 800 }}>{content[item].title}</div>
+                <div style={{ marginTop: 6, fontSize: 14, opacity: 0.84 }}>{content[item].blurb}</div>
+              </div>
+            </button>
+          );
+        }),
     [screen, hoveredCard]
   );
 
@@ -384,12 +429,15 @@ function App() {
             <button style={btn} onClick={() => setVoiceOn((v) => !v)}>
               {voiceOn ? "Voice On" : "Voice Off"}
             </button>
-            <button style={primaryBtn} onClick={() => openLink(LIVE_MARKETPLACE_URL)}>
+
+            <a href={LIVE_MARKETPLACE_URL} target="_blank" rel="noopener noreferrer" style={primaryBtn}>
               Open Live Marketplace
-            </button>
-            <button style={btn} onClick={() => openLink(LIVE_WEATHER_URL)}>
+            </a>
+
+            <a href={LIVE_WEATHER_URL} target="_blank" rel="noopener noreferrer" style={btn}>
               Live Weather
-            </button>
+            </a>
+
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value as Language)}
@@ -503,24 +551,49 @@ function App() {
                 <button style={primaryBtn} onClick={goNext} disabled={currentIndex === route.length - 1}>
                   Next
                 </button>
-                {current.links.map((link) => (
-                  <button
-                    key={link}
-                    style={btn}
-                    onClick={() => {
-                      if (link === "marketplace") {
-                        openLink(LIVE_MARKETPLACE_URL);
-                      } else if (link === "weather") {
-                        openLink(LIVE_WEATHER_URL);
-                      } else {
+
+                {current.links.map((link) => {
+                  if (link === "marketplace") {
+                    return (
+                      <a
+                        key={link}
+                        href={LIVE_MARKETPLACE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={btn}
+                      >
+                        {content[link].title}
+                      </a>
+                    );
+                  }
+
+                  if (link === "weather") {
+                    return (
+                      <a
+                        key={link}
+                        href={LIVE_WEATHER_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={btn}
+                      >
+                        {content[link].title}
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <button
+                      key={link}
+                      style={btn}
+                      onClick={() => {
                         setAutoTour(false);
                         setScreen(link);
-                      }
-                    }}
-                  >
-                    {content[link].title}
-                  </button>
-                ))}
+                      }}
+                    >
+                      {content[link].title}
+                    </button>
+                  );
+                })}
               </div>
 
               {screen === "marketplace" && (
@@ -551,29 +624,32 @@ function App() {
                     Shop live produce, seedlings, and farm offerings through the Bronson Family Farm GrownBy store.
                   </div>
                   <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                    <button style={primaryBtn} onClick={() => openLink(LIVE_MARKETPLACE_URL)}>
+                    <a
+                      href={LIVE_MARKETPLACE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={primaryBtn}
+                    >
                       Enter Live Store
-                    </button>
-                    <button
+                    </a>
+
+                    <a
+                      href="https://grownby.com/farms/bronson-family-farm/shop/product/Xiam8pgvwgBNI2KETOBg"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       style={btn}
-                      onClick={() =>
-                        openLink(
-                          "https://grownby.com/farms/bronson-family-farm/shop/product/Xiam8pgvwgBNI2KETOBg"
-                        )
-                      }
                     >
                       View Tomato Seedlings
-                    </button>
-                    <button
+                    </a>
+
+                    <a
+                      href="https://grownby.com/farms/bronson-family-farm/shop/product/tixqiXNbUfUCwIxjVOzS"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       style={btn}
-                      onClick={() =>
-                        openLink(
-                          "https://grownby.com/farms/bronson-family-farm/shop/product/tixqiXNbUfUCwIxjVOzS"
-                        )
-                      }
                     >
                       View Jalapeño Pepper
-                    </button>
+                    </a>
                   </div>
                 </div>
               )}
@@ -604,9 +680,14 @@ function App() {
                     Open the live AccuWeather feed for minute-by-minute weather and forecast conditions.
                   </div>
                   <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                    <button style={primaryBtn} onClick={() => openLink(LIVE_WEATHER_URL)}>
+                    <a
+                      href={LIVE_WEATHER_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={primaryBtn}
+                    >
                       Open Live Weather
-                    </button>
+                    </a>
                   </div>
                 </div>
               )}
@@ -677,6 +758,11 @@ function App() {
             <Panel title="Farm Conditions">
               Youngstown • 46°F • Seasonal • Regenerative • Welcoming
               <div style={{ marginTop: 14, fontSize: 14, opacity: 0.85 }}>Local Time: {timeText}</div>
+              <div style={{ marginTop: 14 }}>
+                <a href={LIVE_WEATHER_URL} target="_blank" rel="noopener noreferrer" style={primaryBtn}>
+                  Open Live Weather
+                </a>
+              </div>
             </Panel>
 
             <Panel title="Gallery">
