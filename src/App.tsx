@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 type Screen =
   | "home"
@@ -41,7 +41,44 @@ const images: Record<string, string> = {
   g6: "/SAM_0303.JPG",
 };
 
-const labels: Record<Language, Record<string, string>> = {
+const labels: Record<
+  Language,
+  {
+    title: string;
+    subtitle: string;
+    entrance: string;
+    story: string;
+    guest: string;
+    customer: string;
+    grower: string;
+    producer: string;
+    youth: string;
+    supervisor: string;
+    marketplace: string;
+    calendar: string;
+    events: string;
+    nutrition: string;
+    recipes: string;
+    weather: string;
+    explore: string;
+    back: string;
+    marketplaceButton: string;
+    welcome: string;
+    farmGallery: string;
+    moreFarm: string;
+    farmConditions: string;
+    farmConditionsText: string;
+    farmConditionsBody: string;
+    nextExperience: string;
+    upcomingEvent: string;
+    countdown: string;
+    marketplacePreview: string;
+    marketplaceBody: string;
+    weatherLabel: string;
+    timeLabel: string;
+    customerReturn: string;
+  }
+> = {
   English: {
     title: "Bronson Family Farm",
     subtitle: "A living ecosystem, not just a website.",
@@ -69,6 +106,15 @@ const labels: Record<Language, Record<string, string>> = {
     farmConditionsText: "Seasonal. Regenerative. Welcoming.",
     farmConditionsBody:
       "A place people want to return to for food, learning, growing, events, and community connection.",
+    nextExperience: "Next Experience",
+    upcomingEvent: "Growers Supply Market",
+    countdown: "Countdown",
+    marketplacePreview: "Marketplace Preview",
+    marketplaceBody:
+      "Built to feel like a welcoming bridge to produce, seedlings, healthy buying habits, and repeat visits.",
+    weatherLabel: "Conditions",
+    timeLabel: "Local Time",
+    customerReturn: "Made for return visits",
   },
   Español: {
     title: "Bronson Family Farm",
@@ -97,6 +143,15 @@ const labels: Record<Language, Record<string, string>> = {
     farmConditionsText: "Estacional. Regenerativa. Acogedora.",
     farmConditionsBody:
       "Un lugar al que la gente quiere volver por comida, aprendizaje, cultivo, eventos y conexión comunitaria.",
+    nextExperience: "Próxima Experiencia",
+    upcomingEvent: "Growers Supply Market",
+    countdown: "Cuenta regresiva",
+    marketplacePreview: "Vista del Mercado",
+    marketplaceBody:
+      "Diseñado para sentirse como un puente acogedor hacia productos frescos, plántulas y visitas repetidas.",
+    weatherLabel: "Condiciones",
+    timeLabel: "Hora Local",
+    customerReturn: "Diseñado para volver",
   },
   Tagalog: {
     title: "Bronson Family Farm",
@@ -125,6 +180,15 @@ const labels: Record<Language, Record<string, string>> = {
     farmConditionsText: "Seasonal. Regenerative. Welcoming.",
     farmConditionsBody:
       "Isang lugar na gustong balikan ng mga tao para sa pagkain, pag-aaral, pagtatanim, mga event, at koneksyon sa komunidad.",
+    nextExperience: "Next Experience",
+    upcomingEvent: "Growers Supply Market",
+    countdown: "Countdown",
+    marketplacePreview: "Marketplace Preview",
+    marketplaceBody:
+      "Ginawang parang mainit na tulay papunta sa produce, seedlings, at paulit-ulit na pagbisita.",
+    weatherLabel: "Conditions",
+    timeLabel: "Local Time",
+    customerReturn: "Babalikan ng customer",
   },
   Italiano: {
     title: "Bronson Family Farm",
@@ -153,6 +217,15 @@ const labels: Record<Language, Record<string, string>> = {
     farmConditionsText: "Stagionale. Rigenerativa. Accogliente.",
     farmConditionsBody:
       "Un luogo dove le persone vogliono tornare per cibo, apprendimento, coltivazione, eventi e connessione comunitaria.",
+    nextExperience: "Prossima Esperienza",
+    upcomingEvent: "Growers Supply Market",
+    countdown: "Conto alla rovescia",
+    marketplacePreview: "Anteprima Mercato",
+    marketplaceBody:
+      "Progettato per sembrare un ponte accogliente verso prodotti freschi, piantine e visite ripetute.",
+    weatherLabel: "Condizioni",
+    timeLabel: "Ora Locale",
+    customerReturn: "Pensato per ritornare",
   },
   Patwa: {
     title: "Bronson Family Farm",
@@ -181,6 +254,15 @@ const labels: Record<Language, Record<string, string>> = {
     farmConditionsText: "Seasonal. Regenerative. Welcoming.",
     farmConditionsBody:
       "A one place people waan come back to fi food, learning, growing, events, an community connection.",
+    nextExperience: "Next Experience",
+    upcomingEvent: "Growers Supply Market",
+    countdown: "Countdown",
+    marketplacePreview: "Marketplace Preview",
+    marketplaceBody:
+      "Built fi feel like one warm bridge to produce, seedlings, healthy buying, an return visits.",
+    weatherLabel: "Conditions",
+    timeLabel: "Local Time",
+    customerReturn: "Built fi return visits",
   },
   Hebrew: {
     title: "Bronson Family Farm",
@@ -209,10 +291,19 @@ const labels: Record<Language, Record<string, string>> = {
     farmConditionsText: "עונתי. מתחדש. מזמין.",
     farmConditionsBody:
       "מקום שאנשים ירצו לחזור אליו בשביל מזון, למידה, גידול, אירועים וחיבור לקהילה.",
+    nextExperience: "החוויה הבאה",
+    upcomingEvent: "Growers Supply Market",
+    countdown: "ספירה לאחור",
+    marketplacePreview: "תצוגת שוק",
+    marketplaceBody:
+      "נבנה כדי להרגיש כמו גשר מזמין לתוצרת, שתילים והרגלי קנייה שחוזרים אליהם.",
+    weatherLabel: "תנאים",
+    timeLabel: "שעה מקומית",
+    customerReturn: "בנוי לחזרה",
   },
 };
 
-const content: Record<Screen, { titleKey: string; image: string; body: string; links: Screen[] }> = {
+const content: Record<Screen, { titleKey: keyof (typeof labels)["English"]; image: string; body: string; links: Screen[] }> = {
   home: {
     titleKey: "entrance",
     image: images.home,
@@ -328,16 +419,37 @@ const cards: Screen[] = [
   "recipes",
 ];
 
+function getCountdownParts(target: Date) {
+  const now = new Date();
+  const diff = Math.max(target.getTime() - now.getTime(), 0);
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  return { days, hours, minutes };
+}
+
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [language, setLanguage] = useState<Language>("English");
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setLoaded(true), 80);
+    const interval = window.setInterval(() => setNow(new Date()), 1000 * 30);
+    return () => {
+      window.clearTimeout(t);
+      window.clearInterval(interval);
+    };
+  }, []);
 
   const t = labels[language];
   const current = content[screen];
   const isHebrew = language === "Hebrew";
-
   const gallery = useMemo(() => [images.g1, images.g2, images.g3, images.g4, images.g5, images.g6], []);
+  const countdown = getCountdownParts(new Date("2026-05-16T09:00:00-04:00"));
+  const timeText = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
 
   const pageStyle: React.CSSProperties = {
     minHeight: "100vh",
@@ -349,10 +461,11 @@ function App() {
 
   const heroStyle: React.CSSProperties = {
     minHeight: "100vh",
-    backgroundImage: `linear-gradient(rgba(5,12,9,0.34), rgba(4,10,7,0.78)), url(${current.image})`,
+    backgroundImage: `linear-gradient(rgba(4,10,7,0.22), rgba(4,9,7,0.82)), url(${current.image})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundAttachment: "fixed",
+    transition: "background-image 0.5s ease",
   };
 
   const shellStyle: React.CSSProperties = {
@@ -362,8 +475,8 @@ function App() {
   };
 
   const glassStyle: React.CSSProperties = {
-    background: "linear-gradient(180deg, rgba(8,22,14,0.74), rgba(8,18,12,0.62))",
-    border: "1px solid rgba(222,255,229,0.12)",
+    background: "linear-gradient(180deg, rgba(10,24,16,0.78), rgba(8,18,12,0.66))",
+    border: "1px solid rgba(227,255,233,0.11)",
     borderRadius: 30,
     backdropFilter: "blur(12px)",
     WebkitBackdropFilter: "blur(12px)",
@@ -372,8 +485,8 @@ function App() {
 
   const buttonStyle: React.CSSProperties = {
     borderRadius: 999,
-    border: "1px solid rgba(255,255,255,0.15)",
-    background: "rgba(255,255,255,0.09)",
+    border: "1px solid rgba(255,255,255,0.16)",
+    background: "rgba(255,255,255,0.08)",
     color: "#f7fff8",
     padding: "12px 18px",
     fontSize: 14,
@@ -417,11 +530,11 @@ function App() {
   };
 
   const tileTitleStyle: React.CSSProperties = {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: 800,
-    color: "#fafffb",
+    color: "#ffffff",
     lineHeight: 1.2,
-    textShadow: "0 1px 10px rgba(0,0,0,0.22)",
+    textShadow: "0 2px 18px rgba(0,0,0,0.42)",
   };
 
   const cardBase = (card: Screen): React.CSSProperties => ({
@@ -429,13 +542,19 @@ function App() {
     overflow: "hidden",
     padding: 0,
     cursor: "pointer",
-    transform: hoveredCard === card ? "translateY(-5px) scale(1.01)" : "translateY(0) scale(1)",
+    transform: hoveredCard === card ? "translateY(-6px) scale(1.012)" : "translateY(0) scale(1)",
     boxShadow:
       hoveredCard === card
-        ? "0 24px 70px rgba(0,0,0,0.42)"
+        ? "0 24px 70px rgba(0,0,0,0.42), 0 0 0 1px rgba(184,230,141,0.24) inset"
         : "0 18px 60px rgba(0,0,0,0.28)",
     transition: "all 0.22s ease",
   });
+
+  const fadeInStyle: React.CSSProperties = {
+    opacity: loaded ? 1 : 0,
+    transform: loaded ? "translateY(0)" : "translateY(12px)",
+    transition: "opacity 0.55s ease, transform 0.55s ease",
+  };
 
   return (
     <div style={pageStyle} dir={isHebrew ? "rtl" : "ltr"}>
@@ -444,6 +563,7 @@ function App() {
           <div
             style={{
               ...glassStyle,
+              ...fadeInStyle,
               padding: 18,
               display: "flex",
               gap: 16,
@@ -489,7 +609,7 @@ function App() {
                 onChange={(e) => setLanguage(e.target.value as Language)}
                 style={{
                   ...buttonStyle,
-                  background: "rgba(10,20,14,0.86)",
+                  background: "rgba(10,20,14,0.88)",
                   minWidth: 155,
                   outline: "none",
                 }}
@@ -507,8 +627,9 @@ function App() {
           {screen === "home" ? (
             <div
               style={{
+                ...fadeInStyle,
                 display: "grid",
-                gridTemplateColumns: "minmax(0, 1.32fr) minmax(320px, 0.68fr)",
+                gridTemplateColumns: "minmax(0, 1.34fr) minmax(330px, 0.66fr)",
                 gap: 24,
                 alignItems: "start",
               }}
@@ -554,19 +675,29 @@ function App() {
                     >
                       <div
                         style={{
-                          height: 154,
-                          backgroundImage: `linear-gradient(rgba(0,0,0,0.04), rgba(0,0,0,0.22)), url(${content[card].image})`,
+                          position: "relative",
+                          height: 158,
+                          backgroundImage: `url(${content[card].image})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                         }}
-                      />
-                      <div style={{ padding: 16, textAlign: "center" }}>
+                      >
+                        <div
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            background:
+                              "linear-gradient(180deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.18) 56%, rgba(0,0,0,0.62) 100%)",
+                          }}
+                        />
+                      </div>
+                      <div style={{ padding: 16, textAlign: "center", background: "rgba(6,12,9,0.46)" }}>
                         <div style={tileTitleStyle}>{t[content[card].titleKey]}</div>
                         <div
                           style={{
                             marginTop: 7,
                             fontSize: 13,
-                            color: "rgba(228,245,231,0.82)",
+                            color: "rgba(236,248,239,0.84)",
                             fontWeight: 600,
                           }}
                         >
@@ -582,44 +713,121 @@ function App() {
                 <div
                   style={{
                     ...glassStyle,
-                    padding: 26,
-                    minHeight: 200,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
+                    padding: 24,
+                    minHeight: 210,
+                    display: "grid",
+                    gap: 16,
                   }}
                 >
                   <div style={sectionEyebrow}>{t.farmConditions}</div>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 34,
+                        fontWeight: 900,
+                        color: "#ffffff",
+                        textShadow: "0 2px 12px rgba(0,0,0,0.2)",
+                      }}
+                    >
+                      Youngstown
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 18,
+                        marginTop: 8,
+                        color: "#eef9f0",
+                        fontWeight: 700,
+                      }}
+                    >
+                      {t.farmConditionsText}
+                    </div>
+                    <p
+                      style={{
+                        marginTop: 14,
+                        lineHeight: 1.8,
+                        color: "rgba(237,248,239,0.84)",
+                      }}
+                    >
+                      {t.farmConditionsBody}
+                    </p>
+                  </div>
+
                   <div
                     style={{
-                      fontSize: 34,
-                      fontWeight: 900,
-                      marginTop: 12,
-                      color: "#ffffff",
-                      textShadow: "0 2px 12px rgba(0,0,0,0.2)",
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 12,
                     }}
                   >
-                    Youngstown
+                    <div
+                      style={{
+                        borderRadius: 20,
+                        padding: 14,
+                        background: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                      }}
+                    >
+                      <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfe6b5", fontWeight: 800 }}>
+                        {t.weatherLabel}
+                      </div>
+                      <div style={{ fontSize: 20, fontWeight: 800, marginTop: 8 }}>46°F</div>
+                      <div style={{ marginTop: 4, color: "rgba(235,246,237,0.78)" }}>Mostly calm</div>
+                    </div>
+                    <div
+                      style={{
+                        borderRadius: 20,
+                        padding: 14,
+                        background: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                      }}
+                    >
+                      <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "#cfe6b5", fontWeight: 800 }}>
+                        {t.timeLabel}
+                      </div>
+                      <div style={{ fontSize: 20, fontWeight: 800, marginTop: 8 }}>{timeText}</div>
+                      <div style={{ marginTop: 4, color: "rgba(235,246,237,0.78)" }}>{t.customerReturn}</div>
+                    </div>
                   </div>
+                </div>
+
+                <div style={{ ...glassStyle, padding: 18 }}>
+                  <div style={{ ...sectionEyebrow, marginBottom: 14 }}>{t.nextExperience}</div>
                   <div
                     style={{
-                      fontSize: 18,
-                      marginTop: 8,
-                      color: "#eef9f0",
-                      fontWeight: 700,
+                      borderRadius: 22,
+                      padding: 18,
+                      background: "linear-gradient(180deg, rgba(177,227,128,0.12), rgba(255,255,255,0.04))",
+                      border: "1px solid rgba(177,227,128,0.18)",
                     }}
                   >
-                    {t.farmConditionsText}
+                    <div style={{ fontSize: 22, fontWeight: 900 }}>{t.upcomingEvent}</div>
+                    <div style={{ marginTop: 6, color: "rgba(236,248,239,0.82)" }}>May 16, 2026 • 9:00 AM–2:00 PM</div>
+                    <div style={{ marginTop: 14, fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "#dff2c8", fontWeight: 800 }}>
+                      {t.countdown}
+                    </div>
+                    <div style={{ display: "flex", gap: 10, marginTop: 10, flexWrap: "wrap" }}>
+                      {[
+                        { label: "Days", value: countdown.days },
+                        { label: "Hours", value: countdown.hours },
+                        { label: "Min", value: countdown.minutes },
+                      ].map((item) => (
+                        <div
+                          key={item.label}
+                          style={{
+                            minWidth: 82,
+                            padding: "12px 10px",
+                            borderRadius: 18,
+                            textAlign: "center",
+                            background: "rgba(7,13,10,0.38)",
+                            border: "1px solid rgba(255,255,255,0.08)",
+                          }}
+                        >
+                          <div style={{ fontSize: 24, fontWeight: 900 }}>{item.value}</div>
+                          <div style={{ fontSize: 11, color: "rgba(234,246,236,0.76)", marginTop: 4 }}>{item.label}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <p
-                    style={{
-                      marginTop: 14,
-                      lineHeight: 1.8,
-                      color: "rgba(237,248,239,0.84)",
-                    }}
-                  >
-                    {t.farmConditionsBody}
-                  </p>
                 </div>
 
                 <div style={{ ...glassStyle, padding: 18 }}>
@@ -645,8 +853,9 @@ function App() {
           ) : (
             <div
               style={{
+                ...fadeInStyle,
                 display: "grid",
-                gridTemplateColumns: "minmax(0, 1.08fr) minmax(320px, 0.92fr)",
+                gridTemplateColumns: "minmax(0, 1.08fr) minmax(330px, 0.92fr)",
                 gap: 24,
                 alignItems: "start",
               }}
@@ -663,18 +872,58 @@ function App() {
                     </button>
                   ))}
                 </div>
+
+                <div
+                  style={{
+                    marginTop: 28,
+                    borderRadius: 24,
+                    overflow: "hidden",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "rgba(0,0,0,0.16)",
+                  }}
+                >
+                  <div
+                    style={{
+                      height: 270,
+                      backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.22) 100%), url(${current.image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  />
+                  <div style={{ padding: 18 }}>
+                    <div style={sectionEyebrow}>{t.marketplacePreview}</div>
+                    <div style={{ marginTop: 10, color: "rgba(236,248,239,0.88)", lineHeight: 1.75 }}>
+                      {screen === "marketplace" ? t.marketplaceBody : current.body}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div style={{ display: "grid", gap: 24 }}>
                 <div
                   style={{
                     ...glassStyle,
-                    minHeight: 380,
+                    minHeight: 390,
                     backgroundImage: `linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.22)), url(${current.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
+                    position: "relative",
+                    overflow: "hidden",
                   }}
-                />
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      background: "linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.26) 65%, rgba(0,0,0,0.6) 100%)",
+                    }}
+                  />
+                  <div style={{ position: "absolute", left: 18, right: 18, bottom: 18 }}>
+                    <div style={sectionEyebrow}>{t[content[screen].titleKey]}</div>
+                    <div style={{ marginTop: 8, fontSize: 28, fontWeight: 900 }}>{t[content[screen].titleKey]}</div>
+                  </div>
+                </div>
+
                 <div style={{ ...glassStyle, padding: 18 }}>
                   <div style={{ ...sectionEyebrow, marginBottom: 14 }}>{t.moreFarm}</div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
