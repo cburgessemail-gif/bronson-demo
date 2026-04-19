@@ -1,474 +1,340 @@
 import React, { useMemo, useState } from "react";
 
-type ScreenKey =
+type Screen =
   | "home"
   | "story"
-  | "guest"
-  | "customer"
-  | "grower"
-  | "producer"
-  | "youth"
-  | "supervisor"
-  | "marketplace"
-  | "calendar"
+  | "roles"
   | "events"
-  | "education"
   | "nutrition"
-  | "recipes"
-  | "weather";
+  | "marketplace";
 
-type LanguageKey = "en" | "es" | "tl" | "it" | "patwa" | "he";
+type Language =
+  | "English"
+  | "Español"
+  | "Tagalog"
+  | "Italiano"
+  | "Patwa"
+  | "Hebrew";
 
-const images = {
-  home: "/GrowArea2.jpg",
-  story: "/SAM_0220.JPG",
-  guest: "/SAM_0221.JPG",
-  customer: "/SAM_0222.JPG",
-  grower: "/SAM_0223.JPG",
-  producer: "/SAM_0229.JPG",
-  youth: "/SAM_0238.JPG",
-  supervisor: "/SAM_0249.JPG",
-  marketplace: "/SAM_0257.JPG",
-  calendar: "/SAM_0274.JPG",
-  events: "/SAM_0275.JPG",
-  education: "/SAM_0281.JPG",
-  nutrition: "/SAM_0282.JPG",
-  recipes: "/SAM_0286.JPG",
-  weather: "/SAM_0288.JPG",
-  gallery1: "/SAM_0289.JPG",
-  gallery2: "/SAM_0290.JPG",
-  gallery3: "/SAM_0291.JPG",
-  gallery4: "/SAM_0293.JPG",
-  gallery5: "/SAM_0301.JPG",
-  gallery6: "/SAM_0303.JPG",
-};
-
-const labels: Record<LanguageKey, Record<string, string>> = {
-  en: {
-    title: "Bronson Family Farm",
-    subtitle: "A living farm ecosystem, not just a website.",
-    back: "Back to Entrance",
-    language: "Language",
-    story: "Our Story",
-    guest: "Guest",
-    customer: "Customer",
-    grower: "Grower",
-    producer: "Value-Added Producer",
-    youth: "Youth Workforce",
-    supervisor: "Supervisor",
-    marketplace: "Marketplace",
-    calendar: "Crop Planning",
-    events: "Events",
-    education: "Education",
-    nutrition: "Nutrition",
-    recipes: "Recipes",
-    weather: "Weather",
-    enter: "Enter Pathway",
-  },
-  es: {
-    title: "Bronson Family Farm",
-    subtitle: "Un ecosistema agrícola vivo, no solo un sitio web.",
-    back: "Volver al Inicio",
-    language: "Idioma",
-    story: "Nuestra Historia",
-    guest: "Invitado",
-    customer: "Cliente",
-    grower: "Productor",
-    producer: "Productor de Valor Agregado",
-    youth: "Fuerza Laboral Juvenil",
-    supervisor: "Supervisor",
-    marketplace: "Mercado",
-    calendar: "Planificación de Cultivos",
-    events: "Eventos",
-    education: "Educación",
-    nutrition: "Nutrición",
-    recipes: "Recetas",
-    weather: "Clima",
-    enter: "Entrar",
-  },
-  tl: {
-    title: "Bronson Family Farm",
-    subtitle: "Isang buhay na farm ecosystem, hindi lang website.",
-    back: "Bumalik sa Simula",
-    language: "Wika",
-    story: "Kuwento",
-    guest: "Bisita",
-    customer: "Customer",
-    grower: "Grower",
-    producer: "Producer",
-    youth: "Youth Workforce",
-    supervisor: "Supervisor",
-    marketplace: "Marketplace",
-    calendar: "Crop Planning",
-    events: "Events",
-    education: "Education",
-    nutrition: "Nutrition",
-    recipes: "Recipes",
-    weather: "Weather",
-    enter: "Pumasok",
-  },
-  it: {
-    title: "Bronson Family Farm",
-    subtitle: "Un ecosistema agricolo vivo, non solo un sito web.",
-    back: "Torna all'Ingresso",
-    language: "Lingua",
-    story: "La Nostra Storia",
-    guest: "Ospite",
-    customer: "Cliente",
-    grower: "Coltivatore",
-    producer: "Produttore",
-    youth: "Forza Lavoro Giovanile",
-    supervisor: "Supervisore",
-    marketplace: "Mercato",
-    calendar: "Pianificazione",
-    events: "Eventi",
-    education: "Educazione",
-    nutrition: "Nutrizione",
-    recipes: "Ricette",
-    weather: "Meteo",
-    enter: "Entra",
-  },
-  patwa: {
-    title: "Bronson Family Farm",
-    subtitle: "A living farm ecosystem, not just one website.",
-    back: "Back to Entrance",
-    language: "Language",
-    story: "Wi Story",
-    guest: "Guest",
-    customer: "Customer",
-    grower: "Grower",
-    producer: "Producer",
-    youth: "Youth Workforce",
-    supervisor: "Supervisor",
-    marketplace: "Marketplace",
-    calendar: "Crop Planning",
-    events: "Events",
-    education: "Education",
-    nutrition: "Nutrition",
-    recipes: "Recipes",
-    weather: "Weather",
-    enter: "Enter",
-  },
-  he: {
-    title: "Bronson Family Farm",
-    subtitle: "מערכת חקלאית חיה, לא רק אתר אינטרנט.",
-    back: "חזרה לכניסה",
-    language: "שפה",
-    story: "הסיפור שלנו",
-    guest: "אורח",
-    customer: "לקוח",
-    grower: "מגדל",
-    producer: "יצרן",
-    youth: "כוח עבודה לנוער",
-    supervisor: "מפקח",
-    marketplace: "שוק",
-    calendar: "תכנון גידולים",
-    events: "אירועים",
-    education: "חינוך",
-    nutrition: "תזונה",
-    recipes: "מתכונים",
-    weather: "מזג אוויר",
-    enter: "כניסה",
-  },
-};
-
-const content: Record<
-  ScreenKey,
-  { titleKey: string; image: string; description: string; links: ScreenKey[] }
-> = {
-  home: {
-    titleKey: "story",
-    image: images.home,
-    description:
-      "Step into the farm. Experience something different. This platform connects food, land, education, wellness, workforce pathways, and marketplace access.",
-    links: ["story", "guest", "customer", "grower", "youth", "marketplace"],
-  },
-  story: {
-    titleKey: "story",
-    image: images.story,
-    description:
-      "Bronson Family Farm blends family legacy, regenerative growing, education, agritourism, and community restoration.",
-    links: ["events", "education", "marketplace"],
-  },
-  guest: {
-    titleKey: "guest",
-    image: images.guest,
-    description:
-      "Guests discover events, atmosphere, the farm story, and ways to return as visitors, supporters, or volunteers.",
-    links: ["events", "weather", "story"],
-  },
-  customer: {
-    titleKey: "customer",
-    image: images.customer,
-    description:
-      "Customers move from discovery to marketplace access, nutrition guidance, recipes, and repeat engagement.",
-    links: ["marketplace", "nutrition", "recipes"],
-  },
-  grower: {
-    titleKey: "grower",
-    image: images.grower,
-    description:
-      "Growers access crop planning, education, events, and collaboration within the ecosystem.",
-    links: ["calendar", "education", "events"],
-  },
-  producer: {
-    titleKey: "producer",
-    image: images.producer,
-    description:
-      "Value-added producers can connect to branding, prepared goods, farm sales, and local ecosystem opportunities.",
-    links: ["marketplace", "events", "education"],
-  },
-  youth: {
-    titleKey: "youth",
-    image: images.youth,
-    description:
-      "The youth workforce pathway introduces hands-on learning, food systems, work readiness, and land stewardship.",
-    links: ["supervisor", "calendar", "education"],
-  },
-  supervisor: {
-    titleKey: "supervisor",
-    image: images.supervisor,
-    description:
-      "Supervisors support the youth workforce with structure, guidance, wellness support, and logistics.",
-    links: ["youth", "education", "events"],
-  },
-  marketplace: {
-    titleKey: "marketplace",
-    image: images.marketplace,
-    description:
-      "The marketplace is the bridge to farm commerce, seasonal produce, seedlings, and returning customers.",
-    links: ["customer", "nutrition", "recipes"],
-  },
-  calendar: {
-    titleKey: "calendar",
-    image: images.calendar,
-    description:
-      "Crop planning reflects timing, seasonality, grower coordination, and a useful year-round farm rhythm.",
-    links: ["grower", "weather", "events"],
-  },
-  events: {
-    titleKey: "events",
-    image: images.events,
-    description:
-      "Events welcome the public through demonstrations, agritourism, education, and repeated farm experiences.",
-    links: ["guest", "marketplace", "education"],
-  },
-  education: {
-    titleKey: "education",
-    image: images.education,
-    description:
-      "Education supports growers, customers, youth, and partners with practical farm and food system knowledge.",
-    links: ["nutrition", "recipes", "grower"],
-  },
-  nutrition: {
-    titleKey: "nutrition",
-    image: images.nutrition,
-    description:
-      "Nutrition helps visitors compare natural foods and overprocessed foods while supporting healthier choices.",
-    links: ["recipes", "marketplace", "customer"],
-  },
-  recipes: {
-    titleKey: "recipes",
-    image: images.recipes,
-    description:
-      "Recipes give families reasons to return by showing practical ways to use produce in everyday meals.",
-    links: ["marketplace", "nutrition", "customer"],
-  },
-  weather: {
-    titleKey: "weather",
-    image: images.weather,
-    description:
-      "Weather helps the platform feel seasonal, alive, and connected to day-to-day farm conditions.",
-    links: ["calendar", "guest", "events"],
-  },
-};
-
-const cards: ScreenKey[] = [
-  "story",
-  "guest",
-  "customer",
-  "grower",
-  "producer",
-  "youth",
-  "supervisor",
-  "marketplace",
-  "calendar",
-  "events",
-  "education",
-  "nutrition",
-  "recipes",
-  "weather",
-];
-
-function App() {
-  const [language, setLanguage] = useState<LanguageKey>("en");
-  const [screen, setScreen] = useState<ScreenKey>("home");
-
-  const t = labels[language];
-  const current = content[screen];
-
-  const gallery = useMemo(
-    () => [
-      images.gallery1,
-      images.gallery2,
-      images.gallery3,
-      images.gallery4,
-      images.gallery5,
-      images.gallery6,
-    ],
-    []
-  );
-
+function PillButton({
+  children,
+  onClick,
+  active = false,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  active?: boolean;
+}) {
   return (
-    <div className="min-h-screen bg-[#0f1f17] text-white">
+    <button
+      onClick={onClick}
+      className={`rounded-full border px-5 py-3 text-sm font-medium backdrop-blur-md transition hover:scale-[1.01] ${
+        active
+          ? "border-emerald-200/30 bg-emerald-400/20 text-white"
+          : "border-white/10 bg-white/10 text-white hover:bg-white/15"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function GlassCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`rounded-[2rem] border border-white/10 bg-black/20 shadow-2xl backdrop-blur-xl ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function PlaceholderDestination({
+  title,
+  description,
+  setScreen,
+}: {
+  title: string;
+  description: string;
+  setScreen: (screen: Screen) => void;
+}) {
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
       <div
-        className="min-h-screen bg-cover bg-center"
-        style={{ backgroundImage: `url(${current.image})` }}
-      >
-        <div className="min-h-screen bg-black/60">
-          <div className="mx-auto max-w-7xl px-4 py-6 md:px-8">
-            <header className="mb-8 flex flex-col gap-4 rounded-[2rem] border border-white/15 bg-white/10 p-4 backdrop-blur-md md:flex-row md:items-center md:justify-between">
-              <div>
-                <h1 className="text-3xl font-semibold">{t.title}</h1>
-                <p className="text-sm text-white/80">{t.subtitle}</p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => setScreen("home")}
-                  className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
-                >
-                  {t.back}
-                </button>
-
-                <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value as LanguageKey)}
-                  className="rounded-full border border-white/20 bg-[#183125] px-4 py-2 text-sm text-white outline-none"
-                >
-                  <option value="en">{t.language}: English</option>
-                  <option value="es">{t.language}: Español</option>
-                  <option value="tl">{t.language}: Tagalog</option>
-                  <option value="it">{t.language}: Italiano</option>
-                  <option value="patwa">{t.language}: Patwa</option>
-                  <option value="he">{t.language}: עברית</option>
-                </select>
-              </div>
-            </header>
-
-            {screen === "home" ? (
-              <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-                <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 backdrop-blur-md md:p-8">
-                  <h2 className="text-4xl font-semibold leading-tight md:text-6xl">
-                    {t.subtitle}
-                  </h2>
-
-                  <p className="mt-5 max-w-3xl text-lg leading-8 text-white/88">
-                    {content.home.description}
-                  </p>
-
-                  <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                    {cards.map((card) => (
-                      <button
-                        key={card}
-                        onClick={() => setScreen(card)}
-                        className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/10 text-left transition hover:scale-[1.02] hover:bg-white/15"
-                      >
-                        <div
-                          className="h-36 bg-cover bg-center"
-                          style={{ backgroundImage: `url(${content[card].image})` }}
-                        />
-                        <div className="p-4">
-                          <div className="text-lg font-semibold">{t[content[card].titleKey]}</div>
-                          <div className="mt-1 text-sm text-white/75">{t.enter}</div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 backdrop-blur-md">
-                    <div className="mb-3 text-sm uppercase tracking-[0.2em] text-[#d9f0b8]">
-                      Farm Atmosphere
-                    </div>
-                    <div className="text-3xl font-semibold">Youngstown</div>
-                    <div className="mt-1 text-white/85">Mostly Seasonal. Always alive.</div>
-                    <p className="mt-4 text-sm leading-7 text-white/75">
-                      A welcoming place for learning, food access, agritourism, and community return.
-                    </p>
-                  </div>
-
-                  <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 backdrop-blur-md">
-                    <div className="mb-4 text-sm uppercase tracking-[0.2em] text-[#d9f0b8]">
-                      Gallery
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {gallery.map((img, i) => (
-                        <div
-                          key={i}
-                          className="h-28 rounded-2xl bg-cover bg-center"
-                          style={{ backgroundImage: `url(${img})` }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </section>
-            ) : (
-              <section className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-                <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 backdrop-blur-md md:p-8">
-                  <div className="mb-3 text-sm uppercase tracking-[0.22em] text-[#d9f0b8]">
-                    {t[current.titleKey]}
-                  </div>
-
-                  <h2 className="text-4xl font-semibold md:text-5xl">{t[current.titleKey]}</h2>
-
-                  <p className="mt-6 max-w-3xl text-lg leading-8 text-white/88">
-                    {current.description}
-                  </p>
-
-                  <div className="mt-8 flex flex-wrap gap-3">
-                    {current.links.map((link) => (
-                      <button
-                        key={link}
-                        onClick={() => setScreen(link)}
-                        className="rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold hover:bg-white/20"
-                      >
-                        {t[content[link].titleKey]}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <div
-                    className="h-[360px] rounded-[2rem] border border-white/15 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${current.image})` }}
-                  />
-
-                  <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 backdrop-blur-md">
-                    <div className="mb-4 text-sm uppercase tracking-[0.2em] text-[#d9f0b8]">
-                      More from the Farm
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {gallery.slice(0, 4).map((img, i) => (
-                        <div
-                          key={i}
-                          className="h-28 rounded-2xl bg-cover bg-center"
-                          style={{ backgroundImage: `url(${img})` }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </section>
-            )}
-          </div>
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/GrowArea.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950/85 via-emerald-950/70 to-slate-900/80" />
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-8 md:px-10">
+        <div className="mb-8 flex flex-wrap gap-3">
+          <PillButton onClick={() => setScreen("home")}>Entrance</PillButton>
+          <PillButton onClick={() => setScreen("story")}>Our Story</PillButton>
+          <PillButton onClick={() => setScreen("roles")}>Role Pathways</PillButton>
+          <PillButton onClick={() => setScreen("events")}>View Events</PillButton>
+          <PillButton onClick={() => setScreen("nutrition")}>Health & Nutrition</PillButton>
+          <PillButton onClick={() => setScreen("marketplace")}>Go to Marketplace</PillButton>
         </div>
+
+        <GlassCard className="p-8 md:p-10">
+          <div className="text-xs uppercase tracking-[0.28em] text-emerald-100/70">
+            Bronson Family Farm
+          </div>
+          <h1 className="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">
+            {title}
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-emerald-50/85">
+            {description}
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <PillButton onClick={() => setScreen("home")} active>
+              Return to Entrance
+            </PillButton>
+            <PillButton onClick={() => setScreen("marketplace")}>
+              Go to Marketplace
+            </PillButton>
+          </div>
+        </GlassCard>
       </div>
     </div>
   );
 }
 
-export default App;
+function HomeStoryScreen({
+  language,
+  setLanguage,
+  setScreen,
+}: {
+  language: Language;
+  setLanguage: (language: Language) => void;
+  setScreen: (screen: Screen) => void;
+}) {
+  const languages: Language[] = [
+    "English",
+    "Español",
+    "Tagalog",
+    "Italiano",
+    "Patwa",
+    "Hebrew",
+  ];
+
+  const overviewItems = useMemo(
+    () => [
+      {
+        title: "Family legacy",
+        text: "The farm carries Bronson and Lorenzana legacy into a future-focused Youngstown vision.",
+      },
+      {
+        title: "Land restoration",
+        text: "The project restores land while creating food, education, and agritourism opportunity.",
+      },
+      {
+        title: "Community future",
+        text: "This is about more than a site. It is an ecosystem for long-term return and growth.",
+      },
+    ],
+    []
+  );
+
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/GrowArea.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950/80 via-emerald-950/55 to-slate-900/70" />
+      <div className="absolute inset-0 bg-black/15" />
+
+      <div className="relative z-10 mx-auto max-w-[1500px] px-6 py-8 md:px-10">
+        <header className="mb-8">
+          <div className="mb-3 text-sm uppercase tracking-[0.32em] text-emerald-100/75">
+            Farm &amp; Family Alliance Ecosystem Demo
+          </div>
+
+          <h1 className="text-4xl font-semibold tracking-tight md:text-6xl">
+            Bronson Family Farm
+          </h1>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <PillButton onClick={() => setScreen("home")}>Entrance</PillButton>
+            <PillButton onClick={() => setScreen("story")} active>
+              Our Story
+            </PillButton>
+            <PillButton onClick={() => setScreen("roles")}>Role Pathways</PillButton>
+            <PillButton onClick={() => setScreen("events")}>View Events</PillButton>
+            <PillButton onClick={() => setScreen("nutrition")}>Health &amp; Nutrition</PillButton>
+            <PillButton onClick={() => setScreen("marketplace")}>Go to Marketplace</PillButton>
+            <PillButton active>Voice narration on</PillButton>
+          </div>
+        </header>
+
+        <section className="grid gap-6 lg:grid-cols-[1.6fr_0.9fr]">
+          <div className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-black/20 p-8 shadow-2xl backdrop-blur-xl md:p-10">
+            <div className="mb-5 inline-flex rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-emerald-100/80">
+              The story behind the farm
+            </div>
+
+            <h2 className="max-w-4xl text-5xl font-semibold leading-[0.95] tracking-tight md:text-7xl">
+              The story behind the farm
+            </h2>
+
+            <p className="mt-8 max-w-4xl text-xl leading-10 text-emerald-50/85">
+              Inspired by family farming traditions and shaped for Youngstown’s future,
+              this farm brings together legacy, land restoration, food access,
+              agritourism, and practical community opportunity.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <PillButton active>Start Guided Tour</PillButton>
+              <PillButton onClick={() => setScreen("marketplace")}>
+                Go to Marketplace
+              </PillButton>
+              <PillButton onClick={() => setScreen("roles")}>
+                Open Crop Planner
+              </PillButton>
+            </div>
+
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              <GlassCard className="p-5">
+                <div className="text-xs uppercase tracking-[0.24em] text-emerald-100/70">
+                  Seasonal conditions
+                </div>
+                <h3 className="mt-3 text-3xl font-semibold leading-tight">
+                  Warm season planning active
+                </h3>
+                <p className="mt-3 text-base leading-8 text-emerald-50/80">
+                  Field prep, seedling movement, event readiness, and seasonal coordination are active.
+                </p>
+              </GlassCard>
+
+              <GlassCard className="p-5">
+                <div className="text-xs uppercase tracking-[0.24em] text-emerald-100/70">
+                  Farm calendar
+                </div>
+                <h3 className="mt-3 text-3xl font-semibold leading-tight">
+                  Living schedule
+                </h3>
+                <p className="mt-3 text-base leading-8 text-emerald-50/80">
+                  Seedlings, events, education, youth activities, and harvest pathways connect here.
+                </p>
+              </GlassCard>
+
+              <GlassCard className="p-5">
+                <div className="text-xs uppercase tracking-[0.24em] text-emerald-100/70">
+                  Choose language
+                </div>
+                <h3 className="mt-3 text-3xl font-semibold">{language}</h3>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang}
+                      onClick={() => setLanguage(lang)}
+                      className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+                        language === lang
+                          ? "bg-white text-slate-900"
+                          : "border border-white/10 bg-white/10 text-white hover:bg-white/15"
+                      }`}
+                    >
+                      {lang}
+                    </button>
+                  ))}
+                </div>
+              </GlassCard>
+            </div>
+          </div>
+
+          <GlassCard className="p-6 md:p-7">
+            <div className="text-xs uppercase tracking-[0.3em] text-emerald-100/70">
+              A place people want to return to
+            </div>
+
+            <h3 className="mt-4 text-4xl font-semibold leading-tight">
+              Living ecosystem overview
+            </h3>
+
+            <p className="mt-5 text-lg leading-9 text-emerald-50/82">
+              This living farm ecosystem is designed to help guests, customers,
+              growers, youth, volunteers, partners, and families move toward
+              food self-sufficiency, economic opportunity, practical wellness,
+              and stronger community connection.
+            </p>
+
+            <div className="mt-6 space-y-4">
+              {overviewItems.map((item) => (
+                <GlassCard key={item.title} className="p-5">
+                  <h4 className="text-2xl font-semibold">{item.title}</h4>
+                  <p className="mt-3 text-base leading-8 text-emerald-50/80">
+                    {item.text}
+                  </p>
+                </GlassCard>
+              ))}
+            </div>
+          </GlassCard>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  const [screen, setScreen] = useState<Screen>("story");
+  const [language, setLanguage] = useState<Language>("English");
+
+  if (screen === "home" || screen === "story") {
+    return (
+      <HomeStoryScreen
+        language={language}
+        setLanguage={setLanguage}
+        setScreen={setScreen}
+      />
+    );
+  }
+
+  if (screen === "roles") {
+    return (
+      <PlaceholderDestination
+        title="Role Pathways"
+        description="This area will help visitors understand how guests, customers, growers, youth, supervisors, and partners move through the ecosystem."
+        setScreen={setScreen}
+      />
+    );
+  }
+
+  if (screen === "events") {
+    return (
+      <PlaceholderDestination
+        title="Events & Experiences"
+        description="This area will show live events, demonstrations, gatherings, and the ways events create visibility, trust, and learning."
+        setScreen={setScreen}
+      />
+    );
+  }
+
+  if (screen === "nutrition") {
+    return (
+      <PlaceholderDestination
+        title="Health & Nutrition"
+        description="This area will connect natural food, recipes, healthier choices, and practical community wellness."
+        setScreen={setScreen}
+      />
+    );
+  }
+
+  if (screen === "marketplace") {
+    return (
+      <PlaceholderDestination
+        title="Marketplace"
+        description="This area will connect visitors to produce, seedlings, Bubble Babies™, and seasonal Bronson Family Farm offerings."
+        setScreen={setScreen}
+      />
+    );
+  }
+
+  return null;
+}
