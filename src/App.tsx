@@ -1,727 +1,785 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Leaf,
-  ShoppingBasket,
-  Users,
-  Sprout,
-  CalendarDays,
-  CloudSun,
-  GraduationCap,
-  HeartHandshake,
-  MapPin,
-  Play,
-  Volume2,
-  TreePine,
-  ChefHat,
-  Tractor,
-  Store,
-  CheckCircle2,
-} from "lucide-react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
-type LanguageKey =
-  | "en"
-  | "es"
-  | "tl"
-  | "it"
-  | "patwa"
-  | "he";
-
-type RoleKey =
+type LanguageKey = "en" | "es" | "tl" | "it" | "patwa" | "he";
+type ScreenKey =
+  | "home"
+  | "story"
   | "guest"
   | "customer"
   | "grower"
   | "producer"
   | "youth"
-  | "supervisor";
-
-type ViewKey =
-  | "home"
-  | "story"
-  | "ecosystem"
+  | "supervisor"
   | "marketplace"
   | "calendar"
-  | "weather"
   | "events"
-  | "roleHub"
-  | RoleKey;
+  | "education"
+  | "nutrition"
+  | "recipes"
+  | "weather";
 
 const images = {
-  hero: "/SAM_0301.JPG",
-  story: "/SAM_0293.JPG",
-  grow: "/SAM_0289.JPG",
-  market: "/SAM_0313.JPG",
-  culinary: "/SAM_0305.JPG",
-  youth: "/SAM_0282.JPG",
-  customer: "/SAM_0303.JPG",
-  guest: "/SAM_0275.JPG",
-  grower: "/SAM_0288.JPG",
+  hero: "/GrowArea2.jpg",
+  story: "/SAM_0220.JPG",
+  guest: "/SAM_0221.JPG",
+  customer: "/SAM_0222.JPG",
+  grower: "/SAM_0223.JPG",
   producer: "/SAM_0229.JPG",
-  supervisor: "/SAM_0274.JPG",
-  community: "/SAM_0310.JPG",
-  events: "/SAM_0291.JPG",
-  land: "/GrowArea2.jpg",
+  youth: "/SAM_0238.JPG",
+  supervisor: "/SAM_0249.JPG",
+  marketplace: "/SAM_0257.JPG",
+  calendar: "/SAM_0274.JPG",
+  events: "/SAM_0275.JPG",
+  education: "/SAM_0281.JPG",
+  nutrition: "/SAM_0282.JPG",
+  recipes: "/SAM_0286.JPG",
+  weather: "/SAM_0288.JPG",
+  gallery1: "/SAM_0289.JPG",
+  gallery2: "/SAM_0290.JPG",
+  gallery3: "/SAM_0291.JPG",
+  gallery4: "/SAM_0293.JPG",
+  gallery5: "/SAM_0301.JPG",
+  gallery6: "/SAM_0303.JPG",
+  gallery7: "/SAM_0305.JPG",
+  gallery8: "/SAM_0307.JPG",
+  gallery9: "/SAM_0308.JPG",
+  gallery10: "/SAM_0310.JPG",
+  gallery11: "/SAM_0313.JPG",
 };
 
-const copy = {
+const languages: { key: LanguageKey; label: string }[] = [
+  { key: "en", label: "English" },
+  { key: "es", label: "Español" },
+  { key: "tl", label: "Tagalog" },
+  { key: "it", label: "Italiano" },
+  { key: "patwa", label: "Patwa" },
+  { key: "he", label: "עברית" },
+];
+
+const appText = {
   en: {
-    appTitle: "Bronson Family Farm",
-    appSubtitle: "A living ecosystem for growers, families, food access, learning, and agritourism.",
+    brand: "Bronson Family Farm",
+    subbrand: "Developed by Bronson Family Farm",
     enterDemo: "Enter Live Demo",
     guidedTour: "Start Guided Tour",
-    stopTour: "Stop Guided Tour",
-    backHome: "Back to Entrance",
-    rolePathways: "Role Pathways",
-    ecosystem: "Ecosystem",
-    story: "Our Story",
-    marketplace: "Marketplace",
-    calendar: "Growing Calendar",
-    weather: "Weather + Conditions",
-    events: "Events",
-    welcomeHeadline: "Step into a different kind of farm experience.",
+    stopTour: "Stop Tour",
+    chooseLanguage: "Choose Language",
+    returnHome: "Back to Entrance",
+    explore: "Explore the Ecosystem",
+    welcomeTitle: "A living farm ecosystem, not just a website.",
     welcomeBody:
-      "Bronson Family Farm is building an inviting, regenerative, off-grid ecosystem where visitors, customers, growers, youth workers, and community partners can return again and again for fresh food, learning, wellness, and opportunity.",
-    storyHeadline: "Legacy, land, and a living future.",
-    storyBody:
-      "Inspired by family farming traditions and built for Youngstown’s future, Bronson Family Farm blends agriculture, agritourism, workforce pathways, food access, ecological restoration, and community well-being.",
-    ecosystemHeadline: "More than a farm. A connected ecosystem.",
-    ecosystemBody:
-      "The ecosystem includes growing, training, food access, value-added opportunities, customer education, partner engagement, events, and a welcoming return path for every user.",
-    marketplaceHeadline: "Marketplace access through Bronson Family Farm.",
-    marketplaceBody:
-      "Customers can explore produce, Bubble Babies™ seedling offerings, seasonal availability, preorder pathways, pickup opportunities, and food education connected to healthier eating.",
-    calendarHeadline: "Crop planning and seasonal rhythm.",
-    calendarBody:
-      "The growing calendar helps users understand what is being planted, what is coming into season, and what experiences, workshops, and farm activity are happening next.",
-    weatherHeadline: "Live-feel farm conditions.",
-    weatherBody:
-      "Weather awareness helps growers, visitors, and event guests prepare for field conditions, planting windows, irrigation needs, and outdoor programming.",
-    eventsHeadline: "Return-worthy experiences.",
-    eventsBody:
-      "The farm is designed to bring people back through markets, youth activities, demonstrations, wellness education, agritourism experiences, food learning, and community events.",
-    exploreRole: "Explore Pathway",
-    next: "Next",
-    previous: "Previous",
-    modulesTitle: "What people can do here",
-    modules: [
-      "Explore marketplace and preorder opportunities",
-      "Learn nutrition, natural food benefits, and recipe ideas",
-      "View grower tools, crop planning, and seasonality",
-      "Support youth workforce pathways and supervision",
-      "Attend events, demonstrations, and community activities",
-      "Engage with a beautiful, welcoming farm experience",
-    ],
-    liveNowTitle: "Live demo highlights",
-    liveNowItems: [
-      "Role-based pathways",
-      "Marketplace connection",
-      "Food education",
-      "Grower ecosystem",
-      "Youth workforce support",
-      "Events and return visits",
-    ],
-    weatherCardTitle: "Current Farm Feel",
-    weatherItems: ["Partly sunny", "Good day for visitors", "Field activity favorable", "Outdoor event friendly"],
-    calendarItems: [
-      "Seedling readiness and planting windows",
-      "Grower support and crop planning",
-      "Market prep and harvest rhythm",
-      "Education and event alignment",
-    ],
-    eventItems: [
-      "Growers Supply Market",
-      "Community education sessions",
-      "Hands-on demonstrations",
-      "Family-friendly return experiences",
-    ],
-    roleText: {
-      guest: {
-        title: "Guest Pathway",
-        body:
-          "Guests arrive to discover the story, beauty, opportunities, and spirit of the farm. They can explore the land, upcoming activities, educational experiences, and reasons to return.",
-      },
-      customer: {
-        title: "Customer Pathway",
-        body:
-          "Customers can move quickly into the marketplace, find fresh offerings, explore food and nutrition guidance, discover recipe ideas, and build habits around healthier local food.",
-      },
-      grower: {
-        title: "Grower Pathway",
-        body:
-          "Growers can connect to production planning, seasonal timing, tools, demonstrations, market opportunities, and the broader ecosystem that supports regenerative and practical growing.",
-      },
-      producer: {
-        title: "Value-Added Producer Pathway",
-        body:
-          "Value-added producers can explore collaboration opportunities, culinary integration, ingredient sourcing, demonstrations, packaging possibilities, and customer-facing storytelling.",
-      },
-      youth: {
-        title: "Youth Workforce Pathway",
-        body:
-          "Youth participants can experience a guided pathway that connects agriculture, teamwork, responsibility, food systems, scheduling, supervised learning, and future workforce possibilities.",
-      },
-      supervisor: {
-        title: "Supervisor Pathway",
-        body:
-          "Supervisors support the youth workforce program with oversight, scheduling, progress support, structure, and wraparound resources, including support staff connections where appropriate.",
-      },
+      "Bronson Family Farm is building a welcoming, regenerative, role-based ecosystem that connects food, land, education, community wellness, workforce pathways, and marketplace access.",
+    quickLabel: "Explore by pathway",
+    cards: {
+      story: "Our Story",
+      guest: "Guest",
+      customer: "Customer",
+      grower: "Grower",
+      producer: "Value-Added Producer",
+      youth: "Youth Workforce",
+      supervisor: "Supervisor",
+      marketplace: "Marketplace",
+      calendar: "Crop Planning",
+      events: "Events",
+      education: "Education",
+      nutrition: "Nutrition",
+      recipes: "Recipes",
+      weather: "Weather",
     },
   },
   es: {
-    appTitle: "Bronson Family Farm",
-    appSubtitle: "Un ecosistema vivo para cultivadores, familias, acceso a alimentos, aprendizaje y agroturismo.",
+    brand: "Bronson Family Farm",
+    subbrand: "Desarrollado por Bronson Family Farm",
     enterDemo: "Entrar al Demo",
     guidedTour: "Iniciar Recorrido Guiado",
     stopTour: "Detener Recorrido",
-    backHome: "Volver a la Entrada",
-    rolePathways: "Rutas por Rol",
-    ecosystem: "Ecosistema",
-    story: "Nuestra Historia",
-    marketplace: "Mercado",
-    calendar: "Calendario de Cultivo",
-    weather: "Clima + Condiciones",
-    events: "Eventos",
-    welcomeHeadline: "Entre a una experiencia agrícola diferente.",
+    chooseLanguage: "Elegir Idioma",
+    returnHome: "Volver al Inicio",
+    explore: "Explorar el Ecosistema",
+    welcomeTitle: "Un ecosistema agrícola vivo, no solo un sitio web.",
     welcomeBody:
-      "Bronson Family Farm está construyendo un ecosistema regenerativo y acogedor donde visitantes, clientes, cultivadores, jóvenes trabajadores y socios comunitarios pueden volver una y otra vez.",
-    storyHeadline: "Legado, tierra y un futuro vivo.",
-    storyBody:
-      "Inspirada por tradiciones familiares y construida para el futuro de Youngstown, la finca une agricultura, agroturismo, desarrollo laboral, acceso a alimentos y bienestar comunitario.",
-    ecosystemHeadline: "Más que una finca. Un ecosistema conectado.",
-    ecosystemBody:
-      "Incluye cultivo, capacitación, acceso a alimentos, oportunidades de valor agregado, educación al cliente, alianzas, eventos y un camino de regreso para cada usuario.",
-    marketplaceHeadline: "Acceso al mercado por Bronson Family Farm.",
-    marketplaceBody:
-      "Los clientes pueden explorar productos, Bubble Babies™, disponibilidad estacional, pedidos anticipados y educación alimentaria para hábitos más saludables.",
-    calendarHeadline: "Planificación de cultivos y ritmo estacional.",
-    calendarBody:
-      "El calendario ayuda a entender qué se está sembrando, qué viene en temporada y qué experiencias ocurren después.",
-    weatherHeadline: "Condiciones de la finca con sensación en vivo.",
-    weatherBody:
-      "El clima ayuda a cultivadores, visitantes y asistentes a prepararse para el campo y los eventos.",
-    eventsHeadline: "Experiencias para volver.",
-    eventsBody:
-      "La finca atrae a las personas mediante mercados, actividades juveniles, demostraciones, educación de bienestar y eventos comunitarios.",
-    exploreRole: "Explorar Ruta",
-    next: "Siguiente",
-    previous: "Anterior",
-    modulesTitle: "Lo que la gente puede hacer aquí",
-    modules: [
-      "Explorar compras y pedidos anticipados",
-      "Aprender nutrición y recetas",
-      "Ver herramientas de cultivo y temporada",
-      "Apoyar rutas laborales juveniles",
-      "Asistir a eventos y demostraciones",
-      "Disfrutar una experiencia agrícola acogedora",
-    ],
-    liveNowTitle: "Aspectos destacados",
-    liveNowItems: [
-      "Rutas por rol",
-      "Conexión al mercado",
-      "Educación alimentaria",
-      "Ecosistema de cultivo",
-      "Apoyo laboral juvenil",
-      "Eventos y regreso",
-    ],
-    weatherCardTitle: "Ambiente actual de la finca",
-    weatherItems: ["Parcialmente soleado", "Buen día para visitantes", "Actividad favorable", "Apto para eventos"],
-    calendarItems: [
-      "Ventanas de siembra",
-      "Apoyo y planificación",
-      "Preparación de mercado",
-      "Educación y eventos",
-    ],
-    eventItems: [
-      "Growers Supply Market",
-      "Sesiones educativas",
-      "Demostraciones prácticas",
-      "Experiencias familiares",
-    ],
-    roleText: {
-      guest: { title: "Ruta del Visitante", body: "Los visitantes descubren la historia, la belleza, las oportunidades y las razones para volver." },
-      customer: { title: "Ruta del Cliente", body: "Los clientes llegan al mercado, exploran alimentos saludables, recetas y orientación nutricional." },
-      grower: { title: "Ruta del Cultivador", body: "Los cultivadores acceden a herramientas, planificación, estacionalidad y oportunidades de mercado." },
-      producer: { title: "Ruta del Productor de Valor Agregado", body: "Los productores exploran colaboración culinaria, ingredientes, demostraciones y posibilidades de empaque." },
-      youth: { title: "Ruta de Fuerza Laboral Juvenil", body: "Los jóvenes se conectan con agricultura, responsabilidad, horarios, aprendizaje y oportunidades futuras." },
-      supervisor: { title: "Ruta del Supervisor", body: "Los supervisores apoyan estructura, seguimiento y recursos de apoyo para el programa juvenil." },
+      "Bronson Family Farm está construyendo un ecosistema regenerativo y acogedor que conecta alimentos, tierra, educación, bienestar comunitario, oportunidades laborales y acceso al mercado.",
+    quickLabel: "Explorar por ruta",
+    cards: {
+      story: "Nuestra Historia",
+      guest: "Invitado",
+      customer: "Cliente",
+      grower: "Productor",
+      producer: "Productor de Valor Agregado",
+      youth: "Fuerza Laboral Juvenil",
+      supervisor: "Supervisor",
+      marketplace: "Mercado",
+      calendar: "Planificación de Cultivos",
+      events: "Eventos",
+      education: "Educación",
+      nutrition: "Nutrición",
+      recipes: "Recetas",
+      weather: "Clima",
     },
   },
   tl: {
-    appTitle: "Bronson Family Farm",
-    appSubtitle: "Isang buhay na ecosystem para sa mga grower, pamilya, pagkain, pagkatuto, at agritourism.",
+    brand: "Bronson Family Farm",
+    subbrand: "Binuo ng Bronson Family Farm",
     enterDemo: "Pumasok sa Demo",
     guidedTour: "Simulan ang Guided Tour",
-    stopTour: "Itigil ang Guided Tour",
-    backHome: "Bumalik sa Simula",
-    rolePathways: "Mga Landas ng Papel",
-    ecosystem: "Ecosystem",
-    story: "Aming Kuwento",
-    marketplace: "Marketplace",
-    calendar: "Kalendaryo ng Pagtatanim",
-    weather: "Panahon + Kondisyon",
-    events: "Mga Kaganapan",
-    welcomeHeadline: "Pumasok sa ibang uri ng karanasan sa bukid.",
+    stopTour: "Itigil ang Tour",
+    chooseLanguage: "Pumili ng Wika",
+    returnHome: "Bumalik sa Simula",
+    explore: "Tuklasin ang Ecosystem",
+    welcomeTitle: "Isang buhay na farm ecosystem, hindi lang website.",
     welcomeBody:
-      "Ang Bronson Family Farm ay lumilikha ng isang maganda at malugod na ecosystem para sa mga bisita, mamimili, grower, kabataan, at mga katuwang ng komunidad.",
-    storyHeadline: "Pamana, lupa, at buhay na kinabukasan.",
-    storyBody:
-      "Pinag-uugnay ng bukid ang agrikultura, agritourism, food access, workforce pathways, ecological restoration, at kabutihan ng komunidad.",
-    ecosystemHeadline: "Higit pa sa bukid. Isang konektadong ecosystem.",
-    ecosystemBody:
-      "Kasama rito ang pagtatanim, pagsasanay, access sa pagkain, edukasyon, partnerships, events, at malinaw na daan pabalik para sa bawat user.",
-    marketplaceHeadline: "Access sa marketplace sa pamamagitan ng Bronson Family Farm.",
-    marketplaceBody:
-      "Maaaring makita ng customers ang produce, Bubble Babies™, seasonal availability, preorder options, at food education.",
-    calendarHeadline: "Pagpaplano ng pananim at takbo ng panahon.",
-    calendarBody:
-      "Ipinapakita ng kalendaryo kung ano ang itinatanim, ano ang malapit na anihin, at ano ang susunod na gawain at event.",
-    weatherHeadline: "Pakiramdam ng bukid na parang live.",
-    weatherBody:
-      "Tinutulungan nito ang grower, bisita, at event guest na maghanda sa kondisyon ng bukid at panahon.",
-    eventsHeadline: "Mga karanasang babalikan.",
-    eventsBody:
-      "Ang bukid ay dinisenyo para sa paulit-ulit na pagbisita sa pamamagitan ng markets, learning, wellness, at community events.",
-    exploreRole: "Tuklasin ang Landas",
-    next: "Susunod",
-    previous: "Nakaraan",
-    modulesTitle: "Mga puwedeng gawin dito",
-    modules: [
-      "Marketplace at preorder opportunities",
-      "Nutrition at recipe ideas",
-      "Grower tools at seasonality",
-      "Youth workforce support",
-      "Events at demonstrations",
-      "Magandang farm experience",
-    ],
-    liveNowTitle: "Mga tampok",
-    liveNowItems: [
-      "Role-based pathways",
-      "Marketplace connection",
-      "Food education",
-      "Grower ecosystem",
-      "Youth workforce support",
-      "Return visits",
-    ],
-    weatherCardTitle: "Kasalukuyang pakiramdam sa bukid",
-    weatherItems: ["Maaraw nang kaunti", "Magandang araw para sa bisita", "Magandang field activity", "Maganda para sa outdoor event"],
-    calendarItems: [
-      "Planting windows",
-      "Grower support",
-      "Harvest rhythm",
-      "Education alignment",
-    ],
-    eventItems: [
-      "Growers Supply Market",
-      "Education sessions",
-      "Hands-on demos",
-      "Family experiences",
-    ],
-    roleText: {
-      guest: { title: "Landas ng Bisita", body: "Natutuklasan ng bisita ang kuwento, kagandahan, oportunidad, at mga dahilan para bumalik." },
-      customer: { title: "Landas ng Customer", body: "Ang customer ay madaling makarating sa marketplace, nutrition guidance, at mga recipe idea." },
-      grower: { title: "Landas ng Grower", body: "Nakakakuha ang grower ng planning, tools, seasonality, at market opportunities." },
-      producer: { title: "Landas ng Value-Added Producer", body: "Maaaring tuklasin ang culinary collaboration, ingredients, demos, at packaging ideas." },
-      youth: { title: "Landas ng Kabataang Manggagawa", body: "Nag-uugnay ito sa agrikultura, teamwork, responsibility, at future workforce opportunities." },
-      supervisor: { title: "Landas ng Supervisor", body: "Ang supervisor ay nagbibigay ng structure, scheduling support, at wraparound support resources." },
+      "Ang Bronson Family Farm ay bumubuo ng isang maganda at regenerative na ecosystem para sa pagkain, lupa, edukasyon, kalusugan, trabaho, at access sa pamilihan.",
+    quickLabel: "Tuklasin ayon sa papel",
+    cards: {
+      story: "Ating Kuwento",
+      guest: "Bisita",
+      customer: "Customer",
+      grower: "Grower",
+      producer: "Value-Added Producer",
+      youth: "Youth Workforce",
+      supervisor: "Supervisor",
+      marketplace: "Marketplace",
+      calendar: "Crop Planning",
+      events: "Events",
+      education: "Education",
+      nutrition: "Nutrition",
+      recipes: "Recipes",
+      weather: "Weather",
     },
   },
   it: {
-    appTitle: "Bronson Family Farm",
-    appSubtitle: "Un ecosistema vivo per coltivatori, famiglie, accesso al cibo, apprendimento e agriturismo.",
+    brand: "Bronson Family Farm",
+    subbrand: "Sviluppato da Bronson Family Farm",
     enterDemo: "Entra nel Demo",
     guidedTour: "Avvia Tour Guidato",
     stopTour: "Ferma Tour",
-    backHome: "Torna all’Ingresso",
-    rolePathways: "Percorsi per Ruolo",
-    ecosystem: "Ecosistema",
-    story: "La Nostra Storia",
-    marketplace: "Mercato",
-    calendar: "Calendario di Coltivazione",
-    weather: "Meteo + Condizioni",
-    events: "Eventi",
-    welcomeHeadline: "Entra in una diversa esperienza di fattoria.",
+    chooseLanguage: "Scegli Lingua",
+    returnHome: "Torna all'Ingresso",
+    explore: "Esplora l'Ecosistema",
+    welcomeTitle: "Un ecosistema agricolo vivo, non solo un sito web.",
     welcomeBody:
-      "Bronson Family Farm costruisce un ecosistema rigenerativo e accogliente dove visitatori, clienti, coltivatori, giovani e partner possono tornare ancora e ancora.",
-    storyHeadline: "Eredità, terra e futuro vivo.",
-    storyBody:
-      "La fattoria unisce agricoltura, agriturismo, accesso al cibo, percorsi di lavoro, ripristino ecologico e benessere comunitario.",
-    ecosystemHeadline: "Più di una fattoria. Un ecosistema connesso.",
-    ecosystemBody:
-      "Include coltivazione, formazione, accesso al cibo, opportunità a valore aggiunto, educazione, partnership ed eventi.",
-    marketplaceHeadline: "Accesso al mercato tramite Bronson Family Farm.",
-    marketplaceBody:
-      "I clienti possono esplorare prodotti, Bubble Babies™, disponibilità stagionale, preordini ed educazione alimentare.",
-    calendarHeadline: "Pianificazione delle colture e ritmo stagionale.",
-    calendarBody:
-      "Il calendario mostra cosa viene piantato, cosa arriva in stagione e quali attività stanno arrivando.",
-    weatherHeadline: "Condizioni della fattoria con sensazione dal vivo.",
-    weatherBody:
-      "Il meteo aiuta coltivatori, visitatori e ospiti a prepararsi per il campo e per gli eventi.",
-    eventsHeadline: "Esperienze che invitano a tornare.",
-    eventsBody:
-      "La fattoria richiama le persone con mercati, attività giovanili, dimostrazioni, benessere ed eventi comunitari.",
-    exploreRole: "Esplora Percorso",
-    next: "Avanti",
-    previous: "Indietro",
-    modulesTitle: "Cosa si può fare qui",
-    modules: [
-      "Esplorare il mercato",
-      "Imparare nutrizione e ricette",
-      "Usare strumenti per coltivatori",
-      "Sostenere i percorsi giovanili",
-      "Partecipare a eventi",
-      "Vivere una bella esperienza in fattoria",
-    ],
-    liveNowTitle: "Punti salienti",
-    liveNowItems: [
-      "Percorsi per ruolo",
-      "Connessione mercato",
-      "Educazione alimentare",
-      "Ecosistema coltivatori",
-      "Supporto giovanile",
-      "Eventi e ritorno",
-    ],
-    weatherCardTitle: "Sensazione attuale della fattoria",
-    weatherItems: ["Parzialmente soleggiato", "Buon giorno per visitatori", "Attività di campo favorevole", "Adatto a eventi esterni"],
-    calendarItems: [
-      "Finestre di semina",
-      "Supporto ai coltivatori",
-      "Preparazione mercato",
-      "Educazione ed eventi",
-    ],
-    eventItems: [
-      "Growers Supply Market",
-      "Sessioni educative",
-      "Dimostrazioni pratiche",
-      "Esperienze per famiglie",
-    ],
-    roleText: {
-      guest: { title: "Percorso Ospite", body: "L’ospite scopre la storia, la bellezza, le opportunità e i motivi per tornare." },
-      customer: { title: "Percorso Cliente", body: "Il cliente entra nel mercato e trova cibo fresco, ricette e orientamento nutrizionale." },
-      grower: { title: "Percorso Coltivatore", body: "Il coltivatore accede a strumenti, pianificazione, stagionalità e opportunità di mercato." },
-      producer: { title: "Percorso Produttore a Valore Aggiunto", body: "Il produttore esplora collaborazione culinaria, ingredienti e dimostrazioni." },
-      youth: { title: "Percorso Giovani", body: "I giovani trovano agricoltura, responsabilità, lavoro di squadra e possibilità future." },
-      supervisor: { title: "Percorso Supervisore", body: "Il supervisore offre struttura, programmazione e supporto al programma giovanile." },
+      "Bronson Family Farm sta costruendo un ecosistema rigenerativo e accogliente che collega cibo, terra, educazione, benessere, lavoro e accesso al mercato.",
+    quickLabel: "Esplora per percorso",
+    cards: {
+      story: "La Nostra Storia",
+      guest: "Ospite",
+      customer: "Cliente",
+      grower: "Coltivatore",
+      producer: "Produttore a Valore Aggiunto",
+      youth: "Forza Lavoro Giovanile",
+      supervisor: "Supervisore",
+      marketplace: "Mercato",
+      calendar: "Pianificazione Colture",
+      events: "Eventi",
+      education: "Educazione",
+      nutrition: "Nutrizione",
+      recipes: "Ricette",
+      weather: "Meteo",
     },
   },
   patwa: {
-    appTitle: "Bronson Family Farm",
-    appSubtitle: "A one livin ecosystem fi growa, family, food access, learning, an agritourism.",
-    enterDemo: "Go Inna Demo",
+    brand: "Bronson Family Farm",
+    subbrand: "Developed by Bronson Family Farm",
+    enterDemo: "Enter Di Demo",
     guidedTour: "Start Guided Tour",
-    stopTour: "Stop Guided Tour",
-    backHome: "Back to Entrance",
-    rolePathways: "Role Pathway",
-    ecosystem: "Ecosystem",
-    story: "Wi Story",
-    marketplace: "Marketplace",
-    calendar: "Growin Calendar",
-    weather: "Weather + Conditions",
-    events: "Events",
-    welcomeHeadline: "Step inna one different farm experience.",
+    stopTour: "Stop Tour",
+    chooseLanguage: "Choose Language",
+    returnHome: "Back to Entrance",
+    explore: "Explore Di Ecosystem",
+    welcomeTitle: "A living farm ecosystem, not just one website.",
     welcomeBody:
-      "Bronson Family Farm a build one warm, regenerative ecosystem weh visitor, customer, growa, youth, an partner can come back to again an again.",
-    storyHeadline: "Legacy, land, an livin future.",
-    storyBody:
-      "Di farm join up agriculture, agritourism, food access, work pathway, ecological restoration, an community well-being.",
-    ecosystemHeadline: "More than farm. A connected ecosystem.",
-    ecosystemBody:
-      "It include growin, training, food access, value-added work, customer education, partnerships, events, an clear way fi return.",
-    marketplaceHeadline: "Marketplace access through Bronson Family Farm.",
-    marketplaceBody:
-      "Customer can check produce, Bubble Babies™, seasonal items, preorder pathway, an food education fi healthier eatin.",
-    calendarHeadline: "Crop planning an seasonal flow.",
-    calendarBody:
-      "Di calendar show weh a plant, weh a come in season, an weh activity an event a come next.",
-    weatherHeadline: "Live-feel farm conditions.",
-    weatherBody:
-      "Weather help growa, visitor, an event guest prepare fi field conditions an outdoor program.",
-    eventsHeadline: "Experiences weh mek people come back.",
-    eventsBody:
-      "Di farm draw people back through market, youth activity, demonstration, wellness education, an community event.",
-    exploreRole: "Explore Pathway",
-    next: "Next",
-    previous: "Previous",
-    modulesTitle: "Wha people can do yah",
-    modules: [
-      "Check marketplace an preorder",
-      "Learn nutrition an recipe idea",
-      "See growa tools an seasons",
-      "Support youth workforce pathway",
-      "Join events an demonstrations",
-      "Enjoy one beautiful farm experience",
-    ],
-    liveNowTitle: "Live demo highlight",
-    liveNowItems: [
-      "Role pathway",
-      "Marketplace connection",
-      "Food education",
-      "Growa ecosystem",
-      "Youth support",
-      "Return visits",
-    ],
-    weatherCardTitle: "Farm vibe right now",
-    weatherItems: ["Sun a shine likkle bit", "Good day fi visitor", "Field work look good", "Outdoor event friendly"],
-    calendarItems: [
-      "Planting windows",
-      "Growa support",
-      "Harvest rhythm",
-      "Education alignment",
-    ],
-    eventItems: [
-      "Growers Supply Market",
-      "Education session",
-      "Hands-on demo",
-      "Family return experience",
-    ],
-    roleText: {
-      guest: { title: "Guest Pathway", body: "Guest come fi discover di story, beauty, opportunity, an reason fi return." },
-      customer: { title: "Customer Pathway", body: "Customer can move fast to marketplace, healthier food guidance, an recipe idea." },
-      grower: { title: "Growa Pathway", body: "Growa connect to planning, tool, seasonality, an market opportunity." },
-      producer: { title: "Value-Added Producer Pathway", body: "Producer can explore culinary collaboration, ingredients, demo, an package possibility." },
-      youth: { title: "Youth Workforce Pathway", body: "Youth connect to agriculture, teamwork, responsibility, an future opportunity." },
-      supervisor: { title: "Supervisor Pathway", body: "Supervisor give structure, scheduling support, an wraparound support resource fi youth program." },
+      "Bronson Family Farm a build one warm, regenerative system weh connect food, land, learning, wellness, work pathways, an marketplace access.",
+    quickLabel: "Explore by pathway",
+    cards: {
+      story: "Wi Story",
+      guest: "Guest",
+      customer: "Customer",
+      grower: "Grower",
+      producer: "Value-Added Producer",
+      youth: "Youth Workforce",
+      supervisor: "Supervisor",
+      marketplace: "Marketplace",
+      calendar: "Crop Planning",
+      events: "Events",
+      education: "Education",
+      nutrition: "Nutrition",
+      recipes: "Recipes",
+      weather: "Weather",
     },
   },
   he: {
-    appTitle: "Bronson Family Farm",
-    appSubtitle: "מערכת חיה עבור מגדלים, משפחות, גישה למזון, למידה ואגריטוריזם.",
+    brand: "Bronson Family Farm",
+    subbrand: "פותח על ידי Bronson Family Farm",
     enterDemo: "כניסה לדמו",
     guidedTour: "התחל סיור מודרך",
     stopTour: "עצור סיור",
-    backHome: "חזרה לכניסה",
-    rolePathways: "מסלולי תפקידים",
-    ecosystem: "המערכת",
-    story: "הסיפור שלנו",
-    marketplace: "שוק",
-    calendar: "לוח גידול",
-    weather: "מזג אוויר + תנאים",
-    events: "אירועים",
-    welcomeHeadline: "היכנסו לחוויית חווה אחרת.",
+    chooseLanguage: "בחר שפה",
+    returnHome: "חזרה לכניסה",
+    explore: "גלו את המערכת",
+    welcomeTitle: "מערכת חקלאית חיה, לא רק אתר אינטרנט.",
     welcomeBody:
-      "Bronson Family Farm בונה מערכת מזמינה ומתחדשת שבה מבקרים, לקוחות, מגדלים, צעירים ושותפים יכולים לחזור שוב ושוב.",
-    storyHeadline: "מורשת, אדמה ועתיד חי.",
-    storyBody:
-      "החווה מחברת בין חקלאות, אגריטוריזם, גישה למזון, מסלולי תעסוקה, שיקום אקולוגי ורווחת הקהילה.",
-    ecosystemHeadline: "יותר מחווה. מערכת מחוברת.",
-    ecosystemBody:
-      "היא כוללת גידול, הכשרה, גישה למזון, הזדמנויות ערך מוסף, חינוך, שותפויות ואירועים.",
-    marketplaceHeadline: "גישה לשוק דרך Bronson Family Farm.",
-    marketplaceBody:
-      "לקוחות יכולים לבדוק תוצרת, Bubble Babies™, זמינות עונתית, הזמנה מוקדמת וחינוך תזונתי.",
-    calendarHeadline: "תכנון גידול וקצב עונתי.",
-    calendarBody:
-      "הלוח מציג מה נשתל, מה נכנס לעונה ואילו פעילויות מגיעות בהמשך.",
-    weatherHeadline: "תחושת שטח חיה.",
-    weatherBody:
-      "מזג האוויר מסייע למגדלים, מבקרים ואורחים להיערך לתנאי השטח והאירועים.",
-    eventsHeadline: "חוויות שמחזירות אנשים.",
-    eventsBody:
-      "החווה מושכת אנשים דרך שווקים, פעילות נוער, הדגמות, חינוך לבריאות ואירועי קהילה.",
-    exploreRole: "חקור מסלול",
-    next: "הבא",
-    previous: "הקודם",
-    modulesTitle: "מה אפשר לעשות כאן",
-    modules: [
-      "לבדוק את השוק והזמנות מוקדמות",
-      "ללמוד תזונה ורעיונות למתכונים",
-      "לראות כלים למגדלים ועונתיות",
-      "לתמוך במסלולי נוער",
-      "להשתתף באירועים והדגמות",
-      "לחוות חווה יפה ומזמינה",
-    ],
-    liveNowTitle: "נקודות עיקריות",
-    liveNowItems: [
-      "מסלולי תפקידים",
-      "חיבור לשוק",
-      "חינוך תזונתי",
-      "מערכת למגדלים",
-      "תמיכת נוער",
-      "אירועים וחזרה",
-    ],
-    weatherCardTitle: "תחושת החווה כרגע",
-    weatherItems: ["שמש חלקית", "יום טוב למבקרים", "פעילות שדה נוחה", "מתאים לאירועים חיצוניים"],
-    calendarItems: [
-      "חלונות שתילה",
-      "תמיכת מגדלים",
-      "קצב קציר ושוק",
-      "חינוך ואירועים",
-    ],
-    eventItems: [
-      "Growers Supply Market",
-      "מפגשי חינוך",
-      "הדגמות מעשיות",
-      "חוויות למשפחות",
-    ],
-    roleText: {
-      guest: { title: "מסלול אורח", body: "האורח מגלה את הסיפור, היופי, ההזדמנויות והסיבות לחזור." },
-      customer: { title: "מסלול לקוח", body: "הלקוח מגיע לשוק, מגלה מזון טרי, רעיונות למתכונים והכוונה תזונתית." },
-      grower: { title: "מסלול מגדל", body: "המגדל מתחבר לכלים, תכנון, עונתיות והזדמנויות שוק." },
-      producer: { title: "מסלול יצרן ערך מוסף", body: "היצרן בוחן שיתופי פעולה קולינריים, רכיבים והדגמות." },
-      youth: { title: "מסלול נוער", body: "הנוער מתחבר לחקלאות, עבודת צוות, אחריות והזדמנויות עתידיות." },
-      supervisor: { title: "מסלול מפקח", body: "המפקח מספק מבנה, תמיכה בלוחות זמנים ומשאבי תמיכה לתוכנית הנוער." },
+      "Bronson Family Farm בונה מערכת מזמינה ומתחדשת שמחברת מזון, אדמה, חינוך, בריאות קהילתית, מסלולי עבודה וגישה לשוק.",
+    quickLabel: "גלו לפי מסלול",
+    cards: {
+      story: "הסיפור שלנו",
+      guest: "אורח",
+      customer: "לקוח",
+      grower: "מגדל",
+      producer: "יצרן ערך מוסף",
+      youth: "כוח עבודה לנוער",
+      supervisor: "מפקח",
+      marketplace: "שוק",
+      calendar: "תכנון גידולים",
+      events: "אירועים",
+      education: "חינוך",
+      nutrition: "תזונה",
+      recipes: "מתכונים",
+      weather: "מזג אוויר",
     },
   },
-} as const;
+};
 
-const roleCards: {
-  key: RoleKey;
-  icon: React.ReactNode;
-  image: string;
-}[] = [
-  { key: "guest", icon: <TreePine className="h-5 w-5" />, image: images.guest },
-  { key: "customer", icon: <ShoppingBasket className="h-5 w-5" />, image: images.customer },
-  { key: "grower", icon: <Sprout className="h-5 w-5" />, image: images.grower },
-  { key: "producer", icon: <ChefHat className="h-5 w-5" />, image: images.culinary },
-  { key: "youth", icon: <GraduationCap className="h-5 w-5" />, image: images.youth },
-  { key: "supervisor", icon: <Users className="h-5 w-5" />, image: images.supervisor },
-];
+const screenContent: Record<
+  ScreenKey,
+  {
+    title: string;
+    image: string;
+    description: string;
+    actions?: { label: string; go: ScreenKey }[];
+  }
+> = {
+  home: {
+    title: "Bronson Family Farm",
+    image: images.hero,
+    description:
+      "Step into the farm. Experience something different. This is a regenerative, role-based platform where guests, customers, growers, value-added producers, youth workers, and supervisors each have a pathway into the ecosystem.",
+    actions: [
+      { label: "Our Story", go: "story" },
+      { label: "Guest", go: "guest" },
+      { label: "Customer", go: "customer" },
+      { label: "Grower", go: "grower" },
+      { label: "Youth Workforce", go: "youth" },
+      { label: "Marketplace", go: "marketplace" },
+    ],
+  },
+  story: {
+    title: "Our Story",
+    image: images.story,
+    description:
+      "Bronson Family Farm honors family legacy, land stewardship, regenerative growing, agritourism, and community restoration. The platform exists to help people return again and again for learning, food access, events, workforce development, and connection.",
+    actions: [
+      { label: "Explore Events", go: "events" },
+      { label: "Explore Marketplace", go: "marketplace" },
+      { label: "Explore Education", go: "education" },
+    ],
+  },
+  guest: {
+    title: "Guest Pathway",
+    image: images.guest,
+    description:
+      "Guests discover the farm through immersive storytelling, events, weather, seasonal visuals, guided experiences, and clear ways to return as supporters, volunteers, visitors, or future participants.",
+    actions: [
+      { label: "Events", go: "events" },
+      { label: "Weather", go: "weather" },
+      { label: "Our Story", go: "story" },
+    ],
+  },
+  customer: {
+    title: "Customer Pathway",
+    image: images.customer,
+    description:
+      "Customers move easily from discovery to marketplace access, product browsing, nutrition education, seasonal recipes, and ongoing engagement. The goal is to make healthy local food inviting, useful, and easy to revisit.",
+    actions: [
+      { label: "Marketplace", go: "marketplace" },
+      { label: "Nutrition", go: "nutrition" },
+      { label: "Recipes", go: "recipes" },
+    ],
+  },
+  grower: {
+    title: "Grower Pathway",
+    image: images.grower,
+    description:
+      "Growers gain entry to crop planning, seasonal coordination, events, educational resources, and a collaborative ecosystem built to support long-term agricultural participation and shared opportunity.",
+    actions: [
+      { label: "Crop Planning", go: "calendar" },
+      { label: "Education", go: "education" },
+      { label: "Events", go: "events" },
+    ],
+  },
+  producer: {
+    title: "Value-Added Producer",
+    image: images.producer,
+    description:
+      "Value-added producers can explore future opportunities for branded goods, prepared foods, packaging, collaborative sales, and participation in a broader local ecosystem tied to agriculture and community commerce.",
+    actions: [
+      { label: "Marketplace", go: "marketplace" },
+      { label: "Events", go: "events" },
+      { label: "Education", go: "education" },
+    ],
+  },
+  youth: {
+    title: "Youth Workforce Program",
+    image: images.youth,
+    description:
+      "The youth workforce pathway introduces young people to food systems, hands-on learning, work readiness, land stewardship, logistics, and guided support. This area is designed to feel active, encouraging, and full of possibility.",
+    actions: [
+      { label: "Supervisor Support", go: "supervisor" },
+      { label: "Crop Planning", go: "calendar" },
+      { label: "Education", go: "education" },
+    ],
+  },
+  supervisor: {
+    title: "Supervisor Pathway",
+    image: images.supervisor,
+    description:
+      "Supervisors support the youth workforce experience with structure, care, guidance, logistics, role tracking, and wraparound support. This includes support staff resources tied to wellness and program success.",
+    actions: [
+      { label: "Youth Workforce", go: "youth" },
+      { label: "Education", go: "education" },
+      { label: "Events", go: "events" },
+    ],
+  },
+  marketplace: {
+    title: "Marketplace",
+    image: images.marketplace,
+    description:
+      "The marketplace is the customer-facing bridge to GrownBy-style farm commerce. It is where shoppers can connect with seasonal produce, seedlings, educational offerings, and repeat visits shaped by healthy buying habits and food access.",
+    actions: [
+      { label: "Nutrition", go: "nutrition" },
+      { label: "Recipes", go: "recipes" },
+      { label: "Customer Pathway", go: "customer" },
+    ],
+  },
+  calendar: {
+    title: "Crop Planning Calendar",
+    image: images.calendar,
+    description:
+      "This module represents crop planning, seasonal timing, grower coordination, and future-facing scheduling tools that help the ecosystem feel alive and useful across the growing season.",
+    actions: [
+      { label: "Grower Pathway", go: "grower" },
+      { label: "Weather", go: "weather" },
+      { label: "Events", go: "events" },
+    ],
+  },
+  events: {
+    title: "Events and Experiences",
+    image: images.events,
+    description:
+      "Events invite the public into the land through Growers Supply Market experiences, demonstrations, education, agritourism, family engagement, and repeated opportunities to connect with the farm ecosystem.",
+    actions: [
+      { label: "Guest Pathway", go: "guest" },
+      { label: "Marketplace", go: "marketplace" },
+      { label: "Education", go: "education" },
+    ],
+  },
+  education: {
+    title: "Education and Learning",
+    image: images.education,
+    description:
+      "Education resources support growers, customers, youth, and partners with practical knowledge around food systems, land stewardship, growing, preparation, and healthy living.",
+    actions: [
+      { label: "Nutrition", go: "nutrition" },
+      { label: "Recipes", go: "recipes" },
+      { label: "Grower Pathway", go: "grower" },
+    ],
+  },
+  nutrition: {
+    title: "Nutrition and Food Guidance",
+    image: images.nutrition,
+    description:
+      "This area helps visitors compare natural foods with overprocessed food choices, understand healthier options, and connect everyday eating to wellness, energy, and long-term community health.",
+    actions: [
+      { label: "Recipes", go: "recipes" },
+      { label: "Marketplace", go: "marketplace" },
+      { label: "Customer Pathway", go: "customer" },
+    ],
+  },
+  recipes: {
+    title: "Recipes and Food Inspiration",
+    image: images.recipes,
+    description:
+      "Recipes turn farm access into action. This module gives customers and families reasons to return by showing practical, inviting ways to use produce, support healthy meals, and build confidence in the kitchen.",
+    actions: [
+      { label: "Marketplace", go: "marketplace" },
+      { label: "Nutrition", go: "nutrition" },
+      { label: "Customer Pathway", go: "customer" },
+    ],
+  },
+  weather: {
+    title: "Farm Weather",
+    image: images.weather,
+    description:
+      "This module gives the platform a live farm feeling by anchoring the ecosystem in seasonality, planning, atmosphere, and day-to-day connection with the land.",
+    actions: [
+      { label: "Crop Planning", go: "calendar" },
+      { label: "Guest Pathway", go: "guest" },
+      { label: "Events", go: "events" },
+    ],
+  },
+};
 
-const tourRoute: ViewKey[] = [
+const guidedOrder: ScreenKey[] = [
+  "home",
   "story",
-  "ecosystem",
-  "marketplace",
-  "calendar",
-  "weather",
-  "events",
-  "roleHub",
   "guest",
   "customer",
+  "marketplace",
+  "nutrition",
+  "recipes",
   "grower",
-  "producer",
+  "calendar",
   "youth",
   "supervisor",
+  "education",
+  "events",
+  "weather",
 ];
 
 function App() {
   const [language, setLanguage] = useState<LanguageKey>("en");
-  const [view, setView] = useState<ViewKey>("home");
-  const [tourOn, setTourOn] = useState(false);
-  const [tourIndex, setTourIndex] = useState(0);
+  const [screen, setScreen] = useState<ScreenKey>("home");
+  const [tourRunning, setTourRunning] = useState(false);
+  const [weather] = useState({
+    condition: "Mostly Sunny",
+    temperature: "46°F",
+    note: "Youngstown farm conditions support planning, learning, and seasonal engagement.",
+  });
 
-  const t = copy[language];
+  const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const text = appText[language];
+  const content = screenContent[screen];
 
-  useEffect(() => {
-    if (!tourOn) return;
-    const timer = window.setInterval(() => {
-      setTourIndex((prev) => {
-        const nextIndex = prev + 1;
-        if (nextIndex >= tourRoute.length) {
-          setTourOn(false);
-          setView("home");
-          return 0;
-        }
-        setView(tourRoute[nextIndex]);
-        return nextIndex;
-      });
-    }, 5000);
-
-    return () => window.clearInterval(timer);
-  }, [tourOn]);
+  const currentNarration = useMemo(() => {
+    return `${content.title}. ${content.description}`;
+  }, [content]);
 
   useEffect(() => {
-    if (language === "he") {
-      document.documentElement.dir = "rtl";
-    } else {
-      document.documentElement.dir = "ltr";
-    }
-  }, [language]);
+    if (!tourRunning) return;
 
-  const heroStats = useMemo(
-    () => [
-      { label: "118+ Acres", icon: <MapPin className="h-4 w-4" /> },
-      { label: "Regenerative Vision", icon: <Leaf className="h-4 w-4" /> },
-      { label: "Food + Workforce + Agritourism", icon: <HeartHandshake className="h-4 w-4" /> },
-    ],
-    []
-  );
+    const currentIndex = guidedOrder.indexOf(screen);
+    const isLast = currentIndex === guidedOrder.length - 1;
+
+    const timer = window.setTimeout(() => {
+      if (isLast) {
+        setTourRunning(false);
+        setScreen("home");
+      } else {
+        setScreen(guidedOrder[currentIndex + 1]);
+      }
+    }, 6500);
+
+    return () => clearTimeout(timer);
+  }, [screen, tourRunning]);
+
+  useEffect(() => {
+    if (!("speechSynthesis" in window)) return;
+
+    window.speechSynthesis.cancel();
+
+    const utter = new SpeechSynthesisUtterance(currentNarration);
+    utter.rate = 0.92;
+    utter.pitch = 1;
+    utter.lang =
+      language === "es"
+        ? "es-ES"
+        : language === "tl"
+        ? "fil-PH"
+        : language === "it"
+        ? "it-IT"
+        : language === "he"
+        ? "he-IL"
+        : "en-US";
+
+    synthRef.current = utter;
+    window.speechSynthesis.speak(utter);
+
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, [currentNarration, language]);
+
+  const gallery = [
+    images.gallery1,
+    images.gallery2,
+    images.gallery3,
+    images.gallery4,
+    images.gallery5,
+    images.gallery6,
+    images.gallery7,
+    images.gallery8,
+    images.gallery9,
+    images.gallery10,
+    images.gallery11,
+  ];
+
+  const navigate = (next: ScreenKey) => {
+    setScreen(next);
+  };
 
   const startTour = () => {
-    setTourOn(true);
-    setTourIndex(0);
-    setView(tourRoute[0]);
+    setTourRunning(true);
+    setScreen("home");
   };
 
   const stopTour = () => {
-    setTourOn(false);
-    setTourIndex(0);
+    setTourRunning(false);
+    window.speechSynthesis.cancel();
   };
 
-  const navButton = (
-    key: ViewKey,
-    label: string,
-    icon: React.ReactNode
-  ) => (
-    <button
-      onClick={() => {
-        setView(key);
-        setTourOn(false);
-      }}
-      className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur transition hover:bg-white/20"
-    >
-      <span className="inline-flex items-center gap-2">
-        {icon}
-        {label}
-      </span>
-    </button>
-  );
+  const pathwayCards: { key: ScreenKey; title: string; image: string }[] = [
+    { key: "story", title: text.cards.story, image: images.story },
+    { key: "guest", title: text.cards.guest, image: images.guest },
+    { key: "customer", title: text.cards.customer, image: images.customer },
+    { key: "grower", title: text.cards.grower, image: images.grower },
+    { key: "producer", title: text.cards.producer, image: images.producer },
+    { key: "youth", title: text.cards.youth, image: images.youth },
+    { key: "supervisor", title: text.cards.supervisor, image: images.supervisor },
+    { key: "marketplace", title: text.cards.marketplace, image: images.marketplace },
+    { key: "calendar", title: text.cards.calendar, image: images.calendar },
+    { key: "events", title: text.cards.events, image: images.events },
+    { key: "education", title: text.cards.education, image: images.education },
+    { key: "nutrition", title: text.cards.nutrition, image: images.nutrition },
+    { key: "recipes", title: text.cards.recipes, image: images.recipes },
+    { key: "weather", title: text.cards.weather, image: images.weather },
+  ];
 
-  const Screen = ({
-    image,
-    eyebrow,
-    title,
-    body,
-    children,
-  }: {
-    image: string;
-    eyebrow: string;
-    title: string;
-    body: string;
-    children?: React.ReactNode;
-  }) => (
-    <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
+  return (
+    <div className="min-h-screen bg-[#0f1f17] text-white">
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${image})` }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-emerald-950/65 to-black/75" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_30%)]" />
+        className="relative min-h-screen bg-cover bg-center"
+        style={{ backgroundImage: `url(${content.image})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-[#102218]/75 to-[#0b130e]/90" />
 
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 py-6 md:px-8">
-        <header className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-white/90 backdrop-blur">
-              <Leaf className="h-3.5 w-3.5" />
-              {t.appTitle}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-6 md:px-8">
+          <header className="mb-8 flex flex-col gap-4 rounded-3xl border border-white/15 bg-white/10 p-4 backdrop-blur-md md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="text-3xl font-semibold tracking-wide">{text.brand}</div>
+              <div className="text-sm text-white/80">{text.subbrand}</div>
             </div>
-            <p className="max-w-3xl text-sm text-white/80">{t.appSubtitle}</p>
-          </div>
 
-          <div className="flex flex-wrap gap-2">
-            {navButton("home", t.backHome, <ArrowLeft className="h-4 w-4" />)}
-            {navButton("story", t.story, <TreePine className="h-4 w-4" />)}
-            {navButton("ecosystem", t.ecosystem, <Leaf className="h-4 w-4" />)}
-            {navButton("marketplace", t.marketplace, <Store className="h-4 w-4" />)}
-            {navButton("calendar", t.calendar, <CalendarDays className="h-4 w-4" />)}
-            {navButton("weather", t.weather, <CloudSun className="h-4 w-4" />)}
-            {navButton("events", t.events, <Users className="h-4 w-4" />)}
-            {navButton("roleHub", t.rolePathways, <GraduationCap className="h-4 w-4" />)}
-          </div>
-        </header>
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={() => navigate("home")}
+                className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+              >
+                {text.returnHome}
+              </button>
 
-        <div className="grid flex-1 items-center gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[2rem] border border-white/15 bg-black/25 p-6 shadow-2xl backdrop-blur-md md:p-8">
-            <p className="mb-3 text-xs uppercase tracking-[0.3em] text-emerald-200">{eyebrow}</p>
-            <h1 className="max-w-3xl text-4xl font-semibold leading-tight md:text-6xl">
-              {title}
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-white/82 md:text-lg">
-              {body}
-            </p>
+              <button
+                onClick={startTour}
+                className="rounded-full bg-[#97c36b] px-4 py-2 text-sm font-semibold text-[#102218] hover:opacity-90"
+              >
+                {text.guidedTour}
+              </button>
 
-            {children}
-          </div>
+              <button
+                onClick={stopTour}
+                className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+              >
+                {text.stopTour}
+              </button>
 
-          <div className="grid gap-4">
-            <div className="rounded-[2rem] border border-white/15 bg-white/10
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as LanguageKey)}
+                className="rounded-full border border-white/20 bg-[#183125] px-4 py-2 text-sm text-white outline-none"
+              >
+                {languages.map((lang) => (
+                  <option key={lang.key} value={lang.key}>
+                    {text.chooseLanguage}: {lang.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </header>
+
+          {screen === "home" ? (
+            <section className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="rounded-[2rem] border border-white/15 bg-black/30 p-6 backdrop-blur-md md:p-8">
+                <div className="mb-3 inline-block rounded-full border border-[#97c36b]/40 bg-[#97c36b]/15 px-4 py-1 text-sm text-[#d9f0b8]">
+                  {text.explore}
+                </div>
+
+                <h1 className="max-w-3xl text-4xl font-semibold leading-tight md:text-6xl">
+                  {text.welcomeTitle}
+                </h1>
+
+                <p className="mt-5 max-w-3xl text-lg leading-8 text-white/88">
+                  {text.welcomeBody}
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <button
+                    onClick={() => navigate("story")}
+                    className="rounded-full bg-[#97c36b] px-6 py-3 font-semibold text-[#102218] transition hover:scale-[1.02]"
+                  >
+                    {text.enterDemo}
+                  </button>
+
+                  <button
+                    onClick={() => navigate("marketplace")}
+                    className="rounded-full border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white hover:bg-white/20"
+                  >
+                    {text.cards.marketplace}
+                  </button>
+
+                  <button
+                    onClick={() => navigate("youth")}
+                    className="rounded-full border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white hover:bg-white/20"
+                  >
+                    {text.cards.youth}
+                  </button>
+                </div>
+
+                <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                  {pathwayCards.map((card) => (
+                    <button
+                      key={card.key}
+                      onClick={() => navigate(card.key)}
+                      className="group overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/10 text-left backdrop-blur-md transition hover:scale-[1.02] hover:bg-white/15"
+                    >
+                      <div
+                        className="h-36 bg-cover bg-center"
+                        style={{ backgroundImage: `url(${card.image})` }}
+                      />
+                      <div className="p-4">
+                        <div className="text-lg font-semibold">{card.title}</div>
+                        <div className="mt-1 text-sm text-white/75">
+                          Enter this pathway
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="rounded-[2rem] border border-white/15 bg-black/30 p-6 backdrop-blur-md">
+                  <div className="mb-3 text-sm uppercase tracking-[0.2em] text-[#d9f0b8]">
+                    Farm Atmosphere
+                  </div>
+                  <div className="text-3xl font-semibold">{weather.temperature}</div>
+                  <div className="mt-1 text-white/85">{weather.condition}</div>
+                  <p className="mt-4 text-sm leading-7 text-white/75">{weather.note}</p>
+                  <button
+                    onClick={() => navigate("weather")}
+                    className="mt-5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm hover:bg-white/20"
+                  >
+                    Open Weather
+                  </button>
+                </div>
+
+                <div className="rounded-[2rem] border border-white/15 bg-black/30 p-6 backdrop-blur-md">
+                  <div className="mb-4 text-sm uppercase tracking-[0.2em] text-[#d9f0b8]">
+                    Gallery
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {gallery.slice(0, 6).map((img, i) => (
+                      <div
+                        key={i}
+                        className="h-28 rounded-2xl bg-cover bg-center"
+                        style={{ backgroundImage: `url(${img})` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          ) : (
+            <section className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 backdrop-blur-md md:p-8">
+                <div className="mb-3 text-sm uppercase tracking-[0.22em] text-[#d9f0b8]">
+                  {content.title}
+                </div>
+
+                <h2 className="text-4xl font-semibold md:text-5xl">{content.title}</h2>
+
+                <p className="mt-6 max-w-3xl text-lg leading-8 text-white/88">
+                  {content.description}
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {content.actions?.map((action) => (
+                    <button
+                      key={action.label}
+                      onClick={() => navigate(action.go)}
+                      className="rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-semibold hover:bg-white/20"
+                    >
+                      {action.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-10 grid gap-4 sm:grid-cols-2">
+                  {pathwayCards.slice(0, 8).map((card) => (
+                    <button
+                      key={card.key}
+                      onClick={() => navigate(card.key)}
+                      className="rounded-[1.4rem] border border-white/10 bg-white/10 p-3 text-left transition hover:bg-white/15"
+                    >
+                      <div
+                        className="mb-3 h-28 rounded-xl bg-cover bg-center"
+                        style={{ backgroundImage: `url(${card.image})` }}
+                      />
+                      <div className="font-semibold">{card.title}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div
+                  className="h-[360px] rounded-[2rem] border border-white/15 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${content.image})` }}
+                />
+
+                <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 backdrop-blur-md">
+                  <div className="mb-4 text-sm uppercase tracking-[0.2em] text-[#d9f0b8]">
+                    More from the Farm
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {gallery.slice(6, 10).map((img, i) => (
+                      <div
+                        key={i}
+                        className="h-28 rounded-2xl bg-cover bg-center"
+                        style={{ backgroundImage: `url(${img})` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 backdrop-blur-md">
+                  <div className="text-sm uppercase tracking-[0.2em] text-[#d9f0b8]">
+                    Guided Demo
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-white/80">
+                    This guided experience gives funders, guests, and partners a stronger
+                    sense of movement through the ecosystem so the platform feels alive,
+                    welcoming, and worth returning to.
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    <button
+                      onClick={startTour}
+                      className="rounded-full bg-[#97c36b] px-4 py-2 text-sm font-semibold text-[#102218]"
+                    >
+                      {text.guidedTour}
+                    </button>
+                    <button
+                      onClick={() => navigate("home")}
+                      className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm"
+                    >
+                      {text.returnHome}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
