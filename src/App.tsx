@@ -22,152 +22,6 @@ type RoleKey =
   | "supervisor"
   | "partner";
 
-const introVoice = `
-Welcome.
-
-You’re entering Bronson Family Farm.
-
-Not just a farm,
-but a living ecosystem shaped by vision, memory, and purpose.
-
-In a time when food costs keep rising,
-and too many families are pushed toward overprocessed substitutes,
-this place reaches in a different direction.
-
-Toward restoration.
-Toward healthier choices.
-Toward opportunity.
-
-Here, land is being renewed.
-Food is being reimagined.
-And community is being invited back in.
-
-Take a breath.
-
-Look around.
-
-Then choose the pathway that speaks to you,
-and begin.
-`;
-
-const guestVoice = `
-This is where meaning comes first.
-
-Before the marketplace,
-before the programs,
-before the events,
-there is a story.
-
-Bronson Family Farm was created to restore more than land.
-
-It was created to restore connection.
-
-Connection to healthier food.
-Connection to purpose.
-Connection to memory, legacy, and community.
-
-Here, the land is not just being used.
-It is being reclaimed with intention.
-
-What you see here is part vision,
-part invitation,
-and part promise.
-`;
-
-const customerVoice = `
-This is where the vision becomes tangible.
-
-Fresh produce.
-Bubble Babies seedlings.
-Seasonal offerings.
-Pickup pathways.
-Recipes.
-Nutrition guidance.
-
-But this is about more than a transaction.
-
-It is about helping families move closer to real food,
-real choices,
-and real nourishment.
-`;
-
-const growerVoice = `
-This pathway is for those who build with the land.
-
-Here, growing is more than production.
-It is planning,
-timing,
-knowledge,
-adaptation,
-and shared effort.
-
-This space is designed to support growers with tools,
-seasonal direction,
-market connection,
-and community.
-`;
-
-const youthVoice = `
-This is where exposure becomes experience.
-
-And experience becomes confidence.
-
-Young people here are invited into something real.
-
-Real teamwork.
-Real responsibility.
-Real learning.
-Real possibility.
-`;
-
-const supervisorVoice = `
-This pathway helps turn opportunity into structure.
-
-Here, guidance matters.
-
-Consistency matters.
-
-Encouragement matters.
-
-Supervisors help create the conditions where young workers can succeed,
-feel supported,
-and keep growing.
-`;
-
-const partnerVoice = `
-This is where shared vision meets visible impact.
-
-Bronson Family Farm brings together land restoration,
-food access,
-youth workforce development,
-community gathering,
-and long-term opportunity.
-`;
-
-function speakText(text: string) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-
-  const synth = window.speechSynthesis;
-  synth.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(
-    text.replace(/\n/g, " ").replace(/\./g, ". ").replace(/,/g, ", ")
-  );
-
-  utterance.rate = 0.9;
-  utterance.pitch = 1.0;
-  utterance.volume = 1;
-
-  const voices = synth.getVoices();
-  const preferred =
-    voices.find((v) => /Samantha|Google US English|Microsoft Aria|Jenny/i.test(v.name)) ||
-    voices.find((v) => /en-US/i.test(v.lang)) ||
-    voices[0];
-
-  if (preferred) utterance.voice = preferred;
-  synth.speak(utterance);
-}
-
 export default function App() {
   const [page, setPage] = useState<RoleKey>("home");
   const [hero, setHero] = useState(0);
@@ -189,22 +43,6 @@ export default function App() {
     return () => clearInterval(t);
   }, [heroImages.length]);
 
-  useEffect(() => {
-    const voiceMap: Record<RoleKey, string> = {
-      home: introVoice,
-      guest: guestVoice,
-      customer: customerVoice,
-      grower: growerVoice,
-      youth: youthVoice,
-      supervisor: supervisorVoice,
-      partner: partnerVoice,
-    };
-
-    const text = voiceMap[page];
-    const timer = setTimeout(() => speakText(text), 500);
-    return () => clearTimeout(timer);
-  }, [page]);
-
   const shell = (content: React.ReactNode) => (
     <div className="min-h-screen bg-gradient-to-b from-[#08130c] via-[#102217] to-[#1a2e1d] text-white">
       <header className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
@@ -219,7 +57,7 @@ export default function App() {
         <div className="text-right">
           <div className="font-bold tracking-wide">Bronson Family Farm</div>
           <div className="text-xs text-white/70">
-            Regenerative Ecosystem • Youngstown, Ohio
+            Regenerative Ecosystem - Youngstown, Ohio
           </div>
         </div>
       </header>
@@ -262,7 +100,7 @@ export default function App() {
     return shell(
       <Section
         title="Customer Marketplace"
-        subtitle="Fresh produce, Bubble Babies™, recipes, nutrition, and pickup ordering."
+        subtitle="Fresh produce, Bubble Babies, recipes, nutrition, and pickup ordering."
       >
         <Grid4
           items={[
@@ -342,7 +180,7 @@ export default function App() {
   if (page === "partner") {
     return shell(
       <Section
-        title="Partner & Funder Opportunity"
+        title="Partner and Funder Opportunity"
         subtitle="A place-based model for food access, youth workforce, land restoration, and economic growth."
       >
         <Grid4
@@ -377,8 +215,7 @@ export default function App() {
 
           <p className="mt-5 max-w-3xl mx-auto text-lg text-white/90">
             A regenerative ecosystem responding to rising food costs,
-            unhealthy substitutes, community disconnection, and the need for
-            opportunity.
+            unhealthy substitutes, community disconnection, and the need for opportunity.
           </p>
 
           <button
@@ -391,9 +228,21 @@ export default function App() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-4 mt-12">
-          <QuickCard icon={<Sun />} title="Youngstown Weather" text="Live conditions integrated" />
-          <QuickCard icon={<CalendarDays />} title="Events" text="Growers Supply Market & more" />
-          <QuickCard icon={<Leaf />} title="Season Focus" text="Spring planting & community growth" />
+          <QuickCard
+            icon={<Sun />}
+            title="Youngstown Weather"
+            text="Live conditions integrated"
+          />
+          <QuickCard
+            icon={<CalendarDays />}
+            title="Events"
+            text="Growers Supply Market and more"
+          />
+          <QuickCard
+            icon={<Leaf />}
+            title="Season Focus"
+            text="Spring planting and community growth"
+          />
         </div>
 
         <div className="grid md:grid-cols-3 gap-4 mt-8">
