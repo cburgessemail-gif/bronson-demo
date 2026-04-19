@@ -1,995 +1,855 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
+  ArrowLeft,
+  ArrowRight,
+  BadgeDollarSign,
+  BookOpen,
+  CalendarDays,
+  Carrot,
+  CheckCircle2,
   CloudSun,
+  Heart,
+  Home,
+  Leaf,
+  MapPin,
+  Menu,
+  PanelsTopLeft,
+  PlayCircle,
   ShoppingBasket,
   Sprout,
-  Users,
-  GraduationCap,
-  HandHeart,
-  Building2,
-  MapPin,
-  CalendarDays,
-  ArrowRight,
-  ArrowLeft,
-  Globe2,
-  Volume2,
-  VolumeX,
-  Leaf,
-  Trees,
-  Sun,
-  Tractor,
-  HeartPulse,
-  BookOpen,
-  ShieldCheck,
   Star,
-  PlayCircle,
-  Home,
-  ScanLine,
-  BadgeCheck,
-  Phone,
-  Mail,
-  ExternalLink,
+  Store,
+  Trees,
+  Users,
+  UtensilsCrossed,
+  Warehouse,
+  X,
 } from "lucide-react";
 
-const LANGUAGES = [
-  { key: "en", label: "English" },
-  { key: "es", label: "Español" },
-  { key: "tl", label: "Tagalog" },
-  { key: "it", label: "Italiano" },
-  { key: "patwa", label: "Patwa" },
-  { key: "he", label: "עברית" },
-];
+type PageKey =
+  | "home"
+  | "guest"
+  | "customer"
+  | "grower"
+  | "youth"
+  | "supervisor"
+  | "vendor"
+  | "partner"
+  | "marketplace"
+  | "story"
+  | "calendar"
+  | "events";
 
-const COPY = {
-  en: {
-    portalTitle: "Bronson Family Farm",
-    portalSubtitle:
-      "A regenerative farm and community ecosystem where land becomes food, food becomes wellness, and wellness becomes opportunity.",
-    enter: "Enter the Demo",
-    marketplace: "Marketplace",
-    partners: "Partner With Us",
-    guided: "Guided Tour",
-    weatherNow: "Youngstown Weather",
-    whyTitle: "Why this ecosystem matters",
-    whyBody:
-      "Families are facing rising food costs, limited access to fresh food, and increasing dependence on overprocessed options. Bronson Family Farm responds by restoring land, growing food, supporting wellness, creating workforce pathways, and building a welcoming place people want to return to again and again.",
-    chooseRole: "Choose a pathway",
-    customer: "Customer",
-    grower: "Grower",
-    youth: "Youth Workforce",
-    guest: "Guest & Community",
-    partner: "Partner / Funder",
-    story: "Story",
-    back: "Back",
-    home: "Home",
-    next: "Next",
-    liveWeather: "Live weather view",
-    recipes: "Recipes",
-    nutrition: "Nutrition Guidance",
-    preorder: "Preorder & Pickup",
-    shopperHistory: "Buying Patterns & Preferences",
-    sell: "Sell Through the Ecosystem",
-    crop: "Crop Planning Calendar",
-    training: "Grower Training",
-    distribution: "Distribution Pathways",
-    learn: "Hands-On Learning",
-    support: "Supervisor & Support Staff",
-    certifications: "Skills & Readiness",
-    wellness: "Family Wellness Support",
-    events: "Events & Tours",
-    volunteer: "Volunteer Opportunities",
-    family: "Family-Friendly Activities",
-    resources: "Community Resources",
-    outcomes: "Outcomes & Alignment",
-    acres: "Land Activation",
-    jobs: "Workforce Pathways",
-    food: "Food Access",
-    sponsor: "Sponsorship Opportunities",
-    closeTitle: "Ready to grow with Youngstown and beyond",
-    closeBody:
-      "Explore the ecosystem, experience the vision, and help scale a model that connects regenerative agriculture, community health, education, and economic opportunity.",
-    scheduleTour: "Schedule a Tour",
-    contact: "Contact",
-    developed: "Developed by Bronson Family Farm",
-    enterStore: "Enter GrownBy Marketplace",
-    weatherCard: "Current Conditions",
-    eventsCard: "Upcoming Highlights",
-    scan: "QR Check-In Experience",
-    demoMode: "Funder-Ready Demo",
-    narrationOn: "Narration On",
-    narrationOff: "Narration Off",
-  },
-  es: {
-    portalTitle: "Bronson Family Farm",
-    portalSubtitle:
-      "Una finca regenerativa y ecosistema comunitario donde la tierra se convierte en alimento, el alimento en bienestar y el bienestar en oportunidad.",
-    enter: "Entrar a la Demo",
-    marketplace: "Mercado",
-    partners: "Asóciese con Nosotros",
-    guided: "Recorrido Guiado",
-    weatherNow: "Clima en Youngstown",
-    whyTitle: "Por qué este ecosistema importa",
-    whyBody:
-      "Las familias enfrentan altos costos de alimentos, acceso limitado a productos frescos y dependencia creciente de opciones ultraprocesadas. Bronson Family Farm responde restaurando la tierra, cultivando alimentos, apoyando el bienestar y creando oportunidades laborales.",
-    chooseRole: "Elija una ruta",
-    customer: "Cliente",
-    grower: "Productor",
-    youth: "Juventud Laboral",
-    guest: "Invitado y Comunidad",
-    partner: "Socio / Financiador",
-    story: "Historia",
-    back: "Atrás",
-    home: "Inicio",
-    next: "Siguiente",
-    liveWeather: "Ver clima en vivo",
-    recipes: "Recetas",
-    nutrition: "Guía Nutricional",
-    preorder: "Preorden y Recogida",
-    shopperHistory: "Hábitos de Compra",
-    sell: "Vender en el Ecosistema",
-    crop: "Calendario de Cultivo",
-    training: "Capacitación",
-    distribution: "Rutas de Distribución",
-    learn: "Aprendizaje Práctico",
-    support: "Supervisor y Personal de Apoyo",
-    certifications: "Habilidades y Preparación",
-    wellness: "Apoyo al Bienestar Familiar",
-    events: "Eventos y Recorridos",
-    volunteer: "Oportunidades de Voluntariado",
-    family: "Actividades Familiares",
-    resources: "Recursos Comunitarios",
-    outcomes: "Resultados y Alineación",
-    acres: "Activación de Terreno",
-    jobs: "Rutas Laborales",
-    food: "Acceso a Alimentos",
-    sponsor: "Oportunidades de Patrocinio",
-    closeTitle: "Listos para crecer con Youngstown y más allá",
-    closeBody:
-      "Explore el ecosistema, experimente la visión y ayude a escalar un modelo que conecta agricultura regenerativa, salud comunitaria, educación y oportunidad económica.",
-    scheduleTour: "Programar un Recorrido",
-    contact: "Contacto",
-    developed: "Desarrollado por Bronson Family Farm",
-    enterStore: "Entrar al Mercado GrownBy",
-    weatherCard: "Condiciones Actuales",
-    eventsCard: "Próximos Destacados",
-    scan: "Experiencia de Registro QR",
-    demoMode: "Demo para Financiadores",
-    narrationOn: "Narración Activada",
-    narrationOff: "Narración Desactivada",
-  },
-  tl: {
-    portalTitle: "Bronson Family Farm",
-    portalSubtitle:
-      "Isang regenerative farm at community ecosystem kung saan ang lupa ay nagiging pagkain, ang pagkain ay nagiging kalusugan, at ang kalusugan ay nagiging oportunidad.",
-    enter: "Pumasok sa Demo",
-    marketplace: "Pamilihan",
-    partners: "Makipag-Partner",
-    guided: "May Gabay na Tour",
-    weatherNow: "Panahon sa Youngstown",
-    whyTitle: "Bakit mahalaga ang ecosystem na ito",
-    whyBody:
-      "Tumataas ang halaga ng pagkain, kulang ang access sa sariwang ani, at dumarami ang pagdepende sa overprocessed na pagkain. Tumutugon ang Bronson Family Farm sa pamamagitan ng pagpapanumbalik ng lupa, pagtatanim ng pagkain, at paglikha ng oportunidad.",
-    chooseRole: "Pumili ng landas",
-    customer: "Mamimili",
-    grower: "Magsasaka",
-    youth: "Kabataang Workforce",
-    guest: "Bisita at Komunidad",
-    partner: "Kasosyo / Pondo",
-    story: "Kuwento",
-    back: "Bumalik",
-    home: "Bahay",
-    next: "Susunod",
-    liveWeather: "Live na panahon",
-    recipes: "Mga Recipe",
-    nutrition: "Gabay sa Nutrisyon",
-    preorder: "Preorder at Pickup",
-    shopperHistory: "Buying Patterns",
-    sell: "Magbenta sa Ecosystem",
-    crop: "Kalendaryo ng Pagtatanim",
-    training: "Pagsasanay",
-    distribution: "Pamamaraan ng Distribusyon",
-    learn: "Aktuwal na Pagkatuto",
-    support: "Supervisor at Support Staff",
-    certifications: "Kasanayan at Kahandaan",
-    wellness: "Suporta sa Pamilya",
-    events: "Mga Event at Tour",
-    volunteer: "Pagboboluntaryo",
-    family: "Pampamilyang Aktibidad",
-    resources: "Resource ng Komunidad",
-    outcomes: "Mga Resulta",
-    acres: "Pag-activate ng Lupa",
-    jobs: "Landas sa Trabaho",
-    food: "Access sa Pagkain",
-    sponsor: "Sponsorship",
-    closeTitle: "Handa nang lumago kasama ang Youngstown at higit pa",
-    closeBody:
-      "Tuklasin ang ecosystem, maranasan ang bisyon, at tumulong sa pagpapalawak ng modelong nagdurugtong sa agrikultura, kalusugan, edukasyon, at oportunidad.",
-    scheduleTour: "Mag-iskedyul ng Tour",
-    contact: "Makipag-ugnayan",
-    developed: "Binuo ng Bronson Family Farm",
-    enterStore: "Pumasok sa GrownBy Marketplace",
-    weatherCard: "Kasalukuyang Kalagayan",
-    eventsCard: "Mga Paparating na Tampok",
-    scan: "QR Check-In Experience",
-    demoMode: "Demo para sa Funders",
-    narrationOn: "Bukas ang Narration",
-    narrationOff: "Patay ang Narration",
-  },
-  it: {
-    portalTitle: "Bronson Family Farm",
-    portalSubtitle:
-      "Una fattoria rigenerativa e un ecosistema comunitario dove la terra diventa cibo, il cibo diventa benessere e il benessere diventa opportunità.",
-    enter: "Entra nella Demo",
-    marketplace: "Mercato",
-    partners: "Collabora con Noi",
-    guided: "Tour Guidato",
-    weatherNow: "Meteo di Youngstown",
-    whyTitle: "Perché questo ecosistema conta",
-    whyBody:
-      "Le famiglie affrontano l'aumento dei costi alimentari, accesso limitato al cibo fresco e crescente dipendenza da opzioni ultraprocessate. Bronson Family Farm risponde rigenerando la terra, coltivando cibo e creando opportunità.",
-    chooseRole: "Scegli un percorso",
-    customer: "Cliente",
-    grower: "Coltivatore",
-    youth: "Forza Lavoro Giovanile",
-    guest: "Ospite e Comunità",
-    partner: "Partner / Finanziatore",
-    story: "Storia",
-    back: "Indietro",
-    home: "Home",
-    next: "Avanti",
-    liveWeather: "Meteo in diretta",
-    recipes: "Ricette",
-    nutrition: "Guida Nutrizionale",
-    preorder: "Preordine e Ritiro",
-    shopperHistory: "Abitudini di Acquisto",
-    sell: "Vendi nell'Ecosistema",
-    crop: "Calendario delle Colture",
-    training: "Formazione",
-    distribution: "Canali di Distribuzione",
-    learn: "Apprendimento Pratico",
-    support: "Supervisore e Supporto",
-    certifications: "Competenze e Preparazione",
-    wellness: "Supporto al Benessere Familiare",
-    events: "Eventi e Visite",
-    volunteer: "Volontariato",
-    family: "Attività per Famiglie",
-    resources: "Risorse Comunitarie",
-    outcomes: "Risultati e Allineamento",
-    acres: "Attivazione del Terreno",
-    jobs: "Percorsi di Lavoro",
-    food: "Accesso al Cibo",
-    sponsor: "Opportunità di Sponsorizzazione",
-    closeTitle: "Pronti a crescere con Youngstown e oltre",
-    closeBody:
-      "Esplora l'ecosistema, vivi la visione e aiuta a far crescere un modello che unisce agricoltura rigenerativa, salute comunitaria, educazione e opportunità economica.",
-    scheduleTour: "Prenota una Visita",
-    contact: "Contatto",
-    developed: "Sviluppato da Bronson Family Farm",
-    enterStore: "Entra nel Marketplace GrownBy",
-    weatherCard: "Condizioni Attuali",
-    eventsCard: "Prossimi Appuntamenti",
-    scan: "Esperienza Check-In QR",
-    demoMode: "Demo per Finanziatori",
-    narrationOn: "Narrazione Attiva",
-    narrationOff: "Narrazione Disattiva",
-  },
-  patwa: {
-    portalTitle: "Bronson Family Farm",
-    portalSubtitle:
-      "A regenerative farm an community ecosystem weh tun land ina food, food ina wellness, an wellness ina opportunity.",
-    enter: "Go Ina di Demo",
-    marketplace: "Marketplace",
-    partners: "Partner Wid Wi",
-    guided: "Guided Tour",
-    weatherNow: "Youngstown Weather",
-    whyTitle: "Why dis ecosystem matter",
-    whyBody:
-      "Food cost a rise, fresh food hard fi reach, an too much family haffi lean pan overprocessed food. Bronson Family Farm a restore di land, grow good food, support wellness, an build opportunity.",
-    chooseRole: "Choose yuh pathway",
-    customer: "Customer",
-    grower: "Grower",
-    youth: "Youth Workforce",
-    guest: "Guest an Community",
-    partner: "Partner / Funder",
-    story: "Story",
-    back: "Go Back",
-    home: "Home",
-    next: "Next",
-    liveWeather: "Live weather",
-    recipes: "Recipes",
-    nutrition: "Nutrition Guidance",
-    preorder: "Preorder an Pickup",
-    shopperHistory: "Buying Habits",
-    sell: "Sell Through di Ecosystem",
-    crop: "Crop Planning Calendar",
-    training: "Grower Training",
-    distribution: "Distribution Pathways",
-    learn: "Hands-On Learning",
-    support: "Supervisor an Support Staff",
-    certifications: "Skills an Readiness",
-    wellness: "Family Wellness Support",
-    events: "Events an Tours",
-    volunteer: "Volunteer Opportunities",
-    family: "Family Activities",
-    resources: "Community Resources",
-    outcomes: "Outcomes an Alignment",
-    acres: "Land Activation",
-    jobs: "Workforce Pathways",
-    food: "Food Access",
-    sponsor: "Sponsorship Opportunity",
-    closeTitle: "Ready fi grow wid Youngstown an beyond",
-    closeBody:
-      "Explore di ecosystem, experience di vision, an help scale a model weh connect regenerative farming, community health, education, an economic opportunity.",
-    scheduleTour: "Schedule a Tour",
-    contact: "Contact",
-    developed: "Developed by Bronson Family Farm",
-    enterStore: "Enter GrownBy Marketplace",
-    weatherCard: "Current Conditions",
-    eventsCard: "Upcoming Highlights",
-    scan: "QR Check-In Experience",
-    demoMode: "Funder-Ready Demo",
-    narrationOn: "Narration On",
-    narrationOff: "Narration Off",
-  },
-  he: {
-    portalTitle: "Bronson Family Farm",
-    portalSubtitle:
-      "חווה רגנרטיבית ומערכת קהילתית שבה האדמה הופכת למזון, המזון לבריאות, והבריאות להזדמנות.",
-    enter: "כניסה להדגמה",
-    marketplace: "שוק",
-    partners: "שותפות איתנו",
-    guided: "סיור מודרך",
-    weatherNow: "מזג האוויר ביונגסטאון",
-    whyTitle: "למה המערכת הזאת חשובה",
-    whyBody:
-      "משפחות מתמודדות עם עלויות מזון עולות, גישה מוגבלת למזון טרי ותלות גוברת במזון מעובד. Bronson Family Farm משיבה באמצעות שיקום הקרקע, גידול מזון ויצירת הזדמנויות.",
-    chooseRole: "בחרו מסלול",
-    customer: "לקוח",
-    grower: "מגדל",
-    youth: "כוח עבודה צעיר",
-    guest: "אורח וקהילה",
-    partner: "שותף / מממן",
-    story: "סיפור",
-    back: "חזרה",
-    home: "בית",
-    next: "הבא",
-    liveWeather: "מזג אוויר חי",
-    recipes: "מתכונים",
-    nutrition: "הדרכה תזונתית",
-    preorder: "הזמנה ואיסוף",
-    shopperHistory: "דפוסי קנייה",
-    sell: "מכירה דרך המערכת",
-    crop: "לוח תכנון גידולים",
-    training: "הכשרת מגדלים",
-    distribution: "נתיבי הפצה",
-    learn: "למידה מעשית",
-    support: "מפקח וצוות תמיכה",
-    certifications: "מיומנויות ומוכנות",
-    wellness: "תמיכת רווחת המשפחה",
-    events: "אירועים וסיורים",
-    volunteer: "הזדמנויות התנדבות",
-    family: "פעילויות לכל המשפחה",
-    resources: "משאבי קהילה",
-    outcomes: "תוצאות והתאמה",
-    acres: "הפעלת קרקע",
-    jobs: "מסלולי תעסוקה",
-    food: "גישה למזון",
-    sponsor: "הזדמנויות חסות",
-    closeTitle: "מוכנים לצמוח עם יונגסטאון ומעבר",
-    closeBody:
-      "גלו את המערכת, חוו את החזון, ועזרו להרחיב מודל שמחבר חקלאות רגנרטיבית, בריאות קהילתית, חינוך והזדמנות כלכלית.",
-    scheduleTour: "קבעו סיור",
-    contact: "יצירת קשר",
-    developed: "פותח על ידי Bronson Family Farm",
-    enterStore: "כניסה לשוק GrownBy",
-    weatherCard: "תנאים נוכחיים",
-    eventsCard: "אירועים קרובים",
-    scan: "חוויית צ'ק-אין ב-QR",
-    demoMode: "הדגמה למממנים",
-    narrationOn: "קריינות פעילה",
-    narrationOff: "קריינות כבויה",
-  },
+type RoleCard = {
+  key: Exclude<PageKey, "home" | "marketplace" | "story" | "calendar" | "events">;
+  title: string;
+  icon: React.ComponentType<{ className?: string }>;
+  eyebrow: string;
+  tagline: string;
+  summary: string;
+  image: string;
+  features: string[];
+  primaryAction: { label: string; go: PageKey };
 };
 
-const WEATHER = {
-  location: "Youngstown, OH",
-  temp: "58°F",
-  condition: "Partly sunny",
-  detail: "A good day for field visits, tours, and spring growing.",
-  link: "https://www.accuweather.com/en/us/youngstown/44503/minute-weather-forecast/330121",
+const IMAGE_MAP = {
+  entrance: "/images/farm-entrance.jpg",
+  guest: "/images/guest-purpose.jpg",
+  customer: "/images/customer-market.jpg",
+  grower: "/images/grower-network.jpg",
+  youth: "/images/youth-workforce.jpg",
+  supervisor: "/images/supervisor-support.jpg",
+  vendor: "/images/vendor-market.jpg",
+  partner: "/images/partner-impact.jpg",
+  story: "/images/story-legacy.jpg",
+  marketplace: "/images/marketplace-grownby.jpg",
+  calendar: "/images/calendar-grow.jpg",
+  events: "/images/events-farm.jpg",
 };
 
-const EVENTS = [
-  {
-    title: "Growers Supply Market",
-    time: "May 16, 2026 · 9:00 AM–2:00 PM",
-    detail: "Off-grid market day with vendors, demonstrations, education, and QR-based entry.",
-  },
-  {
-    title: "Youth Workforce Pathway Preview",
-    time: "Seasonal training cycle",
-    detail: "Hands-on agriculture, support systems, and readiness-building for youth participants.",
-  },
-  {
-    title: "Community Tours & Partner Visits",
-    time: "By invitation and scheduled appointments",
-    detail: "Experience the regenerative vision, land activation, and partnership opportunities firsthand.",
-  },
-];
+const APP_TITLE = "Bronson Family Farm";
+const APP_SUBTITLE =
+  "A regenerative farm, marketplace, workforce hub, and community future.";
 
-const STORY_PANELS = [
+const roleCards: RoleCard[] = [
   {
+    key: "guest",
+    title: "Guest",
     icon: Trees,
-    title: "Restore the land",
-    body: "Transform underused land into a regenerative destination that produces food, learning, and belonging.",
+    eyebrow: "Start with meaning",
+    tagline: "Experience the land, the legacy, and the purpose.",
+    summary:
+      "Guests should understand why this land matters, why the farm exists, and why Bronson Family Farm is more than a place to visit.",
+    image: IMAGE_MAP.guest,
+    features: [
+      "Why this land matters",
+      "The story behind the vision",
+      "What guests can experience",
+      "Why people return",
+    ],
+    primaryAction: { label: "Enter Guest Experience", go: "guest" },
   },
   {
-    icon: HeartPulse,
-    title: "Support wellness",
-    body: "Help families access nourishing food, healthier choices, and community-centered wellness pathways.",
+    key: "customer",
+    title: "Customer",
+    icon: ShoppingBasket,
+    eyebrow: "Food, learning, return visits",
+    tagline: "Shop, learn, plan meals, and return with purpose.",
+    summary:
+      "Customers move easily into the marketplace, discover Bubble Babies™, seedlings, produce, recipes, and healthier food guidance.",
+    image: IMAGE_MAP.customer,
+    features: [
+      "Marketplace access",
+      "Recipes and nutrition",
+      "Bubble Babies™ and seedlings",
+      "Pickup and repeat visit pathways",
+    ],
+    primaryAction: { label: "Open Customer Journey", go: "customer" },
   },
   {
-    icon: GraduationCap,
-    title: "Build opportunity",
-    body: "Create visible pathways for youth, growers, volunteers, and partners to engage and grow.",
+    key: "grower",
+    title: "Grower",
+    icon: Sprout,
+    eyebrow: "Production and planning",
+    tagline: "Grow with a practical ecosystem, not a static page.",
+    summary:
+      "Growers should feel invited into crop planning, seasonal timing, collaboration, and a place-based supply ecosystem.",
+    image: IMAGE_MAP.grower,
+    features: [
+      "Crop planning calendar",
+      "Seasonal tasks",
+      "Supplies and support",
+      "Grower ecosystem vision",
+    ],
+    primaryAction: { label: "Open Grower Path", go: "grower" },
+  },
+  {
+    key: "youth",
+    title: "Youth Workforce",
+    icon: Users,
+    eyebrow: "Learning by doing",
+    tagline: "From exposure to responsibility, confidence, and skill.",
+    summary:
+      "Youth participants should see the farm as a place for hands-on learning, teamwork, stewardship, and future pathways.",
+    image: IMAGE_MAP.youth,
+    features: [
+      "Hands-on farm roles",
+      "Learning pathways",
+      "Wellness and structure",
+      "Workforce readiness",
+    ],
+    primaryAction: { label: "Open Youth Journey", go: "youth" },
+  },
+  {
+    key: "supervisor",
+    title: "Supervisor",
+    icon: PanelsTopLeft,
+    eyebrow: "Youth workforce support",
+    tagline: "Guide structure, support, safety, and growth.",
+    summary:
+      "Supervisor is part of the youth workforce program and includes oversight, encouragement, support resources, and operational coordination.",
+    image: IMAGE_MAP.supervisor,
+    features: [
+      "Attendance and check-ins",
+      "Role assignments",
+      "Support staff resources",
+      "Progress visibility",
+    ],
+    primaryAction: { label: "Open Supervisor View", go: "supervisor" },
+  },
+  {
+    key: "vendor",
+    title: "Vendor",
+    icon: Store,
+    eyebrow: "Growers Supply Market",
+    tagline: "Show up prepared, visible, and connected to the event flow.",
+    summary:
+      "Vendors should see a clean path into the Growers Supply Market experience, setup expectations, and event participation value.",
+    image: IMAGE_MAP.vendor,
+    features: [
+      "Event readiness",
+      "Vendor visibility",
+      "Market participation",
+      "Onsite flow preview",
+    ],
+    primaryAction: { label: "Open Vendor Path", go: "vendor" },
+  },
+  {
+    key: "partner",
+    title: "Partner",
+    icon: Heart,
+    eyebrow: "Impact and alignment",
+    tagline: "See the opportunity, the alignment, and the reason to join.",
+    summary:
+      "Partners and funders should quickly understand the land opportunity, youth impact, food access mission, and regenerative future.",
+    image: IMAGE_MAP.partner,
+    features: [
+      "Why invest",
+      "Community alignment",
+      "Impact opportunities",
+      "Shared future vision",
+    ],
+    primaryAction: { label: "Open Partner View", go: "partner" },
   },
 ];
 
-const ROLE_DATA = {
-  customer: {
-    icon: ShoppingBasket,
-    badge: "Marketplace + Nutrition",
-    intro:
-      "The customer pathway welcomes families and shoppers into a living food ecosystem with produce access, recipes, nutrition support, and a direct route to Bronson Family Farm's GrownBy marketplace.",
-    highlights: [
-      { icon: ShoppingBasket, title: "Shop fresh produce", body: "Browse fresh seasonal offerings, preorder online, and plan convenient pickup." },
-      { icon: BookOpen, title: "Recipes & food ideas", body: "Explore simple meal inspiration that helps families use fresh produce with confidence." },
-      { icon: HeartPulse, title: "Nutrition guidance", body: "See practical wellness messaging that supports better everyday food choices." },
-      { icon: ScanLine, title: "Preorder & QR pickup", body: "Connect online orders to event and market pickup experiences." },
-    ],
-    actionLabel: "Enter GrownBy Marketplace",
-    actionHref: "https://grownby.com/farms/bronson-family-farm/shop",
-    sideCards: ["Recipes", "Nutrition Guidance", "Preorder & Pickup", "Buying Patterns & Preferences"],
-  },
-  grower: {
-    icon: Sprout,
-    badge: "Production + Distribution",
-    intro:
-      "The grower pathway shows how farmers and producers can plug into a welcoming ecosystem for training, planning, visibility, shared infrastructure, and market participation.",
-    highlights: [
-      { icon: Sprout, title: "Crop planning", body: "Use a clear seasonal rhythm to think about what to sow, grow, and prepare next." },
-      { icon: Tractor, title: "Training & support", body: "Access practical guidance for production, ecosystem participation, and local collaboration." },
-      { icon: BadgeCheck, title: "Distribution pathways", body: "Connect to sales, pickups, events, and future grower network opportunities." },
-      { icon: Leaf, title: "Regenerative identity", body: "Participate in a model grounded in stewardship, land restoration, and community value." },
-    ],
-    actionLabel: "Explore Grower Pathway",
-    actionHref: "#grower-pathway",
-    sideCards: ["Sell Through the Ecosystem", "Crop Planning Calendar", "Grower Training", "Distribution Pathways"],
-  },
-  youth: {
-    icon: GraduationCap,
-    badge: "Learning + Support",
-    intro:
-      "The youth workforce pathway presents farming as a doorway into practical skills, confidence, mentorship, wellness support, and future readiness.",
-    highlights: [
-      { icon: GraduationCap, title: "Hands-on learning", body: "Move beyond theory into planting, growing, setup, teamwork, and real-world tasks." },
-      { icon: ShieldCheck, title: "Supervisor support", body: "Youth participants receive guidance from supervisors and support staff resources." },
-      { icon: HeartPulse, title: "Wellness-centered environment", body: "The pathway is designed to support whole-person growth, stability, and encouragement." },
-      { icon: BadgeCheck, title: "Readiness building", body: "Grow responsibility, communication, confidence, and transferable work habits." },
-    ],
-    actionLabel: "Explore Youth Pathway",
-    actionHref: "#youth-pathway",
-    sideCards: ["Hands-On Learning", "Supervisor & Support Staff", "Skills & Readiness", "Family Wellness Support"],
-  },
-  guest: {
-    icon: Users,
-    badge: "Experience + Return",
-    intro:
-      "The guest and community pathway invites people into a place they want to revisit for events, volunteerism, learning, family experiences, and meaningful connection to the vision.",
-    highlights: [
-      { icon: Users, title: "Events & tours", body: "Discover farm experiences, demonstrations, markets, and site visits." },
-      { icon: HandHeart, title: "Volunteer engagement", body: "Find ways to participate, serve, and become part of a growing ecosystem." },
-      { icon: Sun, title: "Welcoming atmosphere", body: "The environment is designed to feel warm, visually appealing, and worth returning to." },
-      { icon: MapPin, title: "Place-based story", body: "Experience a regenerative model rooted in Youngstown land, people, and possibility." },
-    ],
-    actionLabel: "Plan a Visit",
-    actionHref: "mailto:cburgess@bronsonfamilyfarm.com?subject=Schedule%20a%20Visit%20to%20Bronson%20Family%20Farm",
-    sideCards: ["Events & Tours", "Volunteer Opportunities", "Family-Friendly Activities", "Community Resources"],
-  },
-  partner: {
-    icon: Building2,
-    badge: "Alignment + Investment",
-    intro:
-      "The partner and funder pathway translates the vision into outcomes: land activation, food access, workforce development, community wellness, and scalable collaboration.",
-    highlights: [
-      { icon: Trees, title: "Land activation", body: "Reclaim and restore underused land for regenerative agriculture and community benefit." },
-      { icon: ShoppingBasket, title: "Food access", body: "Support healthier local food pathways and reduce barriers to fresh produce." },
-      { icon: GraduationCap, title: "Workforce development", body: "Strengthen youth and community readiness through hands-on pathways." },
-      { icon: Star, title: "Scalable impact", body: "Invest in a model that integrates education, health, agriculture, and local pride." },
-    ],
-    actionLabel: "Partner With Bronson Family Farm",
-    actionHref: "mailto:cburgess@bronsonfamilyfarm.com?subject=Partnership%20Interest%20-%20Bronson%20Family%20Farm",
-    sideCards: ["Outcomes & Alignment", "Land Activation", "Workforce Pathways", "Sponsorship Opportunities"],
-  },
-};
+const countdownTarget = new Date("2026-05-16T09:00:00-04:00");
 
-const ROLE_ORDER = ["customer", "grower", "youth", "guest", "partner"];
+function useCountdown(target: Date) {
+  const [now, setNow] = useState(Date.now());
 
-function cx(...parts) {
-  return parts.filter(Boolean).join(" ");
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const diff = Math.max(0, target.getTime() - now);
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  return { days, hours, minutes, seconds };
 }
 
-function SectionShell({ children, className = "" }) {
-  return (
-    <div className={cx("relative overflow-hidden rounded-[28px] border border-white/15 bg-white/10 backdrop-blur-xl shadow-2xl shadow-black/20", className)}>
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-amber-300/10" />
-      <div className="relative">{children}</div>
-    </div>
-  );
+function useTypewriter(lines: string[], speed = 18) {
+  const [display, setDisplay] = useState("");
+  const fullText = useMemo(() => lines.join("\n\n"), [lines]);
+
+  useEffect(() => {
+    let i = 0;
+    setDisplay("");
+    const id = window.setInterval(() => {
+      i += 1;
+      setDisplay(fullText.slice(0, i));
+      if (i >= fullText.length) window.clearInterval(id);
+    }, speed);
+    return () => window.clearInterval(id);
+  }, [fullText, speed]);
+
+  return display;
 }
 
-function ActionButton({ children, onClick, href, primary = false, icon: Icon, small = false }) {
-  const classes = cx(
-    "inline-flex items-center justify-center gap-2 rounded-full border transition-all duration-200",
-    small ? "px-4 py-2 text-sm" : "px-5 py-3 text-sm md:text-base",
-    primary
-      ? "border-emerald-300/50 bg-emerald-400/20 text-white hover:bg-emerald-400/30"
-      : "border-white/20 bg-white/10 text-white hover:bg-white/15"
-  );
+function formatNow() {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date());
+}
 
-  if (href) {
-    return (
-      <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className={classes}>
-        {Icon ? <Icon className="h-4 w-4" /> : null}
-        {children}
-      </a>
-    );
-  }
+function bgStyle(image: string, overlay = "rgba(7,26,17,.60)") {
+  return {
+    backgroundImage: `linear-gradient(${overlay}, ${overlay}), url("${image}")`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  } as React.CSSProperties;
+}
 
+function NavButton({
+  label,
+  onClick,
+  active,
+}: {
+  label: string;
+  onClick: () => void;
+  active?: boolean;
+}) {
   return (
-    <button onClick={onClick} className={classes}>
-      {Icon ? <Icon className="h-4 w-4" /> : null}
-      {children}
+    <button
+      onClick={onClick}
+      className={`rounded-full border px-4 py-2 text-sm transition ${
+        active
+          ? "border-white/70 bg-white text-slate-900"
+          : "border-white/20 bg-white/5 text-white hover:bg-white/10"
+      }`}
+    >
+      {label}
     </button>
   );
 }
 
-function MetricCard({ label, value, icon: Icon }) {
+function SectionCard({
+  icon: Icon,
+  title,
+  text,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  text: string;
+}) {
   return (
-    <div className="rounded-3xl border border-white/15 bg-black/20 p-4 text-white">
-      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10">
-        <Icon className="h-5 w-5" />
+    <div className="rounded-3xl border border-white/10 bg-white/8 p-5 backdrop-blur-md">
+      <div className="mb-3 inline-flex rounded-2xl bg-white/10 p-3">
+        <Icon className="h-5 w-5 text-white" />
       </div>
-      <div className="text-2xl font-semibold tracking-tight">{value}</div>
-      <div className="mt-1 text-sm text-white/70">{label}</div>
+      <h3 className="mb-2 text-lg font-semibold text-white">{title}</h3>
+      <p className="text-sm leading-6 text-white/80">{text}</p>
     </div>
   );
 }
 
-function App() {
-  const [language, setLanguage] = useState("en");
-  const [screen, setScreen] = useState("portal");
-  const [role, setRole] = useState("customer");
-  const [narrationOn, setNarrationOn] = useState(false);
-  const [guidedMode, setGuidedMode] = useState(false);
-  const [guidedIndex, setGuidedIndex] = useState(0);
-  const [weatherPulse, setWeatherPulse] = useState(true);
-  const speechRef = useRef(null);
+function StatTile({
+  value,
+  label,
+}: {
+  value: string;
+  label: string;
+}) {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-black/20 p-5 text-center backdrop-blur-md">
+      <div className="text-3xl font-semibold text-white">{value}</div>
+      <div className="mt-2 text-xs uppercase tracking-[0.22em] text-white/65">
+        {label}
+      </div>
+    </div>
+  );
+}
 
-  const t = COPY[language] || COPY.en;
-  const rtl = language === "he";
+export default function App() {
+  const [page, setPage] = useState<PageKey>("home");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [tourOn, setTourOn] = useState(true);
+  const [narrationOn, setNarrationOn] = useState(true);
 
-  const roleTitles = useMemo(
-    () => ({
-      customer: t.customer,
-      grower: t.grower,
-      youth: t.youth,
-      guest: t.guest,
-      partner: t.partner,
-    }),
-    [t]
+  const countdown = useCountdown(countdownTarget);
+
+  const currentRole = roleCards.find((r) => r.key === page);
+
+  const homeNarration = useTypewriter(
+    [
+      "Welcome to Bronson Family Farm.",
+      "This is not just a farm visit. It is a living ecosystem shaped by restoration, food access, workforce development, and the belief that people should want to come back again and again.",
+      "Choose a pathway to enter the experience.",
+    ],
+    14
   );
 
   useEffect(() => {
-    const timer = setInterval(() => setWeatherPulse((v) => !v), 3200);
-    return () => clearInterval(timer);
-  }, []);
+    if (!narrationOn) return;
+    const narrationMap: Record<PageKey, string> = {
+      home:
+        "Welcome to Bronson Family Farm. Choose a pathway to enter the experience.",
+      guest:
+        "Guest experience opens with the land, the legacy, and the reason this place exists.",
+      customer:
+        "Customer experience connects food, recipes, Bubble Babies, produce, and the marketplace.",
+      grower:
+        "Grower experience centers crop planning, supplies, ecosystem participation, and seasonal action.",
+      youth:
+        "Youth workforce experience emphasizes learning, responsibility, structure, and growth.",
+      supervisor:
+        "Supervisor experience supports the youth workforce with coordination, oversight, and care.",
+      vendor:
+        "Vendor experience connects to the Growers Supply Market and event readiness.",
+      partner:
+        "Partner experience shows alignment, impact, and investment opportunity.",
+      marketplace:
+        "Marketplace experience highlights Bubble Babies, seedlings, produce, pickups, and customer return pathways.",
+      story:
+        "The story page explains the meaning behind the land and the vision.",
+      calendar:
+        "The calendar page shows rhythm, season, and practical growing flow.",
+      events:
+        "Events page connects visitors to the market, demonstrations, and what to expect onsite.",
+    };
 
-  const speak = (text) => {
-    if (!narrationOn || typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const utteranceText = narrationMap[page];
+    if (!utteranceText || !("speechSynthesis" in window)) return;
+
     window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 0.95;
-    utter.pitch = 1;
-    const voiceHints = {
-      en: "English",
-      es: "Spanish",
-      tl: "Filipino",
-      it: "Italian",
-      patwa: "English",
-      he: "Hebrew",
-    };
-    const voices = window.speechSynthesis.getVoices();
-    const preferred = voices.find((v) => v.lang.toLowerCase().includes(language)) || voices.find((v) => v.name.includes(voiceHints[language] || ""));
-    if (preferred) utter.voice = preferred;
-    speechRef.current = utter;
-    window.speechSynthesis.speak(utter);
-  };
+    const utterance = new SpeechSynthesisUtterance(utteranceText);
+    utterance.lang = "en-US";
+    utterance.rate = 0.95;
+    utterance.pitch = 1;
+    window.speechSynthesis.speak(utterance);
 
-  useEffect(() => {
-    const texts = {
-      portal: `${t.portalTitle}. ${t.portalSubtitle}`,
-      story: `${t.whyTitle}. ${t.whyBody}`,
-      roles: `${t.chooseRole}. ${Object.values(roleTitles).join(", ")}.`,
-      customer: `${roleTitles.customer}. ${ROLE_DATA.customer.intro}`,
-      grower: `${roleTitles.grower}. ${ROLE_DATA.grower.intro}`,
-      youth: `${roleTitles.youth}. ${ROLE_DATA.youth.intro}`,
-      guest: `${roleTitles.guest}. ${ROLE_DATA.guest.intro}`,
-      partner: `${roleTitles.partner}. ${ROLE_DATA.partner.intro}`,
-      close: `${t.closeTitle}. ${t.closeBody}`,
-    };
-    const key = screen === "role" ? role : screen;
-    if (texts[key]) speak(texts[key]);
-  }, [screen, role, narrationOn, language]);
+    return () => window.speechSynthesis.cancel();
+  }, [page, narrationOn]);
 
-  useEffect(() => {
-    if (!guidedMode) return;
-    const steps = ["portal", "story", "roles", "customer", "grower", "youth", "guest", "partner", "close"];
-    const current = steps[guidedIndex] || "portal";
-    if (current === "customer" || current === "grower" || current === "youth" || current === "guest" || current === "partner") {
-      setRole(current);
-      setScreen("role");
-    } else {
-      setScreen(current);
-    }
-  }, [guidedMode, guidedIndex]);
+  function go(next: PageKey) {
+    setPage(next);
+    setMenuOpen(false);
+  }
 
-  const nextGuided = () => {
-    const steps = ["portal", "story", "roles", "customer", "grower", "youth", "guest", "partner", "close"];
-    if (guidedIndex < steps.length - 1) setGuidedIndex((v) => v + 1);
-    else {
-      setGuidedMode(false);
-      setGuidedIndex(0);
-      setScreen("close");
-    }
-  };
-
-  const startGuided = () => {
-    setGuidedMode(true);
-    setGuidedIndex(0);
-    setScreen("portal");
-  };
-
-  const openRole = (key) => {
-    setGuidedMode(false);
-    setRole(key);
-    setScreen("role");
-  };
-
-  const currentRole = ROLE_DATA[role];
-  const RoleIcon = currentRole?.icon || ShoppingBasket;
+  const marketplaceItems = [
+    {
+      name: "Bubble Babies™",
+      desc: "Bronson Family Farm’s seed-starting system for early growing momentum.",
+      price: "Featured",
+      icon: Star,
+    },
+    {
+      name: "Seedlings",
+      desc: "Tomatoes, peppers, collards, cabbage, broccoli, lettuce, spinach, kale, and more.",
+      price: "Seasonal",
+      icon: Sprout,
+    },
+    {
+      name: "Fresh Produce",
+      desc: "Farm-grown items available for preorder, pickup, events, and community access.",
+      price: "Fresh",
+      icon: Carrot,
+    },
+    {
+      name: "Recipes & Guidance",
+      desc: "Practical food education tied to healthier choices and repeat visits.",
+      price: "Included",
+      icon: UtensilsCrossed,
+    },
+  ];
 
   return (
-    <div dir={rtl ? "rtl" : "ltr"} className="min-h-screen bg-[#08130f] text-white">
-      <div className="fixed inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.12),transparent_25%),linear-gradient(180deg,#08130f_0%,#0c1a15_35%,#10271e_100%)]" />
-        <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl" />
-        <div className="absolute right-0 top-40 h-80 w-80 rounded-full bg-amber-300/10 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-lime-300/10 blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.10] [background-image:linear-gradient(rgba(255,255,255,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.3)_1px,transparent_1px)] [background-size:48px_48px]" />
-      </div>
+    <div className="min-h-screen bg-[#09140d] text-white">
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(80,145,89,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(148,97,34,0.12),transparent_24%)]" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 pb-16 pt-5 sm:px-6 lg:px-8">
-        <SectionShell className="mb-6 px-4 py-4 md:px-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-400/20 ring-1 ring-emerald-200/30">
-                <Trees className="h-6 w-6" />
-              </div>
-              <div>
-                <div className="text-lg font-semibold tracking-tight">Bronson Family Farm</div>
-                <div className="text-sm text-white/65">{t.demoMode} · {t.developed}</div>
-              </div>
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#08110c]/80 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-6">
+          <button
+            onClick={() => go("home")}
+            className="flex items-center gap-3 text-left"
+          >
+            <div className="rounded-2xl bg-white/10 p-2">
+              <Leaf className="h-5 w-5 text-emerald-200" />
             </div>
-
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-3 py-2 text-sm text-white/80">
-                <Globe2 className="h-4 w-4" />
-                <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
-                  className="bg-transparent outline-none"
-                >
-                  {LANGUAGES.map((lang) => (
-                    <option key={lang.key} value={lang.key} className="text-black">
-                      {lang.label}
-                    </option>
-                  ))}
-                </select>
+            <div>
+              <div className="text-sm uppercase tracking-[0.28em] text-white/55">
+                Live Demo
               </div>
+              <div className="text-lg font-semibold">{APP_TITLE}</div>
+            </div>
+          </button>
 
-              <ActionButton
-                onClick={() => setNarrationOn((v) => !v)}
-                icon={narrationOn ? Volume2 : VolumeX}
-                small
-              >
-                {narrationOn ? t.narrationOn : t.narrationOff}
-              </ActionButton>
+          <div className="hidden items-center gap-2 lg:flex">
+            <NavButton label="Home" onClick={() => go("home")} active={page === "home"} />
+            <NavButton label="Story" onClick={() => go("story")} active={page === "story"} />
+            <NavButton
+              label="Marketplace"
+              onClick={() => go("marketplace")}
+              active={page === "marketplace"}
+            />
+            <NavButton
+              label="Calendar"
+              onClick={() => go("calendar")}
+              active={page === "calendar"}
+            />
+            <NavButton label="Events" onClick={() => go("events")} active={page === "events"} />
+          </div>
 
-              <ActionButton onClick={() => setScreen("portal")} icon={Home} small>
-                {t.home}
-              </ActionButton>
+          <div className="hidden items-center gap-2 md:flex">
+            <button
+              onClick={() => setTourOn((v) => !v)}
+              className={`rounded-full border px-4 py-2 text-sm ${
+                tourOn
+                  ? "border-emerald-300/40 bg-emerald-200/10 text-white"
+                  : "border-white/15 bg-white/5 text-white/75"
+              }`}
+            >
+              Guided Tour {tourOn ? "On" : "Off"}
+            </button>
+            <button
+              onClick={() => setNarrationOn((v) => !v)}
+              className={`rounded-full border px-4 py-2 text-sm ${
+                narrationOn
+                  ? "border-amber-300/40 bg-amber-200/10 text-white"
+                  : "border-white/15 bg-white/5 text-white/75"
+              }`}
+            >
+              Narration {narrationOn ? "On" : "Off"}
+            </button>
+          </div>
+
+          <button
+            onClick={() => setMenuOpen((v) => !v)}
+            className="rounded-2xl border border-white/10 bg-white/5 p-2 lg:hidden"
+          >
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+
+        {menuOpen && (
+          <div className="border-t border-white/10 bg-[#0b1610] lg:hidden">
+            <div className="mx-auto grid max-w-7xl gap-2 px-4 py-4 md:px-6">
+              {[
+                ["Home", "home"],
+                ["Story", "story"],
+                ["Marketplace", "marketplace"],
+                ["Calendar", "calendar"],
+                ["Events", "events"],
+                ["Guest", "guest"],
+                ["Customer", "customer"],
+                ["Grower", "grower"],
+                ["Youth Workforce", "youth"],
+                ["Supervisor", "supervisor"],
+                ["Vendor", "vendor"],
+                ["Partner", "partner"],
+              ].map(([label, key]) => (
+                <button
+                  key={key}
+                  onClick={() => go(key as PageKey)}
+                  className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-left text-white/90"
+                >
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
-        </SectionShell>
+        )}
+      </header>
 
-        {screen === "portal" && (
-          <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-            <SectionShell className="p-6 md:p-10">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-200/20 bg-emerald-300/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-emerald-100/80">
-                <Leaf className="h-3.5 w-3.5" />
-                regenerative agriculture · food access · workforce development
+      {page === "home" && (
+        <main>
+          <section
+            className="relative overflow-hidden"
+            style={bgStyle(IMAGE_MAP.entrance, "rgba(6,20,13,.52)")}
+          >
+            <div className="mx-auto grid min-h-[78vh] max-w-7xl items-end px-4 py-12 md:px-6 lg:grid-cols-[1.2fr_.8fr] lg:gap-10 lg:py-16">
+              <div className="max-w-3xl">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/75">
+                  <PlayCircle className="h-4 w-4" />
+                  Final Master Demo
+                </div>
+
+                <h1 className="text-4xl font-semibold leading-tight md:text-6xl">
+                  Step Into Something Different
+                </h1>
+
+                <p className="mt-5 max-w-2xl text-lg leading-8 text-white/86 md:text-xl">
+                  {APP_SUBTITLE}
+                </p>
+
+                <p className="mt-6 max-w-2xl whitespace-pre-line rounded-3xl border border-white/10 bg-black/20 p-5 text-sm leading-7 text-white/82 backdrop-blur-md">
+                  {tourOn ? homeNarration : "Choose a pathway below to enter the live experience."}
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <button
+                    onClick={() => go("guest")}
+                    className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:scale-[1.02]"
+                  >
+                    Enter Live Demo
+                  </button>
+                  <button
+                    onClick={() => go("marketplace")}
+                    className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                  >
+                    Open Marketplace
+                  </button>
+                  <button
+                    onClick={() => go("story")}
+                    className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                  >
+                    Why This Exists
+                  </button>
+                </div>
               </div>
 
-              <h1 className="max-w-4xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
-                {t.portalTitle}
-              </h1>
-              <p className="mt-5 max-w-3xl text-base leading-7 text-white/78 md:text-lg">
-                {t.portalSubtitle}
-              </p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <ActionButton onClick={() => setScreen("story")} primary icon={ArrowRight}>
-                  {t.enter}
-                </ActionButton>
-                <ActionButton href="https://grownby.com/farms/bronson-family-farm/shop" icon={ShoppingBasket}>
-                  {t.marketplace}
-                </ActionButton>
-                <ActionButton href="mailto:cburgess@bronsonfamilyfarm.com?subject=Partnership%20Interest%20-%20Bronson%20Family%20Farm" icon={Building2}>
-                  {t.partners}
-                </ActionButton>
-                <ActionButton onClick={startGuided} icon={PlayCircle}>
-                  {t.guided}
-                </ActionButton>
-              </div>
-
-              <div className="mt-10 grid gap-4 md:grid-cols-3">
-                <MetricCard label="Acres of possibility" value="118+" icon={Trees} />
-                <MetricCard label="Community-centered pathways" value="5" icon={Users} />
-                <MetricCard label="Languages in demo" value="6" icon={Globe2} />
-              </div>
-            </SectionShell>
-
-            <div className="grid gap-6">
-              <SectionShell className="p-5">
-                <div className="mb-4 flex items-center justify-between">
-                  <div>
-                    <div className="text-sm uppercase tracking-[0.2em] text-white/50">{t.weatherCard}</div>
-                    <div className="mt-1 text-lg font-semibold">{t.weatherNow}</div>
+              <div className="mt-10 grid gap-4 lg:mt-0">
+                <div className="rounded-[28px] border border-white/10 bg-black/25 p-5 backdrop-blur-md">
+                  <div className="mb-3 flex items-center gap-2 text-sm text-white/72">
+                    <CalendarDays className="h-4 w-4" />
+                    {formatNow()}
                   </div>
-                  <CloudSun className={cx("h-8 w-8 transition-transform duration-700", weatherPulse && "scale-110")} />
+                  <div className="text-xl font-semibold">Growers Supply Market</div>
+                  <div className="mt-1 text-sm text-white/72">May 16, 2026 • 9:00 AM–2:00 PM</div>
+                  <div className="mt-4 grid grid-cols-4 gap-3">
+                    <StatTile value={`${countdown.days}`} label="Days" />
+                    <StatTile value={`${countdown.hours}`} label="Hours" />
+                    <StatTile value={`${countdown.minutes}`} label="Minutes" />
+                    <StatTile value={`${countdown.seconds}`} label="Seconds" />
+                  </div>
                 </div>
-                <div className="text-3xl font-semibold">{WEATHER.temp}</div>
-                <div className="mt-1 text-white/75">{WEATHER.condition}</div>
-                <div className="mt-1 text-sm text-white/55">{WEATHER.location}</div>
-                <p className="mt-3 text-sm leading-6 text-white/70">{WEATHER.detail}</p>
-                <div className="mt-4">
-                  <ActionButton href={WEATHER.link} icon={ExternalLink} small>
-                    {t.liveWeather}
-                  </ActionButton>
-                </div>
-              </SectionShell>
 
-              <SectionShell className="p-5">
-                <div className="text-sm uppercase tracking-[0.2em] text-white/50">{t.eventsCard}</div>
-                <div className="mt-4 space-y-4">
-                  {EVENTS.map((event) => (
-                    <div key={event.title} className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <div className="flex items-start gap-3">
-                        <CalendarDays className="mt-0.5 h-5 w-5 text-white/75" />
+                <div className="rounded-[28px] border border-white/10 bg-black/25 p-5 backdrop-blur-md">
+                  <div className="mb-3 flex items-center gap-2 text-sm text-white/72">
+                    <CloudSun className="h-4 w-4" />
+                    Youngstown Snapshot
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-2xl bg-white/8 p-4">
+                      <div className="text-xs uppercase tracking-[0.22em] text-white/55">
+                        Today
+                      </div>
+                      <div className="mt-2 text-2xl font-semibold">Local Weather</div>
+                      <div className="mt-2 text-sm text-white/75">
+                        Live weather can be embedded on deployment for a real-time look and feel.
+                      </div>
+                    </div>
+                    <div className="rounded-2xl bg-white/8 p-4">
+                      <div className="text-xs uppercase tracking-[0.22em] text-white/55">
+                        Focus
+                      </div>
+                      <div className="mt-2 text-2xl font-semibold">Return Value</div>
+                      <div className="mt-2 text-sm text-white/75">
+                        Designed to make guests, customers, growers, and partners want to come back.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="mx-auto max-w-7xl px-4 py-12 md:px-6">
+            <div className="mb-8 flex items-end justify-between gap-4">
+              <div>
+                <div className="text-xs uppercase tracking-[0.28em] text-emerald-200/70">
+                  Role pathways
+                </div>
+                <h2 className="mt-2 text-3xl font-semibold md:text-4xl">
+                  Enter by purpose
+                </h2>
+              </div>
+              <button
+                onClick={() => go("events")}
+                className="hidden rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm md:block"
+              >
+                Explore Events
+              </button>
+            </div>
+
+            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {roleCards.map((role) => {
+                const Icon = role.icon;
+                return (
+                  <div
+                    key={role.key}
+                    className="overflow-hidden rounded-[30px] border border-white/10 bg-[#0d1a12]"
+                  >
+                    <div className="h-52" style={bgStyle(role.image, "rgba(8,20,14,.38)")} />
+                    <div className="p-6">
+                      <div className="mb-3 flex items-center gap-3">
+                        <div className="rounded-2xl bg-white/8 p-3">
+                          <Icon className="h-5 w-5 text-emerald-200" />
+                        </div>
                         <div>
-                          <div className="font-medium">{event.title}</div>
-                          <div className="text-sm text-emerald-100/80">{event.time}</div>
-                          <div className="mt-1 text-sm leading-6 text-white/65">{event.detail}</div>
+                          <div className="text-xs uppercase tracking-[0.22em] text-white/52">
+                            {role.eyebrow}
+                          </div>
+                          <div className="text-2xl font-semibold">{role.title}</div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </SectionShell>
-            </div>
-          </div>
-        )}
 
-        {screen === "story" && (
-          <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-            <SectionShell className="p-6 md:p-10">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-white/70">
-                {t.story}
-              </div>
-              <h2 className="mt-5 text-3xl font-semibold tracking-tight md:text-5xl">{t.whyTitle}</h2>
-              <p className="mt-5 max-w-3xl text-base leading-8 text-white/78 md:text-lg">
-                {t.whyBody}
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <ActionButton onClick={() => setScreen("roles")} primary icon={ArrowRight}>
-                  {t.next}
-                </ActionButton>
-                <ActionButton onClick={() => setScreen("portal")} icon={ArrowLeft}>
-                  {t.back}
-                </ActionButton>
-              </div>
-            </SectionShell>
+                      <p className="text-base leading-7 text-white/88">{role.tagline}</p>
+                      <p className="mt-3 text-sm leading-6 text-white/68">{role.summary}</p>
 
-            <div className="grid gap-4">
-              {STORY_PANELS.map((panel) => {
-                const Icon = panel.icon;
-                return (
-                  <SectionShell key={panel.title} className="p-5">
-                    <div className="flex items-start gap-4">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                        <Icon className="h-6 w-6" />
+                      <div className="mt-5 grid gap-2">
+                        {role.features.map((feature) => (
+                          <div
+                            key={feature}
+                            className="flex items-center gap-2 text-sm text-white/78"
+                          >
+                            <CheckCircle2 className="h-4 w-4 text-emerald-200" />
+                            {feature}
+                          </div>
+                        ))}
                       </div>
-                      <div>
-                        <div className="text-xl font-medium">{panel.title}</div>
-                        <div className="mt-2 text-sm leading-6 text-white/72">{panel.body}</div>
-                      </div>
+
+                      <button
+                        onClick={() => go(role.primaryAction.go)}
+                        className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900"
+                      >
+                        {role.primaryAction.label}
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
                     </div>
-                  </SectionShell>
+                  </div>
                 );
               })}
             </div>
-          </div>
-        )}
+          </section>
+        </main>
+      )}
 
-        {screen === "roles" && (
-          <div className="space-y-6">
-            <SectionShell className="p-6 md:p-8">
-              <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">{t.chooseRole}</h2>
-              <p className="mt-3 max-w-3xl text-base leading-7 text-white/74">
-                Move through the ecosystem based on how people actually engage with Bronson Family Farm: as customers, growers, youth participants, guests, and partners.
-              </p>
-            </SectionShell>
-
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
-              {ROLE_ORDER.map((key) => {
-                const data = ROLE_DATA[key];
-                const Icon = data.icon;
-                return (
-                  <button
-                    key={key}
-                    onClick={() => openRole(key)}
-                    className="group rounded-[28px] border border-white/15 bg-white/10 p-5 text-left backdrop-blur-xl transition duration-200 hover:-translate-y-1 hover:bg-white/15"
-                  >
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-black/20 ring-1 ring-white/10">
-                      <Icon className="h-7 w-7" />
-                    </div>
-                    <div className="mt-5 text-xl font-semibold tracking-tight">{roleTitles[key]}</div>
-                    <div className="mt-2 text-sm text-emerald-100/75">{data.badge}</div>
-                    <p className="mt-3 text-sm leading-6 text-white/68">{data.intro}</p>
-                    <div className="mt-5 inline-flex items-center gap-2 text-sm text-white/80">
-                      Explore
-                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {screen === "role" && currentRole && (
-          <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-            <SectionShell className="p-6 md:p-8">
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-400/15 ring-1 ring-emerald-200/20">
-                  <RoleIcon className="h-7 w-7" />
+      {page === "story" && (
+        <main className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+          <div
+            className="overflow-hidden rounded-[34px] border border-white/10"
+            style={bgStyle(IMAGE_MAP.story, "rgba(6,18,12,.58)")}
+          >
+            <div className="grid min-h-[72vh] items-end px-6 py-8 md:px-10 lg:grid-cols-[1fr_.95fr] lg:gap-8">
+              <div className="max-w-3xl">
+                <div className="text-xs uppercase tracking-[0.28em] text-emerald-200/70">
+                  Why this exists
                 </div>
-                <div>
-                  <div className="text-sm uppercase tracking-[0.2em] text-white/50">{currentRole.badge}</div>
-                  <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">{roleTitles[role]}</h2>
-                </div>
-              </div>
-
-              <p className="mt-5 max-w-3xl text-base leading-8 text-white/76 md:text-lg">
-                {currentRole.intro}
-              </p>
-
-              <div className="mt-8 grid gap-4 md:grid-cols-2">
-                {currentRole.highlights.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.title} className="rounded-3xl border border-white/12 bg-black/20 p-5">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <div className="mt-4 text-lg font-medium">{item.title}</div>
-                      <div className="mt-2 text-sm leading-6 text-white/68">{item.body}</div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                <ActionButton href={currentRole.actionHref} primary icon={role === "customer" ? ShoppingBasket : ArrowRight}>
-                  {currentRole.actionLabel}
-                </ActionButton>
-                <ActionButton onClick={() => setScreen("roles")} icon={ArrowLeft}>
-                  {t.back}
-                </ActionButton>
-                {guidedMode && (
-                  <ActionButton onClick={nextGuided} icon={ArrowRight}>
-                    {t.next}
-                  </ActionButton>
-                )}
-              </div>
-            </SectionShell>
-
-            <div className="grid gap-5">
-              <SectionShell className="p-5">
-                <div className="text-sm uppercase tracking-[0.2em] text-white/50">Experience modules</div>
-                <div className="mt-4 grid gap-3">
-                  {currentRole.sideCards.map((item) => (
-                    <div key={item} className="rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/80">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </SectionShell>
-
-              <SectionShell className="p-5">
-                <div className="flex items-center gap-3">
-                  <ScanLine className="h-5 w-5" />
-                  <div className="text-lg font-medium">{t.scan}</div>
-                </div>
-                <p className="mt-3 text-sm leading-6 text-white/68">
-                  Demonstrates private RSVP flow, Eventbrite Organizer scanning, arrival check-in, role-based welcome, and a polished guest experience at the gate.
+                <h2 className="mt-3 text-4xl font-semibold md:text-5xl">
+                  Purpose, Meaning & Living Ecosystem
+                </h2>
+                <p className="mt-5 max-w-2xl text-lg leading-8 text-white/85">
+                  Bronson Family Farm was not created as just another place to visit. It exists in
+                  response to rising food costs, overprocessed substitutes, disconnection from land,
+                  the need for healthier access, and the desire to restore both land and community.
                 </p>
-                <div className="mt-4 rounded-3xl border border-dashed border-white/20 bg-white/5 p-4 text-sm text-white/65">
-                  Private RSVP → QR confirmation → gate scan → event journey → return engagement
+                <p className="mt-4 max-w-2xl text-base leading-7 text-white/75">
+                  This vision carries family legacy, agricultural memory, cultural inheritance, and
+                  the belief that land can still feed people, teach people, gather people, and open
+                  new pathways for the future.
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <button
+                    onClick={() => go("guest")}
+                    className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900"
+                  >
+                    Enter as Guest
+                  </button>
+                  <button
+                    onClick={() => go("partner")}
+                    className="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white"
+                  >
+                    View Partner Opportunity
+                  </button>
                 </div>
-              </SectionShell>
-            </div>
-          </div>
-        )}
-
-        {screen === "close" && (
-          <SectionShell className="p-6 md:p-10">
-            <div className="max-w-4xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-white/70">
-                <Star className="h-3.5 w-3.5" />
-                final invitation
               </div>
-              <h2 className="mt-5 text-3xl font-semibold tracking-tight md:text-5xl">{t.closeTitle}</h2>
-              <p className="mt-5 text-base leading-8 text-white/76 md:text-lg">{t.closeBody}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <ActionButton href="mailto:cburgess@bronsonfamilyfarm.com?subject=Schedule%20a%20Tour%20-%20Bronson%20Family%20Farm" primary icon={MapPin}>
-                  {t.scheduleTour}
-                </ActionButton>
-                <ActionButton href="mailto:cburgess@bronsonfamilyfarm.com" icon={Mail}>
-                  {t.contact}
-                </ActionButton>
-                <ActionButton href="tel:3302751604" icon={Phone}>
-                  330-275-1604
-                </ActionButton>
-                <ActionButton href="https://grownby.com/farms/bronson-family-farm/shop" icon={ShoppingBasket}>
-                  {t.enterStore}
-                </ActionButton>
+
+              <div className="mt-8 grid gap-4 lg:mt-0">
+                <SectionCard
+                  icon={Trees}
+                  title="Why the Land Matters"
+                  text="This land is not just scenery. It represents restoration, stewardship, and the opportunity to turn underused ground into nourishment, learning, gathering, and belonging."
+                />
+                <SectionCard
+                  icon={Carrot}
+                  title="Why the Farm Exists"
+                  text="The farm responds to real need: food costs are rising, too many families are forced toward unhealthy substitutes, and communities need stronger local pathways to healthier living."
+                />
+                <SectionCard
+                  icon={BookOpen}
+                  title="Why the Story Matters"
+                  text="The vision grows from family farming legacy, memory, cultural roots, and the belief that community healing can begin with land, food, and purpose."
+                />
+                <SectionCard
+                  icon={Heart}
+                  title="Why People Return"
+                  text="This is not meant to feel like a one-time stop. It is designed as a place of welcome, meaning, education, beauty, and repeat connection."
+                />
               </div>
             </div>
-          </SectionShell>
-        )}
-
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 px-1 text-xs text-white/45">
-          <div>{t.developed}</div>
-          <div className="flex items-center gap-4">
-            <span>bronsonfamilyfarm.com</span>
-            <span>Youngstown, Ohio</span>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+        </main>
+      )}
 
-export default App;
+      {page === "marketplace" && (
+        <main className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+          <section
+            className="overflow-hidden rounded-[34px] border border-white/10"
+            style={bgStyle(IMAGE_MAP.marketplace, "rgba(8,20,14,.50)")}
+          >
+            <div className="px-6 py-8 md:px-10 lg:grid lg:grid-cols-[1.1fr_.9fr] lg:gap-8">
+              <div>
+                <div className="text-xs uppercase tracking-[0.28em] text-emerald-200/70">
+                  Marketplace
+                </div>
+                <h2 className="mt-3 text-4xl font-semibold md:text-5xl">
+                  Food, seedlings, Bubble Babies™, and return visits
+                </h2>
+                <p className="mt-5 max-w-2xl text-lg leading-8 text-white/85">
+                  The marketplace should feel alive and connected to GrownBy, preorder pickup,
+                  produce access, recipes, nutrition guidance, and the everyday reasons customers
+                  come back.
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <a
+                    href="https://grownby.com/farms/bronson-family-farm/shop"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900"
+                  >
+                    Enter GrownBy Store
+                  </a>
+                  <button
+                    onClick={() => go("customer")}
+                    className="rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white"
+                  >
+                    Customer Journey
+                  </button>
+                </div>
+
+                <div className="mt-8 grid gap-4 md:grid-cols-2">
+                  {marketplaceItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <div
+                        key={item.name}
+                        className="rounded-[28px] border border-white/10 bg-black/20 p-5 backdrop-blur-md"
+                      >
+                        <div className="mb-3 flex items-center justify-between">
+                          <div className="rounded-2xl bg-white/10 p-3">
+                            <Icon className="h-5 w-5 text-emerald-200" />
+                          </div>
+                          <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.22em] text-white/70">
+                            {item.price}
+                          </div>
+                        </div>
+                        <div className="text-lg font-semibold">{item.name}</div>
+                        <div className="mt-2 text-sm leading-6 text-white/76">{item.desc}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="mt-8 lg:mt-0">
+                <div className="rounded-[30px] border border-white/10 bg-black/25 p-6 backdrop-blur-md">
+                  <div className="mb-4 flex items-center gap-2 text-sm text-white/75">
+                    <BadgeDollarSign className="h-4 w-4" />
+                    Customer return pathway
+                  </div>
+                  <div className="space-y-4">
+                    {[
+                      "Discover Bubble Babies™, seedlings, and produce",
+                      "See recipes and practical food education",
+                      "Preorder through the store",
+                      "Pick up at farm or market destination",
+                      "Return for new offerings, events, and seasonal updates",
+                    ].map((step, index) => (
+                      <div
+                        key={step}
+                        className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4"
+                      >
+                        <div className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-white text-sm font-semibold text-slate-900">
+                          {index + 1}
+                        </div>
+                        <div className="text-sm leading-6 text-white/82">{step}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 rounded-[26px] border border-emerald-300/20 bg-emerald-200/10 p-5">
+                    <div className="text-xs uppercase tracking-[0.24em] text-emerald-100/80">
+                      Customer value
+                    </div>
+                    <div className="mt-2 text-xl font-semibold">More than a store</div>
+                    <div className="mt-2 text-sm leading-6 text-white/80">
+                      The customer experience should support healthier choices, practical meal
+                      planning, repeat engagement, and a visible connection to the farm’s larger
+                      mission.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      )}
+
+      {page === "calendar" && (
+        <main className="mx-auto max-w-7xl px-4 py-10 md:px-6">
+          <section
+            className="overflow-hidden rounded-[34px] border border-white/10"
+            style={bgStyle(IMAGE_MAP.calendar, "rgba(8,17,12,.56)")}
+          >
+            <div className="px-6 py-8 md:px-10">
+              <div className="max-w-3xl">
+                <div className="text-xs uppercase tracking-[0.28em] text-emerald-200/70">
+                  Grower rhythm
+                </div>
+                <h2 className="mt-3 text-4xl font-semibold md:text-5xl">
+                  Seasonal crop planning and ecosystem timing
+                </h2>
+                <p className="mt-5 text-lg leading-8 text-white/84">
+                  The grower calendar should feel practical, seasonal, and alive — a place for
+                  planning, preparing, transplanting, harvesting,
