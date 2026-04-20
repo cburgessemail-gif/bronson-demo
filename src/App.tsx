@@ -12,43 +12,47 @@ import {
   Leaf,
   Store,
 } from "lucide-react";
+import "./index.css";
 
 export default function App() {
   const hero =
     "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1800&auto=format&fit=crop";
 
   const card =
-    "bg-white rounded-3xl shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl";
+    "bg-white rounded-3xl shadow-2xl p-6 hover:-translate-y-1 transition duration-300";
 
   const btn =
-    "px-6 py-4 rounded-2xl font-semibold text-lg transition hover:scale-[1.02]";
+    "inline-flex items-center gap-2 px-6 py-4 rounded-2xl font-semibold text-lg";
 
   return (
-    <div className="min-h-screen bg-[#eef3ea] text-[#10210f]">
+    <div className="min-h-screen bg-[#edf3ea] text-[#10210f]">
       {/* HERO */}
       <section
-        className="relative min-h-[720px] bg-cover bg-center"
+        className="relative text-white"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.58)),url(${hero})`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.60)),url(${hero})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "760px",
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 pt-6 pb-16">
+        <div className="max-w-7xl mx-auto px-6 pt-6">
           {/* top */}
-          <div className="flex justify-between items-center text-white">
+          <div className="flex justify-between items-center">
             <div className="flex items-center gap-2 text-xl font-semibold">
               <MapPin size={20} />
               Bronson Family Farm • Youngstown, Ohio
             </div>
 
-            <div className="bg-white text-black px-5 py-3 rounded-2xl flex items-center gap-3">
+            <div className="bg-white text-black px-5 py-3 rounded-2xl flex items-center gap-2">
               <Globe size={18} />
               English
             </div>
           </div>
 
-          {/* hero text */}
-          <div className="pt-16 max-w-4xl text-white">
-            <div className="text-5xl text-green-300 font-semibold mb-2">
+          {/* main */}
+          <div className="pt-20 max-w-5xl">
+            <div className="text-green-300 text-4xl font-semibold mb-2">
               Welcome to
             </div>
 
@@ -56,7 +60,7 @@ export default function App() {
               Bronson Family Farm
             </h1>
 
-            <p className="text-2xl md:text-3xl leading-relaxed mb-6 text-white/95">
+            <p className="text-2xl md:text-3xl leading-relaxed mb-6">
               A regenerative ecosystem responding to rising food costs,
               unhealthy substitutes, community disconnection, and the need for
               real opportunity.
@@ -69,20 +73,20 @@ export default function App() {
 
             <div className="flex flex-wrap gap-4">
               <a
-                href="https://grownby.com/farms/bronson-family-farm/shop"
-                target="_blank"
-                className={`${btn} bg-green-600 text-white`}
+                href="#roles"
+                className={`${btn} bg-green-600 text-white no-underline`}
               >
-                <Play className="inline mr-2" size={20} />
+                <Play size={20} />
                 Enter Live Demo
               </a>
 
               <a
                 href="https://grownby.com/farms/bronson-family-farm/shop"
                 target="_blank"
-                className={`${btn} bg-white/10 text-white border border-white/40`}
+                rel="noreferrer"
+                className={`${btn} bg-white/10 border border-white/40 text-white no-underline`}
               >
-                <ShoppingCart className="inline mr-2" size={20} />
+                <ShoppingCart size={20} />
                 Visit Marketplace
               </a>
             </div>
@@ -91,47 +95,47 @@ export default function App() {
       </section>
 
       {/* ROLE CARDS */}
-      <section className="max-w-7xl mx-auto px-6 -mt-20 relative z-20">
-        <div className="grid lg:grid-cols-6 md:grid-cols-3 gap-4">
+      <section id="roles" className="max-w-7xl mx-auto px-6 -mt-20 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           <div className={card}>
             <MapPin className="text-green-700 mb-4" size={34} />
-            <h3 className="text-3xl font-bold mb-3">Guest</h3>
-            <p className="text-lg">Enter the story, meaning, and mission.</p>
+            <h3 className="text-2xl font-bold mb-3">Guest</h3>
+            <p>Enter the story, meaning, and mission.</p>
           </div>
 
           <div className={card}>
             <ShoppingCart className="text-green-700 mb-4" size={34} />
-            <h3 className="text-3xl font-bold mb-3">Customer</h3>
-            <p className="text-lg">Shop produce, seedlings, recipes.</p>
+            <h3 className="text-2xl font-bold mb-3">Customer</h3>
+            <p>Shop produce, seedlings, recipes.</p>
           </div>
 
           <div className={card}>
             <Sprout className="text-green-700 mb-4" size={34} />
-            <h3 className="text-3xl font-bold mb-3">Grower</h3>
-            <p className="text-lg">Production planning and selling paths.</p>
+            <h3 className="text-2xl font-bold mb-3">Grower</h3>
+            <p>Production planning and selling paths.</p>
           </div>
 
           <div className={card}>
             <Users className="text-violet-700 mb-4" size={34} />
-            <h3 className="text-3xl font-bold mb-3">Youth Worker</h3>
-            <p className="text-lg">Skill, confidence, and future direction.</p>
+            <h3 className="text-2xl font-bold mb-3">Youth Worker</h3>
+            <p>Skill, confidence, and future direction.</p>
           </div>
 
           <div className={card}>
             <ShieldCheck className="text-blue-700 mb-4" size={34} />
-            <h3 className="text-3xl font-bold mb-3">Supervisor</h3>
-            <p className="text-lg">Mentoring, attendance, structure.</p>
+            <h3 className="text-2xl font-bold mb-3">Supervisor</h3>
+            <p>Mentoring, attendance, structure.</p>
           </div>
 
           <div className={card}>
             <Handshake className="text-orange-600 mb-4" size={34} />
-            <h3 className="text-3xl font-bold mb-3">Partner</h3>
-            <p className="text-lg">Invest in land, food, community.</p>
+            <h3 className="text-2xl font-bold mb-3">Partner</h3>
+            <p>Invest in land, food, community.</p>
           </div>
         </div>
       </section>
 
-      {/* LOWER PANELS */}
+      {/* LOWER */}
       <section className="max-w-7xl mx-auto px-6 py-10">
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 bg-white rounded-3xl shadow-xl p-8">
@@ -139,25 +143,25 @@ export default function App() {
               Why People Return
             </h2>
 
-            <div className="grid md:grid-cols-4 gap-6 text-lg">
+            <div className="grid md:grid-cols-4 gap-6">
               <div>
-                <Leaf className="text-green-700 mb-3" size={36} />
-                Fresh produce, Bubble Babies™, recipes and nutrition support.
+                <Leaf className="text-green-700 mb-3" size={34} />
+                Fresh produce, Bubble Babies™, recipes.
               </div>
 
               <div>
-                <Store className="text-green-700 mb-3" size={36} />
-                Grower opportunities, collaboration, seasonal markets.
+                <Store className="text-green-700 mb-3" size={34} />
+                Grower collaboration and markets.
               </div>
 
               <div>
-                <Users className="text-violet-700 mb-3" size={36} />
-                Youth pathways that build skill and confidence.
+                <Users className="text-violet-700 mb-3" size={34} />
+                Youth pathways building confidence.
               </div>
 
               <div>
-                <Sun className="text-yellow-500 mb-3" size={36} />
-                A place-based model restoring land and community.
+                <Sun className="text-yellow-500 mb-3" size={34} />
+                Restoring land and community.
               </div>
             </div>
           </div>
@@ -165,12 +169,12 @@ export default function App() {
           <div className="bg-[#dcead6] rounded-3xl shadow-xl p-8">
             <Sun className="text-green-800 mb-4" size={40} />
             <h3 className="text-4xl font-black text-green-800 mb-4">
-              Youngstown Weather Ready
+              Youngstown Ready
             </h3>
 
-            <p className="text-2xl mb-8">Outdoor Experience Ready</p>
+            <p className="text-2xl mb-6">Outdoor Experience Ready</p>
 
-            <div className="border-t border-green-700 pt-6 text-xl">
+            <div className="border-t border-green-700 pt-6 text-lg">
               Built for all seasons. Built for our community.
             </div>
           </div>
@@ -179,9 +183,8 @@ export default function App() {
 
       {/* FOOTER */}
       <footer className="bg-[#07210b] text-white">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-wrap gap-8 justify-between text-lg">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-wrap gap-6 justify-between">
           <div>Developed by Bronson Family Farm</div>
-          <div>About the Farm</div>
           <div>Mission</div>
           <div>Programs</div>
           <div>Contact</div>
