@@ -3,136 +3,104 @@ import React, { useState } from "react";
 export default function App() {
   const [page, setPage] = useState("home");
 
-  const cards = [
+  const pathways = [
     {
       id: "guest",
-      num: "01",
       title: "Guest",
-      mission: "Understand the vision, story, and purpose of Bronson Family Farm.",
-      outcome:
+      subtitle: "Understand the vision, story, and purpose.",
+      mission:
         "Guests leave understanding why this land matters and why the work should continue.",
-      color: "from-emerald-500/20 to-green-300/5",
     },
     {
       id: "customer",
-      num: "02",
       title: "Customer",
+      subtitle: "Fresh food, nutrition, and repeat healthy choices.",
       mission:
-        "Guide people toward fresh food, nutrition, and repeat healthy choices.",
-      outcome:
-        "Customers leave informed, connected to healthier food choices, and ready to return regularly.",
-      color: "from-lime-500/20 to-green-300/5",
+        "Customers leave informed and connected to healthier food choices.",
     },
     {
       id: "marketplace",
-      num: "03",
       title: "Marketplace",
+      subtitle: "Convert interest into purchasing power.",
       mission:
-        "Convert interest into purchasing power and long-term sustainability.",
-      outcome:
-        "Visitors clearly understand how to buy, support the mission, and keep the ecosystem sustainable.",
-      color: "from-amber-500/20 to-orange-300/5",
+        "Marketplace visitors support long-term sustainability.",
     },
     {
       id: "grower",
-      num: "04",
       title: "Grower",
+      subtitle: "Connect producers to opportunity.",
       mission:
-        "Connect producers to opportunity and meaningful market participation.",
-      outcome:
-        "Growers understand there is a real place for them to participate, sell, learn, and grow.",
-      color: "from-cyan-500/20 to-teal-300/5",
+        "Growers discover participation, markets, and growth.",
     },
     {
       id: "youth",
-      num: "05",
       title: "Youth Workforce",
-      mission: "Build skills, responsibility, and future readiness.",
-      outcome:
-        "Young people and families understand this pathway leads to growth and support.",
-      color: "from-violet-500/20 to-fuchsia-300/5",
+      subtitle: "Build skills, responsibility, readiness.",
+      mission:
+        "Young people grow through real pathways and support.",
     },
     {
       id: "partners",
-      num: "06",
       title: "Partners",
-      mission: "Align resources and collaboration for community benefit.",
-      outcome:
-        "Partners understand where they fit and what shared impact can look like.",
-      color: "from-sky-500/20 to-blue-300/5",
+      subtitle: "Align resources for community benefit.",
+      mission:
+        "Partners understand where they fit and create impact.",
     },
   ];
 
-  const current = cards.find((c) => c.id === page);
+  const current = pathways.find((p) => p.id === page);
 
   if (page !== "home" && current) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#06130d] via-[#0d2419] to-[#08110c] text-white">
-        <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="min-h-screen bg-gradient-to-br from-[#06261c] via-[#0b4b37] to-[#0f6b49] text-white">
+        <div className="max-w-7xl mx-auto px-6 py-8">
           <button
             onClick={() => setPage("home")}
-            className="mb-6 px-5 py-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition"
+            className="mb-8 px-5 py-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10"
           >
             ← Back
           </button>
 
-          <div
-            className={`rounded-3xl border border-white/10 bg-gradient-to-br ${current.color} backdrop-blur-xl p-10`}
-          >
-            <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-lg">
-              {current.num}
+          <div className="rounded-[32px] border border-white/10 bg-white/10 backdrop-blur-xl p-10">
+            <div className="text-sm uppercase tracking-[0.3em] text-yellow-200">
+              Mission Pathway
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-light mt-6">
-              {current.title}
-            </h1>
+            <h1 className="text-6xl font-bold mt-5">{current.title}</h1>
 
-            <p className="mt-6 text-xl text-white/75 leading-relaxed max-w-3xl">
-              {current.mission}
+            <p className="mt-6 text-2xl text-white/80 max-w-3xl leading-relaxed">
+              {current.subtitle}
             </p>
 
-            <div className="grid md:grid-cols-2 gap-6 mt-10">
+            <div className="grid md:grid-cols-2 gap-5 mt-10">
               {[
-                {
-                  t: "Sound Bite",
-                  d: "Clear, simple message that quickly explains the pathway.",
-                },
-                {
-                  t: "Intro",
-                  d: "Welcoming first impression that builds curiosity.",
-                },
-                {
-                  t: "Knowledge",
-                  d: "Teaches what matters and why it matters.",
-                },
-                {
-                  t: "Purpose",
-                  d: "Connects mission to real value and trust.",
-                },
-                {
-                  t: "Next",
-                  d: "Guides people into action and return visits.",
-                },
-              ].map((x) => (
+                "Sound Bite",
+                "Intro",
+                "Knowledge",
+                "Purpose",
+                "Next",
+              ].map((item) => (
                 <div
-                  key={x.t}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  key={item}
+                  className="rounded-3xl bg-black/20 border border-white/10 p-6"
                 >
-                  <p className="text-xs uppercase tracking-[0.25em] text-white/45">
-                    {x.t}
-                  </p>
-                  <p className="mt-3 text-white/75 leading-relaxed">{x.d}</p>
+                  <div className="text-xs uppercase tracking-[0.25em] text-white/50">
+                    {item}
+                  </div>
+                  <div className="mt-3 text-lg text-white/80">
+                    Meaningful content connected to mission outcome.
+                  </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-10 rounded-2xl border border-green-300/20 bg-green-500/10 p-6">
-              <p className="text-xs uppercase tracking-[0.25em] text-green-300">
+            <div className="mt-10 rounded-3xl bg-green-900/40 border border-green-300/20 p-7">
+              <div className="text-xs uppercase tracking-[0.25em] text-green-200">
                 Outcome
-              </p>
-              <p className="mt-3 text-lg text-white/80 leading-relaxed">
-                {current.outcome}
-              </p>
+              </div>
+              <div className="mt-3 text-2xl text-white/85 leading-relaxed">
+                {current.mission}
+              </div>
             </div>
           </div>
         </div>
@@ -141,83 +109,145 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#06130d] via-[#0d2419] to-[#08110c] text-white">
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl">
-          <p className="text-sm tracking-[0.3em] uppercase text-green-300">
-            Developed by Bronson Family Farm
-          </p>
+    <div className="min-h-screen bg-[#f4f1ea] text-[#123]">
+      {/* Top Header */}
+      <div className="bg-gradient-to-r from-[#06261c] via-[#08442f] to-[#0b5e3f] text-white">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="text-sm tracking-[0.3em] uppercase text-green-200">
+            Mission-Driven Ecosystem Demo
+          </div>
 
-          <h1 className="text-5xl md:text-7xl font-light mt-4 tracking-tight">
-            Bronson Family Farm
-          </h1>
+          <h1 className="text-6xl font-bold mt-3">Bronson Family Farm</h1>
 
-          <p className="mt-5 text-lg text-white/70 max-w-4xl leading-relaxed">
+          <p className="mt-4 text-xl text-white/80 max-w-4xl leading-relaxed">
             An ecosystem for food, learning, wellness, workforce, and community return.
           </p>
 
-          <p className="mt-3 text-sm uppercase tracking-[0.25em] text-white/45">
-            Serving Mahoning Valley through regenerative agriculture, education,
-            marketplace access, and partnership.
-          </p>
+          <div className="flex flex-wrap gap-3 mt-8">
+            {["Home", "Guest", "Customer", "Marketplace", "Grower", "Youth Workforce", "Partners"].map(
+              (item) => (
+                <button
+                  key={item}
+                  onClick={() =>
+                    setPage(
+                      item === "Home"
+                        ? "home"
+                        : item.toLowerCase().replaceAll(" ", "")
+                    )
+                  }
+                  className="px-5 py-3 rounded-full bg-white/10 border border-white/10 hover:bg-white/20"
+                >
+                  {item}
+                </button>
+              )
+            )}
+          </div>
         </div>
+      </div>
 
-        <div className="mt-10 mb-6">
-          <p className="text-sm uppercase tracking-[0.25em] text-green-300">
-            Choose a pathway
-          </p>
+      {/* Hero */}
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <div className="rounded-[36px] bg-gradient-to-br from-[#075234] via-[#0a6a42] to-[#158058] text-white p-10 shadow-2xl">
+          <div className="grid lg:grid-cols-2 gap-8 items-start">
+            <div>
+              <div className="inline-block px-5 py-2 rounded-full bg-white/10 text-sm uppercase tracking-[0.25em]">
+                Step into the ecosystem
+              </div>
 
-          <div className="w-full h-2 bg-white/10 rounded-full mt-3 overflow-hidden">
-            <div className="h-full w-full bg-gradient-to-r from-green-400 to-lime-300 rounded-full" />
+              <h2 className="text-7xl font-bold leading-[0.95] mt-6">
+                Bronson Family Farm
+                <br />
+                is more than a farm.
+              </h2>
+
+              <p className="mt-8 text-2xl text-white/80 leading-relaxed">
+                A regenerative ecosystem connecting land, food access,
+                marketplace activity, growers, youth workforce development,
+                education, and partnership in Youngstown and the Mahoning Valley.
+              </p>
+
+              <div className="mt-8 rounded-3xl bg-black/20 border border-white/10 p-7">
+                <div className="text-sm uppercase tracking-[0.25em] text-yellow-200">
+                  Mission
+                </div>
+                <p className="mt-4 text-2xl leading-relaxed text-white/85">
+                  Restore land, grow healthy food, create opportunity, and build
+                  community systems for the Mahoning Valley Area.
+                </p>
+              </div>
+
+              <div className="flex gap-4 mt-8 flex-wrap">
+                <button
+                  onClick={() => setPage("marketplace")}
+                  className="px-8 py-5 rounded-2xl bg-yellow-300 text-black font-bold text-xl"
+                >
+                  Enter Marketplace
+                </button>
+
+                <button className="px-8 py-5 rounded-2xl bg-white/10 border border-white/10 text-xl">
+                  Begin Guided Tour
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="rounded-3xl bg-white/10 border border-white/10 p-8">
+                <div className="text-6xl font-bold text-yellow-200">118+</div>
+                <div className="mt-2 text-2xl font-semibold">
+                  acres of vision and possibility
+                </div>
+                <p className="mt-4 text-xl text-white/75">
+                  A destination for food access, agritourism, education,
+                  workforce pathways, and community return.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/10 border border-white/10 p-8">
+                <div className="text-6xl font-bold text-yellow-200">6</div>
+                <div className="mt-2 text-2xl font-semibold">
+                  mission pathways
+                </div>
+                <p className="mt-4 text-xl text-white/75">
+                  Every pathway is built to achieve a specific outcome.
+                </p>
+              </div>
+
+              <div className="rounded-3xl bg-white/10 border border-white/10 p-8">
+                <div className="text-2xl font-semibold">Return Again</div>
+                <p className="mt-4 text-xl text-white/75">
+                  Built so visitors, customers, growers, youth, and partners
+                  always have a reason to come back.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          {cards.map((card) => (
+        {/* Pathway Grid */}
+        <div className="grid md:grid-cols-3 gap-6 mt-10">
+          {pathways.map((p) => (
             <button
-              key={card.id}
-              onClick={() => setPage(card.id)}
-              className={`text-left rounded-3xl border border-white/10 bg-gradient-to-br ${card.color} backdrop-blur-xl p-6 hover:scale-[1.02] transition`}
+              key={p.id}
+              onClick={() => setPage(p.id)}
+              className="text-left rounded-3xl bg-white border border-black/5 p-7 shadow-sm hover:shadow-xl transition"
             >
-              <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-green-300 font-semibold">
-                  {card.num}
-                </div>
-
-                <p className="text-xs uppercase tracking-[0.25em] text-white/40">
-                  Pathway
-                </p>
+              <div className="text-sm uppercase tracking-[0.25em] text-green-700">
+                Pathway
               </div>
 
-              <h2 className="text-3xl font-light mt-6">{card.title}</h2>
+              <h3 className="text-3xl font-bold mt-3 text-[#123]">
+                {p.title}
+              </h3>
 
-              <div className="mt-6">
-                <p className="text-xs uppercase tracking-[0.25em] text-white/40">
-                  Mission
-                </p>
-                <p className="mt-2 text-white/80 leading-relaxed">
-                  {card.mission}
-                </p>
-              </div>
+              <p className="mt-4 text-lg text-slate-600 leading-relaxed">
+                {p.subtitle}
+              </p>
 
-              <div className="mt-6">
-                <p className="text-xs uppercase tracking-[0.25em] text-white/40">
-                  Outcome
-                </p>
-                <p className="mt-2 text-white/70 leading-relaxed">
-                  {card.outcome}
-                </p>
-              </div>
-
-              <div className="mt-8 w-full rounded-2xl bg-green-500/15 border border-green-300/20 py-4 text-center">
+              <div className="mt-6 text-green-700 font-semibold">
                 Open Pathway →
               </div>
             </button>
           ))}
-        </div>
-
-        <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 text-center text-white/50 text-sm">
-          Built so people understand the mission, receive value, and have a reason to return again.
         </div>
       </div>
     </div>
