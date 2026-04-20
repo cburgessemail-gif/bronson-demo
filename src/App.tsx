@@ -1,8 +1,8 @@
-// NEXT STRONGEST MOVE
-// MAKE PARTNER SECTION LOOK PREMIUM WITH REAL LOGO WALL FEEL
-// REPLACE ENTIRE TRUSTED PARTNERS BLOCK WITH THIS
+// NEXT STRONGEST BUILD
+// ADD A CLEAN JOURNEY BAND UNDER THE TRUSTED PARTNERS SECTION
+// PASTE THIS DIRECTLY BELOW THE TRUSTED PARTNERS BLOCK ON HOME PAGE
 
-<div style={{ marginTop: 42 }}>
+<div style={{ marginTop: 34 }}>
   <div
     style={{
       fontSize: 12,
@@ -12,56 +12,109 @@
       marginBottom: 18,
     }}
   >
-    Trusted Partners
+    Explore the Ecosystem
   </div>
 
   <div
     style={{
-      ...glass,
-      padding: isMobile ? 18 : 24,
-      borderRadius: 28,
+      display: "grid",
+      gridTemplateColumns: isMobile ? "1fr" : "repeat(4,minmax(0,1fr))",
+      gap: 16,
     }}
   >
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: isMobile
-          ? "repeat(2,1fr)"
-          : "repeat(4,minmax(0,1fr))",
-        gap: 14,
-      }}
-    >
-      {[
-        "Home Depot",
-        "Petitti Gardens",
-        "Elliott's Garden Center",
-        "Central State",
-        "City of Youngstown",
-        "Youngstown Area Jewish Federation",
-        "GrownBy",
-        "Farm & Family Alliance",
-      ].map((name) => (
+    {[
+      {
+        step: "01",
+        title: "Enter the Story",
+        text: "Understand the land, the mission, and the reason this ecosystem exists.",
+        action: () => setPage("guest"),
+      },
+      {
+        step: "02",
+        title: "Visit Marketplace",
+        text: "Move into fresh produce, Bubble Babies™, recipes, and healthier choices.",
+        action: () => setPage("customer"),
+      },
+      {
+        step: "03",
+        title: "Grow With Us",
+        text: "Explore planning, production, market pathways, and shared grower support.",
+        action: () => setPage("grower"),
+      },
+      {
+        step: "04",
+        title: "Build the Future",
+        text: "See how youth workforce and supervision create training and opportunity.",
+        action: () => setPage("youth"),
+      },
+    ].map((item) => (
+      <button
+        key={item.step}
+        onClick={item.action}
+        style={{
+          ...glass,
+          padding: 22,
+          borderRadius: 26,
+          minHeight: 220,
+          textAlign: "left",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          cursor: "pointer",
+        }}
+      >
+        <div>
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 800,
+              letterSpacing: "0.12em",
+              color: "#bdf2ca",
+              textTransform: "uppercase",
+            }}
+          >
+            {item.step}
+          </div>
+
+          <div
+            style={{
+              marginTop: 14,
+              fontSize: 24,
+              lineHeight: 1.08,
+              fontWeight: 760,
+              color: "#ffffff",
+              letterSpacing: "-0.03em",
+            }}
+          >
+            {item.title}
+          </div>
+
+          <div
+            style={{
+              marginTop: 14,
+              fontSize: 17,
+              lineHeight: 1.58,
+              color: "rgba(255,255,255,0.78)",
+              fontWeight: 420,
+            }}
+          >
+            {item.text}
+          </div>
+        </div>
+
         <div
-          key={name}
           style={{
-            borderRadius: 20,
-            border: "1px solid rgba(255,255,255,0.08)",
-            background: "rgba(255,255,255,0.04)",
-            minHeight: 78,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            padding: "10px 12px",
-            color: "rgba(255,255,255,0.84)",
-            fontSize: 15,
-            fontWeight: 700,
-            lineHeight: 1.25,
+            marginTop: 18,
+            fontSize: 13,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            fontWeight: 800,
+            color: "#ffffff",
           }}
         >
-          {name}
+          Open →
         </div>
-      ))}
-    </div>
+      </button>
+    ))}
   </div>
 </div>
