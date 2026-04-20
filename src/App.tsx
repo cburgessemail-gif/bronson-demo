@@ -637,4 +637,3 @@ function LinkCard({ href, label }: { href: string; label: string }) {
 }
 
 export default App;
-
