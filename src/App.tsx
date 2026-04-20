@@ -39,21 +39,21 @@ export default function App() {
   const shell: React.CSSProperties = {
     minHeight: "100vh",
     background:
-      "radial-gradient(circle at top left, rgba(17,118,67,0.26), transparent 22%), radial-gradient(circle at top right, rgba(132,179,78,0.10), transparent 24%), linear-gradient(135deg, #02130d 0%, #062019 34%, #083127 64%, #03100b 100%)",
-    color: "#ffffff",
+      "radial-gradient(circle at left top, rgba(0,160,90,0.18), transparent 22%), radial-gradient(circle at right top, rgba(155,195,80,0.08), transparent 26%), linear-gradient(135deg,#02120c 0%,#051d17 34%,#072b22 68%,#03100b 100%)",
+    color: "#fff",
     fontFamily:
       'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
   };
 
   const wrap: React.CSSProperties = {
-    maxWidth: "1320px",
+    maxWidth: "1360px",
     margin: "0 auto",
-    padding: isMobile ? "22px 18px 42px" : "34px 30px 64px",
+    padding: isMobile ? "20px 18px 40px" : "34px 34px 70px",
   };
 
   const glass: React.CSSProperties = {
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.07)",
+    border: "1px solid rgba(255,255,255,0.10)",
+    background: "rgba(255,255,255,0.06)",
     backdropFilter: "blur(18px)",
     WebkitBackdropFilter: "blur(18px)",
     borderRadius: 30,
@@ -64,92 +64,59 @@ export default function App() {
     fontSize: 12,
     letterSpacing: "0.34em",
     textTransform: "uppercase",
-    color: "rgba(194,244,204,0.92)",
+    color: "rgba(199,245,208,0.92)",
   };
 
   const topBar: React.CSSProperties = {
     display: "flex",
     flexWrap: "wrap",
     gap: "10px 18px",
-    alignItems: "center",
     color: "rgba(255,255,255,0.82)",
     fontSize: 15,
-  };
-
-  const heroGrid: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: isMobile ? "1fr" : "1.02fr 0.98fr",
-    gap: 30,
-    alignItems: "stretch",
-    marginTop: 28,
-  };
-
-  const tilesGrid: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: isMobile ? "1fr" : "repeat(5, minmax(0, 1fr))",
-    gap: 20,
-    marginTop: 30,
-  };
-
-  const twoCol: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-    gap: 22,
-    marginTop: 30,
-  };
-
-  const threeCol: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: isMobile ? "1fr" : "repeat(3, minmax(0, 1fr))",
-    gap: 18,
-    marginTop: 30,
-  };
-
-  const titleStyle: React.CSSProperties = {
-    fontSize: isMobile ? 60 : 110,
-    lineHeight: 0.9,
-    letterSpacing: "-0.055em",
-    fontWeight: 800,
-    margin: "18px 0 0",
-  };
-
-  const pageTitle: React.CSSProperties = {
-    fontSize: isMobile ? 44 : 76,
-    lineHeight: 0.96,
-    letterSpacing: "-0.04em",
-    fontWeight: 800,
-    margin: "18px 0 0",
-  };
-
-  const pageText: React.CSSProperties = {
-    marginTop: 24,
-    maxWidth: 940,
-    fontSize: isMobile ? 21 : 28,
-    lineHeight: 1.48,
-    color: "rgba(255,255,255,0.84)",
   };
 
   const primaryBtn: React.CSSProperties = {
     border: "none",
     borderRadius: 999,
     background: "#ffffff",
-    color: "#03100b",
+    color: "#02110b",
     padding: "16px 24px",
-    fontSize: 15,
     fontWeight: 800,
+    fontSize: 15,
     cursor: "pointer",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.16)",
   };
 
   const secondaryBtn: React.CSSProperties = {
-    border: "1px solid rgba(255,255,255,0.16)",
+    border: "1px solid rgba(255,255,255,0.14)",
     borderRadius: 999,
     background: "rgba(255,255,255,0.08)",
     color: "#ffffff",
     padding: "16px 24px",
-    fontSize: 15,
     fontWeight: 800,
+    fontSize: 15,
     cursor: "pointer",
+  };
+
+  const heroGrid: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+    gap: 32,
+    alignItems: "stretch",
+    marginTop: 28,
+  };
+
+  const tilesGrid: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "repeat(5, minmax(0,1fr))",
+    gap: 20,
+    marginTop: 30,
+  };
+
+  const pageGrid: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+    gap: 24,
+    marginTop: 30,
   };
 
   function TopBar() {
@@ -163,7 +130,7 @@ export default function App() {
     );
   }
 
-  function BackButton() {
+  function Back() {
     return (
       <button
         onClick={() => setPage("home")}
@@ -174,104 +141,57 @@ export default function App() {
     );
   }
 
-  function FeatureCard({
-    title,
-    text,
-  }: {
-    title: string;
-    text: string;
-  }) {
-    return (
-      <div style={{ ...glass, padding: 26 }}>
-        <div
-          style={{
-            fontSize: 28,
-            lineHeight: 1.08,
-            fontWeight: 800,
-            color: "#ffffff",
-          }}
-        >
-          {title}
-        </div>
-        <p
-          style={{
-            fontSize: 20,
-            lineHeight: 1.55,
-            color: "rgba(255,255,255,0.78)",
-            marginTop: 16,
-          }}
-        >
-          {text}
-        </p>
-      </div>
-    );
-  }
-
   function Tile({
-    marker,
     title,
     text,
-    onClick,
+    code,
+    go,
   }: {
-    marker: string;
     title: string;
     text: string;
-    onClick: () => void;
+    code: string;
+    go: () => void;
   }) {
     return (
       <button
-        onClick={onClick}
+        onClick={go}
         style={{
           ...glass,
           padding: 22,
           minHeight: 220,
+          textAlign: "left",
+          color: "#fff",
+          cursor: "pointer",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          cursor: "pointer",
-          textAlign: "left",
-          color: "#ffffff",
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.05))",
         }}
       >
         <div>
           <div
             style={{
-              width: 56,
-              height: 56,
+              width: 54,
+              height: 54,
               borderRadius: 18,
               background: "rgba(255,255,255,0.10)",
-              border: "1px solid rgba(255,255,255,0.11)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#ffffff",
-              fontSize: marker.length > 1 ? 14 : 18,
               fontWeight: 800,
               marginBottom: 18,
             }}
           >
-            {marker}
+            {code}
           </div>
 
-          <div
-            style={{
-              fontSize: 26,
-              lineHeight: 1.06,
-              fontWeight: 800,
-              color: "#ffffff",
-            }}
-          >
-            {title}
-          </div>
+          <div style={{ fontSize: 26, fontWeight: 800 }}>{title}</div>
 
           <div
             style={{
               marginTop: 12,
               fontSize: 18,
-              lineHeight: 1.48,
-              color: "rgba(255,255,255,0.80)",
+              lineHeight: 1.45,
+              color: "rgba(255,255,255,0.78)",
             }}
           >
             {text}
@@ -280,12 +200,12 @@ export default function App() {
 
         <div
           style={{
-            marginTop: 20,
+            marginTop: 18,
+            color: "#bff1ca",
             fontSize: 13,
             letterSpacing: "0.08em",
-            textTransform: "uppercase",
             fontWeight: 800,
-            color: "#bdf2ca",
+            textTransform: "uppercase",
           }}
         >
           Enter
@@ -294,7 +214,7 @@ export default function App() {
     );
   }
 
-  function SimplePage({
+  function StandardPage({
     eyebrow,
     title,
     text,
@@ -303,27 +223,55 @@ export default function App() {
     eyebrow: string;
     title: string;
     text: string;
-    cards: { title: string; text: string }[];
+    cards: { t: string; d: string }[];
   }) {
-    const gridStyle =
-      cards.length === 2 ? twoCol : cards.length === 3 ? threeCol : twoCol;
-
     return (
       <div style={shell}>
         <div style={wrap}>
           <TopBar />
-          <BackButton />
-          <div style={{ ...label, marginTop: 26 }}>{eyebrow}</div>
-          <h1 style={pageTitle}>{title}</h1>
-          <p style={pageText}>{text}</p>
+          <Back />
 
-          <div style={gridStyle}>
-            {cards.map((card) => (
-              <FeatureCard
-                key={card.title}
-                title={card.title}
-                text={card.text}
-              />
+          <div style={{ ...label, marginTop: 26 }}>{eyebrow}</div>
+
+          <h1
+            style={{
+              fontSize: isMobile ? 44 : 76,
+              lineHeight: 0.96,
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              margin: "18px 0 0",
+            }}
+          >
+            {title}
+          </h1>
+
+          <p
+            style={{
+              marginTop: 24,
+              maxWidth: 940,
+              fontSize: isMobile ? 21 : 28,
+              lineHeight: 1.48,
+              color: "rgba(255,255,255,0.84)",
+            }}
+          >
+            {text}
+          </p>
+
+          <div style={pageGrid}>
+            {cards.map((c) => (
+              <div key={c.t} style={{ ...glass, padding: 26 }}>
+                <div style={{ fontSize: 28, fontWeight: 800 }}>{c.t}</div>
+                <p
+                  style={{
+                    marginTop: 16,
+                    fontSize: 20,
+                    lineHeight: 1.55,
+                    color: "rgba(255,255,255,0.78)",
+                  }}
+                >
+                  {c.d}
+                </p>
+              </div>
             ))}
           </div>
         </div>
@@ -333,18 +281,18 @@ export default function App() {
 
   if (page === "guest") {
     return (
-      <SimplePage
+      <StandardPage
         eyebrow="Guest Experience"
         title="See the land differently."
         text="Bronson Family Farm restores land, responds to rising food costs, reconnects community, and creates meaningful opportunity through agriculture, learning, and shared purpose."
         cards={[
           {
-            title: "Why it matters",
-            text: "Healthy food access, local opportunity, education, and community rebuilding belong together.",
+            t: "Why it matters",
+            d: "Healthy food access, local opportunity, education, and community rebuilding belong together.",
           },
           {
-            title: "What it becomes",
-            text: "A regenerative ecosystem with food, training, marketplace access, and belonging.",
+            t: "What it becomes",
+            d: "A regenerative ecosystem with food, training, marketplace access, and belonging.",
           },
         ]}
       />
@@ -353,22 +301,22 @@ export default function App() {
 
   if (page === "grower") {
     return (
-      <SimplePage
+      <StandardPage
         eyebrow="Grower Portal"
         title="Plan, grow, and reach market."
         text="Production planning, shared resources, and stronger pathways to selling, collaboration, and long-term growth."
         cards={[
           {
-            title: "Crop Planning",
-            text: "Seasonal production planning and next-step growing pathways.",
+            t: "Crop Planning",
+            d: "Seasonal planning and next-step production pathways.",
           },
           {
-            title: "Market Access",
-            text: "Multiple channels to move produce, products, and value-added goods.",
+            t: "Market Access",
+            d: "Connect products to customers, events, and channels.",
           },
           {
-            title: "Shared Resources",
-            text: "Training, collaboration, and a stronger ecosystem for growers.",
+            t: "Shared Resources",
+            d: "Training, tools, and ecosystem collaboration.",
           },
         ]}
       />
@@ -377,18 +325,18 @@ export default function App() {
 
   if (page === "youth") {
     return (
-      <SimplePage
+      <StandardPage
         eyebrow="Youth Workforce"
         title="Learn by doing."
         text="Build confidence, skills, work habits, and future direction through hands-on experience connected to food systems, land stewardship, and real opportunity."
         cards={[
           {
-            title: "Hands-On Farm Learning",
-            text: "Real-world experience through participation, responsibility, and skill-building.",
+            t: "Hands-On Learning",
+            d: "Real work experience through responsibility and contribution.",
           },
           {
-            title: "Career Readiness",
-            text: "Training that supports discipline, confidence, teamwork, and future pathways.",
+            t: "Career Readiness",
+            d: "Confidence, discipline, teamwork, and pathways forward.",
           },
         ]}
       />
@@ -397,18 +345,18 @@ export default function App() {
 
   if (page === "supervisor") {
     return (
-      <SimplePage
+      <StandardPage
         eyebrow="Supervisor Portal"
         title="Guide the pathway."
         text="Support workflow, attendance, safety, encouragement, and access to resources that help youth and teams succeed."
         cards={[
           {
-            title: "Attendance + Assignments",
-            text: "Track workflow, responsibilities, and day-to-day support needs.",
+            t: "Attendance + Assignments",
+            d: "Track workflow, responsibilities, and daily progress.",
           },
           {
-            title: "Wellness + Resources",
-            text: "Connect youth and teams to support systems that strengthen outcomes.",
+            t: "Wellness + Resources",
+            d: "Connect participants to support systems that strengthen outcomes.",
           },
         ]}
       />
@@ -420,43 +368,58 @@ export default function App() {
       <div style={shell}>
         <div style={wrap}>
           <TopBar />
-          <BackButton />
+          <Back />
 
           <div style={{ ...label, marginTop: 26 }}>Marketplace</div>
-          <h1 style={pageTitle}>Fresh food. Real choices.</h1>
-          <p style={pageText}>
+
+          <h1
+            style={{
+              fontSize: isMobile ? 44 : 76,
+              lineHeight: 0.96,
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              margin: "18px 0 0",
+            }}
+          >
+            Fresh food. Real choices.
+          </h1>
+
+          <p
+            style={{
+              marginTop: 24,
+              maxWidth: 940,
+              fontSize: isMobile ? 21 : 28,
+              lineHeight: 1.48,
+              color: "rgba(255,255,255,0.84)",
+            }}
+          >
             Shop produce, seedlings, Bubble Babies™, and connected food
-            experiences. This space centers healthy choices instead of
-            overprocessed substitutes.
+            experiences. Healthy choices over overprocessed substitutes.
           </p>
 
-          <div style={twoCol}>
+          <div style={pageGrid}>
             <div style={{ ...glass, overflow: "hidden", padding: 0 }}>
-              <div
-                style={{
-                  position: "relative",
-                  minHeight: isMobile ? 400 : 620,
-                }}
-              >
+              <div style={{ position: "relative", minHeight: 620 }}>
                 <img
                   src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=80"
-                  alt="Fresh produce marketplace"
                   style={{
-                    display: "block",
                     width: "100%",
                     height: "100%",
-                    minHeight: isMobile ? 400 : 620,
+                    minHeight: 620,
                     objectFit: "cover",
+                    display: "block",
                   }}
                 />
+
                 <div
                   style={{
                     position: "absolute",
                     inset: 0,
                     background:
-                      "linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.22), rgba(0,0,0,0.05))",
+                      "linear-gradient(to top, rgba(0,0,0,0.88), rgba(0,0,0,0.18), rgba(0,0,0,0.05))",
                   }}
                 />
+
                 <div
                   style={{
                     position: "absolute",
@@ -466,29 +429,31 @@ export default function App() {
                   }}
                 >
                   <div style={label}>Live Marketplace</div>
+
                   <div
                     style={{
                       marginTop: 12,
                       fontSize: isMobile ? 30 : 44,
                       lineHeight: 1.02,
                       fontWeight: 800,
-                      letterSpacing: "-0.04em",
                     }}
                   >
                     Bronson Family Farm x GrownBy
                   </div>
+
                   <p
                     style={{
                       marginTop: 14,
-                      maxWidth: 560,
                       fontSize: 19,
                       lineHeight: 1.55,
                       color: "rgba(255,255,255,0.86)",
+                      maxWidth: 540,
                     }}
                   >
                     Produce, seedlings, Bubble Babies™, recipes, and healthier
                     pathways for families.
                   </p>
+
                   <a
                     href="https://grownby.com/farms/bronson-family-farm/shop"
                     target="_blank"
@@ -507,18 +472,53 @@ export default function App() {
             </div>
 
             <div style={{ display: "grid", gap: 18 }}>
-              <FeatureCard
-                title="Food + wellness"
-                text="Shop fresh food and connect it to better eating habits, nutrition, and family meals."
-              />
-              <FeatureCard
-                title="Recipes + guidance"
-                text="Make healthy choices easier, clearer, and more practical."
-              />
-              <FeatureCard
-                title="Bubble Babies™"
-                text="A signature Bronson Family Farm experience connecting seedlings, learning, and accessible growing."
-              />
+              <div style={{ ...glass, padding: 26 }}>
+                <div style={{ fontSize: 28, fontWeight: 800 }}>
+                  Food + wellness
+                </div>
+                <p
+                  style={{
+                    marginTop: 16,
+                    fontSize: 20,
+                    lineHeight: 1.55,
+                    color: "rgba(255,255,255,0.78)",
+                  }}
+                >
+                  Shop fresh food and connect it to better eating habits.
+                </p>
+              </div>
+
+              <div style={{ ...glass, padding: 26 }}>
+                <div style={{ fontSize: 28, fontWeight: 800 }}>
+                  Recipes + guidance
+                </div>
+                <p
+                  style={{
+                    marginTop: 16,
+                    fontSize: 20,
+                    lineHeight: 1.55,
+                    color: "rgba(255,255,255,0.78)",
+                  }}
+                >
+                  Make healthy choices easier, clearer, and practical.
+                </p>
+              </div>
+
+              <div style={{ ...glass, padding: 26 }}>
+                <div style={{ fontSize: 28, fontWeight: 800 }}>
+                  Bubble Babies™
+                </div>
+                <p
+                  style={{
+                    marginTop: 16,
+                    fontSize: 20,
+                    lineHeight: 1.55,
+                    color: "rgba(255,255,255,0.78)",
+                  }}
+                >
+                  Seedlings, learning, and accessible growing.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -535,7 +535,15 @@ export default function App() {
           <div style={{ maxWidth: 830 }}>
             <div style={label}>Developed by Bronson Family Farm</div>
 
-            <h1 style={titleStyle}>
+            <h1
+              style={{
+                fontSize: isMobile ? 62 : 116,
+                lineHeight: 0.88,
+                fontWeight: 800,
+                letterSpacing: "-0.06em",
+                margin: "18px 0 0",
+              }}
+            >
               Bronson
               <br />
               Family
@@ -545,135 +553,8 @@ export default function App() {
 
             <p
               style={{
-                marginTop: 24,
+                marginTop: 26,
                 maxWidth: 760,
                 fontSize: isMobile ? 22 : 31,
                 lineHeight: 1.45,
-                color: "rgba(255,255,255,0.84)",
-              }}
-            >
-              A regenerative ecosystem responding to rising food costs,
-              unhealthy substitutes, community disconnection, and the need for
-              real opportunity.
-            </p>
-
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 14,
-                marginTop: 30,
-              }}
-            >
-              <button onClick={() => setPage("guest")} style={primaryBtn}>
-                Enter Live Demo
-              </button>
-
-              <button onClick={() => setPage("customer")} style={secondaryBtn}>
-                Visit Marketplace
-              </button>
-            </div>
-          </div>
-
-          <div style={{ ...glass, minHeight: isMobile ? 380 : 570, padding: 26 }}>
-            <div
-              style={{
-                height: "100%",
-                borderRadius: 24,
-                border: "1px solid rgba(255,255,255,0.10)",
-                background:
-                  "radial-gradient(circle at 18% 12%, rgba(123,191,132,0.22), transparent 22%), radial-gradient(circle at 72% 30%, rgba(69,132,95,0.18), transparent 24%), linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02))",
-                padding: 30,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <div style={label}>Ecosystem</div>
-                <div
-                  style={{
-                    marginTop: 18,
-                    fontSize: isMobile ? 34 : 50,
-                    lineHeight: 1.06,
-                    fontWeight: 800,
-                    letterSpacing: "-0.045em",
-                    color: "#ffffff",
-                  }}
-                >
-                  Land.
-                  <br />
-                  Marketplace.
-                  <br />
-                  Growers.
-                  <br />
-                  Youth workforce.
-                </div>
-              </div>
-
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 14,
-                }}
-              >
-                {["Community", "Food Access", "Training", "Opportunity"].map(
-                  (item) => (
-                    <div
-                      key={item}
-                      style={{
-                        borderRadius: 18,
-                        border: "1px solid rgba(255,255,255,0.10)",
-                        background: "rgba(255,255,255,0.08)",
-                        padding: "16px 18px",
-                        fontSize: 18,
-                        color: "rgba(255,255,255,0.92)",
-                        fontWeight: 700,
-                      }}
-                    >
-                      {item}
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style={tilesGrid}>
-          <Tile
-            marker="G"
-            title="Guest"
-            text="Story, mission, and meaning"
-            onClick={() => setPage("guest")}
-          />
-          <Tile
-            marker="C"
-            title="Customer"
-            text="Food, recipes, and wellness"
-            onClick={() => setPage("customer")}
-          />
-          <Tile
-            marker="GR"
-            title="Grower"
-            text="Production and market access"
-            onClick={() => setPage("grower")}
-          />
-          <Tile
-            marker="Y"
-            title="Youth Worker"
-            text="Training and future direction"
-            onClick={() => setPage("youth")}
-          />
-          <Tile
-            marker="S"
-            title="Supervisor"
-            text="Guidance, workflow, and support"
-            onClick={() => setPage("supervisor")}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+                color: "rgba(255,
