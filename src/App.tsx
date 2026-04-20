@@ -1,8 +1,43 @@
-// NEXT STRONGEST BUILD
-// ADD A CLEAN JOURNEY BAND UNDER THE TRUSTED PARTNERS SECTION
-// PASTE THIS DIRECTLY BELOW THE TRUSTED PARTNERS BLOCK ON HOME PAGE
+// FIX BOTH ISSUES NOW
 
-<div style={{ marginTop: 34 }}>
+// =====================================================
+// 1. REDUCE ALL TITLES / HEADERS
+// REPLACE THESE STYLE VALUES
+// =====================================================
+
+// HOME MAIN TITLE
+fontSize: isMobile ? 46 : 82,
+lineHeight: 0.94,
+fontWeight: 700,
+letterSpacing: "-0.04em",
+
+// PAGE TITLES
+fontSize: isMobile ? 34 : 58,
+lineHeight: 0.98,
+fontWeight: 700,
+letterSpacing: "-0.03em",
+
+// CARD TITLES
+fontSize: 22,
+lineHeight: 1.08,
+fontWeight: 700,
+
+// TILE TITLES
+fontSize: 22,
+lineHeight: 1.08,
+fontWeight: 700,
+
+// RIGHT HERO PANEL TITLE
+fontSize: isMobile ? 30 : 40,
+lineHeight: 1.06,
+fontWeight: 700,
+
+// =====================================================
+// 2. REAL LOGOS (NOT TEXT)
+// REPLACE TRUSTED PARTNERS BLOCK WITH THIS
+// =====================================================
+
+<div style={{ marginTop: 42 }}>
   <div
     style={{
       fontSize: 12,
@@ -12,109 +47,60 @@
       marginBottom: 18,
     }}
   >
-    Explore the Ecosystem
+    Trusted Partners
   </div>
 
   <div
     style={{
-      display: "grid",
-      gridTemplateColumns: isMobile ? "1fr" : "repeat(4,minmax(0,1fr))",
-      gap: 16,
+      ...glass,
+      padding: isMobile ? 18 : 24,
+      borderRadius: 28,
     }}
   >
-    {[
-      {
-        step: "01",
-        title: "Enter the Story",
-        text: "Understand the land, the mission, and the reason this ecosystem exists.",
-        action: () => setPage("guest"),
-      },
-      {
-        step: "02",
-        title: "Visit Marketplace",
-        text: "Move into fresh produce, Bubble Babies™, recipes, and healthier choices.",
-        action: () => setPage("customer"),
-      },
-      {
-        step: "03",
-        title: "Grow With Us",
-        text: "Explore planning, production, market pathways, and shared grower support.",
-        action: () => setPage("grower"),
-      },
-      {
-        step: "04",
-        title: "Build the Future",
-        text: "See how youth workforce and supervision create training and opportunity.",
-        action: () => setPage("youth"),
-      },
-    ].map((item) => (
-      <button
-        key={item.step}
-        onClick={item.action}
-        style={{
-          ...glass,
-          padding: 22,
-          borderRadius: 26,
-          minHeight: 220,
-          textAlign: "left",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          cursor: "pointer",
-        }}
-      >
-        <div>
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 800,
-              letterSpacing: "0.12em",
-              color: "#bdf2ca",
-              textTransform: "uppercase",
-            }}
-          >
-            {item.step}
-          </div>
-
-          <div
-            style={{
-              marginTop: 14,
-              fontSize: 24,
-              lineHeight: 1.08,
-              fontWeight: 760,
-              color: "#ffffff",
-              letterSpacing: "-0.03em",
-            }}
-          >
-            {item.title}
-          </div>
-
-          <div
-            style={{
-              marginTop: 14,
-              fontSize: 17,
-              lineHeight: 1.58,
-              color: "rgba(255,255,255,0.78)",
-              fontWeight: 420,
-            }}
-          >
-            {item.text}
-          </div>
-        </div>
-
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: isMobile
+          ? "repeat(2,1fr)"
+          : "repeat(4,minmax(0,1fr))",
+        gap: 14,
+      }}
+    >
+      {[
+        "https://logo.clearbit.com/homedepot.com",
+        "https://logo.clearbit.com/petittigardencenter.com",
+        "https://logo.clearbit.com/centralstate.edu",
+        "https://logo.clearbit.com/youngstownohio.gov",
+        "https://logo.clearbit.com/jewishyoungstown.org",
+        "https://logo.clearbit.com/grownby.com",
+        "https://logo.clearbit.com/facebook.com",
+        "https://logo.clearbit.com/google.com",
+      ].map((src, i) => (
         <div
+          key={i}
           style={{
-            marginTop: 18,
-            fontSize: 13,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            fontWeight: 800,
-            color: "#ffffff",
+            borderRadius: 20,
+            border: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(255,255,255,0.04)",
+            minHeight: 82,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 14,
           }}
         >
-          Open →
+          <img
+            src={src}
+            style={{
+              maxWidth: "120px",
+              maxHeight: "42px",
+              objectFit: "contain",
+              filter: "brightness(0) invert(1)",
+              opacity: 0.92,
+            }}
+          />
         </div>
-      </button>
-    ))}
+      ))}
+    </div>
   </div>
 </div>
