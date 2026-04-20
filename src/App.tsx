@@ -36,6 +36,15 @@ export default function App() {
     };
   }, []);
 
+  const resetButton: React.CSSProperties = {
+    appearance: "none",
+    WebkitAppearance: "none",
+    border: "none",
+    outline: "none",
+    font: "inherit",
+    textAlign: "left",
+  };
+
   const shell: React.CSSProperties = {
     minHeight: "100vh",
     background:
@@ -123,7 +132,7 @@ export default function App() {
   };
 
   const primaryBtn: React.CSSProperties = {
-    border: "none",
+    ...resetButton,
     borderRadius: 999,
     background: "#ffffff",
     color: "#04110c",
@@ -135,6 +144,7 @@ export default function App() {
   };
 
   const secondaryBtn: React.CSSProperties = {
+    ...resetButton,
     border: "1px solid rgba(255,255,255,0.16)",
     borderRadius: 999,
     background: "rgba(255,255,255,0.08)",
@@ -182,14 +192,15 @@ export default function App() {
       <button
         onClick={onClick}
         style={{
+          ...resetButton,
           ...glass,
+          width: "100%",
           padding: 22,
           minHeight: 208,
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
           cursor: "pointer",
-          textAlign: "left",
           color: "#ffffff",
         }}
       >
@@ -313,10 +324,7 @@ export default function App() {
         eyebrow="Guest Experience"
         title="See the land differently."
         text="Bronson Family Farm restores land, responds to rising food costs, reconnects community, and creates meaningful opportunity through agriculture, learning, and shared purpose."
-        cards={[
-          "Why it matters",
-          "What it becomes",
-        ]}
+        cards={["Why it matters", "What it becomes"]}
       />
     );
   }
@@ -637,11 +645,4 @@ export default function App() {
           <Tile
             marker="S"
             title="Supervisor"
-            text="Guidance, workflow, and support"
-            onClick={() => setPage("supervisor")}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
+           
