@@ -24,23 +24,26 @@ export default function App() {
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    const tick = () => {
+    const run = () =>
       setTime(
         new Date().toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
         })
       );
-    };
-    tick();
-    const i = setInterval(tick, 1000);
+    run();
+    const i = setInterval(run, 1000);
     return () => clearInterval(i);
   }, []);
 
-  const hero =
+  const farmHero =
     "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1800&q=80";
 
-  const overlay = "bg-gradient-to-br from-black/75 via-black/55 to-green-950/65";
+  const marketHero =
+    "https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1800&q=80";
+
+  const overlay =
+    "bg-gradient-to-br from-black/75 via-black/55 to-green-950/65";
 
   const card =
     "rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer";
@@ -48,12 +51,13 @@ export default function App() {
   function Layout(
     title: string,
     text: string,
-    body: React.ReactNode
+    body: React.ReactNode,
+    bg: string = farmHero
   ) {
     return (
       <div
         className="min-h-screen bg-cover bg-center text-white"
-        style={{ backgroundImage: `url(${hero})` }}
+        style={{ backgroundImage: `url(${bg})` }}
       >
         <div className={`min-h-screen ${overlay} px-6 py-8 md:px-14 md:py-12`}>
           <button
@@ -87,13 +91,9 @@ export default function App() {
       "Guest Experience",
       "Enter the story, meaning, and mission of the land.",
       <div className="grid md:grid-cols-2 gap-6">
+        <div className={card}>Restore land. Grow food. Build opportunity.</div>
         <div className={card}>
-          <h3 className="text-2xl font-bold mb-3">The Mission</h3>
-          <p>Restore land. Grow food. Build opportunity.</p>
-        </div>
-        <div className={card}>
-          <h3 className="text-2xl font-bold mb-3">The Place</h3>
-          <p>Historic Lansdowne Airport reimagined as a living ecosystem.</p>
+          Historic Lansdowne Airport transformed into a regenerative ecosystem.
         </div>
       </div>
     );
@@ -114,9 +114,10 @@ export default function App() {
 
         <div className={card}>
           <h3 className="text-2xl font-bold mb-3">Recipes + Nutrition</h3>
-          <p>Learn healthier meal choices for your family.</p>
+          <p>Healthy meals and smarter food choices.</p>
         </div>
-      </div>
+      </div>,
+      marketHero
     );
 
   if (page === "grower")
@@ -153,20 +154,17 @@ export default function App() {
   return (
     <div
       className="min-h-screen bg-cover bg-center text-white"
-      style={{ backgroundImage: `url(${hero})` }}
+      style={{ backgroundImage: `url(${farmHero})` }}
     >
       <div className={`min-h-screen ${overlay} px-6 py-8 md:px-14 md:py-12`}>
         <div className="flex flex-wrap gap-5 text-sm text-white/90">
           <div className="flex items-center gap-2">
             <MapPin size={16} /> Youngstown, Ohio
           </div>
-
           <div>{time}</div>
-
           <div className="flex items-center gap-2">
             <Sun size={16} /> 61°
           </div>
-
           <div className="flex items-center gap-2">
             <Cloud size={16} /> Clear
           </div>
@@ -178,9 +176,9 @@ export default function App() {
           </h1>
 
           <p className="mt-6 text-xl md:text-2xl max-w-4xl text-white/95">
-            A regenerative ecosystem responding to rising food costs, unhealthy
-            substitutes, community disconnection, and the need for real
-            opportunity.
+            A regenerative ecosystem responding to rising food costs,
+            unhealthy substitutes, community disconnection, and the need for
+            real opportunity.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -192,14 +190,13 @@ export default function App() {
               Enter Live Demo
             </button>
 
-            <a
-              href="https://grownby.com/farms/bronson-family-farm/shop"
-              target="_blank"
+            <button
+              onClick={() => setPage("customer")}
               className="px-7 py-4 rounded-full border border-white font-bold flex items-center gap-2"
             >
-              <ExternalLink size={18} />
+              <ShoppingCart size={18} />
               Visit Marketplace
-            </a>
+            </button>
           </div>
         </div>
 
