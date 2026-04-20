@@ -11,139 +11,109 @@ type View =
 
 type Lang = "en" | "es" | "tl" | "it" | "jam" | "he";
 
-type Product = {
-  key: string;
-  title: string;
-  text: string;
-  badge: string;
-  image: string;
-};
+type Block = { title: string; text: string };
 
-type Recipe = {
-  key: string;
-  title: string;
-  text: string;
-};
-
-type PageBlock = {
-  title: string;
-  text: string;
-};
-
-type LangPack = {
-  languageName: string;
-  shortLabel: string;
-  nav: Record<View, string>;
-  top: {
+type Copy = {
+  brand: {
     title: string;
     subtitle: string;
     language: string;
     guided: string;
     stopGuided: string;
-    speak: string;
-    mute: string;
+    narrationOn: string;
+    narrationOff: string;
   };
-  home: {
-    kicker: string;
+  nav: Record<View, string>;
+  tour: {
     title: string;
-    intro: string;
-    ctaPrimary: string;
-    ctaSecondary: string;
-    chips: string[];
-    stats: { number: string; title: string; text: string }[];
-    sectionTitle: string;
-    sectionText: string;
-    pathways: { key: View; title: string; text: string }[];
-  };
-  guidedTour: {
-    title: string;
-    intro: string;
     next: string;
     previous: string;
     finish: string;
     steps: { view: View; label: string; blurb: string }[];
   };
+  home: {
+    badge: string;
+    title: string;
+    text: string;
+    primary: string;
+    secondary: string;
+    chips: string[];
+    stats: { number: string; title: string; text: string }[];
+    sectionTitle: string;
+    sectionText: string;
+    cards: { key: View; title: string; text: string }[];
+  };
   guest: {
     badge: string;
-    heading: string;
-    intro: string;
-    cards: PageBlock[];
-    actions: { toCustomer: string; toPartners: string };
+    title: string;
+    text: string;
+    cards: Block[];
+    actions: [string, string];
   };
   customer: {
     badge: string;
-    heading: string;
-    intro: string;
-    cards: PageBlock[];
+    title: string;
+    text: string;
+    cards: Block[];
     nutritionTitle: string;
-    nutritionTips: string[];
-    recipeTitle: string;
-    recipes: Recipe[];
-    actions: {
-      marketplace: string;
-      guest: string;
-    };
+    nutrition: string[];
+    recipesTitle: string;
+    recipes: Block[];
+    actions: [string, string];
   };
   marketplace: {
     badge: string;
-    heading: string;
-    intro: string;
+    title: string;
+    text: string;
     chips: string[];
-    actions: {
-      store: string;
-      customer: string;
-      grower: string;
-      pickup: string;
-    };
-    productsTitle: string;
-    products: Product[];
-    strengthsTitle: string;
+    actions: [string, string, string, string];
+    featuredTitle: string;
+    products: { title: string; text: string; badge: string; accent: string }[];
+    strengthTitle: string;
     strengths: string[];
-    viewersTitle: string;
-    viewersText: string;
-    scheduleTitle: string;
-    schedule: string[];
+    viewerTitle: string;
+    viewerText: string;
+    rhythmTitle: string;
+    rhythm: string[];
   };
   grower: {
     badge: string;
-    heading: string;
-    intro: string;
-    cards: PageBlock[];
-    opportunitiesTitle: string;
-    opportunities: string[];
+    title: string;
+    text: string;
+    cards: Block[];
+    listTitle: string;
+    list: string[];
   };
   youth: {
     badge: string;
-    heading: string;
-    intro: string;
-    cards: PageBlock[];
-    supportTitle: string;
-    support: string[];
+    title: string;
+    text: string;
+    cards: Block[];
+    listTitle: string;
+    list: string[];
   };
   partners: {
     badge: string;
-    heading: string;
-    intro: string;
-    cards: PageBlock[];
-    partnerStripTitle: string;
-    partnerNames: string[];
+    title: string;
+    text: string;
+    cards: Block[];
+    stripTitle: string;
+    strip: string[];
   };
   footer: string;
 };
 
-const marketplaceImages = {
-  greens:
-    "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80",
-  seedlings:
-    "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=80",
-  bubble:
-    "https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?auto=format&fit=crop&w=1200&q=80",
-};
-
-const content: Record<Lang, LangPack> = {
+const copy: Record<Lang, Copy> = {
   en: {
-    languageName: "English",
-    shortLabel: "EN",
+    brand: {
+      title: "Bronson Family Farm",
+      subtitle: "Regenerative Farm Ecosystem Demo",
+      language: "Language",
+      guided: "Guided Tour",
+      stopGuided: "Stop Tour",
+      narrationOn: "Narration On",
+      narrationOff: "Narration Off",
+    },
     nav: {
       home: "Home",
       guest: "Guest",
@@ -153,22 +123,63 @@ const content: Record<Lang, LangPack> = {
       youth: "Youth Workforce",
       partners: "Partners",
     },
-    top: {
-      title: "Bronson Family Farm",
-      subtitle: "Regenerative Farm Ecosystem Demo",
-      language: "Language",
-      guided: "Guided Tour",
-      stopGuided: "Stop Tour",
-      speak: "Narration On",
-      mute: "Narration Off",
+    tour: {
+      title: "Guided Tour",
+      next: "Next Stop",
+      previous: "Previous",
+      finish: "Finish Tour",
+      steps: [
+        {
+          view: "home",
+          label: "Home",
+          blurb:
+            "Start with the vision. Bronson Family Farm is more than a farm. It is a regenerative ecosystem serving the Mahoning Valley Area.",
+        },
+        {
+          view: "guest",
+          label: "Guest",
+          blurb:
+            "Guests discover the story, the land, and why this work matters to families, food access, and community health.",
+        },
+        {
+          view: "customer",
+          label: "Customer",
+          blurb:
+            "Customers receive produce access, nutrition guidance, recipe ideas, and a smooth path into shopping.",
+        },
+        {
+          view: "marketplace",
+          label: "Marketplace",
+          blurb:
+            "The marketplace shows real commerce, seasonal offerings, pickup readiness, and connection to GrownBy.",
+        },
+        {
+          view: "grower",
+          label: "Grower",
+          blurb:
+            "Growers connect to planning, production, visibility, and community-centered selling opportunities.",
+        },
+        {
+          view: "youth",
+          label: "Youth Workforce",
+          blurb:
+            "Youth workforce highlights training, responsibility, supervision, and future opportunity.",
+        },
+        {
+          view: "partners",
+          label: "Partners",
+          blurb:
+            "Partners see how their support advances food access, restoration, workforce development, and visible public value.",
+        },
+      ],
     },
     home: {
-      kicker: "Step into the ecosystem",
+      badge: "Step into the ecosystem",
       title: "Bronson Family Farm is more than a farm.",
-      intro:
+      text:
         "It is a regenerative ecosystem connecting land, food access, marketplace activity, growers, youth workforce development, education, and partnership in Youngstown and the Mahoning Valley Area.",
-      ctaPrimary: "Enter Marketplace",
-      ctaSecondary: "Begin Guided Tour",
+      primary: "Enter Marketplace",
+      secondary: "Begin Guided Tour",
       chips: [
         "Serving the Mahoning Valley Area",
         "Fresh Local Food",
@@ -189,8 +200,8 @@ const content: Record<Lang, LangPack> = {
       ],
       sectionTitle: "Choose how people experience the platform.",
       sectionText:
-        "Each pathway is designed to feel purposeful, welcoming, and active — not like a presentation. Visitors should understand why the farm exists, what it offers, and where they can go next.",
-      pathways: [
+        "Each pathway is designed to feel purposeful, welcoming, and active — not like a presentation.",
+      cards: [
         {
           key: "guest",
           title: "Guest",
@@ -223,61 +234,10 @@ const content: Record<Lang, LangPack> = {
         },
       ],
     },
-    guidedTour: {
-      title: "Guided Tour",
-      intro: "Follow the ecosystem journey step by step.",
-      next: "Next Stop",
-      previous: "Previous",
-      finish: "Finish Tour",
-      steps: [
-        {
-          view: "home",
-          label: "Home",
-          blurb:
-            "Start with the vision: this is more than a farm. It is a regenerative ecosystem serving the Mahoning Valley Area.",
-        },
-        {
-          view: "guest",
-          label: "Guest",
-          blurb:
-            "Guests discover the story, the land, and the reason this work matters to families and community health.",
-        },
-        {
-          view: "customer",
-          label: "Customer",
-          blurb:
-            "Customers receive produce access, nutrition guidance, recipe ideas, and a smooth path into shopping.",
-        },
-        {
-          view: "marketplace",
-          label: "Marketplace",
-          blurb:
-            "The marketplace shows real commerce, seasonal offerings, pickup readiness, and GrownBy connection.",
-        },
-        {
-          view: "grower",
-          label: "Grower",
-          blurb:
-            "Growers connect to planning, production, visibility, and community-centered sales opportunities.",
-        },
-        {
-          view: "youth",
-          label: "Youth Workforce",
-          blurb:
-            "Youth workforce highlights training, responsibility, supervision, and future opportunity.",
-        },
-        {
-          view: "partners",
-          label: "Partners",
-          blurb:
-            "Partners see how their support advances food access, restoration, workforce development, and public value.",
-        },
-      ],
-    },
     guest: {
       badge: "Guest Experience",
-      heading: "Step into the story behind the land.",
-      intro:
+      title: "Step into the story behind the land.",
+      text:
         "Bronson Family Farm responds to rising food costs, community need, and the desire for healthier, more connected local systems.",
       cards: [
         {
@@ -293,15 +253,12 @@ const content: Record<Lang, LangPack> = {
           text: "Guests can continue into shopping, customer education, partnership exploration, or the youth workforce pathway.",
         },
       ],
-      actions: {
-        toCustomer: "Continue to Customer",
-        toPartners: "Explore Partners",
-      },
+      actions: ["Continue to Customer", "Explore Partners"],
     },
     customer: {
       badge: "Customer Experience",
-      heading: "Make healthy choices feel easier and more welcoming.",
-      intro:
+      title: "Make healthy choices feel easier and more welcoming.",
+      text:
         "Customers should feel cared for, informed, and invited back through produce access, nutrition guidance, recipes, and a clear path into the marketplace.",
       cards: [
         {
@@ -318,38 +275,32 @@ const content: Record<Lang, LangPack> = {
         },
       ],
       nutritionTitle: "Nutrition Guidance",
-      nutritionTips: [
+      nutrition: [
         "Choose more fresh greens, cabbage, broccoli, peppers, and seasonal produce when available.",
         "Use local produce to reduce dependence on heavily processed foods.",
         "Pair simple meal ideas with pickup options so healthy food is easier to use.",
       ],
-      recipeTitle: "Recipe Ideas",
+      recipesTitle: "Recipe Ideas",
       recipes: [
         {
-          key: "greens",
           title: "Mahoning Valley Greens Bowl",
           text: "Fresh greens, cabbage, peppers, and a simple dressing for a quick weekday meal.",
         },
         {
-          key: "soup",
           title: "Garden Vegetable Soup",
           text: "A flexible recipe for cabbage, collards, broccoli, herbs, and seasonal vegetables.",
         },
         {
-          key: "stir",
           title: "Farm Fresh Stir-Fry",
           text: "A quick skillet meal using peppers, broccoli, greens, and local add-ins.",
         },
       ],
-      actions: {
-        marketplace: "Go to Marketplace",
-        guest: "Back to Guest Experience",
-      },
+      actions: ["Go to Marketplace", "Back to Guest Experience"],
     },
     marketplace: {
       badge: "Marketplace Experience",
-      heading: "Marketplace powered by Bronson Family Farm + GrownBy",
-      intro:
+      title: "Marketplace powered by Bronson Family Farm + GrownBy",
+      text:
         "This page shows how customers browse what is available, plan pickup, and move naturally into real farm commerce.",
       chips: [
         "Serving the Mahoning Valley Area",
@@ -358,48 +309,45 @@ const content: Record<Lang, LangPack> = {
         "Fresh Local Food",
         "Seasonal Inventory",
       ],
-      actions: {
-        store: "Open GrownBy Store",
-        customer: "Back to Customer Path",
-        grower: "Become a Grower Vendor",
-        pickup: "Pickup Fridays 4–7 PM",
-      },
-      productsTitle: "Featured Marketplace Highlights",
+      actions: [
+        "Open GrownBy Store",
+        "Back to Customer Path",
+        "Become a Grower Vendor",
+        "Pickup Fridays 4–7 PM",
+      ],
+      featuredTitle: "Featured Marketplace Highlights",
       products: [
         {
-          key: "greens",
           title: "Fresh Greens Bundle",
           text: "SNAP-friendly produce focus, seasonal availability, and market pickup connection.",
           badge: "Available This Week",
-          image: marketplaceImages.greens,
+          accent: "#78a95c",
         },
         {
-          key: "seedlings",
           title: "Seedlings & Starts",
           text: "Garden-ready options for households, growers, and community planting activity.",
           badge: "Spring + Summer Ready",
-          image: marketplaceImages.seedlings,
+          accent: "#d78a3f",
         },
         {
-          key: "bubble",
           title: "Bubble Babies™",
           text: "A signature product that connects education, growing, and a memorable farm brand experience.",
           badge: "Featured Product",
-          image: marketplaceImages.bubble,
+          accent: "#cd6d5e",
         },
       ],
-      strengthsTitle: "Marketplace strengths",
+      strengthTitle: "Marketplace strengths",
       strengths: [
         "Direct path to real purchasing",
         "Pickup and pre-order readiness",
         "Seasonal product storytelling",
         "Bridge between learning and buying",
       ],
-      viewersTitle: "What this tells viewers",
-      viewersText:
+      viewerTitle: "What this tells viewers",
+      viewerText:
         "The farm is not only beautiful in concept. It is operational, community-serving, and capable of supporting repeat customer behavior through a real commerce channel.",
-      scheduleTitle: "Marketplace rhythm",
-      schedule: [
+      rhythmTitle: "Marketplace rhythm",
+      rhythm: [
         "Featured inventory updated by season",
         "Pickup-ready ordering flow",
         "Community-friendly shopping experience",
@@ -408,8 +356,8 @@ const content: Record<Lang, LangPack> = {
     },
     grower: {
       badge: "Grower Experience",
-      heading: "A welcoming ecosystem for growers and producers.",
-      intro:
+      title: "A welcoming ecosystem for growers and producers.",
+      text:
         "Growers enter a supportive pathway where production, seasonality, visibility, and market connection work together.",
       cards: [
         {
@@ -425,8 +373,8 @@ const content: Record<Lang, LangPack> = {
           text: "Growers should feel welcomed, useful, and visible inside a larger regional mission.",
         },
       ],
-      opportunitiesTitle: "Grower opportunities",
-      opportunities: [
+      listTitle: "Grower opportunities",
+      list: [
         "Seasonal visibility through marketplace participation",
         "Connection to community-facing sales",
         "Supportive ecosystem positioning rather than isolation",
@@ -434,8 +382,8 @@ const content: Record<Lang, LangPack> = {
     },
     youth: {
       badge: "Youth Workforce Experience",
-      heading: "Training, structure, support, and meaningful responsibility.",
-      intro:
+      title: "Training, structure, support, and meaningful responsibility.",
+      text:
         "This pathway shows hands-on learning, work habits, structure, supervision, and support. Supervisor belongs within Youth Workforce only.",
       cards: [
         {
@@ -451,8 +399,8 @@ const content: Record<Lang, LangPack> = {
           text: "Youth should see themselves inside a real ecosystem with purpose, skills, and future pathways.",
         },
       ],
-      supportTitle: "Support structure",
-      support: [
+      listTitle: "Support structure",
+      list: [
         "Supervisor guidance within youth workforce",
         "Clear task ownership and accountability",
         "Connected support staff resources and wellness-centered care",
@@ -460,8 +408,8 @@ const content: Record<Lang, LangPack> = {
     },
     partners: {
       badge: "Partners Experience",
-      heading: "Support that creates visible community value.",
-      intro:
+      title: "Support that creates visible community value.",
+      text:
         "Partners should clearly see how their involvement supports food access, workforce development, agritourism, restoration, and measurable community benefit.",
       cards: [
         {
@@ -477,8 +425,8 @@ const content: Record<Lang, LangPack> = {
           text: "A credible platform for resource partners, supporters, and long-term collaborators.",
         },
       ],
-      partnerStripTitle: "Current and desired partner visibility",
-      partnerNames: [
+      stripTitle: "Current and desired partner visibility",
+      strip: [
         "Home Depot",
         "Petitti Garden Centers",
         "Elliott's Garden Center",
@@ -491,9 +439,15 @@ const content: Record<Lang, LangPack> = {
   },
 
   es: {
-    ...({} as LangPack),
-    languageName: "Español",
-    shortLabel: "ES",
+    brand: {
+      title: "Bronson Family Farm",
+      subtitle: "Demostración del Ecosistema Agrícola Regenerativo",
+      language: "Idioma",
+      guided: "Recorrido Guiado",
+      stopGuided: "Detener Recorrido",
+      narrationOn: "Narración Activa",
+      narrationOff: "Narración Apagada",
+    },
     nav: {
       home: "Inicio",
       guest: "Invitado",
@@ -503,22 +457,28 @@ const content: Record<Lang, LangPack> = {
       youth: "Juventud Laboral",
       partners: "Socios",
     },
-    top: {
-      title: "Bronson Family Farm",
-      subtitle: "Demostración del Ecosistema Agrícola Regenerativo",
-      language: "Idioma",
-      guided: "Recorrido Guiado",
-      stopGuided: "Detener Recorrido",
-      speak: "Narración Activa",
-      mute: "Narración Apagada",
+    tour: {
+      title: "Recorrido Guiado",
+      next: "Siguiente",
+      previous: "Anterior",
+      finish: "Finalizar",
+      steps: [
+        { view: "home", label: "Inicio", blurb: "Comience con la visión del ecosistema." },
+        { view: "guest", label: "Invitado", blurb: "Descubra la historia y el propósito del lugar." },
+        { view: "customer", label: "Cliente", blurb: "Acceda a productos, recetas y orientación nutricional." },
+        { view: "marketplace", label: "Mercado", blurb: "Explore comercio real y conexión con GrownBy." },
+        { view: "grower", label: "Productor", blurb: "Conéctese con producción y acceso al mercado." },
+        { view: "youth", label: "Juventud Laboral", blurb: "Vea formación, apoyo y responsabilidad." },
+        { view: "partners", label: "Socios", blurb: "Vea cómo el apoyo crea valor comunitario." },
+      ],
     },
     home: {
-      kicker: "Entre al ecosistema",
+      badge: "Entre al ecosistema",
       title: "Bronson Family Farm es más que una granja.",
-      intro:
-        "Es un ecosistema regenerativo que conecta tierra, acceso a alimentos, actividad del mercado, productores, desarrollo laboral juvenil, educación y colaboración en Youngstown y el área del Valle de Mahoning.",
-      ctaPrimary: "Entrar al Mercado",
-      ctaSecondary: "Comenzar Recorrido Guiado",
+      text:
+        "Es un ecosistema regenerativo que conecta tierra, acceso a alimentos, actividad de mercado, productores, desarrollo laboral juvenil, educación y colaboración en Youngstown y el área del Valle de Mahoning.",
+      primary: "Entrar al Mercado",
+      secondary: "Comenzar Recorrido",
       chips: [
         "Sirviendo al Área del Valle de Mahoning",
         "Alimentos Locales Frescos",
@@ -526,86 +486,58 @@ const content: Record<Lang, LangPack> = {
         "Impulsado por la Comunidad",
       ],
       stats: [
-        {
-          number: "118+",
-          title: "acres de visión y posibilidad",
-          text: "Un destino para acceso a alimentos, agroturismo, educación, oportunidades laborales y beneficio comunitario.",
-        },
-        {
-          number: "6",
-          title: "rutas dentro de un ecosistema",
-          text: "Invitado, Cliente, Mercado, Productor, Juventud Laboral y Socios tienen una razón para regresar una y otra vez.",
-        },
+        { number: "118+", title: "acres de visión y posibilidad", text: "Un destino para acceso a alimentos, agriturismo, educación y beneficio comunitario." },
+        { number: "6", title: "rutas dentro de un ecosistema", text: "Hay una razón para regresar una y otra vez." },
       ],
       sectionTitle: "Elija cómo las personas experimentan la plataforma.",
-      sectionText:
-        "Cada ruta está diseñada para sentirse útil, acogedora y activa, no como una presentación. Los visitantes deben entender por qué existe la granja, qué ofrece y a dónde pueden ir después.",
-      pathways: [
-        { key: "guest", title: "Invitado", text: "Descubra la historia, la tierra, la misión y por qué este lugar importa." },
-        { key: "customer", title: "Cliente", text: "Encuentre productos, orientación nutricional, recetas y un camino claro al mercado." },
-        { key: "marketplace", title: "Mercado", text: "Muévase naturalmente hacia el comercio agrícola real mediante una experiencia más sólida." },
-        { key: "grower", title: "Productor", text: "Apoye producción, planificación, participación y conexión con el mercado." },
-        { key: "youth", title: "Juventud Laboral", text: "Muestre formación, supervisión, exposición y participación significativa." },
-        { key: "partners", title: "Socios", text: "Invite patrocinadores, instituciones, ciudades y aliados al trabajo." },
-      ],
-    },
-    guidedTour: {
-      title: "Recorrido Guiado",
-      intro: "Siga paso a paso el viaje del ecosistema.",
-      next: "Siguiente Parada",
-      previous: "Anterior",
-      finish: "Finalizar Recorrido",
-      steps: [
-        { view: "home", label: "Inicio", blurb: "Comience con la visión: esto es más que una granja. Es un ecosistema regenerativo que sirve al Valle de Mahoning." },
-        { view: "guest", label: "Invitado", blurb: "Los invitados descubren la historia, la tierra y la razón por la que este trabajo importa a las familias y a la salud comunitaria." },
-        { view: "customer", label: "Cliente", blurb: "Los clientes reciben acceso a productos, orientación nutricional, ideas de recetas y un camino sencillo hacia las compras." },
-        { view: "marketplace", label: "Mercado", blurb: "El mercado muestra comercio real, ofertas de temporada, preparación para recogida y conexión con GrownBy." },
-        { view: "grower", label: "Productor", blurb: "Los productores se conectan con planificación, producción, visibilidad y oportunidades de venta centradas en la comunidad." },
-        { view: "youth", label: "Juventud Laboral", blurb: "La juventud laboral destaca formación, responsabilidad, supervisión y oportunidad futura." },
-        { view: "partners", label: "Socios", blurb: "Los socios ven cómo su apoyo impulsa acceso a alimentos, restauración, desarrollo laboral y valor público." },
+      sectionText: "Cada ruta está diseñada para sentirse útil, acogedora y activa.",
+      cards: [
+        { key: "guest", title: "Invitado", text: "Descubra la historia, la tierra y la misión." },
+        { key: "customer", title: "Cliente", text: "Encuentre productos, recetas y orientación." },
+        { key: "marketplace", title: "Mercado", text: "Entre en el comercio agrícola real." },
+        { key: "grower", title: "Productor", text: "Apoye producción y conexión con el mercado." },
+        { key: "youth", title: "Juventud Laboral", text: "Muestre formación y participación significativa." },
+        { key: "partners", title: "Socios", text: "Invite patrocinadores e instituciones." },
       ],
     },
     guest: {
       badge: "Experiencia del Invitado",
-      heading: "Entre en la historia detrás de la tierra.",
-      intro:
-        "Bronson Family Farm responde al aumento del costo de los alimentos, a la necesidad comunitaria y al deseo de sistemas locales más saludables y conectados.",
+      title: "Entre en la historia detrás de la tierra.",
+      text: "La granja responde al aumento del costo de los alimentos y a la necesidad de sistemas locales más saludables.",
       cards: [
-        { title: "Por qué importa", text: "El aumento del costo de los alimentos empuja a muchas familias hacia alimentos ultraprocesados. Este ecosistema responde con soluciones basadas en la tierra y valor comunitario." },
-        { title: "Lo que descubren los invitados", text: "La historia, la tierra, la visión, el legado familiar y la conexión entre restauración, salud, acceso y oportunidad." },
-        { title: "A dónde pueden ir después", text: "Los invitados pueden continuar hacia compras, educación para clientes, alianzas o la ruta laboral juvenil." },
+        { title: "Por qué importa", text: "Responde con soluciones basadas en la tierra y valor comunitario." },
+        { title: "Lo que se descubre", text: "Historia, visión, legado y conexión entre salud y oportunidad." },
+        { title: "Qué sigue", text: "Compras, educación del cliente, alianzas o juventud laboral." },
       ],
-      actions: { toCustomer: "Continuar a Cliente", toPartners: "Explorar Socios" },
+      actions: ["Continuar a Cliente", "Explorar Socios"],
     },
     customer: {
       badge: "Experiencia del Cliente",
-      heading: "Haga que las decisiones saludables sean más fáciles y acogedoras.",
-      intro:
-        "Los clientes deben sentirse atendidos, informados e invitados a regresar mediante acceso a productos, orientación nutricional, recetas y un camino claro al mercado.",
+      title: "Haga que las decisiones saludables sean más fáciles.",
+      text: "Los clientes deben sentirse atendidos, informados e invitados a regresar.",
       cards: [
-        { title: "Comprar productos de temporada", text: "Plántulas frescas, productos y ofertas de la granja con pedidos y recogida sencillos." },
-        { title: "Orientación nutricional", text: "Educación alimentaria práctica para ayudar a las familias a tomar decisiones más fuertes cada día." },
-        { title: "Razón para volver", text: "Recetas, productos destacados y hábitos de compra pensados para traer a las personas de regreso." },
+        { title: "Comprar productos de temporada", text: "Pedidos y recogida sencillos." },
+        { title: "Orientación nutricional", text: "Educación práctica para decisiones más fuertes." },
+        { title: "Razón para volver", text: "Recetas y productos destacados que animan el regreso." },
       ],
       nutritionTitle: "Orientación Nutricional",
-      nutritionTips: [
-        "Elija más verduras frescas, repollo, brócoli, pimientos y productos de temporada cuando estén disponibles.",
-        "Use productos locales para reducir la dependencia de alimentos muy procesados.",
-        "Combine ideas de comidas sencillas con opciones de recogida para facilitar el uso de alimentos saludables.",
+      nutrition: [
+        "Elija más verduras frescas y productos de temporada.",
+        "Use productos locales para reducir la dependencia de alimentos procesados.",
+        "Combine ideas de comidas sencillas con opciones de recogida.",
       ],
-      recipeTitle: "Ideas de Recetas",
+      recipesTitle: "Ideas de Recetas",
       recipes: [
-        { key: "greens", title: "Tazón de Verduras del Valle de Mahoning", text: "Verduras frescas, repollo, pimientos y un aderezo simple para una comida rápida." },
-        { key: "soup", title: "Sopa de Vegetales del Huerto", text: "Una receta flexible para repollo, berza, brócoli, hierbas y vegetales de temporada." },
-        { key: "stir", title: "Salteado Fresco de la Granja", text: "Una comida rápida usando pimientos, brócoli, verduras y otros ingredientes locales." },
+        { title: "Tazón de Verduras", text: "Verduras frescas, repollo y pimientos." },
+        { title: "Sopa del Huerto", text: "Receta flexible con vegetales de temporada." },
+        { title: "Salteado de la Granja", text: "Comida rápida con verduras frescas." },
       ],
-      actions: { marketplace: "Ir al Mercado", guest: "Volver a Invitado" },
+      actions: ["Ir al Mercado", "Volver a Invitado"],
     },
     marketplace: {
       badge: "Experiencia del Mercado",
-      heading: "Mercado impulsado por Bronson Family Farm + GrownBy",
-      intro:
-        "Esta página muestra cómo los clientes exploran lo disponible, planifican la recogida y entran naturalmente al comercio agrícola real.",
+      title: "Mercado impulsado por Bronson Family Farm + GrownBy",
+      text: "Los clientes exploran lo disponible, planifican la recogida y entran al comercio agrícola real.",
       chips: [
         "Sirviendo al Área del Valle de Mahoning",
         "Disponible Esta Semana",
@@ -613,72 +545,99 @@ const content: Record<Lang, LangPack> = {
         "Alimentos Locales Frescos",
         "Inventario de Temporada",
       ],
-      actions: {
-        store: "Abrir Tienda GrownBy",
-        customer: "Volver a Cliente",
-        grower: "Ser Productor Vendedor",
-        pickup: "Recogida Viernes 4–7 PM",
-      },
-      productsTitle: "Destacados del Mercado",
-      products: [
-        { key: "greens", title: "Paquete de Verduras Frescas", text: "Enfoque amigable con SNAP, disponibilidad de temporada y conexión con recogida.", badge: "Disponible Esta Semana", image: marketplaceImages.greens },
-        { key: "seedlings", title: "Plántulas y Comienzos", text: "Opciones listas para jardín para hogares, productores y siembra comunitaria.", badge: "Lista para Primavera y Verano", image: marketplaceImages.seedlings },
-        { key: "bubble", title: "Bubble Babies™", text: "Un producto distintivo que conecta educación, cultivo y una marca memorable.", badge: "Producto Destacado", image: marketplaceImages.bubble },
+      actions: [
+        "Abrir Tienda GrownBy",
+        "Volver a Cliente",
+        "Ser Productor Vendedor",
+        "Recogida Viernes 4–7 PM",
       ],
-      strengthsTitle: "Fortalezas del mercado",
-      strengths: ["Camino directo a la compra real", "Preparación para pedidos y recogida", "Historia de productos de temporada", "Puente entre aprendizaje y compra"],
-      viewersTitle: "Lo que esto les muestra a los visitantes",
-      viewersText:
-        "La granja no solo es hermosa como idea. Es operativa, sirve a la comunidad y puede sostener compras repetidas mediante un canal comercial real.",
-      scheduleTitle: "Ritmo del mercado",
-      schedule: ["Inventario destacado actualizado por temporada", "Flujo de pedidos listo para recogida", "Experiencia de compra amigable con la comunidad", "Conectado a GrownBy para acceso real a la tienda"],
+      featuredTitle: "Destacados del Mercado",
+      products: [
+        { title: "Paquete de Verduras Frescas", text: "Disponibilidad de temporada y conexión con recogida.", badge: "Disponible Esta Semana", accent: "#78a95c" },
+        { title: "Plántulas y Comienzos", text: "Opciones listas para jardín para hogares y productores.", badge: "Primavera + Verano", accent: "#d78a3f" },
+        { title: "Bubble Babies™", text: "Producto distintivo que conecta educación y cultivo.", badge: "Producto Destacado", accent: "#cd6d5e" },
+      ],
+      strengthTitle: "Fortalezas del mercado",
+      strengths: [
+        "Camino directo a la compra real",
+        "Preparación para pedidos y recogida",
+        "Historia de productos de temporada",
+        "Puente entre aprendizaje y compra",
+      ],
+      viewerTitle: "Lo que esto muestra",
+      viewerText: "La granja es operativa, sirve a la comunidad y puede sostener compras repetidas.",
+      rhythmTitle: "Ritmo del mercado",
+      rhythm: [
+        "Inventario actualizado por temporada",
+        "Flujo de pedidos listo para recogida",
+        "Experiencia de compra amigable",
+        "Conectado a GrownBy",
+      ],
     },
     grower: {
       badge: "Experiencia del Productor",
-      heading: "Un ecosistema acogedor para productores.",
-      intro:
-        "Los productores entran a una ruta de apoyo donde la producción, la temporada, la visibilidad y la conexión comercial trabajan juntas.",
+      title: "Un ecosistema acogedor para productores.",
+      text: "Producción, temporada, visibilidad y conexión comercial trabajan juntas.",
       cards: [
-        { title: "Planificación de Producción", text: "Apoyo para tiempos de cultivo, plántulas, temporada y preparación." },
-        { title: "Conexión con el Mercado", text: "Un puente claro desde el cultivo hacia el comercio comunitario y el acceso del cliente." },
-        { title: "Ecosistema Compartido", text: "Los productores deben sentirse bienvenidos, útiles y visibles dentro de una misión regional más amplia." },
+        { title: "Planificación", text: "Apoyo para tiempos de cultivo y preparación." },
+        { title: "Conexión con el mercado", text: "Puente claro hacia el comercio comunitario." },
+        { title: "Ecosistema compartido", text: "Los productores deben sentirse visibles y útiles." },
       ],
-      opportunitiesTitle: "Oportunidades para productores",
-      opportunities: ["Visibilidad estacional a través del mercado", "Conexión con ventas orientadas a la comunidad", "Posicionamiento dentro de un ecosistema de apoyo"],
+      listTitle: "Oportunidades",
+      list: [
+        "Visibilidad estacional",
+        "Conexión con ventas comunitarias",
+        "Posicionamiento en un ecosistema de apoyo",
+      ],
     },
     youth: {
       badge: "Experiencia de Juventud Laboral",
-      heading: "Formación, estructura, apoyo y responsabilidad significativa.",
-      intro:
-        "Esta ruta muestra aprendizaje práctico, hábitos de trabajo, estructura, supervisión y apoyo. El supervisor pertenece solo a Juventud Laboral.",
+      title: "Formación, estructura y apoyo.",
+      text: "Aprendizaje práctico, hábitos de trabajo y supervisión.",
       cards: [
-        { title: "Aprendizaje Práctico", text: "Exposición laboral basada en la tierra con responsabilidad real y contribución visible." },
-        { title: "Apoyo del Supervisor", text: "Orientación, responsabilidad, apoyo al flujo de trabajo y recursos conectados de bienestar." },
-        { title: "Participación Significativa", text: "La juventud debe verse dentro de un ecosistema real con propósito, habilidades y futuro." },
+        { title: "Aprendizaje práctico", text: "Responsabilidad real y contribución visible." },
+        { title: "Apoyo del supervisor", text: "Orientación y apoyo al flujo de trabajo." },
+        { title: "Participación significativa", text: "Propósito, habilidades y futuro." },
       ],
-      supportTitle: "Estructura de apoyo",
-      support: ["Orientación del supervisor dentro de juventud laboral", "Propiedad clara de tareas y responsabilidad", "Recursos de apoyo conectados y cuidado centrado en el bienestar"],
+      listTitle: "Estructura de apoyo",
+      list: [
+        "Orientación del supervisor",
+        "Responsabilidad clara",
+        "Recursos conectados de bienestar",
+      ],
     },
     partners: {
       badge: "Experiencia de Socios",
-      heading: "Apoyo que crea valor comunitario visible.",
-      intro:
-        "Los socios deben ver claramente cómo su participación apoya acceso a alimentos, desarrollo laboral, agroturismo, restauración y beneficio comunitario medible.",
+      title: "Apoyo que crea valor comunitario visible.",
+      text: "La participación de los socios apoya acceso a alimentos y beneficio comunitario medible.",
       cards: [
-        { title: "Alineación Cívica y de Ciudad", text: "Uso de tierra, rutas juveniles, beneficio vecinal y valor público visible." },
-        { title: "Colaboración Institucional", text: "Un lugar para que escuelas, universidades, salud, organizaciones sin fines de lucro y sistemas comunitarios participen." },
-        { title: "Visibilidad para Patrocinadores", text: "Una plataforma creíble para socios de recursos, apoyos y colaboradores a largo plazo." },
+        { title: "Alineación cívica", text: "Uso de tierra, juventud y valor público." },
+        { title: "Colaboración institucional", text: "Escuelas, universidades y sistemas comunitarios." },
+        { title: "Visibilidad para patrocinadores", text: "Plataforma creíble para colaboradores." },
       ],
-      partnerStripTitle: "Visibilidad actual y deseada de socios",
-      partnerNames: ["Home Depot", "Petitti Garden Centers", "Elliott's Garden Center", "City of Youngstown", "Central State University", "Jewish Community Center"],
+      stripTitle: "Visibilidad de socios",
+      strip: [
+        "Home Depot",
+        "Petitti Garden Centers",
+        "Elliott's Garden Center",
+        "City of Youngstown",
+        "Central State University",
+        "Jewish Community Center",
+      ],
     },
     footer: "Desarrollado por Bronson Family Farm",
   },
 
   tl: {
-    ...(null as unknown as LangPack),
-    languageName: "Tagalog",
-    shortLabel: "TL",
+    brand: {
+      title: "Bronson Family Farm",
+      subtitle: "Demo ng Regenerative Farm Ecosystem",
+      language: "Wika",
+      guided: "Guided Tour",
+      stopGuided: "Itigil ang Tour",
+      narrationOn: "May Salaysay",
+      narrationOff: "Walang Salaysay",
+    },
     nav: {
       home: "Home",
       guest: "Panauhin",
@@ -688,264 +647,1666 @@ const content: Record<Lang, LangPack> = {
       youth: "Kabataang Trabaho",
       partners: "Kasosyo",
     },
-    top: {
-      title: "Bronson Family Farm",
-      subtitle: "Demo ng Regenerative Farm Ecosystem",
-      language: "Wika",
-      guided: "Guided Tour",
-      stopGuided: "Itigil ang Tour",
-      speak: "May Salaysay",
-      mute: "Walang Salaysay",
-    },
-    home: {
-      kicker: "Pumasok sa ecosystem",
-      title: "Ang Bronson Family Farm ay higit pa sa isang farm.",
-      intro:
-        "Ito ay isang regenerative ecosystem na nag-uugnay sa lupa, access sa pagkain, aktibidad sa pamilihan, growers, youth workforce development, edukasyon, at partnership sa Youngstown at sa Mahoning Valley Area.",
-      ctaPrimary: "Pumasok sa Pamilihan",
-      ctaSecondary: "Simulan ang Guided Tour",
-      chips: ["Naglilingkod sa Mahoning Valley Area", "Sariwang Lokal na Pagkain", "Konektado sa Trabaho", "Pinapalakas ng Komunidad"],
-      stats: [
-        { number: "118+", title: "ektarya ng pananaw at posibilidad", text: "Isang lugar para sa access sa pagkain, agritourism, edukasyon, oportunidad sa trabaho, at pakinabang ng komunidad." },
-        { number: "6", title: "mga landas sa iisang ecosystem", text: "May dahilan ang Panauhin, Mamimili, Pamilihan, Grower, Kabataang Trabaho, at Kasosyo upang bumalik nang paulit-ulit." },
-      ],
-      sectionTitle: "Piliin kung paano mararanasan ng mga tao ang platform.",
-      sectionText:
-        "Dinisenyo ang bawat landas upang maging kapaki-pakinabang, magiliw, at buhay — hindi parang presentasyon. Dapat maunawaan ng mga bisita kung bakit umiiral ang farm, ano ang iniaalok nito, at saan sila susunod na pupunta.",
-      pathways: [
-        { key: "guest", title: "Panauhin", text: "Tuklasin ang kuwento, ang lupa, ang misyon, at kung bakit mahalaga ang lugar na ito." },
-        { key: "customer", title: "Mamimili", text: "Maghanap ng ani, gabay sa nutrisyon, mga recipe, at malinaw na daan sa pamilihan." },
-        { key: "marketplace", title: "Pamilihan", text: "Dumiretso sa tunay na farm commerce sa mas malakas na storefront experience." },
-        { key: "grower", title: "Grower", text: "Suportahan ang produksyon, pagpaplano, pakikilahok, at koneksyon sa merkado." },
-        { key: "youth", title: "Kabataang Trabaho", text: "Ipakita ang training, supervision, exposure, at makabuluhang pakikilahok." },
-        { key: "partners", title: "Kasosyo", text: "Anyayahan ang sponsors, institutions, lungsod, at supporters sa gawaing ito." },
-      ],
-    },
-    guidedTour: {
+    tour: {
       title: "Guided Tour",
-      intro: "Sundan ang paglalakbay ng ecosystem nang paisa-isa.",
       next: "Susunod",
       previous: "Nakaraan",
-      finish: "Tapusin ang Tour",
+      finish: "Tapusin",
       steps: [
-        { view: "home", label: "Home", blurb: "Magsimula sa bisyon: higit ito sa isang farm. Isa itong regenerative ecosystem para sa Mahoning Valley Area." },
-        { view: "guest", label: "Panauhin", blurb: "Natutuklasan ng mga panauhin ang kuwento, lupa, at kung bakit mahalaga ang gawaing ito sa pamilya at kalusugan ng komunidad." },
-        { view: "customer", label: "Mamimili", blurb: "Ang mga mamimili ay may access sa ani, gabay sa nutrisyon, recipe ideas, at madaling daan sa pamimili." },
-        { view: "marketplace", label: "Pamilihan", blurb: "Ipinapakita ng pamilihan ang tunay na commerce, seasonal offerings, pickup readiness, at koneksyon sa GrownBy." },
-        { view: "grower", label: "Grower", blurb: "Ang growers ay konektado sa planning, production, visibility, at community-centered sales opportunities." },
-        { view: "youth", label: "Kabataang Trabaho", blurb: "Ipinapakita ng youth workforce ang training, responsibilidad, supervision, at future opportunity." },
-        { view: "partners", label: "Kasosyo", blurb: "Nakikita ng mga kasosyo kung paano sinusuportahan ng kanilang tulong ang access sa pagkain, restoration, workforce development, at public value." },
+        { view: "home", label: "Home", blurb: "Magsimula sa bisyon ng ecosystem." },
+        { view: "guest", label: "Panauhin", blurb: "Tuklasin ang kuwento at layunin ng lugar." },
+        { view: "customer", label: "Mamimili", blurb: "Makakuha ng produce, recipes, at nutrition guidance." },
+        { view: "marketplace", label: "Pamilihan", blurb: "Tingnan ang tunay na commerce at GrownBy connection." },
+        { view: "grower", label: "Grower", blurb: "Makaugnay sa production at market access." },
+        { view: "youth", label: "Kabataang Trabaho", blurb: "Tingnan ang training, support, at responsibility." },
+        { view: "partners", label: "Kasosyo", blurb: "Tingnan kung paano lumilikha ng community value ang suporta." },
+      ],
+    },
+    home: {
+      badge: "Pumasok sa ecosystem",
+      title: "Ang Bronson Family Farm ay higit pa sa isang farm.",
+      text:
+        "Ito ay isang regenerative ecosystem na nag-uugnay sa lupa, access sa pagkain, activity sa marketplace, growers, youth workforce development, edukasyon, at partnership sa Youngstown at sa Mahoning Valley Area.",
+      primary: "Pumasok sa Pamilihan",
+      secondary: "Simulan ang Tour",
+      chips: [
+        "Naglilingkod sa Mahoning Valley Area",
+        "Sariwang Lokal na Pagkain",
+        "Konektado sa Trabaho",
+        "Pinapalakas ng Komunidad",
+      ],
+      stats: [
+        { number: "118+", title: "ektarya ng pananaw at posibilidad", text: "Lugar para sa pagkain, edukasyon, at community return." },
+        { number: "6", title: "mga landas sa iisang ecosystem", text: "May dahilan para bumalik nang paulit-ulit." },
+      ],
+      sectionTitle: "Piliin kung paano mararanasan ang platform.",
+      sectionText: "Bawat landas ay kapaki-pakinabang, magiliw, at buhay.",
+      cards: [
+        { key: "guest", title: "Panauhin", text: "Tuklasin ang kuwento, lupa, at misyon." },
+        { key: "customer", title: "Mamimili", text: "Hanapin ang produce, recipe, at guidance." },
+        { key: "marketplace", title: "Pamilihan", text: "Pumasok sa tunay na farm commerce." },
+        { key: "grower", title: "Grower", text: "Suportahan ang production at market connection." },
+        { key: "youth", title: "Kabataang Trabaho", text: "Ipakita ang training at makabuluhang participation." },
+        { key: "partners", title: "Kasosyo", text: "Anyayahan ang sponsor at institutions." },
       ],
     },
     guest: {
       badge: "Karanasan ng Panauhin",
-      heading: "Pumasok sa kuwentong nasa likod ng lupa.",
-      intro:
-        "Tumutugon ang Bronson Family Farm sa pagtaas ng presyo ng pagkain, pangangailangan ng komunidad, at pagnanais para sa mas malusog at mas konektadong lokal na sistema.",
+      title: "Pumasok sa kuwentong nasa likod ng lupa.",
+      text: "Tumugon ang farm sa tumataas na presyo ng pagkain at pangangailangan ng komunidad.",
       cards: [
-        { title: "Bakit ito mahalaga", text: "Itinutulak ng pagtaas ng presyo ng pagkain ang mga pamilya tungo sa sobrang processed na pagkain. Tumutugon ang ecosystem na ito sa pamamagitan ng land-based solutions at pangmatagalang halaga sa komunidad." },
-        { title: "Ano ang natutuklasan ng panauhin", text: "Ang kuwento, ang lupa, ang bisyon, ang family legacy, at ang koneksyon ng restoration, health, access, at opportunity." },
-        { title: "Saan sila puwedeng pumunta pagkatapos", text: "Maaaring magpatuloy ang mga panauhin sa pamimili, customer education, partnerships, o youth workforce pathway." },
+        { title: "Bakit mahalaga", text: "May land-based solutions at pangmatagalang community value." },
+        { title: "Ano ang matutuklasan", text: "Kuwento, bisyon, family legacy, at health connection." },
+        { title: "Ano ang susunod", text: "Pamimili, customer education, partnerships, o youth workforce." },
       ],
-      actions: { toCustomer: "Tumuloy sa Mamimili", toPartners: "Tingnan ang Kasosyo" },
+      actions: ["Tumuloy sa Mamimili", "Tingnan ang Kasosyo"],
     },
     customer: {
       badge: "Karanasan ng Mamimili",
-      heading: "Gawing mas madali at mas magiliw ang malusog na pagpili.",
-      intro:
-        "Dapat maramdaman ng mga mamimili na sila ay inaalagaan, may kaalaman, at inaanyayahang bumalik sa pamamagitan ng access sa ani, gabay sa nutrisyon, mga recipe, at malinaw na daan sa pamilihan.",
+      title: "Gawing mas madali ang healthy choices.",
+      text: "Dapat maramdaman ng mga mamimili na sila ay inaalagaan at inaanyayahang bumalik.",
       cards: [
-        { title: "Mamili ng Seasonal Produce", text: "Sariwang seedlings, produce, at farm offerings na may simpleng ordering at pickup." },
-        { title: "Gabay sa Nutrisyon", text: "Praktikal na food education upang makatulong sa mga pamilya na gumawa ng mas mabuting araw-araw na pagpili." },
-        { title: "Dahilan para Bumalik", text: "Mga recipe, featured products, at buying habits na ginawa upang hikayatin ang paulit-ulit na pagbalik." },
+        { title: "Mamili ng seasonal produce", text: "Madaling ordering at pickup." },
+        { title: "Gabay sa nutrisyon", text: "Praktikal na education para sa mas mabuting pagpili." },
+        { title: "Dahilan para bumalik", text: "Recipe at featured products para sa repeat visits." },
       ],
       nutritionTitle: "Gabay sa Nutrisyon",
-      nutritionTips: [
-        "Pumili ng mas maraming sariwang gulay, repolyo, broccoli, peppers, at seasonal produce kapag mayroon.",
-        "Gamitin ang lokal na produce upang mabawasan ang pagdepende sa labis na processed na pagkain.",
-        "Ipares ang simpleng meal ideas sa pickup options para mas madaling gamitin ang masustansyang pagkain.",
+      nutrition: [
+        "Pumili ng mas maraming sariwang gulay at seasonal produce.",
+        "Gamitin ang lokal na produce upang mabawasan ang processed foods.",
+        "Ipares ang meal ideas sa pickup options.",
       ],
-      recipeTitle: "Mga Ideya sa Recipe",
+      recipesTitle: "Mga Recipe",
       recipes: [
-        { key: "greens", title: "Mahoning Valley Greens Bowl", text: "Sariwang gulay, repolyo, peppers, at simpleng dressing para sa mabilis na pagkain." },
-        { key: "soup", title: "Garden Vegetable Soup", text: "Flexible na recipe para sa repolyo, collards, broccoli, herbs, at seasonal vegetables." },
-        { key: "stir", title: "Farm Fresh Stir-Fry", text: "Mabilis na lutong kawali gamit ang peppers, broccoli, greens, at iba pang lokal na sangkap." },
+        { title: "Greens Bowl", text: "Sariwang gulay at simpleng dressing." },
+        { title: "Garden Soup", text: "Flexible na recipe para sa seasonal vegetables." },
+        { title: "Farm Stir-Fry", text: "Mabilis na meal gamit ang sariwang gulay." },
       ],
-      actions: { marketplace: "Pumunta sa Pamilihan", guest: "Bumalik sa Panauhin" },
+      actions: ["Pumunta sa Pamilihan", "Bumalik sa Panauhin"],
     },
     marketplace: {
       badge: "Karanasan sa Pamilihan",
-      heading: "Pamilihang pinapagana ng Bronson Family Farm + GrownBy",
-      intro:
-        "Ipinapakita ng pahinang ito kung paano tumitingin ang mga mamimili sa available na produkto, nagpaplano ng pickup, at natural na pumapasok sa tunay na farm commerce.",
-      chips: ["Naglilingkod sa Mahoning Valley Area", "Available Ngayong Linggo", "Tinatanggap ang SNAP", "Sariwang Lokal na Pagkain", "Seasonal Inventory"],
-      actions: {
-        store: "Buksan ang GrownBy Store",
-        customer: "Bumalik sa Mamimili",
-        grower: "Maging Grower Vendor",
-        pickup: "Pickup tuwing Biyernes 4–7 PM",
-      },
-      productsTitle: "Mga Tampok sa Marketplace",
-      products: [
-        { key: "greens", title: "Fresh Greens Bundle", text: "SNAP-friendly produce, seasonal availability, at pickup connection.", badge: "Available Ngayong Linggo", image: marketplaceImages.greens },
-        { key: "seedlings", title: "Seedlings & Starts", text: "Garden-ready options para sa bahay, growers, at community planting.", badge: "Handa para sa Spring + Summer", image: marketplaceImages.seedlings },
-        { key: "bubble", title: "Bubble Babies™", text: "Isang espesyal na produkto na nag-uugnay sa edukasyon, pagtatanim, at matibay na brand experience.", badge: "Featured Product", image: marketplaceImages.bubble },
+      title: "Pamilihang pinapagana ng Bronson Family Farm + GrownBy",
+      text: "Ipinapakita ng pahinang ito ang available products, pickup, at tunay na commerce.",
+      chips: [
+        "Naglilingkod sa Mahoning Valley Area",
+        "Available Ngayong Linggo",
+        "Tinatanggap ang SNAP",
+        "Sariwang Lokal na Pagkain",
+        "Seasonal Inventory",
       ],
-      strengthsTitle: "Lakas ng marketplace",
-      strengths: ["Direktang daan sa tunay na pagbili", "Handa para sa pickup at pre-order", "Kwento ng seasonal products", "Tulay ng pagkatuto at pagbili"],
-      viewersTitle: "Ano ang sinasabi nito sa viewers",
-      viewersText:
-        "Ang farm ay hindi lamang maganda bilang konsepto. Ito ay gumagana, nagsisilbi sa komunidad, at kayang magdala ng paulit-ulit na pagbili sa tunay na commerce channel.",
-      scheduleTitle: "Daloy ng marketplace",
-      schedule: ["Featured inventory na ina-update ayon sa season", "Pickup-ready ordering flow", "Community-friendly shopping experience", "Konektado sa GrownBy para sa totoong access sa store"],
+      actions: [
+        "Buksan ang GrownBy Store",
+        "Bumalik sa Mamimili",
+        "Maging Grower Vendor",
+        "Pickup Biyernes 4–7 PM",
+      ],
+      featuredTitle: "Mga Tampok sa Marketplace",
+      products: [
+        { title: "Fresh Greens Bundle", text: "Seasonal availability at pickup connection.", badge: "Available Ngayong Linggo", accent: "#78a95c" },
+        { title: "Seedlings & Starts", text: "Garden-ready options para sa bahay at growers.", badge: "Spring + Summer", accent: "#d78a3f" },
+        { title: "Bubble Babies™", text: "Product na nag-uugnay sa education at growing.", badge: "Featured Product", accent: "#cd6d5e" },
+      ],
+      strengthTitle: "Lakas ng marketplace",
+      strengths: [
+        "Direktang daan sa pagbili",
+        "Handa para sa pickup at pre-order",
+        "Kwento ng seasonal products",
+        "Tulay sa pagitan ng pagkatuto at pagbili",
+      ],
+      viewerTitle: "Ano ang ipinapakita nito",
+      viewerText: "Ang farm ay gumagana, nagsisilbi sa komunidad, at kayang magdala ng repeat buying.",
+      rhythmTitle: "Daloy ng marketplace",
+      rhythm: [
+        "Updated inventory ayon sa season",
+        "Pickup-ready ordering flow",
+        "Community-friendly shopping",
+        "Konektado sa GrownBy",
+      ],
     },
     grower: {
       badge: "Karanasan ng Grower",
-      heading: "Isang magiliw na ecosystem para sa growers at producers.",
-      intro:
-        "Ang growers ay pumapasok sa suportadong landas kung saan nagtutulungan ang production, seasonality, visibility, at market connection.",
+      title: "Magiliw na ecosystem para sa growers.",
+      text: "Nagtutulungan ang production, seasonality, visibility, at market connection.",
       cards: [
-        { title: "Production Planning", text: "Suporta para sa crop timing, seed starts, seasonality, at readiness." },
-        { title: "Market Connection", text: "Malinaw na tulay mula sa pagtatanim tungo sa community commerce at access ng customer." },
-        { title: "Shared Ecosystem", text: "Dapat maramdaman ng growers na sila ay tinatanggap, mahalaga, at nakikita sa mas malawak na regional mission." },
+        { title: "Production Planning", text: "Suporta sa timing at readiness." },
+        { title: "Market Connection", text: "Malinaw na tulay sa community commerce." },
+        { title: "Shared Ecosystem", text: "Dapat maramdaman ng growers na sila ay mahalaga." },
       ],
-      opportunitiesTitle: "Mga oportunidad ng grower",
-      opportunities: ["Seasonal visibility sa pamamagitan ng marketplace participation", "Koneksyon sa community-facing sales", "Supportive ecosystem positioning sa halip na pag-iisa"],
+      listTitle: "Mga Oportunidad",
+      list: [
+        "Seasonal visibility",
+        "Community-facing sales",
+        "Supportive ecosystem positioning",
+      ],
     },
     youth: {
       badge: "Karanasan ng Kabataang Trabaho",
-      heading: "Training, istruktura, suporta, at makabuluhang responsibilidad.",
-      intro:
-        "Ipinapakita ng pathway na ito ang hands-on learning, work habits, structure, supervision, at support. Ang supervisor ay bahagi lamang ng Youth Workforce.",
+      title: "Training, structure, at support.",
+      text: "Hands-on learning, work habits, at supervision.",
       cards: [
-        { title: "Hands-On Learning", text: "Land-based workforce exposure na may totoong responsibilidad at malinaw na kontribusyon." },
-        { title: "Supervisor Support", text: "Gabay, pananagutan, workflow support, at connected wellness-oriented support resources." },
-        { title: "Meaningful Participation", text: "Dapat makita ng kabataan ang kanilang sarili sa isang tunay na ecosystem na may purpose, skills, at future pathways." },
+        { title: "Hands-On Learning", text: "Tunay na responsibilidad at visible contribution." },
+        { title: "Supervisor Support", text: "Guidance at workflow support." },
+        { title: "Meaningful Participation", text: "Purpose, skills, at future pathways." },
       ],
-      supportTitle: "Support structure",
-      support: ["Supervisor guidance sa loob ng youth workforce", "Malinaw na task ownership at accountability", "Connected support resources at wellness-centered care"],
+      listTitle: "Support structure",
+      list: [
+        "Supervisor guidance",
+        "Clear accountability",
+        "Connected wellness resources",
+      ],
     },
     partners: {
       badge: "Karanasan ng Kasosyo",
-      heading: "Suportang lumilikha ng nakikitang halaga sa komunidad.",
-      intro:
-        "Dapat malinaw na makita ng mga kasosyo kung paano sinusuportahan ng kanilang paglahok ang access sa pagkain, workforce development, agritourism, restoration, at nasusukat na community benefit.",
+      title: "Suportang lumilikha ng visible community value.",
+      text: "Ang paglahok ng mga kasosyo ay sumusuporta sa food access at measurable benefit.",
       cards: [
-        { title: "City at Civic Alignment", text: "Land use, youth pathways, neighborhood benefit, at nakikitang public value." },
-        { title: "Institutional Collaboration", text: "Lugar para sa schools, universities, health organizations, nonprofits, at community systems." },
-        { title: "Sponsor Visibility", text: "Isang kapanipaniwalang platform para sa resource partners, supporters, at long-term collaborators." },
+        { title: "City at Civic Alignment", text: "Land use, youth pathways, at public value." },
+        { title: "Institutional Collaboration", text: "Schools, universities, at community systems." },
+        { title: "Sponsor Visibility", text: "Credible platform para sa collaborators." },
       ],
-      partnerStripTitle: "Kasalukuyan at gustong partner visibility",
-      partnerNames: ["Home Depot", "Petitti Garden Centers", "Elliott's Garden Center", "City of Youngstown", "Central State University", "Jewish Community Center"],
+      stripTitle: "Partner visibility",
+      strip: [
+        "Home Depot",
+        "Petitti Garden Centers",
+        "Elliott's Garden Center",
+        "City of Youngstown",
+        "Central State University",
+        "Jewish Community Center",
+      ],
     },
     footer: "Binuo ng Bronson Family Farm",
   },
 
   it: {
-    ...(null as unknown as LangPack),
-    languageName: "Italiano",
-    shortLabel: "IT",
-    nav: { home: "Home", guest: "Ospite", customer: "Cliente", marketplace: "Mercato", grower: "Produttore", youth: "Lavoro Giovanile", partners: "Partner" },
-    top: { title: "Bronson Family Farm", subtitle: "Demo dell'Ecosistema Agricolo Rigenerativo", language: "Lingua", guided: "Tour Guidato", stopGuided: "Ferma Tour", speak: "Narrazione Attiva", mute: "Narrazione Spenta" },
-    home: {
-      kicker: "Entra nell'ecosistema",
-      title: "Bronson Family Farm è più di una fattoria.",
-      intro: "È un ecosistema rigenerativo che collega terra, accesso al cibo, attività di mercato, produttori, sviluppo del lavoro giovanile, educazione e partnership a Youngstown e nell'area della Mahoning Valley.",
-      ctaPrimary: "Entra nel Mercato",
-      ctaSecondary: "Inizia il Tour Guidato",
-      chips: ["Al servizio dell'area della Mahoning Valley", "Cibo Locale Fresco", "Connesso al Lavoro", "Guidato dalla Comunità"],
-      stats: [
-        { number: "118+", title: "acri di visione e possibilità", text: "Una destinazione per accesso al cibo, agriturismo, educazione, opportunità lavorative e beneficio comunitario." },
-        { number: "6", title: "percorsi in un ecosistema", text: "Ospite, Cliente, Mercato, Produttore, Lavoro Giovanile e Partner hanno una ragione per tornare ancora." },
-      ],
-      sectionTitle: "Scegli come le persone vivono la piattaforma.",
-      sectionText: "Ogni percorso è progettato per essere utile, accogliente e attivo, non come una presentazione. I visitatori devono capire perché la fattoria esiste, cosa offre e dove possono andare dopo.",
-      pathways: [
-        { key: "guest", title: "Ospite", text: "Scopri la storia, la terra, la missione e perché questo luogo conta." },
-        { key: "customer", title: "Cliente", text: "Trova prodotti, guida nutrizionale, ricette e un percorso chiaro verso il mercato." },
-        { key: "marketplace", title: "Mercato", text: "Entra naturalmente nel vero commercio agricolo attraverso una vetrina più forte." },
-        { key: "grower", title: "Produttore", text: "Sostieni produzione, pianificazione, partecipazione e collegamento al mercato." },
-        { key: "youth", title: "Lavoro Giovanile", text: "Mostra formazione, supervisione, esposizione e partecipazione significativa." },
-        { key: "partners", title: "Partner", text: "Invita sponsor, istituzioni, città e sostenitori nel lavoro." },
+    brand: {
+      title: "Bronson Family Farm",
+      subtitle: "Demo dell'Ecosistema Agricolo Rigenerativo",
+      language: "Lingua",
+      guided: "Tour Guidato",
+      stopGuided: "Ferma Tour",
+      narrationOn: "Narrazione Attiva",
+      narrationOff: "Narrazione Spenta",
+    },
+    nav: {
+      home: "Home",
+      guest: "Ospite",
+      customer: "Cliente",
+      marketplace: "Mercato",
+      grower: "Produttore",
+      youth: "Lavoro Giovanile",
+      partners: "Partner",
+    },
+    tour: {
+      title: "Tour Guidato",
+      next: "Avanti",
+      previous: "Indietro",
+      finish: "Fine",
+      steps: [
+        { view: "home", label: "Home", blurb: "Inizia dalla visione dell'ecosistema." },
+        { view: "guest", label: "Ospite", blurb: "Scopri la storia e lo scopo del luogo." },
+        { view: "customer", label: "Cliente", blurb: "Accedi a prodotti, ricette e guida nutrizionale." },
+        { view: "marketplace", label: "Mercato", blurb: "Esplora il commercio reale e il collegamento a GrownBy." },
+        { view: "grower", label: "Produttore", blurb: "Collegati a produzione e accesso al mercato." },
+        { view: "youth", label: "Lavoro Giovanile", blurb: "Vedi formazione, supporto e responsabilità." },
+        { view: "partners", label: "Partner", blurb: "Vedi come il sostegno crea valore comunitario." },
       ],
     },
-    guidedTour: {
-      title: "Tour Guidato",
-      intro: "Segui il viaggio dell'ecosistema passo dopo passo.",
-      next: "Prossima Tappa",
-      previous: "Precedente",
-      finish: "Termina Tour",
-      steps: [
-        { view: "home", label: "Home", blurb: "Inizia dalla visione: questo è più di una fattoria. È un ecosistema rigenerativo al servizio della Mahoning Valley." },
-        { view: "guest", label: "Ospite", blurb: "Gli ospiti scoprono la storia, la terra e il motivo per cui questo lavoro è importante per le famiglie e la salute della comunità." },
-        { view: "customer", label: "Cliente", blurb: "I clienti ricevono accesso ai prodotti, guida nutrizionale, idee per ricette e un percorso semplice verso gli acquisti." },
-        { view: "marketplace", label: "Mercato", blurb: "Il mercato mostra vero commercio, offerte stagionali, ritiro pronto e connessione con GrownBy." },
-        { view: "grower", label: "Produttore", blurb: "I produttori si collegano a pianificazione, produzione, visibilità e opportunità di vendita orientate alla comunità." },
-        { view: "youth", label: "Lavoro Giovanile", blurb: "Il lavoro giovanile mette in evidenza formazione, responsabilità, supervisione e opportunità future." },
-        { view: "partners", label: "Partner", blurb: "I partner vedono come il loro sostegno promuove accesso al cibo, ripristino, sviluppo del lavoro e valore pubblico." },
+    home: {
+      badge: "Entra nell'ecosistema",
+      title: "Bronson Family Farm è più di una fattoria.",
+      text:
+        "È un ecosistema rigenerativo che collega terra, accesso al cibo, attività di mercato, produttori, sviluppo del lavoro giovanile, educazione e partnership a Youngstown e nell'area della Mahoning Valley.",
+      primary: "Entra nel Mercato",
+      secondary: "Inizia il Tour",
+      chips: [
+        "Al servizio della Mahoning Valley",
+        "Cibo Locale Fresco",
+        "Connesso al Lavoro",
+        "Guidato dalla Comunità",
+      ],
+      stats: [
+        { number: "118+", title: "acri di visione e possibilità", text: "Una destinazione per accesso al cibo, educazione e beneficio comunitario." },
+        { number: "6", title: "percorsi in un ecosistema", text: "C'è una ragione per tornare ancora." },
+      ],
+      sectionTitle: "Scegli come le persone vivono la piattaforma.",
+      sectionText: "Ogni percorso è progettato per essere utile, accogliente e attivo.",
+      cards: [
+        { key: "guest", title: "Ospite", text: "Scopri la storia, la terra e la missione." },
+        { key: "customer", title: "Cliente", text: "Trova prodotti, ricette e guida." },
+        { key: "marketplace", title: "Mercato", text: "Entra nel vero commercio agricolo." },
+        { key: "grower", title: "Produttore", text: "Sostieni produzione e collegamento al mercato." },
+        { key: "youth", title: "Lavoro Giovanile", text: "Mostra formazione e partecipazione significativa." },
+        { key: "partners", title: "Partner", text: "Invita sponsor e istituzioni." },
       ],
     },
     guest: {
       badge: "Esperienza Ospite",
-      heading: "Entra nella storia dietro la terra.",
-      intro: "Bronson Family Farm risponde all'aumento dei costi del cibo, ai bisogni della comunità e al desiderio di sistemi locali più sani e connessi.",
+      title: "Entra nella storia dietro la terra.",
+      text: "La fattoria risponde all'aumento dei costi del cibo e ai bisogni della comunità.",
       cards: [
-        { title: "Perché conta", text: "L'aumento dei costi del cibo spinge molte famiglie verso alimenti troppo processati. Questo ecosistema risponde con soluzioni legate alla terra e valore comunitario duraturo." },
-        { title: "Cosa scoprono gli ospiti", text: "La storia, la terra, la visione, l'eredità familiare e il collegamento tra ripristino, salute, accesso e opportunità." },
-        { title: "Dove possono andare dopo", text: "Gli ospiti possono continuare verso lo shopping, l'educazione del cliente, le partnership o il percorso del lavoro giovanile." },
+        { title: "Perché conta", text: "Offre soluzioni legate alla terra e valore comunitario duraturo." },
+        { title: "Cosa si scopre", text: "Storia, visione, eredità familiare e connessione con la salute." },
+        { title: "Cosa viene dopo", text: "Shopping, educazione del cliente, partnership o lavoro giovanile." },
       ],
-      actions: { toCustomer: "Continua al Cliente", toPartners: "Esplora i Partner" },
+      actions: ["Continua al Cliente", "Esplora i Partner"],
     },
     customer: {
       badge: "Esperienza Cliente",
-      heading: "Rendere le scelte sane più facili e accoglienti.",
-      intro: "I clienti dovrebbero sentirsi curati, informati e invitati a tornare attraverso l'accesso ai prodotti, la guida nutrizionale, le ricette e un percorso chiaro verso il mercato.",
+      title: "Rendere le scelte sane più facili.",
+      text: "I clienti dovrebbero sentirsi curati, informati e invitati a tornare.",
       cards: [
-        { title: "Acquista prodotti stagionali", text: "Piantine fresche, prodotti e offerte della fattoria con ordinazione e ritiro semplici." },
-        { title: "Guida nutrizionale", text: "Educazione alimentare pratica per aiutare le famiglie a fare scelte migliori ogni giorno." },
-        { title: "Motivo per tornare", text: "Ricette, prodotti in evidenza e abitudini di acquisto pensati per riportare le persone ancora." },
+        { title: "Acquista prodotti stagionali", text: "Ordinazione e ritiro semplici." },
+        { title: "Guida nutrizionale", text: "Educazione pratica per decisioni più forti." },
+        { title: "Motivo per tornare", text: "Ricette e prodotti in evidenza per visite ripetute." },
       ],
       nutritionTitle: "Guida Nutrizionale",
-      nutritionTips: [
-        "Scegli più verdure fresche, cavolo, broccoli, peperoni e prodotti stagionali quando disponibili.",
-        "Usa prodotti locali per ridurre la dipendenza da cibi fortemente processati.",
-        "Abbina idee di pasti semplici alle opzioni di ritiro per rendere il cibo sano più facile da usare.",
+      nutrition: [
+        "Scegli più verdure fresche e prodotti stagionali.",
+        "Usa prodotti locali per ridurre la dipendenza da cibi processati.",
+        "Abbina idee di pasti semplici alle opzioni di ritiro.",
       ],
-      recipeTitle: "Idee di Ricette",
+      recipesTitle: "Idee di Ricette",
       recipes: [
-        { key: "greens", title: "Ciotola Verde della Mahoning Valley", text: "Verdure fresche, cavolo, peperoni e un condimento semplice per un pasto veloce." },
-        { key: "soup", title: "Zuppa di Verdure dell'Orto", text: "Una ricetta flessibile per cavolo, collard, broccoli, erbe e verdure stagionali." },
-        { key: "stir", title: "Saltato Fresco della Fattoria", text: "Un pasto veloce in padella con peperoni, broccoli, verdure e ingredienti locali." },
+        { title: "Ciotola di Verdure", text: "Verdure fresche e condimento semplice." },
+        { title: "Zuppa dell'Orto", text: "Ricetta flessibile con verdure stagionali." },
+        { title: "Saltato della Fattoria", text: "Pasto veloce con verdure fresche." },
       ],
-      actions: { marketplace: "Vai al Mercato", guest: "Torna a Ospite" },
+      actions: ["Vai al Mercato", "Torna a Ospite"],
     },
     marketplace: {
       badge: "Esperienza Mercato",
-      heading: "Mercato gestito da Bronson Family Farm + GrownBy",
-      intro: "Questa pagina mostra come i clienti esplorano ciò che è disponibile, pianificano il ritiro e passano naturalmente al vero commercio agricolo.",
-      chips: ["Al servizio della Mahoning Valley", "Disponibile Questa Settimana", "SNAP Accettato", "Cibo Locale Fresco", "Inventario Stagionale"],
-      actions: { store: "Apri Negozio GrownBy", customer: "Torna al Cliente", grower: "Diventa Venditore Grower", pickup: "Ritiro il venerdì 4–7 PM" },
-      productsTitle: "Punti Salienti del Mercato",
-      products: [
-        { key: "greens", title: "Fresh Greens Bundle", text: "Focus su prodotti compatibili con SNAP, disponibilità stagionale e connessione al ritiro.", badge: "Disponibile Questa Settimana", image: marketplaceImages.greens },
-        { key: "seedlings", title: "Seedlings & Starts", text: "Opzioni pronte per il giardino per famiglie, produttori e attività comunitarie di piantagione.", badge: "Pronto per Primavera + Estate", image: marketplaceImages.seedlings },
-        { key: "bubble", title: "Bubble Babies™", text: "Un prodotto distintivo che collega educazione, coltivazione e un'esperienza di marca memorabile.", badge: "Prodotto in Evidenza", image: marketplaceImages.bubble },
+      title: "Mercato gestito da Bronson Family Farm + GrownBy",
+      text: "Questa pagina mostra prodotti disponibili, ritiro e commercio agricolo reale.",
+      chips: [
+        "Al servizio della Mahoning Valley",
+        "Disponibile Questa Settimana",
+        "SNAP Accettato",
+        "Cibo Locale Fresco",
+        "Inventario Stagionale",
       ],
-      strengthsTitle: "Punti di forza del mercato",
-      strengths: ["Percorso diretto verso l'acquisto reale", "Prontezza per ordini e ritiro", "Narrazione dei prodotti stagionali", "Ponte tra apprendimento e acquisto"],
-      viewersTitle: "Cosa comunica ai visitatori",
-      viewersText: "La fattoria non è soltanto bella come idea. È operativa, al servizio della comunità e capace di sostenere acquisti ripetuti attraverso un vero canale commerciale.",
-      scheduleTitle: "Ritmo del mercato",
-      schedule: ["Inventario in evidenza aggiornato per stagione", "Flusso ordini pronto per il ritiro", "Esperienza di acquisto amichevole per la comunità", "Connesso a GrownBy per l'accesso reale al negozio"],
+      actions: [
+        "Apri Negozio GrownBy",
+        "Torna al Cliente",
+        "Diventa Venditore Grower",
+        "Ritiro venerdì 4–7 PM",
+      ],
+      featuredTitle: "Punti Salienti del Mercato",
+      products: [
+        { title: "Fresh Greens Bundle", text: "Disponibilità stagionale e connessione al ritiro.", badge: "Disponibile Questa Settimana", accent: "#78a95c" },
+        { title: "Seedlings & Starts", text: "Opzioni pronte per il giardino per famiglie e produttori.", badge: "Primavera + Estate", accent: "#d78a3f" },
+        { title: "Bubble Babies™", text: "Prodotto distintivo che collega educazione e coltivazione.", badge: "Prodotto in Evidenza", accent: "#cd6d5e" },
+      ],
+      strengthTitle: "Punti di forza del mercato",
+      strengths: [
+        "Percorso diretto all'acquisto",
+        "Prontezza per ordini e ritiro",
+        "Narrazione dei prodotti stagionali",
+        "Ponte tra apprendimento e acquisto",
+      ],
+      viewerTitle: "Cosa comunica",
+      viewerText: "La fattoria è operativa, al servizio della comunità e capace di sostenere acquisti ripetuti.",
+      rhythmTitle: "Ritmo del mercato",
+      rhythm: [
+        "Inventario aggiornato per stagione",
+        "Flusso ordini pronto per il ritiro",
+        "Esperienza di acquisto amichevole",
+        "Connesso a GrownBy",
+      ],
     },
     grower: {
       badge: "Esperienza Produttore",
-      heading: "Un ecosistema accogliente per produttori e coltivatori.",
-      intro: "I produttori entrano in un percorso di supporto dove produzione, stagionalità, visibilità e collegamento al mercato lavorano insieme.",
+      title: "Un ecosistema accogliente per produttori.",
+      text: "Produzione, stagionalità, visibilità e collegamento al mercato lavorano insieme.",
       cards: [
-        { title: "Pianificazione della produzione", text: "Supporto per tempi di coltivazione, piantine, stagionalità e preparazione." },
-        { title: "Collegamento al mercato", text: "Un ponte chiaro dalla coltivazione al commercio comunitario e all'accesso del cliente." },
-        { title: "Ecosistema condiviso", text: "I produttori dovrebbero sentirsi accolti, utili e visibili all'interno di una missione regionale più ampia." },
+        { title: "Pianificazione", text: "Supporto per tempi di coltivazione e preparazione." },
+        { title: "Collegamento al mercato", text: "Ponte chiaro verso il commercio comunitario." },
+        { title: "Ecosistema condiviso", text: "I produttori dovrebbero sentirsi visibili e utili." },
       ],
-      opportunitiesTitle: "Opportunità per i produttori",
-      opportunities:
+      listTitle: "Opportunità",
+      list: [
+        "Visibilità stagionale",
+        "Connessione alle vendite comunitarie",
+        "Posizionamento in un ecosistema di supporto",
+      ],
+    },
+    youth: {
+      badge: "Esperienza Lavoro Giovanile",
+      title: "Formazione, struttura e supporto.",
+      text: "Apprendimento pratico, abitudini di lavoro e supervisione.",
+      cards: [
+        { title: "Apprendimento pratico", text: "Responsabilità reale e contributo visibile." },
+        { title: "Supporto del supervisore", text: "Guida e supporto al flusso di lavoro." },
+        { title: "Partecipazione significativa", text: "Scopo, competenze e futuro." },
+      ],
+      listTitle: "Struttura di supporto",
+      list: [
+        "Guida del supervisore",
+        "Responsabilità chiara",
+        "Risorse di benessere connesse",
+      ],
+    },
+    partners: {
+      badge: "Esperienza Partner",
+      title: "Sostegno che crea valore comunitario visibile.",
+      text: "Il coinvolgimento dei partner sostiene accesso al cibo e beneficio comunitario misurabile.",
+      cards: [
+        { title: "Allineamento civico", text: "Uso della terra, percorsi giovanili e valore pubblico." },
+        { title: "Collaborazione istituzionale", text: "Scuole, università e sistemi comunitari." },
+        { title: "Visibilità per gli sponsor", text: "Piattaforma credibile per collaboratori." },
+      ],
+      stripTitle: "Visibilità dei partner",
+      strip: [
+        "Home Depot",
+        "Petitti Garden Centers",
+        "Elliott's Garden Center",
+        "City of Youngstown",
+        "Central State University",
+        "Jewish Community Center",
+      ],
+    },
+    footer: "Sviluppato da Bronson Family Farm",
+  },
+
+  jam: {
+    brand: {
+      title: "Bronson Family Farm",
+      subtitle: "Regenerative Farm Ecosystem Demo",
+      language: "Language",
+      guided: "Guided Tour",
+      stopGuided: "Stop Tour",
+      narrationOn: "Voice On",
+      narrationOff: "Voice Off",
+    },
+    nav: {
+      home: "Home",
+      guest: "Guest",
+      customer: "Customer",
+      marketplace: "Marketplace",
+      grower: "Grower",
+      youth: "Youth Work",
+      partners: "Partners",
+    },
+    tour: {
+      title: "Guided Tour",
+      next: "Next",
+      previous: "Previous",
+      finish: "Finish",
+      steps: [
+        { view: "home", label: "Home", blurb: "Start wid di vision a di ecosystem." },
+        { view: "guest", label: "Guest", blurb: "Discover di story an di purpose a di place." },
+        { view: "customer", label: "Customer", blurb: "Get produce, recipe, an nutrition guidance." },
+        { view: "marketplace", label: "Marketplace", blurb: "Explore real commerce an GrownBy connection." },
+        { view: "grower", label: "Grower", blurb: "Link up wid production an market access." },
+        { view: "youth", label: "Youth Work", blurb: "See training, support, an responsibility." },
+        { view: "partners", label: "Partners", blurb: "See how support build community value." },
+      ],
+    },
+    home: {
+      badge: "Step inna di ecosystem",
+      title: "Bronson Family Farm a more dan jus a farm.",
+      text:
+        "A one regenerative ecosystem weh link land, food access, marketplace activity, growers, youth workforce development, education, an partnership inna Youngstown an di Mahoning Valley Area.",
+      primary: "Go ina Marketplace",
+      secondary: "Start Tour",
+      chips: [
+        "Serving di Mahoning Valley Area",
+        "Fresh Local Food",
+        "Workforce Connected",
+        "Community Powered",
+      ],
+      stats: [
+        { number: "118+", title: "acres a vision an possibility", text: "Destination fi food access, education, an community return." },
+        { number: "6", title: "role pathway inna one ecosystem", text: "Plenty reason fi come back again." },
+      ],
+      sectionTitle: "Choose how people ago experience di platform.",
+      sectionText: "Each pathway fi feel useful, welcoming, an active.",
+      cards: [
+        { key: "guest", title: "Guest", text: "Discover di story, di land, an di mission." },
+        { key: "customer", title: "Customer", text: "Find produce, recipe, an guidance." },
+        { key: "marketplace", title: "Marketplace", text: "Move into real farm commerce." },
+        { key: "grower", title: "Grower", text: "Support production an market connection." },
+        { key: "youth", title: "Youth Work", text: "Show training an meaningful participation." },
+        { key: "partners", title: "Partners", text: "Invite sponsor an institution." },
+      ],
+    },
+    guest: {
+      badge: "Guest Experience",
+      title: "Step inna di story behind di land.",
+      text: "Di farm answer rising food cost an community need.",
+      cards: [
+        { title: "Why it matter", text: "Land-based solution an long-term community value deh yah." },
+        { title: "Wah people discover", text: "Story, vision, family legacy, an health connection." },
+        { title: "Wah next", text: "Shopping, customer education, partnership, or youth workforce." },
+      ],
+      actions: ["Continue to Customer", "Explore Partners"],
+    },
+    customer: {
+      badge: "Customer Experience",
+      title: "Mek healthy choice easier.",
+      text: "Customer fi feel cared for, informed, an invited fi come back.",
+      cards: [
+        { title: "Shop seasonal produce", text: "Simple ordering an pickup." },
+        { title: "Nutrition guidance", text: "Practical education fi stronger everyday choice." },
+        { title: "Reason fi return", text: "Recipe an featured products fi repeat visit." },
+      ],
+      nutritionTitle: "Nutrition Guidance",
+      nutrition: [
+        "Choose more fresh greens an seasonal produce.",
+        "Use local produce fi cut down pon processed food.",
+        "Pair simple meal idea wid pickup option.",
+      ],
+      recipesTitle: "Recipe Ideas",
+      recipes: [
+        { title: "Greens Bowl", text: "Fresh greens an simple dressing." },
+        { title: "Garden Soup", text: "Flexible recipe wid seasonal vegetable." },
+        { title: "Farm Stir-Fry", text: "Quick meal wid fresh vegetable." },
+      ],
+      actions: ["Go to Marketplace", "Back to Guest"],
+    },
+    marketplace: {
+      badge: "Marketplace Experience",
+      title: "Marketplace powered by Bronson Family Farm + GrownBy",
+      text: "Dis page show available product, pickup, an real farm commerce.",
+      chips: [
+        "Serving di Mahoning Valley Area",
+        "Available Dis Week",
+        "SNAP Accepted",
+        "Fresh Local Food",
+        "Seasonal Inventory",
+      ],
+      actions: [
+        "Open GrownBy Store",
+        "Back to Customer",
+        "Become a Grower Vendor",
+        "Pickup Friday 4–7 PM",
+      ],
+      featuredTitle: "Featured Marketplace Highlights",
+      products: [
+        { title: "Fresh Greens Bundle", text: "Seasonal availability an pickup connection.", badge: "Available Dis Week", accent: "#78a95c" },
+        { title: "Seedlings & Starts", text: "Garden-ready option fi household an grower.", badge: "Spring + Summer", accent: "#d78a3f" },
+        { title: "Bubble Babies™", text: "Product weh link education an growing.", badge: "Featured Product", accent: "#cd6d5e" },
+      ],
+      strengthTitle: "Marketplace strength",
+      strengths: [
+        "Direct path to purchase",
+        "Pickup an pre-order readiness",
+        "Seasonal product story",
+        "Bridge between learning an buying",
+      ],
+      viewerTitle: "Wah dis show",
+      viewerText: "Di farm operational, community-serving, an able fi support repeat buying.",
+      rhythmTitle: "Marketplace rhythm",
+      rhythm: [
+        "Updated inventory by season",
+        "Pickup-ready ordering flow",
+        "Community-friendly shopping",
+        "Connected to GrownBy",
+      ],
+    },
+    grower: {
+      badge: "Grower Experience",
+      title: "One welcoming ecosystem fi grower.",
+      text: "Production, seasonality, visibility, an market connection work together.",
+      cards: [
+        { title: "Planning", text: "Support fi timing an readiness." },
+        { title: "Market connection", text: "Clear bridge to community commerce." },
+        { title: "Shared ecosystem", text: "Grower fi feel visible an useful." },
+      ],
+      listTitle: "Opportunity",
+      list: [
+        "Seasonal visibility",
+        "Community-facing sales",
+        "Supportive ecosystem positioning",
+      ],
+    },
+    youth: {
+      badge: "Youth Workforce Experience",
+      title: "Training, structure, an support.",
+      text: "Hands-on learning, work habit, an supervision.",
+      cards: [
+        { title: "Hands-on learning", text: "Real responsibility an visible contribution." },
+        { title: "Supervisor support", text: "Guidance an workflow support." },
+        { title: "Meaningful participation", text: "Purpose, skill, an future pathway." },
+      ],
+      listTitle: "Support structure",
+      list: [
+        "Supervisor guidance",
+        "Clear accountability",
+        "Connected wellness resources",
+      ],
+    },
+    partners: {
+      badge: "Partners Experience",
+      title: "Support weh build visible community value.",
+      text: "Partner involvement support food access an measurable community benefit.",
+      cards: [
+        { title: "City an civic alignment", text: "Land use, youth pathway, an public value." },
+        { title: "Institutional collaboration", text: "School, university, an community system." },
+        { title: "Sponsor visibility", text: "Credible platform fi collaborator." },
+      ],
+      stripTitle: "Partner visibility",
+      strip: [
+        "Home Depot",
+        "Petitti Garden Centers",
+        "Elliott's Garden Center",
+        "City of Youngstown",
+        "Central State University",
+        "Jewish Community Center",
+      ],
+    },
+    footer: "Developed by Bronson Family Farm",
+  },
+
+  he: {
+    brand: {
+      title: "Bronson Family Farm",
+      subtitle: "הדגמת מערכת חקלאית מתחדשת",
+      language: "שפה",
+      guided: "סיור מודרך",
+      stopGuided: "עצור סיור",
+      narrationOn: "קריינות פעילה",
+      narrationOff: "קריינות כבויה",
+    },
+    nav: {
+      home: "בית",
+      guest: "אורח",
+      customer: "לקוח",
+      marketplace: "שוק",
+      grower: "מגדל",
+      youth: "כוח עבודה לנוער",
+      partners: "שותפים",
+    },
+    tour: {
+      title: "סיור מודרך",
+      next: "הבא",
+      previous: "הקודם",
+      finish: "סיום",
+      steps: [
+        { view: "home", label: "בית", blurb: "התחילו מהחזון של המערכת." },
+        { view: "guest", label: "אורח", blurb: "גלו את הסיפור ואת מטרת המקום." },
+        { view: "customer", label: "לקוח", blurb: "קבלו תוצרת, מתכונים והדרכה תזונתית." },
+        { view: "marketplace", label: "שוק", blurb: "חקרו מסחר אמיתי וחיבור ל-GrownBy." },
+        { view: "grower", label: "מגדל", blurb: "התחברו לייצור ולגישה לשוק." },
+        { view: "youth", label: "כוח עבודה לנוער", blurb: "ראו הכשרה, תמיכה ואחריות." },
+        { view: "partners", label: "שותפים", blurb: "ראו כיצד תמיכה יוצרת ערך קהילתי." },
+      ],
+    },
+    home: {
+      badge: "היכנסו למערכת",
+      title: "Bronson Family Farm היא יותר מחווה.",
+      text:
+        "זוהי מערכת מתחדשת המחברת בין אדמה, גישה למזון, פעילות שוק, מגדלים, פיתוח תעסוקת נוער, חינוך ושיתופי פעולה ב-Youngstown ובאזור Mahoning Valley.",
+      primary: "כניסה לשוק",
+      secondary: "התחל סיור",
+      chips: [
+        "משרתים את אזור Mahoning Valley",
+        "מזון מקומי טרי",
+        "מחובר לתעסוקה",
+        "מונע בידי הקהילה",
+      ],
+      stats: [
+        { number: "118+", title: "אקרים של חזון ואפשרות", text: "יעד לגישה למזון, חינוך ותועלת קהילתית." },
+        { number: "6", title: "מסלולים במערכת אחת", text: "יש סיבה לחזור שוב ושוב." },
+      ],
+      sectionTitle: "בחרו כיצד יחוו אנשים את הפלטפורמה.",
+      sectionText: "כל מסלול נועד להיות מועיל, מזמין וחי.",
+      cards: [
+        { key: "guest", title: "אורח", text: "גלו את הסיפור, האדמה והשליחות." },
+        { key: "customer", title: "לקוח", text: "מצאו תוצרת, מתכונים והדרכה." },
+        { key: "marketplace", title: "שוק", text: "היכנסו למסחר חקלאי אמיתי." },
+        { key: "grower", title: "מגדל", text: "תמיכה בייצור ובחיבור לשוק." },
+        { key: "youth", title: "כוח עבודה לנוער", text: "הצגת הכשרה והשתתפות משמעותית." },
+        { key: "partners", title: "שותפים", text: "הזמנת נותני חסות ומוסדות." },
+      ],
+    },
+    guest: {
+      badge: "חוויית אורח",
+      title: "היכנסו לסיפור שמאחורי האדמה.",
+      text: "החווה מגיבה לעליית מחירי המזון ולצורכי הקהילה.",
+      cards: [
+        { title: "למה זה חשוב", text: "יש כאן פתרונות מבוססי אדמה וערך קהילתי ארוך טווח." },
+        { title: "מה מגלים", text: "סיפור, חזון, מורשת משפחתית וקשר לבריאות." },
+        { title: "מה הלאה", text: "קניות, חינוך לקוחות, שותפויות או כוח עבודה לנוער." },
+      ],
+      actions: ["המשך ללקוח", "צפה בשותפים"],
+    },
+    customer: {
+      badge: "חוויית לקוח",
+      title: "להפוך בחירות בריאות לקלות יותר.",
+      text: "הלקוחות צריכים להרגיש שמטפלים בהם, שהם מקבלים מידע ושמזמינים אותם לחזור.",
+      cards: [
+        { title: "קניית תוצרת עונתית", text: "הזמנה ואיסוף פשוטים." },
+        { title: "הדרכה תזונתית", text: "חינוך מעשי לקבלת החלטות טובות יותר." },
+        { title: "סיבה לחזור", text: "מתכונים ומוצרים מובילים לביקורים חוזרים." },
+      ],
+      nutritionTitle: "הדרכה תזונתית",
+      nutrition: [
+        "בחרו יותר עלים ירוקים ותוצרת עונתית.",
+        "השתמשו בתוצרת מקומית להפחתת תלות במזון מעובד.",
+        "שלבו רעיונות פשוטים לארוחות עם אפשרויות איסוף.",
+      ],
+      recipesTitle: "רעיונות למתכונים",
+      recipes: [
+        { title: "קערת ירקות", text: "ירקות טריים ורוטב פשוט." },
+        { title: "מרק גינה", text: "מתכון גמיש עם ירקות עונתיים." },
+        { title: "מוקפץ מהחווה", text: "ארוחה מהירה עם ירקות טריים." },
+      ],
+      actions: ["עבור לשוק", "חזרה לאורח"],
+    },
+    marketplace: {
+      badge: "חוויית שוק",
+      title: "שוק המופעל על ידי Bronson Family Farm + GrownBy",
+      text: "עמוד זה מציג מוצרים זמינים, איסוף ומסחר חקלאי אמיתי.",
+      chips: [
+        "משרתים את אזור Mahoning Valley",
+        "זמין השבוע",
+        "SNAP מתקבל",
+        "מזון מקומי טרי",
+        "מלאי עונתי",
+      ],
+      actions: [
+        "פתח את חנות GrownBy",
+        "חזרה ללקוח",
+        "הפוך למגדל מוכר",
+        "איסוף שישי 4–7 PM",
+      ],
+      featuredTitle: "מובילי שוק נבחרים",
+      products: [
+        { title: "Fresh Greens Bundle", text: "זמינות עונתית וחיבור לאיסוף.", badge: "זמין השבוע", accent: "#78a95c" },
+        { title: "Seedlings & Starts", text: "אפשרויות מוכנות לגינה לבתים ולמגדלים.", badge: "אביב + קיץ", accent: "#d78a3f" },
+        { title: "Bubble Babies™", text: "מוצר ייחודי המחבר חינוך וגידול.", badge: "מוצר מוביל", accent: "#cd6d5e" },
+      ],
+      strengthTitle: "חוזקות השוק",
+      strengths: [
+        "דרך ישירה לרכישה",
+        "מוכנות להזמנה ולאיסוף",
+        "סיפור מוצר עונתי",
+        "גשר בין למידה לקנייה",
+      ],
+      viewerTitle: "מה זה משדר",
+      viewerText: "החווה פעילה, משרתת את הקהילה ומסוגלת לתמוך בקנייה חוזרת.",
+      rhythmTitle: "קצב השוק",
+      rhythm: [
+        "מלאי מתעדכן לפי עונה",
+        "זרימת הזמנה מוכנה לאיסוף",
+        "חוויית קנייה ידידותית",
+        "מחובר ל-GrownBy",
+      ],
+    },
+    grower: {
+      badge: "חוויית מגדל",
+      title: "מערכת מזמינה למגדלים.",
+      text: "ייצור, עונתיות, נראות וחיבור לשוק עובדים יחד.",
+      cards: [
+        { title: "תכנון", text: "תמיכה בתזמון ובמוכנות." },
+        { title: "חיבור לשוק", text: "גשר ברור למסחר קהילתי." },
+        { title: "מערכת משותפת", text: "המגדלים צריכים להרגיש נראים ומועילים." },
+      ],
+      listTitle: "הזדמנויות",
+      list: [
+        "נראות עונתית",
+        "חיבור למכירות קהילתיות",
+        "מיקום בתוך מערכת תומכת",
+      ],
+    },
+    youth: {
+      badge: "חוויית כוח עבודה לנוער",
+      title: "הכשרה, מבנה ותמיכה.",
+      text: "למידה מעשית, הרגלי עבודה ופיקוח.",
+      cards: [
+        { title: "למידה מעשית", text: "אחריות אמיתית ותרומה נראית לעין." },
+        { title: "תמיכת מפקח", text: "הכוונה ותמיכה בזרימת עבודה." },
+        { title: "השתתפות משמעותית", text: "מטרה, מיומנויות ועתיד." },
+      ],
+      listTitle: "מבנה תמיכה",
+      list: [
+        "הכוונת מפקח",
+        "אחריות ברורה",
+        "משאבי רווחה מחוברים",
+      ],
+    },
+    partners: {
+      badge: "חוויית שותפים",
+      title: "תמיכה היוצרת ערך קהילתי נראה לעין.",
+      text: "מעורבות השותפים תומכת בגישה למזון ובתועלת קהילתית מדידה.",
+      cards: [
+        { title: "התאמה עירונית ואזרחית", text: "שימוש בקרקע, מסלולי נוער וערך ציבורי." },
+        { title: "שיתוף פעולה מוסדי", text: "בתי ספר, אוניברסיטאות ומערכות קהילתיות." },
+        { title: "נראות לנותני חסות", text: "פלטפורמה אמינה לשיתופי פעולה." },
+      ],
+      stripTitle: "נראות שותפים",
+      strip: [
+        "Home Depot",
+        "Petitti Garden Centers",
+        "Elliott's Garden Center",
+        "City of Youngstown",
+        "Central State University",
+        "Jewish Community Center",
+      ],
+    },
+    footer: "פותח על ידי Bronson Family Farm",
+  },
+};
+
+const speechLang: Record<Lang, string> = {
+  en: "en-US",
+  es: "es-ES",
+  tl: "fil-PH",
+  it: "it-IT",
+  jam: "en-JM",
+  he: "he-IL",
+};
+
+function isRTL(lang: Lang) {
+  return lang === "he";
+}
+
+function speak(text: string, lang: Lang) {
+  if (!("speechSynthesis" in window) || !text) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = speechLang[lang];
+  utterance.rate = 0.96;
+  utterance.pitch = 1;
+  window.speechSynthesis.speak(utterance);
+}
+
+export default function App() {
+  const [view, setView] = useState<View>("home");
+  const [lang, setLang] = useState<Lang>("en");
+  const [guided, setGuided] = useState(false);
+  const [guidedIndex, setGuidedIndex] = useState(0);
+  const [narration, setNarration] = useState(false);
+
+  const t = copy[lang];
+  const dir = isRTL(lang) ? "rtl" : "ltr";
+
+  const navItems = useMemo(
+    () => [
+      { key: "home" as View, label: t.nav.home },
+      { key: "guest" as View, label: t.nav.guest },
+      { key: "customer" as View, label: t.nav.customer },
+      { key: "marketplace" as View, label: t.nav.marketplace },
+      { key: "grower" as View, label: t.nav.grower },
+      { key: "youth" as View, label: t.nav.youth },
+      { key: "partners" as View, label: t.nav.partners },
+    ],
+    [t]
+  );
+
+  useEffect(() => {
+    if (guided) {
+      setView(t.tour.steps[guidedIndex].view);
+    }
+  }, [guided, guidedIndex, t]);
+
+  useEffect(() => {
+    if (!narration) {
+      window.speechSynthesis?.cancel();
+      return;
+    }
+    const pageText: Record<View, string> = {
+      home: `${t.home.title}. ${t.home.text}`,
+      guest: `${t.guest.title}. ${t.guest.text}`,
+      customer: `${t.customer.title}. ${t.customer.text}`,
+      marketplace: `${t.marketplace.title}. ${t.marketplace.text}`,
+      grower: `${t.grower.title}. ${t.grower.text}`,
+      youth: `${t.youth.title}. ${t.youth.text}`,
+      partners: `${t.partners.title}. ${t.partners.text}`,
+    };
+    const text = guided
+      ? `${t.tour.title}. ${t.tour.steps[guidedIndex].label}. ${t.tour.steps[guidedIndex].blurb}`
+      : pageText[view];
+    speak(text, lang);
+    return () => window.speechSynthesis?.cancel();
+  }, [guided, guidedIndex, view, lang, narration, t]);
+
+  const nextTour = () => {
+    if (guidedIndex < t.tour.steps.length - 1) {
+      setGuidedIndex((v) => v + 1);
+    } else {
+      setGuided(false);
+      setGuidedIndex(0);
+      setView("home");
+    }
+  };
+
+  const prevTour = () => {
+    if (guidedIndex > 0) setGuidedIndex((v) => v - 1);
+  };
+
+  const startTour = () => {
+    setGuided(true);
+    setGuidedIndex(0);
+    setView(t.tour.steps[0].view);
+  };
+
+  const stopTour = () => {
+    setGuided(false);
+    setGuidedIndex(0);
+    window.speechSynthesis?.cancel();
+  };
+
+  return (
+    <div dir={dir} style={styles.page}>
+      <header style={styles.header}>
+        <div style={styles.headerInner}>
+          <div style={styles.brandWrap}>
+            <div style={styles.brandIcon}>🌿</div>
+            <div>
+              <div style={styles.brandTitle}>{t.brand.title}</div>
+              <div style={styles.brandSub}>{t.brand.subtitle}</div>
+            </div>
+          </div>
+
+          <div style={styles.headerControls}>
+            <div style={styles.controlGroup}>
+              <span style={styles.controlLabel}>{t.brand.language}</span>
+              <select
+                value={lang}
+                onChange={(e) => setLang(e.target.value as Lang)}
+                style={styles.select}
+              >
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="tl">Tagalog</option>
+                <option value="it">Italiano</option>
+                <option value="jam">Jamaican Patois</option>
+                <option value="he">עברית</option>
+              </select>
+            </div>
+
+            <button onClick={() => (guided ? stopTour() : startTour())} style={styles.topButton}>
+              {guided ? t.brand.stopGuided : t.brand.guided}
+            </button>
+
+            <button onClick={() => setNarration((v) => !v)} style={styles.topButton}>
+              {narration ? t.brand.narrationOff : t.brand.narrationOn}
+            </button>
+          </div>
+
+          <nav style={styles.nav}>
+            {navItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => {
+                  setGuided(false);
+                  setView(item.key);
+                }}
+                style={{
+                  ...styles.navButton,
+                  ...(view === item.key ? styles.navButtonActive : {}),
+                }}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </header>
+
+      {guided && (
+        <section style={styles.guidedWrap}>
+          <div style={styles.guidedBox}>
+            <div>
+              <div style={styles.guidedTitle}>{t.tour.title}</div>
+              <div style={styles.guidedText}>
+                <strong>{t.tour.steps[guidedIndex].label}:</strong>{" "}
+                {t.tour.steps[guidedIndex].blurb}
+              </div>
+            </div>
+            <div style={styles.guidedButtons}>
+              <button onClick={prevTour} style={styles.secondaryBtn}>
+                {t.tour.previous}
+              </button>
+              <button onClick={nextTour} style={styles.primaryBtn}>
+                {guidedIndex === t.tour.steps.length - 1 ? t.tour.finish : t.tour.next}
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {view === "home" && (
+        <section style={styles.section}>
+          <div style={styles.hero}>
+            <div style={styles.heroBadge}>🌱 {t.home.badge}</div>
+            <div style={styles.heroGrid}>
+              <div>
+                <h1 style={styles.heroTitle}>{t.home.title}</h1>
+                <p style={styles.heroText}>{t.home.text}</p>
+                <div style={styles.actionRow}>
+                  <button onClick={() => setView("marketplace")} style={styles.primaryBtn}>
+                    {t.home.primary}
+                  </button>
+                  <button onClick={startTour} style={styles.ghostBtn}>
+                    {t.home.secondary}
+                  </button>
+                </div>
+                <div style={styles.chipRow}>
+                  {t.home.chips.map((chip) => (
+                    <span key={chip} style={styles.heroChip}>
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div style={styles.statGrid}>
+                {t.home.stats.map((s) => (
+                  <div key={s.number + s.title} style={styles.statCard}>
+                    <div style={styles.statNumber}>{s.number}</div>
+                    <div style={styles.statTitle}>{s.title}</div>
+                    <div style={styles.statText}>{s.text}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div style={styles.shell}>
+            <h2 style={styles.sectionTitle}>{t.home.sectionTitle}</h2>
+            <p style={styles.sectionText}>{t.home.sectionText}</p>
+            <div style={styles.cardsGrid}>
+              {t.home.cards.map((card) => (
+                <button
+                  key={card.key}
+                  onClick={() => setView(card.key)}
+                  style={styles.pathCard}
+                >
+                  <div style={styles.cardTitle}>{card.title}</div>
+                  <div style={styles.cardText}>{card.text}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {view === "guest" && (
+        <PageSection badge={t.guest.badge} title={t.guest.title} text={t.guest.text}>
+          <div style={styles.cardsGrid}>
+            {t.guest.cards.map((card) => (
+              <Card key={card.title} title={card.title} text={card.text} />
+            ))}
+          </div>
+          <div style={styles.actionRow}>
+            <button onClick={() => setView("customer")} style={styles.primaryBtn}>
+              {t.guest.actions[0]}
+            </button>
+            <button onClick={() => setView("partners")} style={styles.secondaryBtn}>
+              {t.guest.actions[1]}
+            </button>
+          </div>
+        </PageSection>
+      )}
+
+      {view === "customer" && (
+        <PageSection badge={t.customer.badge} title={t.customer.title} text={t.customer.text}>
+          <div style={styles.cardsGrid}>
+            {t.customer.cards.map((card) => (
+              <Card key={card.title} title={card.title} text={card.text} />
+            ))}
+          </div>
+
+          <div style={styles.twoGrid}>
+            <Panel title={t.customer.nutritionTitle}>
+              <ul style={styles.list}>
+                {t.customer.nutrition.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </Panel>
+
+            <Panel title={t.customer.recipesTitle}>
+              <div style={styles.innerStack}>
+                {t.customer.recipes.map((r) => (
+                  <div key={r.title} style={styles.recipeCard}>
+                    <div style={styles.recipeTitle}>{r.title}</div>
+                    <div style={styles.recipeText}>{r.text}</div>
+                  </div>
+                ))}
+              </div>
+            </Panel>
+          </div>
+
+          <div style={styles.actionRow}>
+            <button onClick={() => setView("marketplace")} style={styles.primaryBtn}>
+              {t.customer.actions[0]}
+            </button>
+            <button onClick={() => setView("guest")} style={styles.secondaryBtn}>
+              {t.customer.actions[1]}
+            </button>
+          </div>
+        </PageSection>
+      )}
+
+      {view === "marketplace" && (
+        <PageSection
+          badge={t.marketplace.badge}
+          title={t.marketplace.title}
+          text={t.marketplace.text}
+        >
+          <div style={styles.chipRow}>
+            {t.marketplace.chips.map((chip) => (
+              <span key={chip} style={styles.marketChip}>
+                {chip}
+              </span>
+            ))}
+          </div>
+
+          <div style={styles.actionRow}>
+            <a
+              href="https://grownby.com/farms/bronson-family-farm/shop"
+              target="_blank"
+              rel="noreferrer"
+              style={{ ...styles.primaryBtn, textDecoration: "none", display: "inline-block" }}
+            >
+              {t.marketplace.actions[0]}
+            </a>
+            <button onClick={() => setView("customer")} style={styles.secondaryBtn}>
+              {t.marketplace.actions[1]}
+            </button>
+            <button onClick={() => setView("grower")} style={styles.secondaryBtn}>
+              {t.marketplace.actions[2]}
+            </button>
+            <span style={styles.pickupChip}>{t.marketplace.actions[3]}</span>
+          </div>
+
+          <Panel title={t.marketplace.featuredTitle}>
+            <div style={styles.cardsGrid}>
+              {t.marketplace.products.map((p) => (
+                <div key={p.title} style={styles.productCard}>
+                  <div style={{ ...styles.productTop, borderTop: `6px solid ${p.accent}` }}>
+                    <span style={styles.productBadge}>{p.badge}</span>
+                  </div>
+                  <div style={styles.productBody}>
+                    <div style={styles.cardTitle}>{p.title}</div>
+                    <div style={styles.cardText}>{p.text}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Panel>
+
+          <div style={styles.threeGrid}>
+            <Panel title={t.marketplace.strengthTitle}>
+              <ul style={styles.list}>
+                {t.marketplace.strengths.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </Panel>
+
+            <Panel title={t.marketplace.viewerTitle}>
+              <div style={styles.panelText}>{t.marketplace.viewerText}</div>
+            </Panel>
+
+            <Panel title={t.marketplace.rhythmTitle}>
+              <ul style={styles.list}>
+                {t.marketplace.rhythm.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </Panel>
+          </div>
+        </PageSection>
+      )}
+
+      {view === "grower" && (
+        <PageSection badge={t.grower.badge} title={t.grower.title} text={t.grower.text}>
+          <div style={styles.cardsGrid}>
+            {t.grower.cards.map((card) => (
+              <Card key={card.title} title={card.title} text={card.text} />
+            ))}
+          </div>
+          <Panel title={t.grower.listTitle}>
+            <ul style={styles.list}>
+              {t.grower.list.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </Panel>
+        </PageSection>
+      )}
+
+      {view === "youth" && (
+        <PageSection badge={t.youth.badge} title={t.youth.title} text={t.youth.text}>
+          <div style={styles.cardsGrid}>
+            {t.youth.cards.map((card) => (
+              <Card key={card.title} title={card.title} text={card.text} />
+            ))}
+          </div>
+          <Panel title={t.youth.listTitle}>
+            <ul style={styles.list}>
+              {t.youth.list.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </Panel>
+        </PageSection>
+      )}
+
+      {view === "partners" && (
+        <PageSection badge={t.partners.badge} title={t.partners.title} text={t.partners.text}>
+          <div style={styles.cardsGrid}>
+            {t.partners.cards.map((card) => (
+              <Card key={card.title} title={card.title} text={card.text} />
+            ))}
+          </div>
+          <Panel title={t.partners.stripTitle}>
+            <div style={styles.chipRow}>
+              {t.partners.strip.map((item) => (
+                <span key={item} style={styles.partnerChip}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          </Panel>
+        </PageSection>
+      )}
+
+      <footer style={styles.footer}>{t.footer}</footer>
+    </div>
+  );
+}
+
+function PageSection({
+  badge,
+  title,
+  text,
+  children,
+}: {
+  badge: string;
+  title: string;
+  text: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section style={styles.section}>
+      <div style={styles.pageSection}>
+        <div style={styles.sectionBadge}>{badge}</div>
+        <h2 style={styles.sectionTitle}>{title}</h2>
+        <p style={styles.sectionText}>{text}</p>
+        <div style={styles.sectionStack}>{children}</div>
+      </div>
+    </section>
+  );
+}
+
+function Card({ title, text }: Block) {
+  return (
+    <div style={styles.card}>
+      <div style={styles.cardTitle}>{title}</div>
+      <div style={styles.cardText}>{text}</div>
+    </div>
+  );
+}
+
+function Panel({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div style={styles.panel}>
+      <div style={styles.cardTitle}>{title}</div>
+      <div style={styles.panelInner}>{children}</div>
+    </div>
+  );
+}
+
+const styles: Record<string, React.CSSProperties> = {
+  page: {
+    minHeight: "100vh",
+    background: "linear-gradient(180deg, #f3efe4 0%, #f8f8f4 45%, #eef4ee 100%)",
+    color: "#163327",
+    fontFamily: "Inter, Arial, Helvetica, sans-serif",
+  },
+  header: {
+    position: "sticky",
+    top: 0,
+    zIndex: 100,
+    background: "rgba(7, 49, 36, 0.97)",
+    borderBottom: "1px solid rgba(255,255,255,0.08)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+  },
+  headerInner: {
+    maxWidth: "1400px",
+    margin: "0 auto",
+    padding: "16px 20px",
+    display: "grid",
+    gap: "14px",
+  },
+  brandWrap: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+  },
+  brandIcon: {
+    width: "44px",
+    height: "44px",
+    borderRadius: "14px",
+    display: "grid",
+    placeItems: "center",
+    background: "rgba(240, 215, 132, 0.18)",
+    color: "#f5df96",
+    fontSize: "22px",
+  },
+  brandTitle: {
+    color: "#ffffff",
+    fontSize: "20px",
+    fontWeight: 800,
+    lineHeight: 1.1,
+  },
+  brandSub: {
+    color: "rgba(255,255,255,0.72)",
+    fontSize: "12px",
+    marginTop: "4px",
+  },
+  headerControls: {
+    display: "flex",
+    gap: "10px",
+    flexWrap: "wrap",
+    alignItems: "center",
+  },
+  controlGroup: {
+    display: "flex",
+    gap: "8px",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  controlLabel: {
+    color: "#dce9dd",
+    fontSize: "13px",
+    fontWeight: 700,
+  },
+  select: {
+    borderRadius: "999px",
+    padding: "10px 14px",
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(255,255,255,0.08)",
+    color: "#ffffff",
+    fontWeight: 700,
+    fontSize: "14px",
+    outline: "none",
+  },
+  topButton: {
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(255,255,255,0.06)",
+    color: "#ffffff",
+    borderRadius: "999px",
+    padding: "10px 14px",
+    fontWeight: 700,
+    fontSize: "14px",
+    cursor: "pointer",
+  },
+  nav: {
+    display: "flex",
+    gap: "8px",
+    flexWrap: "wrap",
+  },
+  navButton: {
+    border: "1px solid rgba(255,255,255,0.14)",
+    background: "rgba(255,255,255,0.06)",
+    color: "#ffffff",
+    borderRadius: "999px",
+    padding: "10px 14px",
+    fontSize: "14px",
+    fontWeight: 700,
+    cursor: "pointer",
+  },
+  navButtonActive: {
+    border: "1px solid rgba(240,215,132,0.55)",
+    background: "rgba(240,215,132,0.18)",
+    color: "#fff3c4",
+  },
+  guidedWrap: {
+    padding: "16px 20px 0",
+  },
+  guidedBox: {
+    maxWidth: "1400px",
+    margin: "0 auto",
+    background: "linear-gradient(135deg, #fff9e8 0%, #f4f8ef 100%)",
+    border: "1px solid rgba(14,74,57,0.10)",
+    borderRadius: "24px",
+    padding: "18px 22px",
+    boxShadow: "0 10px 20px rgba(25, 47, 35, 0.06)",
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "16px",
+    flexWrap: "wrap",
+    alignItems: "center",
+  },
+  guidedTitle: {
+    color: "#1f5b3a",
+    fontWeight: 800,
+    fontSize: "14px",
+  },
+  guidedText: {
+    marginTop: "8px",
+    color: "#40564d",
+    fontSize: "15px",
+    lineHeight: 1.6,
+    maxWidth: "900px",
+  },
+  guidedButtons: {
+    display: "flex",
+    gap: "10px",
+    flexWrap: "wrap",
+  },
+  section: {
+    padding: "34px 20px 54px",
+  },
+  shell: {
+    maxWidth: "1400px",
+    margin: "0 auto",
+  },
+  hero: {
+    maxWidth: "1400px",
+    margin: "0 auto 34px",
+    background:
+      "radial-gradient(circle at 78% 25%, rgba(255,255,255,0.14), transparent 20%), radial-gradient(circle at 15% 82%, rgba(255,215,122,0.10), transparent 20%), linear-gradient(135deg, #0b3a2d 0%, #0f4b3b 48%, #1c7049 100%)",
+    borderRadius: "28px",
+    padding: "54px 42px",
+    boxShadow: "0 24px 60px rgba(12, 36, 27, 0.20)",
+    border: "1px solid rgba(255,255,255,0.08)",
+  },
+  heroBadge: {
+    display: "inline-block",
+    borderRadius: "999px",
+    background: "rgba(255,255,255,0.10)",
+    color: "#f3ebc9",
+    padding: "8px 14px",
+    fontWeight: 800,
+    fontSize: "13px",
+    marginBottom: "20px",
+  },
+  heroGrid: {
+    display: "grid",
+    gridTemplateColumns: "minmax(0, 1.25fr) minmax(280px, 0.9fr)",
+    gap: "26px",
+    alignItems: "start",
+  },
+  heroTitle: {
+    margin: 0,
+    color: "#ffffff",
+    fontSize: "clamp(34px, 6vw, 64px)",
+    lineHeight: 1.02,
+    fontWeight: 800,
+    maxWidth: "900px",
+  },
+  heroText: {
+    marginTop: "18px",
+    maxWidth: "820px",
+    color: "rgba(255,255,255,0.84)",
+    fontSize: "18px",
+    lineHeight: 1.7,
+  },
+  actionRow: {
+    display: "flex",
+    gap: "12px",
+    flexWrap: "wrap",
+    marginTop: "22px",
+  },
+  primaryBtn: {
+    border: "none",
+    background: "#f0d784",
+    color: "#24311d",
+    borderRadius: "999px",
+    padding: "14px 22px",
+    fontWeight: 800,
+    fontSize: "15px",
+    cursor: "pointer",
+  },
+  secondaryBtn: {
+    border: "1px solid rgba(20,57,43,0.12)",
+    background: "#ffffff",
+    color: "#14392b",
+    borderRadius: "999px",
+    padding: "11px 16px",
+    fontWeight: 700,
+    fontSize: "14px",
+    cursor: "pointer",
+  },
+  ghostBtn: {
+    border: "1px solid rgba(255,255,255,0.16)",
+    background: "rgba(255,255,255,0.08)",
+    color: "#ffffff",
+    borderRadius: "999px",
+    padding: "14px 22px",
+    fontWeight: 700,
+    fontSize: "15px",
+    cursor: "pointer",
+  },
+  chipRow: {
+    marginTop: "20px",
+    display: "flex",
+    gap: "10px",
+    flexWrap: "wrap",
+  },
+  heroChip: {
+    display: "inline-block",
+    borderRadius: "999px",
+    padding: "8px 12px",
+    background: "rgba(255,255,255,0.10)",
+    color: "#e9f0dc",
+    fontSize: "13px",
+    fontWeight: 700,
+  },
+  marketChip: {
+    display: "inline-block",
+    borderRadius: "999px",
+    padding: "8px 12px",
+    background: "#e8efdf",
+    color: "#1f5b3a",
+    fontSize: "13px",
+    fontWeight: 800,
+  },
+  pickupChip: {
+    display: "inline-block",
+    borderRadius: "999px",
+    padding: "11px 16px",
+    background: "rgba(31,91,58,0.08)",
+    color: "#1f5b3a",
+    fontSize: "14px",
+    fontWeight: 800,
+  },
+  statGrid: {
+    display: "grid",
+    gap: "18px",
+  },
+  statCard: {
+    background: "rgba(255,255,255,0.10)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: "24px",
+    padding: "22px",
+  },
+  statNumber: {
+    color: "#fff2c5",
+    fontSize: "34px",
+    lineHeight: 1,
+    fontWeight: 800,
+    marginBottom: "8px",
+  },
+  statTitle: {
+    color: "#ffffff",
+    fontWeight: 800,
+    fontSize: "14px",
+  },
+  statText: {
+    marginTop: "8px",
+    color: "rgba(255,255,255,0.76)",
+    lineHeight: 1.6,
+    fontSize: "14px",
+  },
+  pageSection: {
+    maxWidth: "1400px",
+    margin: "0 auto",
+    background: "rgba(255,255,255,0.78)",
+    border: "1px solid rgba(14,74,57,0.10)",
+    borderRadius: "28px",
+    padding: "30px",
+    boxShadow: "0 14px 30px rgba(25, 47, 35, 0.08)",
+  },
+  sectionBadge: {
+    display: "inline-block",
+    borderRadius: "999px",
+    background: "#e8efdf",
+    color: "#1f5b3a",
+    padding: "8px 14px",
+    fontWeight: 800,
+    fontSize: "13px",
+    marginBottom: "16px",
+  },
+  sectionTitle: {
+    margin: 0,
+    color: "#14392b",
+    fontSize: "clamp(28px, 4vw, 42px)",
+    lineHeight: 1.08,
+    fontWeight: 800,
+  },
+  sectionText: {
+    marginTop: "14px",
+    color: "#42594f",
+    lineHeight: 1.7,
+    fontSize: "17px",
+    maxWidth: "920px",
+  },
+  sectionStack: {
+    marginTop: "22px",
+    display: "grid",
+    gap: "22px",
+  },
+  cardsGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+    gap: "16px",
+  },
+  twoGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: "18px",
+  },
+  threeGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+    gap: "18px",
+  },
+  card: {
+    background: "#ffffff",
+    border: "1px solid rgba(14,74,57,0.08)",
+    borderRadius: "22px",
+    padding: "22px",
+  },
+  pathCard: {
+    textAlign: "start",
+    background: "rgba(255,255,255,0.78)",
+    border: "1px solid rgba(14,74,57,0.10)",
+    borderRadius: "24px",
+    padding: "22px",
+    boxShadow: "0 14px 30px rgba(25, 47, 35, 0.08)",
+    cursor: "pointer",
+  },
+  cardTitle: {
+    color: "#14392b",
+    fontWeight: 800,
+    fontSize: "20px",
+    lineHeight: 1.15,
+  },
+  cardText: {
+    marginTop: "10px",
+    color: "#586961",
+    lineHeight: 1.65,
+    fontSize: "15px",
+  },
+  panel: {
+    background: "#ffffff",
+    border: "1px solid rgba(14,74,57,0.08)",
+    borderRadius: "22px",
+    padding: "22px",
+  },
+  panelInner: {
+    marginTop: "10px",
+  },
+  panelText: {
+    color: "#586961",
+    lineHeight: 1.7,
+    fontSize: "15px",
+  },
+  list: {
+    margin: 0,
+    paddingInlineStart: "20px",
+    color: "#586961",
+    lineHeight: 1.8,
+    fontSize: "15px",
+  },
+  innerStack: {
+    display: "grid",
+    gap: "12px",
+  },
+  recipeCard: {
+    border: "1px solid rgba(14,74,57,0.08)",
+    borderRadius: "18px",
+    padding: "16px",
+    background: "#ffffff",
+  },
+  recipeTitle: {
+    color: "#173126",
+    fontWeight: 800,
+    fontSize: "18px",
+  },
+  recipeText: {
+    marginTop: "8px",
+    color: "#5e6f67",
+    lineHeight: 1.6,
+    fontSize: "14px",
+  },
+  productCard: {
+    background: "#ffffff",
+    border: "1px solid rgba(14,74,57,0.08)",
+    borderRadius: "22px",
+    overflow: "hidden",
+    boxShadow: "0 10px 22px rgba(25, 47, 35, 0.06)",
+  },
+  productTop: {
+    height: "70px",
+    background: "linear-gradient(180deg, #f8f7f3 0%, #f0efe8 100%)",
+    padding: "14px",
+    display: "flex",
+    alignItems: "flex-start",
+  },
+  productBadge: {
+    display: "inline-block",
+    borderRadius: "999px",
+    padding: "8px 12px",
+    background: "#f3f7ef",
+    color: "#184a35",
+    fontSize: "12px",
+    fontWeight: 800,
+    border: "1px solid rgba(14,74,57,0.08)",
+  },
+  productBody: {
+    padding: "18px",
+  },
+  partnerChip: {
+    display: "inline-block",
+    borderRadius: "999px",
+    padding: "10px 14px",
+    background: "#f3f7ef",
+    border: "1px solid rgba(14,74,57,0.10)",
+    color: "#14392b",
+    fontSize: "14px",
+    fontWeight: 700,
+  },
+  footer: {
+    maxWidth: "1400px",
+    margin: "0 auto",
+    padding: "0 20px 34px",
+    color: "#5f7067",
+    fontSize: "14px",
+  },
+};
