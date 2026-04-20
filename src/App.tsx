@@ -1,37 +1,13 @@
 function TrustedPartners() {
   const partnerLogos = [
-    {
-      name: "Home Depot",
-      src: "https://logo.clearbit.com/homedepot.com",
-    },
-    {
-      name: "Petitti Gardens",
-      src: "https://logo.clearbit.com/petittigardencenter.com",
-    },
-    {
-      name: "Elliott's Garden Center",
-      src: "https://logo.clearbit.com/elliottsgardencenter.com",
-    },
-    {
-      name: "Central State",
-      src: "https://logo.clearbit.com/centralstate.edu",
-    },
-    {
-      name: "City of Youngstown",
-      src: "https://logo.clearbit.com/youngstownohio.gov",
-    },
-    {
-      name: "Youngstown Area Jewish Federation",
-      src: "https://logo.clearbit.com/jewishyoungstown.org",
-    },
-    {
-      name: "GrownBy",
-      src: "https://logo.clearbit.com/grownby.com",
-    },
-    {
-      name: "Farm & Family Alliance",
-      src: "",
-    },
+    { name: "Home Depot", src: "/logos/home-depot.png" },
+    { name: "Petitti Gardens", src: "/logos/petitti-gardens.png" },
+    { name: "Elliott's Garden Center", src: "/logos/elliotts-garden-center.png" },
+    { name: "Central State", src: "/logos/central-state.png" },
+    { name: "City of Youngstown", src: "/logos/city-of-youngstown.png" },
+    { name: "Youngstown Area Jewish Federation", src: "/logos/jewish-federation.png" },
+    { name: "GrownBy", src: "/logos/grownby.png" },
+    { name: "Farm & Family Alliance", src: "/logos/farm-family-alliance.png" },
   ];
 
   return (
@@ -71,48 +47,23 @@ function TrustedPartners() {
                 borderRadius: 20,
                 border: "1px solid rgba(255,255,255,0.08)",
                 background: "rgba(255,255,255,0.04)",
-                minHeight: 92,
+                minHeight: 96,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: "14px 16px",
+                padding: "16px 18px",
               }}
             >
-              {partner.src ? (
-                <img
-                  src={partner.src}
-                  alt={partner.name}
-                  onError={(e) => {
-                    const img = e.currentTarget;
-                    img.style.display = "none";
-                    const fallback = img.nextElementSibling as HTMLElement | null;
-                    if (fallback) fallback.style.display = "flex";
-                  }}
-                  style={{
-                    maxWidth: "140px",
-                    maxHeight: "42px",
-                    objectFit: "contain",
-                    filter: "brightness(0) invert(1)",
-                    opacity: 0.92,
-                  }}
-                />
-              ) : null}
-
-              <div
+              <img
+                src={partner.src}
+                alt={partner.name}
                 style={{
-                  display: partner.src ? "none" : "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "center",
-                  color: "rgba(255,255,255,0.84)",
-                  fontSize: 15,
-                  fontWeight: 700,
-                  lineHeight: 1.25,
-                  width: "100%",
+                  maxWidth: "140px",
+                  maxHeight: "44px",
+                  objectFit: "contain",
+                  display: "block",
                 }}
-              >
-                {partner.name}
-              </div>
+              />
             </div>
           ))}
         </div>
