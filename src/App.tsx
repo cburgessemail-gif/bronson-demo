@@ -14,7 +14,6 @@ import {
   ChevronLeft,
   CheckCircle2,
   ExternalLink,
-  Sun,
   ShieldCheck,
   BookOpen,
   Landmark,
@@ -32,17 +31,6 @@ type Screen =
   | "grower"
   | "youth"
   | "partners";
-
-const bgBase =
-  "relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(56,189,116,0.20),_transparent_30%),linear-gradient(180deg,#0b1a12_0%,#102418_35%,#173221_100%)] text-stone-100";
-
-const shell = "mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8";
-const card =
-  "rounded-3xl border border-white/10 bg-white/8 backdrop-blur-md shadow-2xl shadow-black/25";
-const softCard =
-  "rounded-[28px] border border-white/10 bg-black/20 backdrop-blur-md shadow-xl shadow-black/20";
-const sectionTitle = "text-2xl font-semibold tracking-tight text-white sm:text-3xl";
-const textSoft = "text-sm leading-7 text-stone-200/88 sm:text-base";
 
 const heroImage =
   "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1600&q=80";
@@ -62,7 +50,7 @@ const partnersImage =
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
 
-    let content;
+  let content;
   switch (screen) {
     case "guest":
       content = <GuestPage go={setScreen} />;
@@ -89,25 +77,10 @@ function App() {
   }
 
   return (
-    <div className={bgBase}>
-      <BackgroundGlow />
-      <TopBar current={screen} go={setScreen} />      <div key={screen}>
-          {content}
-      </div>
+    <div className="min-h-screen bg-emerald-950 text-white">
+      <TopBar current={screen} go={setScreen} />
+      {content}
     </div>
-  );
-}
-
-function BackgroundGlow() {
-  return (
-    <>
-      <div className="pointer-events-none absolute inset-0 opacity-40">
-        <div className="absolute -left-24 top-12 h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl" />
-        <div className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-lime-300/10 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-96 w-96 rounded-full bg-yellow-200/5 blur-3xl" />
-      </div>
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:44px_44px] opacity-[0.09]" />
-    </>
   );
 }
 
@@ -123,20 +96,15 @@ function TopBar({ current, go }: { current: Screen; go: (s: Screen) => void }) {
   ];
 
   return (
-    <div className="sticky top-0 z-40 border-b border-white/8 bg-black/25 backdrop-blur-xl">
-      <div className={`${shell} flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between`}>
-        <button
-          onClick={() => go("home")}
-          className="flex items-center gap-3 text-left"
-        >
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-emerald-300/20 bg-emerald-400/10">
-            <TreePine className="h-5 w-5 text-emerald-200" />
+    <div className="sticky top-0 z-40 border-b border-white/10 bg-emerald-950/95 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between sm:px-6 lg:px-8">
+        <button onClick={() => go("home")} className="flex items-center gap-3 text-left">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-800">
+            <TreePine className="h-5 w-5 text-emerald-100" />
           </div>
           <div>
-            <div className="text-base font-semibold tracking-tight text-white sm:text-lg">
-              Bronson Family Farm
-            </div>
-            <div className="text-xs uppercase tracking-[0.2em] text-emerald-100/70">
+            <div className="text-lg font-semibold">Bronson Family Farm</div>
+            <div className="text-xs uppercase tracking-[0.2em] text-emerald-200">
               Regenerative Farm Ecosystem Demo
             </div>
           </div>
@@ -149,66 +117,16 @@ function TopBar({ current, go }: { current: Screen; go: (s: Screen) => void }) {
               <button
                 key={item.key}
                 onClick={() => go(item.key)}
-                className={`rounded-full px-4 py-2 text-sm transition ${
+                className={
                   active
-                    ? "bg-white text-stone-900"
-                    : "border border-white/10 bg-white/5 text-stone-100 hover:bg-white/10"
-                }`}
+                    ? "rounded-full bg-white px-4 py-2 text-sm font-medium text-emerald-950"
+                    : "rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10"
+                }
               >
                 {item.label}
               </button>
             );
           })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PageFrame({
-  title,
-  eyebrow,
-  description,
-  image,
-  children,
-  back,
-}: {
-  title: string;
-  eyebrow: string;
-  description: string;
-  image: string;
-  children: React.ReactNode;
-  back?: React.ReactNode;
-}) {
-  return (
-    <div className={shell}>
-      <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="space-y-6">
-          {back}
-          <div className={`${card} overflow-hidden`}>
-            <div className="relative min-h-[290px] p-6 sm:min-h-[360px] sm:p-8 lg:p-10">
-              <img
-                src={image}
-                alt={title}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/45 to-emerald-950/65" />
-              <div className="relative z-10 flex h-full flex-col justify-end gap-5">
-                <div className="inline-flex w-fit rounded-full border border-white/15 bg-white/10 px-4 py-1 text-xs uppercase tracking-[0.22em] text-stone-100/90">
-                  {eyebrow}
-                </div>
-                <div className="max-w-3xl">
-                  <h1 className="text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
-                    {title}
-                  </h1>
-                  <p className="mt-4 max-w-2xl text-sm leading-7 text-stone-100/90 sm:text-base">
-                    {description}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          {children}
         </div>
       </div>
     </div>
@@ -256,33 +174,33 @@ function HomePage({ go }: { go: (s: Screen) => void }) {
   ];
 
   return (
-    <div className={shell}>
-      <div className={`${card} overflow-hidden`}>
-        <div className="relative min-h-[78vh] p-6 sm:p-8 lg:p-12">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="overflow-hidden rounded-3xl border border-white/10 bg-emerald-900/40 shadow-2xl">
+        <div className="relative min-h-[78vh] px-6 py-8 sm:px-8 lg:px-12 lg:py-12">
           <img src={heroImage} alt="Bronson Family Farm" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,0,0,0.72),rgba(0,0,0,0.40),rgba(6,78,59,0.55))]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-emerald-950/75 to-emerald-900/55" />
+
           <div className="relative z-10 grid min-h-[70vh] gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
-            <div className="self-end">
-              <div className="mb-5 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-1 text-xs uppercase tracking-[0.24em] text-stone-50">
+            <div>
+              <div className="mb-5 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.22em] text-emerald-100">
                 Step into the Farm. Experience something different.
               </div>
-              <h1 className="max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-white sm:text-6xl lg:text-7xl">
+              <h1 className="max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl lg:text-7xl">
                 A living farm ecosystem for food, family, workforce, wellness, and regional renewal.
               </h1>
-              <p className="mt-5 max-w-2xl text-base leading-8 text-stone-100/90 sm:text-lg">
+              <p className="mt-5 max-w-2xl text-base leading-8 text-emerald-50/90 sm:text-lg">
                 Bronson Family Farm brings regenerative growing, agritourism, education, marketplace access, and community-centered opportunity together in one place—designed to keep people returning again and again.
               </p>
-
               <div className="mt-8 flex flex-wrap gap-3">
                 <button
                   onClick={() => go("marketplace")}
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-stone-900 transition hover:scale-[1.02]"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-emerald-950"
                 >
                   Enter Marketplace <ArrowRight className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => go("guest")}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-6 py-3 text-sm text-white transition hover:bg-white/15"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-6 py-3 text-sm text-white"
                 >
                   Explore the Experience
                 </button>
@@ -293,19 +211,15 @@ function HomePage({ go }: { go: (s: Screen) => void }) {
               {tiles.map((tile) => {
                 const Icon = tile.icon;
                 return (
-                  <button
-                    key={tile.key}
-                    onClick={() => go(tile.key)}
-                    className="group text-left"
-                  >
-                    <div className={`${softCard} h-full p-5 transition duration-300 hover:-translate-y-1 hover:bg-white/10`}>
-                      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/10">
-                        <Icon className="h-5 w-5 text-emerald-200" />
+                  <button key={tile.key} onClick={() => go(tile.key)} className="text-left">
+                    <div className="h-full rounded-3xl border border-white/10 bg-emerald-950/55 p-5 backdrop-blur hover:bg-emerald-900/70">
+                      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-800/80">
+                        <Icon className="h-5 w-5 text-emerald-100" />
                       </div>
                       <h3 className="text-lg font-semibold text-white">{tile.title}</h3>
-                      <p className="mt-2 text-sm leading-7 text-stone-200/85">{tile.text}</p>
+                      <p className="mt-2 text-sm leading-7 text-emerald-50/80">{tile.text}</p>
                       <div className="mt-4 inline-flex items-center gap-2 text-sm text-emerald-200">
-                        Open <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                        Open <ArrowRight className="h-4 w-4" />
                       </div>
                     </div>
                   </button>
@@ -319,6 +233,67 @@ function HomePage({ go }: { go: (s: Screen) => void }) {
   );
 }
 
+function PageFrame({
+  title,
+  eyebrow,
+  description,
+  image,
+  children,
+  back,
+}: {
+  title: string;
+  eyebrow: string;
+  description: string;
+  image: string;
+  children: React.ReactNode;
+  back?: React.ReactNode;
+}) {
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="space-y-6">
+        {back}
+        <div className="overflow-hidden rounded-3xl border border-white/10 bg-emerald-900/40 shadow-2xl">
+          <div className="relative min-h-[320px] px-6 py-8 sm:min-h-[380px] sm:px-8 lg:px-10 lg:py-10">
+            <img src={image} alt={title} className="absolute inset-0 h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-emerald-950/75 to-emerald-900/60" />
+            <div className="relative z-10 flex h-full flex-col justify-end gap-5">
+              <div className="inline-flex w-fit rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.22em] text-emerald-100">
+                {eyebrow}
+              </div>
+              <div className="max-w-3xl">
+                <h1 className="text-3xl font-semibold leading-tight sm:text-5xl">{title}</h1>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-emerald-50/85 sm:text-base">
+                  {description}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function CardGrid({ items }: { items: { icon: any; title: string; text: string }[] }) {
+  return (
+    <div className="grid gap-6 lg:grid-cols-3">
+      {items.map((item) => {
+        const Icon = item.icon;
+        return (
+          <div key={item.title} className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-800">
+              <Icon className="h-5 w-5 text-emerald-100" />
+            </div>
+            <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-7 text-emerald-50/80">{item.text}</p>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function GuestPage({ go }: { go: (s: Screen) => void }) {
   return (
     <PageFrame
@@ -328,8 +303,8 @@ function GuestPage({ go }: { go: (s: Screen) => void }) {
       image={forestImage}
       back={<BackButton onClick={() => go("home")} />}
     >
-      <div className="grid gap-6 lg:grid-cols-3">
-        {[
+      <CardGrid
+        items={[
           {
             icon: TreePine,
             title: "Experience the Land",
@@ -345,44 +320,27 @@ function GuestPage({ go }: { go: (s: Screen) => void }) {
             title: "Return for More",
             text: "Guests can come back for market days, workshops, youth activity, farm stories, demonstrations, and seasonal experiences.",
           },
-        ].map((item) => {
-          const Icon = item.icon;
-          return (
-            <div key={item.title} className={`${softCard} p-6`}>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-400/10">
-                <Icon className="h-5 w-5 text-emerald-200" />
-              </div>
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-200/85">{item.text}</p>
-            </div>
-          );
-        })}
-      </div>
+        ]}
+      />
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_0.95fr]">
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>Why this matters in Youngstown</h2>
-          <p className={`mt-4 ${textSoft}`}>
+      <div className="grid gap-6 lg:grid-cols-[1fr_0.95fr]">
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Why this matters in Youngstown</h2>
+          <p className="mt-4 text-sm leading-7 text-emerald-50/85 sm:text-base">
             Bronson Family Farm stands as a response to rising food costs, overprocessed substitutes, neighborhood disconnection, and the need for visible, place-based opportunity. It restores land while creating a reason for families, young people, growers, educators, and civic partners to gather in one ecosystem.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              onClick={() => go("customer")}
-              className="rounded-full bg-white px-5 py-3 text-sm font-medium text-stone-900"
-            >
+            <button onClick={() => go("customer")} className="rounded-full bg-white px-5 py-3 text-sm font-medium text-emerald-950">
               See the Customer Journey
             </button>
-            <button
-              onClick={() => go("partners")}
-              className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white"
-            >
+            <button onClick={() => go("partners")} className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white">
               View Partners
             </button>
           </div>
         </div>
 
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>Live links</h2>
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Live links</h2>
           <div className="mt-4 space-y-3 text-sm">
             <LinkCard href={websiteUrl} label="Bronson Family Farm website" />
             <LinkCard href={weatherUrl} label="Youngstown weather" />
@@ -403,8 +361,8 @@ function CustomerPage({ go }: { go: (s: Screen) => void }) {
       image={produceImage}
       back={<BackButton onClick={() => go("home")} />}
     >
-      <div className="grid gap-6 lg:grid-cols-3">
-        {[
+      <CardGrid
+        items={[
           {
             icon: ShoppingBasket,
             title: "Shop Produce",
@@ -420,23 +378,12 @@ function CustomerPage({ go }: { go: (s: Screen) => void }) {
             title: "Recipes & Nutrition",
             text: "The customer experience includes guidance on better food choices, meal ideas, and practical ways to use farm products.",
           },
-        ].map((item) => {
-          const Icon = item.icon;
-          return (
-            <div key={item.title} className={`${softCard} p-6`}>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                <Icon className="h-5 w-5 text-emerald-200" />
-              </div>
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-200/85">{item.text}</p>
-            </div>
-          );
-        })}
-      </div>
+        ]}
+      />
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>A better customer flow</h2>
+      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">A better customer flow</h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">
             {[
               "See what is available now",
@@ -444,7 +391,7 @@ function CustomerPage({ go }: { go: (s: Screen) => void }) {
               "Learn how products support healthier choices",
               "Return for recipes, events, and seasonal offerings",
             ].map((step) => (
-              <div key={step} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-stone-100">
+              <div key={step} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white">
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-200" />
                   <span>{step}</span>
@@ -452,17 +399,14 @@ function CustomerPage({ go }: { go: (s: Screen) => void }) {
               </div>
             ))}
           </div>
-          <button
-            onClick={() => go("marketplace")}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-stone-900"
-          >
+          <button onClick={() => go("marketplace")} className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-emerald-950">
             Go to Marketplace <ArrowRight className="h-4 w-4" />
           </button>
         </div>
 
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>Why people come back</h2>
-          <p className={`mt-4 ${textSoft}`}>
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Why people come back</h2>
+          <p className="mt-4 text-sm leading-7 text-emerald-50/85 sm:text-base">
             This is not a one-time transaction. The demo is built to encourage repeat visits through produce, seedlings, Bubble Babies™, market pickups, recipes, food education, events, and evolving seasonal engagement.
           </p>
         </div>
@@ -488,14 +432,14 @@ function MarketplacePage({ go }: { go: (s: Screen) => void }) {
       back={<BackButton onClick={() => go("home")} />}
     >
       <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className={`${softCard} p-6 sm:p-8`}>
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-400/10">
-              <ShoppingBasket className="h-5 w-5 text-emerald-200" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-800">
+              <ShoppingBasket className="h-5 w-5 text-emerald-100" />
             </div>
             <div>
-              <h2 className={sectionTitle}>Shop the strongest experience</h2>
-              <p className="mt-1 text-sm text-stone-300/85">
+              <h2 className="text-2xl font-semibold sm:text-3xl">Shop the strongest experience</h2>
+              <p className="mt-1 text-sm text-emerald-50/75">
                 Built to feel more like a living storefront than a presentation.
               </p>
             </div>
@@ -503,9 +447,9 @@ function MarketplacePage({ go }: { go: (s: Screen) => void }) {
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {products.map((product) => (
-              <div key={product.title} className="rounded-[24px] border border-white/10 bg-white/5 p-5">
+              <div key={product.title} className="rounded-3xl border border-white/10 bg-white/5 p-5">
                 <div className="text-lg font-semibold text-white">{product.title}</div>
-                <div className="mt-2 text-sm leading-7 text-stone-200/85">{product.note}</div>
+                <div className="mt-2 text-sm leading-7 text-emerald-50/80">{product.note}</div>
               </div>
             ))}
           </div>
@@ -515,22 +459,19 @@ function MarketplacePage({ go }: { go: (s: Screen) => void }) {
               href={grownByUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-stone-900"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-emerald-950"
             >
               Open GrownBy Store <ExternalLink className="h-4 w-4" />
             </a>
-            <button
-              onClick={() => go("customer")}
-              className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white"
-            >
+            <button onClick={() => go("customer")} className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white">
               Back to Customer Path
             </button>
           </div>
         </div>
 
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>Marketplace standards for the rest of the demo</h2>
-          <div className="mt-5 space-y-3 text-sm text-stone-200/85">
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Marketplace standards for the rest of the demo</h2>
+          <div className="mt-5 space-y-3 text-sm text-emerald-50/80">
             {[
               "Stronger imagery",
               "Cleaner visual hierarchy",
@@ -559,38 +500,24 @@ function GrowerPage({ go }: { go: (s: Screen) => void }) {
       image={growerImage}
       back={<BackButton onClick={() => go("home")} />}
     >
-      <div className="grid gap-6 lg:grid-cols-3">
-        {[
+      <CardGrid
+        items={[
           { icon: Leaf, title: "Sell & Share", text: "Create pathways for growers and producers to participate in a visible farm-centered marketplace." },
           { icon: Users, title: "Belong", text: "The ecosystem should feel co-owned, welcoming, and relational—not cold, technical, or transactional." },
           { icon: ShieldCheck, title: "Build Capacity", text: "Support can include infrastructure, collaboration, promotion, and pathways into broader opportunity." },
-        ].map((item) => {
-          const Icon = item.icon;
-          return (
-            <div key={item.title} className={`${softCard} p-6`}>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-400/10">
-                <Icon className="h-5 w-5 text-emerald-200" />
-              </div>
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-200/85">{item.text}</p>
-            </div>
-          );
-        })}
-      </div>
+        ]}
+      />
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_0.95fr]">
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>Designed for repeat use</h2>
-          <p className={`mt-4 ${textSoft}`}>
+      <div className="grid gap-6 lg:grid-cols-[1fr_0.95fr]">
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Designed for repeat use</h2>
+          <p className="mt-4 text-sm leading-7 text-emerald-50/85 sm:text-base">
             This part of the demo should invite growers back for updates, opportunities, participation, collaboration, and shared visibility. It should feel like an ecosystem people want to re-enter, not a static page they read once.
           </p>
         </div>
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>Connected next step</h2>
-          <button
-            onClick={() => go("partners")}
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-stone-900"
-          >
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Connected next step</h2>
+          <button onClick={() => go("partners")} className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-medium text-emerald-950">
             See Community Partners <ArrowRight className="h-4 w-4" />
           </button>
         </div>
@@ -608,8 +535,8 @@ function YouthPage({ go }: { go: (s: Screen) => void }) {
       image={youthImage}
       back={<BackButton onClick={() => go("home")} />}
     >
-      <div className="grid gap-6 lg:grid-cols-3">
-        {[
+      <CardGrid
+        items={[
           {
             icon: GraduationCap,
             title: "Hands-on Training",
@@ -625,23 +552,12 @@ function YouthPage({ go }: { go: (s: Screen) => void }) {
             title: "Wellness & Stability",
             text: "Support staff resources can strengthen the pathway so young people are not left to navigate growth alone.",
           },
-        ].map((item) => {
-          const Icon = item.icon;
-          return (
-            <div key={item.title} className={`${softCard} p-6`}>
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                <Icon className="h-5 w-5 text-emerald-200" />
-              </div>
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-200/85">{item.text}</p>
-            </div>
-          );
-        })}
-      </div>
+        ]}
+      />
 
-      <div className={`${softCard} mt-6 p-6 sm:p-8`}>
-        <h2 className={sectionTitle}>Why this pathway matters</h2>
-        <p className={`mt-4 ${textSoft}`}>
+      <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+        <h2 className="text-2xl font-semibold sm:text-3xl">Why this pathway matters</h2>
+        <p className="mt-4 text-sm leading-7 text-emerald-50/85 sm:text-base">
           The youth workforce pathway is where agriculture, confidence, structure, teamwork, and future readiness meet. It gives young people a visible place in the ecosystem and shows families, educators, and funders that the farm is not only growing food—it is growing people.
         </p>
       </div>
@@ -668,33 +584,27 @@ function PartnersPage({ go }: { go: (s: Screen) => void }) {
       back={<BackButton onClick={() => go("home")} />}
     >
       <div className="grid gap-6 lg:grid-cols-[1fr_0.95fr]">
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>Visible collaboration</h2>
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Visible collaboration</h2>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             {partners.map((partner) => (
-              <div key={partner} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-stone-100">
+              <div key={partner} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white">
                 {partner}
               </div>
             ))}
           </div>
         </div>
 
-        <div className={`${softCard} p-6 sm:p-8`}>
-          <h2 className={sectionTitle}>Continue the journey</h2>
-          <p className={`mt-4 ${textSoft}`}>
+        <div className="rounded-3xl border border-white/10 bg-emerald-900/40 p-6 shadow-xl sm:p-8">
+          <h2 className="text-2xl font-semibold sm:text-3xl">Continue the journey</h2>
+          <p className="mt-4 text-sm leading-7 text-emerald-50/85 sm:text-base">
             The strongest close is not an ending. It is an invitation to continue exploring the marketplace, the grower ecosystem, the youth workforce pathway, and the broader purpose behind Bronson Family Farm.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              onClick={() => go("marketplace")}
-              className="rounded-full bg-white px-5 py-3 text-sm font-medium text-stone-900"
-            >
+            <button onClick={() => go("marketplace")} className="rounded-full bg-white px-5 py-3 text-sm font-medium text-emerald-950">
               Return to Marketplace
             </button>
-            <button
-              onClick={() => go("home")}
-              className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white"
-            >
+            <button onClick={() => go("home")} className="rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm text-white">
               Back to Home
             </button>
           </div>
@@ -706,10 +616,7 @@ function PartnersPage({ go }: { go: (s: Screen) => void }) {
 
 function BackButton({ onClick }: { onClick: () => void }) {
   return (
-    <button
-      onClick={onClick}
-      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white"
-    >
+    <button onClick={onClick} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white">
       <ChevronLeft className="h-4 w-4" /> Back to Home
     </button>
   );
@@ -721,7 +628,7 @@ function LinkCard({ href, label }: { href: string; label: string }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 text-stone-100 transition hover:bg-white/10"
+      className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 text-white hover:bg-white/10"
     >
       <span>{label}</span>
       <ExternalLink className="h-4 w-4 text-emerald-200" />
@@ -730,3 +637,4 @@ function LinkCard({ href, label }: { href: string; label: string }) {
 }
 
 export default App;
+
