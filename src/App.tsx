@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
 import {
   ArrowRight,
   Sprout,
@@ -63,41 +62,38 @@ const partnersImage =
 function App() {
   const [screen, setScreen] = useState<Screen>("home");
 
-  const content = useMemo(() => {
-    switch (screen) {
-      case "guest":
-        return <GuestPage go={setScreen} />;
-      case "customer":
-        return <CustomerPage go={setScreen} />;
-      case "marketplace":
-        return <MarketplacePage go={setScreen} />;
-      case "grower":
-        return <GrowerPage go={setScreen} />;
-      case "youth":
-        return <YouthPage go={setScreen} />;
-      case "partners":
-        return <PartnersPage go={setScreen} />;
-      case "home":
-      default:
-        return <HomePage go={setScreen} />;
-    }
-  }, [screen]);
+    let content;
+  switch (screen) {
+    case "guest":
+      content = <GuestPage go={setScreen} />;
+      break;
+    case "customer":
+      content = <CustomerPage go={setScreen} />;
+      break;
+    case "marketplace":
+      content = <MarketplacePage go={setScreen} />;
+      break;
+    case "grower":
+      content = <GrowerPage go={setScreen} />;
+      break;
+    case "youth":
+      content = <YouthPage go={setScreen} />;
+      break;
+    case "partners":
+      content = <PartnersPage go={setScreen} />;
+      break;
+    case "home":
+    default:
+      content = <HomePage go={setScreen} />;
+      break;
+  }
 
   return (
     <div className={bgBase}>
       <BackgroundGlow />
-      <TopBar current={screen} go={setScreen} />
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={screen}
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-        >
+      <TopBar current={screen} go={setScreen} />      <div key={screen}>
           {content}
-        </motion.div>
-      </AnimatePresence>
+      </div>
     </div>
   );
 }
@@ -643,7 +639,7 @@ function YouthPage({ go }: { go: (s: Screen) => void }) {
         })}
       </div>
 
-      <div className="mt-6 ${softCard} p-6 sm:p-8">
+      <div className={`${softCard} mt-6 p-6 sm:p-8`}>
         <h2 className={sectionTitle}>Why this pathway matters</h2>
         <p className={`mt-4 ${textSoft}`}>
           The youth workforce pathway is where agriculture, confidence, structure, teamwork, and future readiness meet. It gives young people a visible place in the ecosystem and shows families, educators, and funders that the farm is not only growing food—it is growing people.
