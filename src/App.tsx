@@ -1,277 +1,192 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React from "react";
 import {
+  MapPin,
+  Globe,
+  Play,
   ShoppingCart,
   Sprout,
   Users,
   ShieldCheck,
   Handshake,
-  MapPin,
-  ArrowLeft,
-  Play,
-  Globe,
   Sun,
+  Leaf,
+  Store,
 } from "lucide-react";
 
-type View =
-  | "home"
-  | "guest"
-  | "customer"
-  | "grower"
-  | "youth"
-  | "supervisor"
-  | "partner";
-
-const photos = [
-  "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1600&auto=format&fit=crop",
-];
-
 export default function App() {
-  const [view, setView] = useState<View>("home");
-  const [photo, setPhoto] = useState(0);
-  const [lang, setLang] = useState("English");
+  const hero =
+    "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1800&auto=format&fit=crop";
 
-  useEffect(() => {
-    const t = setInterval(() => {
-      setPhoto((p) => (p + 1) % photos.length);
-    }, 5000);
-    return () => clearInterval(t);
-  }, []);
-
-  const bg = useMemo(() => photos[photo], [photo]);
-
-  const roleData = {
-    guest: {
-      title: "Guest Experience",
-      icon: <MapPin size={28} />,
-      text: "Enter the land, understand the mission, and discover why this farm matters to Youngstown.",
-      cta: "Return to Entrance",
-    },
-    customer: {
-      title: "Customer Marketplace",
-      icon: <ShoppingCart size={28} />,
-      text: "Buy produce, seedlings, Bubble Babies™, access recipes, nutrition guidance, and support local growers.",
-      cta: "Open GrownBy Marketplace",
-      link: "https://grownby.com/farms/bronson-family-farm/shop",
-    },
-    grower: {
-      title: "Grower Pathway",
-      icon: <Sprout size={28} />,
-      text: "Crop planning, production support, selling channels, shared ecosystem growth.",
-      cta: "Return to Entrance",
-    },
-    youth: {
-      title: "Youth Workforce",
-      icon: <Users size={28} />,
-      text: "Hands-on training, confidence building, attendance habits, teamwork, future pathways.",
-      cta: "Return to Entrance",
-    },
-    supervisor: {
-      title: "Supervisor Support",
-      icon: <ShieldCheck size={28} />,
-      text: "Mentoring, safety, structure, accountability, and wellness support.",
-      cta: "Return to Entrance",
-    },
-    partner: {
-      title: "Partner Vision",
-      icon: <Handshake size={28} />,
-      text: "Invest in land restoration, food access, workforce development, and community growth.",
-      cta: "Return to Entrance",
-    },
-  };
-
-  const current =
-    view !== "home" ? roleData[view as keyof typeof roleData] : null;
+  const card =
+    "bg-white rounded-3xl shadow-xl p-6 transition hover:-translate-y-1 hover:shadow-2xl";
 
   const btn =
-    "rounded-2xl px-5 py-3 font-semibold transition hover:scale-[1.02]";
+    "px-6 py-4 rounded-2xl font-semibold text-lg transition hover:scale-[1.02]";
 
   return (
-    <div
-      className="min-h-screen text-white bg-cover bg-center duration-700"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.65)),url(${bg})`,
-      }}
-    >
-      <div className="backdrop-blur-[1px] min-h-screen">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          {/* TOP BAR */}
-          <div className="flex flex-wrap gap-3 justify-between items-center mb-8">
-            <div className="text-lg font-semibold">
+    <div className="min-h-screen bg-[#eef3ea] text-[#10210f]">
+      {/* HERO */}
+      <section
+        className="relative min-h-[720px] bg-cover bg-center"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.58)),url(${hero})`,
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 pt-6 pb-16">
+          {/* top */}
+          <div className="flex justify-between items-center text-white">
+            <div className="flex items-center gap-2 text-xl font-semibold">
+              <MapPin size={20} />
               Bronson Family Farm • Youngstown, Ohio
             </div>
 
-            <div className="flex gap-2 items-center bg-white/10 rounded-2xl px-3 py-2">
+            <div className="bg-white text-black px-5 py-3 rounded-2xl flex items-center gap-3">
               <Globe size={18} />
-              <select
-                value={lang}
-                onChange={(e) => setLang(e.target.value)}
-                className="bg-transparent outline-none text-white"
-              >
-                <option className="text-black">English</option>
-                <option className="text-black">Spanish</option>
-                <option className="text-black">Tagalog</option>
-                <option className="text-black">Italian</option>
-                <option className="text-black">Patwa</option>
-                <option className="text-black">Hebrew</option>
-              </select>
+              English
             </div>
           </div>
 
-          {/* HOME */}
-          {view === "home" && (
-            <>
-              <div className="grid lg:grid-cols-2 gap-8 items-center">
-                <div>
-                  <p className="text-xl mb-2">Welcome to</p>
-                  <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-5">
-                    Bronson Family Farm
-                  </h1>
-
-                  <p className="text-xl md:text-2xl text-white/95 mb-4">
-                    A regenerative ecosystem responding to rising food costs,
-                    unhealthy substitutes, community disconnection, and the need
-                    for real opportunity.
-                  </p>
-
-                  <p className="text-lg text-white/85 mb-8">
-                    Land • Marketplace • Growers • Youth Workforce • Community
-                    Partners
-                  </p>
-
-                  <div className="flex flex-wrap gap-3 mb-10">
-                    <button
-                      onClick={() => setView("guest")}
-                      className={`${btn} bg-green-600`}
-                    >
-                      <Play className="inline mr-2" size={18} />
-                      Enter Live Demo
-                    </button>
-
-                    <a
-                      href="https://grownby.com/farms/bronson-family-farm/shop"
-                      target="_blank"
-                      className={`${btn} bg-white/15`}
-                    >
-                      Visit Marketplace
-                    </a>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    {[
-                      ["guest", "Guest", <MapPin size={22} />],
-                      ["customer", "Customer", <ShoppingCart size={22} />],
-                      ["grower", "Grower", <Sprout size={22} />],
-                      ["youth", "Youth Worker", <Users size={22} />],
-                      ["supervisor", "Supervisor", <ShieldCheck size={22} />],
-                      ["partner", "Partner", <Handshake size={22} />],
-                    ].map((r: any) => (
-                      <button
-                        key={r[0]}
-                        onClick={() => setView(r[0])}
-                        className="bg-white/10 hover:bg-white/20 rounded-3xl p-5 text-left transition"
-                      >
-                        <div className="mb-3">{r[2]}</div>
-                        <div className="text-xl font-bold">{r[1]}</div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="bg-white/10 rounded-[2rem] p-6 backdrop-blur-md">
-                  <div className="text-2xl font-bold mb-4">
-                    Why People Return
-                  </div>
-
-                  <div className="space-y-4 text-white/90">
-                    <div>
-                      Fresh produce, seedlings, Bubble Babies™, recipes and
-                      nutrition support.
-                    </div>
-                    <div>
-                      Grower opportunities, collaboration, and seasonal markets.
-                    </div>
-                    <div>
-                      Youth pathways that build skill, confidence, and purpose.
-                    </div>
-                    <div>
-                      A place-based model restoring land and strengthening
-                      community.
-                    </div>
-                  </div>
-
-                  <div className="mt-6 p-4 rounded-2xl bg-green-600/30">
-                    <Sun className="inline mr-2" size={18} />
-                    Youngstown Weather Ready • Outdoor Experience Ready
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* ROLE PAGES */}
-          {view !== "home" && current && (
-            <div className="max-w-5xl">
-              <button
-                onClick={() => setView("home")}
-                className="mb-8 bg-white/15 px-4 py-2 rounded-xl"
-              >
-                <ArrowLeft className="inline mr-2" size={18} />
-                Back to Entrance
-              </button>
-
-              <div className="bg-white/10 rounded-[2rem] p-8 backdrop-blur-md">
-                <div className="mb-4">{current.icon}</div>
-
-                <h2 className="text-4xl md:text-6xl font-bold mb-5">
-                  {current.title}
-                </h2>
-
-                <p className="text-xl text-white/90 mb-8">{current.text}</p>
-
-                <div className="grid md:grid-cols-2 gap-5">
-                  <div className="bg-black/20 rounded-3xl p-5">
-                    <div className="text-2xl font-bold mb-3">What This Means</div>
-                    <p>
-                      This pathway is designed to create repeated value so people
-                      want to return again and again.
-                    </p>
-                  </div>
-
-                  <div className="bg-black/20 rounded-3xl p-5">
-                    <div className="text-2xl font-bold mb-3">Next Step</div>
-
-                    {view === "customer" ? (
-                      <a
-                        href="https://grownby.com/farms/bronson-family-farm/shop"
-                        target="_blank"
-                        className="inline-block bg-green-600 rounded-2xl px-5 py-3 font-semibold"
-                      >
-                        Open Marketplace
-                      </a>
-                    ) : (
-                      <button
-                        onClick={() => setView("home")}
-                        className="bg-white/15 rounded-2xl px-5 py-3"
-                      >
-                        Return to Ecosystem
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
+          {/* hero text */}
+          <div className="pt-16 max-w-4xl text-white">
+            <div className="text-5xl text-green-300 font-semibold mb-2">
+              Welcome to
             </div>
-          )}
 
-          <div className="pt-12 text-sm text-white/70">
-            Developed by Bronson Family Farm
+            <h1 className="text-7xl md:text-8xl font-black leading-none mb-6">
+              Bronson Family Farm
+            </h1>
+
+            <p className="text-2xl md:text-3xl leading-relaxed mb-6 text-white/95">
+              A regenerative ecosystem responding to rising food costs,
+              unhealthy substitutes, community disconnection, and the need for
+              real opportunity.
+            </p>
+
+            <div className="text-2xl text-green-200 mb-10">
+              Land • Marketplace • Growers • Youth Workforce • Community
+              Partners
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="https://grownby.com/farms/bronson-family-farm/shop"
+                target="_blank"
+                className={`${btn} bg-green-600 text-white`}
+              >
+                <Play className="inline mr-2" size={20} />
+                Enter Live Demo
+              </a>
+
+              <a
+                href="https://grownby.com/farms/bronson-family-farm/shop"
+                target="_blank"
+                className={`${btn} bg-white/10 text-white border border-white/40`}
+              >
+                <ShoppingCart className="inline mr-2" size={20} />
+                Visit Marketplace
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ROLE CARDS */}
+      <section className="max-w-7xl mx-auto px-6 -mt-20 relative z-20">
+        <div className="grid lg:grid-cols-6 md:grid-cols-3 gap-4">
+          <div className={card}>
+            <MapPin className="text-green-700 mb-4" size={34} />
+            <h3 className="text-3xl font-bold mb-3">Guest</h3>
+            <p className="text-lg">Enter the story, meaning, and mission.</p>
+          </div>
+
+          <div className={card}>
+            <ShoppingCart className="text-green-700 mb-4" size={34} />
+            <h3 className="text-3xl font-bold mb-3">Customer</h3>
+            <p className="text-lg">Shop produce, seedlings, recipes.</p>
+          </div>
+
+          <div className={card}>
+            <Sprout className="text-green-700 mb-4" size={34} />
+            <h3 className="text-3xl font-bold mb-3">Grower</h3>
+            <p className="text-lg">Production planning and selling paths.</p>
+          </div>
+
+          <div className={card}>
+            <Users className="text-violet-700 mb-4" size={34} />
+            <h3 className="text-3xl font-bold mb-3">Youth Worker</h3>
+            <p className="text-lg">Skill, confidence, and future direction.</p>
+          </div>
+
+          <div className={card}>
+            <ShieldCheck className="text-blue-700 mb-4" size={34} />
+            <h3 className="text-3xl font-bold mb-3">Supervisor</h3>
+            <p className="text-lg">Mentoring, attendance, structure.</p>
+          </div>
+
+          <div className={card}>
+            <Handshake className="text-orange-600 mb-4" size={34} />
+            <h3 className="text-3xl font-bold mb-3">Partner</h3>
+            <p className="text-lg">Invest in land, food, community.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* LOWER PANELS */}
+      <section className="max-w-7xl mx-auto px-6 py-10">
+        <div className="grid lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-white rounded-3xl shadow-xl p-8">
+            <h2 className="text-5xl font-black text-green-800 mb-8">
+              Why People Return
+            </h2>
+
+            <div className="grid md:grid-cols-4 gap-6 text-lg">
+              <div>
+                <Leaf className="text-green-700 mb-3" size={36} />
+                Fresh produce, Bubble Babies™, recipes and nutrition support.
+              </div>
+
+              <div>
+                <Store className="text-green-700 mb-3" size={36} />
+                Grower opportunities, collaboration, seasonal markets.
+              </div>
+
+              <div>
+                <Users className="text-violet-700 mb-3" size={36} />
+                Youth pathways that build skill and confidence.
+              </div>
+
+              <div>
+                <Sun className="text-yellow-500 mb-3" size={36} />
+                A place-based model restoring land and community.
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-[#dcead6] rounded-3xl shadow-xl p-8">
+            <Sun className="text-green-800 mb-4" size={40} />
+            <h3 className="text-4xl font-black text-green-800 mb-4">
+              Youngstown Weather Ready
+            </h3>
+
+            <p className="text-2xl mb-8">Outdoor Experience Ready</p>
+
+            <div className="border-t border-green-700 pt-6 text-xl">
+              Built for all seasons. Built for our community.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-[#07210b] text-white">
+        <div className="max-w-7xl mx-auto px-6 py-6 flex flex-wrap gap-8 justify-between text-lg">
+          <div>Developed by Bronson Family Farm</div>
+          <div>About the Farm</div>
+          <div>Mission</div>
+          <div>Programs</div>
+          <div>Contact</div>
+        </div>
+      </footer>
     </div>
   );
 }
