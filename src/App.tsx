@@ -1,94 +1,67 @@
-// FULL NEXT STRONGEST BUILD UPGRADES
-// REPLACE THESE SECTIONS IN App.tsx
+// NEXT STRONGEST MOVE
+// MAKE PARTNER SECTION LOOK PREMIUM WITH REAL LOGO WALL FEEL
+// REPLACE ENTIRE TRUSTED PARTNERS BLOCK WITH THIS
 
-// ===============================
-// 1. GLOBAL FONT UPGRADE
-// ===============================
-fontFamily:
-'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+<div style={{ marginTop: 42 }}>
+  <div
+    style={{
+      fontSize: 12,
+      letterSpacing: "0.34em",
+      textTransform: "uppercase",
+      color: "rgba(194,244,204,0.82)",
+      marginBottom: 18,
+    }}
+  >
+    Trusted Partners
+  </div>
 
-// ===============================
-// 2. HERO TITLE (HOME PAGE)
-// ===============================
-fontSize: isMobile ? 56 : 94,
-lineHeight: 0.92,
-letterSpacing: "-0.05em",
-fontWeight: 760,
-
-// ===============================
-// 3. HOME SUBTEXT
-// ===============================
-fontSize: isMobile ? 22 : 28,
-lineHeight: 1.52,
-fontWeight: 420,
-maxWidth: 760,
-
-// ===============================
-// 4. BUTTONS = PREMIUM
-// ===============================
-padding: "15px 24px",
-fontSize: 14,
-fontWeight: 720,
-borderRadius: 999,
-
-// ===============================
-// 5. ROLE TILES
-// ===============================
-minHeight: 240,
-padding: 24,
-borderRadius: 28,
-
-// TILE TITLES
-fontSize: 24,
-fontWeight: 720,
-lineHeight: 1.08,
-
-// TILE BODY
-fontSize: 16,
-lineHeight: 1.55,
-fontWeight: 420,
-
-// ===============================
-// 6. RIGHT HERO PANEL
-// ===============================
-padding: 30,
-borderRadius: 34,
-
-// PANEL TITLE
-fontSize: isMobile ? 34 : 46,
-fontWeight: 760,
-lineHeight: 1.05,
-
-// ===============================
-// 7. MARKETPLACE PAGE TITLE
-// ===============================
-fontSize: isMobile ? 38 : 64,
-fontWeight: 760,
-lineHeight: 1.02,
-
-// ===============================
-// 8. MARKETPLACE RIGHT CARDS
-// ===============================
-padding: 24,
-borderRadius: 26,
-
-// CARD TITLE
-fontSize: 24,
-fontWeight: 740,
-
-// CARD TEXT
-fontSize: 17,
-lineHeight: 1.58,
-fontWeight: 420,
-
-// ===============================
-// 9. GLASS PANELS CLEANER
-// ===============================
-background: "rgba(255,255,255,0.055)",
-border: "1px solid rgba(255,255,255,0.10)",
-boxShadow: "0 12px 40px rgba(0,0,0,0.18)",
-
-// ===============================
-// 10. PAGE WIDTH WIDER
-// ===============================
-maxWidth: "1440px",
+  <div
+    style={{
+      ...glass,
+      padding: isMobile ? 18 : 24,
+      borderRadius: 28,
+    }}
+  >
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: isMobile
+          ? "repeat(2,1fr)"
+          : "repeat(4,minmax(0,1fr))",
+        gap: 14,
+      }}
+    >
+      {[
+        "Home Depot",
+        "Petitti Gardens",
+        "Elliott's Garden Center",
+        "Central State",
+        "City of Youngstown",
+        "Youngstown Area Jewish Federation",
+        "GrownBy",
+        "Farm & Family Alliance",
+      ].map((name) => (
+        <div
+          key={name}
+          style={{
+            borderRadius: 20,
+            border: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(255,255,255,0.04)",
+            minHeight: 78,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            padding: "10px 12px",
+            color: "rgba(255,255,255,0.84)",
+            fontSize: 15,
+            fontWeight: 700,
+            lineHeight: 1.25,
+          }}
+        >
+          {name}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
