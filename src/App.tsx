@@ -24,8 +24,8 @@ type Pathway = {
   shortTitle: string;
   heroKicker: string;
   summary: string;
-  mission: string;
-  outcome: string;
+  whyItMatters: string;
+  whatPeopleGain: string;
   colorA: string;
   colorB: string;
   buttonBg: string;
@@ -48,7 +48,7 @@ const languageOptions: { key: LanguageKey; label: string; rtl?: boolean }[] = [
 
 const ui = {
   en: {
-    demoLabel: "Mission-Driven Ecosystem Demo",
+    demoLabel: "Living Ecosystem Experience",
     title: "Bronson Family Farm",
     subtitle:
       "An ecosystem for food, learning, wellness, workforce, and community return.",
@@ -57,8 +57,8 @@ const ui = {
     heroTitleLine2: "is more than a farm.",
     heroBody:
       "A regenerative ecosystem connecting land, food access, marketplace activity, growers, youth workforce development, education, and partnership in Youngstown and the Mahoning Valley.",
-    missionLabel: "Mission",
-    missionBody:
+    openingTitle: "Why It Matters",
+    openingBody:
       "Restore land, grow healthy food, create opportunity, and build community systems for the Mahoning Valley Area.",
     enterMarketplace: "Enter Marketplace",
     beginGuidedTour: "Begin Guided Tour",
@@ -69,19 +69,16 @@ const ui = {
     voiceOff: "Narration Off",
     guidedOn: "Guided Tour On",
     guidedOff: "Guided Tour Off",
-    choosePathway: "Choose a pathway",
-    pathway: "Pathway",
-    mission: "Mission",
-    outcome: "Outcome",
+    choosePathway: "Explore Experiences",
+    pathway: "Experience",
     openPathway: "Open Pathway",
     openStore: "Open GrownBy Store",
     openWeather: "Open Weather",
     backHome: "Back Home",
-    backAll: "All Pathways",
     nextLayer: "Next Layer",
     previousLayer: "Previous Layer",
-    journeyLayers: "Journey Layers",
-    pathwayProgress: "Pathway Progress",
+    journeyLayers: "Experience Journey",
+    pathwayProgress: "Journey Progress",
     reasonToReturn:
       "Built so visitors, customers, growers, youth, and partners always have a reason to come back.",
     storyTag: "The story behind the farm",
@@ -105,11 +102,11 @@ const ui = {
     statsABody:
       "A destination for food access, agritourism, education, workforce pathways, and community return.",
     statsB: "6",
-    statsBTitle: "mission pathways",
-    statsBBody: "Every pathway is built to achieve a specific outcome.",
+    statsBTitle: "living pathways",
+    statsBBody: "Every pathway is built to achieve a specific experience and return value.",
     statsCTitle: "Return Again",
     statsCBody:
-      "Built so people understand the mission, receive value, and have a reason to return again.",
+      "Built so people understand the vision, receive value, and have a reason to return again.",
     seasonalTitle: "Warm season planning active",
     seasonalBody:
       "Field prep, seedling movement, event readiness, and seasonal coordination are active.",
@@ -119,9 +116,15 @@ const ui = {
     langCardTitle: "Choose language",
     narratorHome:
       "Bronson Family Farm is more than a farm. It is a regenerative ecosystem for food, learning, workforce, and community return.",
+    storyValue: "Story Value",
+    communityBenefit: "Community Benefit",
+    whyThisExists: "Why This Exists",
+    whatChangesHere: "What Changes Here",
+    whatThisCreates: "What This Creates",
+    whereThisLeads: "Where This Leads",
   },
   es: {
-    demoLabel: "Demostración del Ecosistema Impulsado por la Misión",
+    demoLabel: "Experiencia de Ecosistema Vivo",
     title: "Bronson Family Farm",
     subtitle:
       "Un ecosistema para alimentos, aprendizaje, bienestar, trabajo y retorno comunitario.",
@@ -130,8 +133,8 @@ const ui = {
     heroTitleLine2: "es más que una granja.",
     heroBody:
       "Un ecosistema regenerativo que conecta tierra, acceso a alimentos, actividad de mercado, productores, desarrollo laboral juvenil, educación y alianzas en Youngstown y el Valle de Mahoning.",
-    missionLabel: "Misión",
-    missionBody:
+    openingTitle: "Por qué importa",
+    openingBody:
       "Restaurar la tierra, cultivar alimentos saludables, crear oportunidades y construir sistemas comunitarios para el Área del Valle de Mahoning.",
     enterMarketplace: "Entrar al Mercado",
     beginGuidedTour: "Comenzar Visita Guiada",
@@ -142,19 +145,16 @@ const ui = {
     voiceOff: "Narración Inactiva",
     guidedOn: "Tour Guiado Activo",
     guidedOff: "Tour Guiado Inactivo",
-    choosePathway: "Elija una ruta",
-    pathway: "Ruta",
-    mission: "Misión",
-    outcome: "Resultado",
+    choosePathway: "Explorar experiencias",
+    pathway: "Experiencia",
     openPathway: "Abrir Ruta",
     openStore: "Abrir Tienda GrownBy",
     openWeather: "Abrir Clima",
     backHome: "Volver al Inicio",
-    backAll: "Todas las Rutas",
     nextLayer: "Siguiente Capa",
     previousLayer: "Capa Anterior",
-    journeyLayers: "Capas del Recorrido",
-    pathwayProgress: "Progreso de la Ruta",
+    journeyLayers: "Recorrido de la experiencia",
+    pathwayProgress: "Progreso del recorrido",
     reasonToReturn:
       "Construido para que visitantes, clientes, productores, jóvenes y socios siempre tengan una razón para regresar.",
     storyTag: "La historia detrás de la granja",
@@ -178,11 +178,12 @@ const ui = {
     statsABody:
       "Un destino para acceso a alimentos, agroturismo, educación, rutas laborales y retorno comunitario.",
     statsB: "6",
-    statsBTitle: "rutas de misión",
-    statsBBody: "Cada ruta está construida para lograr un resultado específico.",
+    statsBTitle: "rutas vivas",
+    statsBBody:
+      "Cada ruta está construida para ofrecer una experiencia y un valor de retorno específicos.",
     statsCTitle: "Regresar",
     statsCBody:
-      "Construido para que las personas entiendan la misión, reciban valor y tengan una razón para volver.",
+      "Construido para que las personas entiendan la visión, reciban valor y tengan una razón para volver.",
     seasonalTitle: "Planificación de temporada cálida activa",
     seasonalBody:
       "La preparación del campo, el movimiento de plántulas, la preparación de eventos y la coordinación estacional están activas.",
@@ -192,9 +193,15 @@ const ui = {
     langCardTitle: "Elegir idioma",
     narratorHome:
       "Bronson Family Farm es más que una granja. Es un ecosistema regenerativo para alimentos, aprendizaje, trabajo y retorno comunitario.",
+    storyValue: "Valor de la historia",
+    communityBenefit: "Beneficio comunitario",
+    whyThisExists: "Por qué existe",
+    whatChangesHere: "Qué cambia aquí",
+    whatThisCreates: "Qué crea esto",
+    whereThisLeads: "Hacia dónde conduce",
   },
   tl: {
-    demoLabel: "Mission-Driven Ecosystem Demo",
+    demoLabel: "Living Ecosystem Experience",
     title: "Bronson Family Farm",
     subtitle:
       "Isang ecosystem para sa pagkain, pagkatuto, wellness, trabaho, at pagbabalik sa komunidad.",
@@ -203,8 +210,8 @@ const ui = {
     heroTitleLine2: "ay higit pa sa isang farm.",
     heroBody:
       "Isang regenerative ecosystem na nag-uugnay sa lupa, food access, marketplace activity, growers, youth workforce development, education, at partnership sa Youngstown at Mahoning Valley.",
-    missionLabel: "Misyon",
-    missionBody:
+    openingTitle: "Bakit mahalaga ito",
+    openingBody:
       "Ibalik ang sigla ng lupa, magtanim ng masustansyang pagkain, lumikha ng oportunidad, at bumuo ng mga sistemang pangkomunidad para sa Mahoning Valley Area.",
     enterMarketplace: "Pumasok sa Marketplace",
     beginGuidedTour: "Simulan ang Guided Tour",
@@ -215,19 +222,16 @@ const ui = {
     voiceOff: "Narration Off",
     guidedOn: "Guided Tour On",
     guidedOff: "Guided Tour Off",
-    choosePathway: "Pumili ng landas",
-    pathway: "Landas",
-    mission: "Misyon",
-    outcome: "Kinalabasan",
+    choosePathway: "Galugarin ang mga karanasan",
+    pathway: "Karanasan",
     openPathway: "Buksan ang Landas",
     openStore: "Buksan ang GrownBy Store",
     openWeather: "Buksan ang Panahon",
     backHome: "Balik Home",
-    backAll: "Lahat ng Landas",
     nextLayer: "Susunod na Layer",
     previousLayer: "Nakaraang Layer",
-    journeyLayers: "Mga Layer ng Journey",
-    pathwayProgress: "Pag-unlad ng Landas",
+    journeyLayers: "Journey ng karanasan",
+    pathwayProgress: "Pag-usad ng journey",
     reasonToReturn:
       "Ginawa upang ang mga bisita, customer, grower, youth, at partner ay laging may dahilan para bumalik.",
     storyTag: "Ang kuwento sa likod ng farm",
@@ -251,11 +255,12 @@ const ui = {
     statsABody:
       "Isang destinasyon para sa food access, agritourism, education, workforce pathways, at pagbabalik sa komunidad.",
     statsB: "6",
-    statsBTitle: "mission pathways",
-    statsBBody: "Bawat pathway ay ginawa para sa tiyak na resulta.",
+    statsBTitle: "living pathways",
+    statsBBody:
+      "Bawat pathway ay ginawa para sa tiyak na karanasan at halagang maibabalik.",
     statsCTitle: "Bumalik Muli",
     statsCBody:
-      "Ginawa upang maunawaan ng mga tao ang misyon, makatanggap ng halaga, at magkaroon ng dahilan upang bumalik.",
+      "Ginawa upang maunawaan ng mga tao ang vision, makatanggap ng halaga, at magkaroon ng dahilan upang bumalik.",
     seasonalTitle: "Aktibo ang mainit na season planning",
     seasonalBody:
       "Aktibo ang field prep, galaw ng seedlings, event readiness, at seasonal coordination.",
@@ -265,9 +270,15 @@ const ui = {
     langCardTitle: "Pumili ng wika",
     narratorHome:
       "Ang Bronson Family Farm ay higit pa sa isang farm. Isa itong regenerative ecosystem para sa pagkain, pagkatuto, trabaho, at pagbabalik sa komunidad.",
+    storyValue: "Halaga ng kuwento",
+    communityBenefit: "Benepisyo sa komunidad",
+    whyThisExists: "Bakit ito umiiral",
+    whatChangesHere: "Ano ang nagbabago rito",
+    whatThisCreates: "Ano ang nililikha nito",
+    whereThisLeads: "Saan ito patungo",
   },
   it: {
-    demoLabel: "Demo Ecosistema Guidato dalla Missione",
+    demoLabel: "Esperienza Ecosistema Vivo",
     title: "Bronson Family Farm",
     subtitle:
       "Un ecosistema per cibo, apprendimento, benessere, lavoro e ritorno alla comunità.",
@@ -276,8 +287,8 @@ const ui = {
     heroTitleLine2: "è più di una fattoria.",
     heroBody:
       "Un ecosistema rigenerativo che collega terra, accesso al cibo, attività di mercato, coltivatori, sviluppo del lavoro giovanile, educazione e partnership a Youngstown e nella Mahoning Valley.",
-    missionLabel: "Missione",
-    missionBody:
+    openingTitle: "Perché conta",
+    openingBody:
       "Ripristinare la terra, coltivare cibo sano, creare opportunità e costruire sistemi comunitari per l'area della Mahoning Valley.",
     enterMarketplace: "Entra nel Marketplace",
     beginGuidedTour: "Inizia il Tour Guidato",
@@ -288,19 +299,16 @@ const ui = {
     voiceOff: "Narration Off",
     guidedOn: "Tour Guidato Attivo",
     guidedOff: "Tour Guidato Disattivo",
-    choosePathway: "Scegli un percorso",
-    pathway: "Percorso",
-    mission: "Missione",
-    outcome: "Risultato",
+    choosePathway: "Esplora le esperienze",
+    pathway: "Esperienza",
     openPathway: "Apri Percorso",
     openStore: "Apri Negozio GrownBy",
     openWeather: "Apri Meteo",
     backHome: "Torna Home",
-    backAll: "Tutti i Percorsi",
     nextLayer: "Livello Successivo",
     previousLayer: "Livello Precedente",
-    journeyLayers: "Livelli del Viaggio",
-    pathwayProgress: "Progresso del Percorso",
+    journeyLayers: "Percorso dell'esperienza",
+    pathwayProgress: "Avanzamento del percorso",
     reasonToReturn:
       "Costruito affinché visitatori, clienti, coltivatori, giovani e partner abbiano sempre un motivo per tornare.",
     storyTag: "La storia dietro la fattoria",
@@ -324,11 +332,12 @@ const ui = {
     statsABody:
       "Una destinazione per accesso al cibo, agriturismo, educazione, percorsi di lavoro e ritorno della comunità.",
     statsB: "6",
-    statsBTitle: "percorsi della missione",
-    statsBBody: "Ogni percorso è costruito per raggiungere un risultato specifico.",
+    statsBTitle: "percorsi vivi",
+    statsBBody:
+      "Ogni percorso è costruito per offrire un'esperienza specifica e valore di ritorno.",
     statsCTitle: "Tornare Ancora",
     statsCBody:
-      "Costruito perché le persone comprendano la missione, ricevano valore e abbiano un motivo per tornare.",
+      "Costruito perché le persone comprendano la visione, ricevano valore e abbiano un motivo per tornare.",
     seasonalTitle: "Pianificazione della stagione calda attiva",
     seasonalBody:
       "Preparazione del campo, movimento delle piantine, prontezza per eventi e coordinamento stagionale sono attivi.",
@@ -338,9 +347,15 @@ const ui = {
     langCardTitle: "Scegli lingua",
     narratorHome:
       "Bronson Family Farm è più di una fattoria. È un ecosistema rigenerativo per cibo, apprendimento, lavoro e ritorno della comunità.",
+    storyValue: "Valore della storia",
+    communityBenefit: "Beneficio comunitario",
+    whyThisExists: "Perché esiste",
+    whatChangesHere: "Cosa cambia qui",
+    whatThisCreates: "Cosa crea questo",
+    whereThisLeads: "Dove conduce",
   },
   patwa: {
-    demoLabel: "Mission-Driven Ecosystem Demo",
+    demoLabel: "Living Ecosystem Experience",
     title: "Bronson Family Farm",
     subtitle:
       "A one ecosystem fi food, learning, wellness, work, an community return.",
@@ -349,8 +364,8 @@ const ui = {
     heroTitleLine2: "a more than a farm.",
     heroBody:
       "A regenerative ecosystem weh connect land, food access, marketplace activity, growers, youth workforce development, education, an partnership inna Youngstown an Mahoning Valley.",
-    missionLabel: "Mission",
-    missionBody:
+    openingTitle: "Why it matter",
+    openingBody:
       "Restore di land, grow healthy food, create opportunity, an build community systems fi di Mahoning Valley Area.",
     enterMarketplace: "Enter Marketplace",
     beginGuidedTour: "Begin Guided Tour",
@@ -361,19 +376,16 @@ const ui = {
     voiceOff: "Narration Off",
     guidedOn: "Guided Tour On",
     guidedOff: "Guided Tour Off",
-    choosePathway: "Choose a pathway",
-    pathway: "Pathway",
-    mission: "Mission",
-    outcome: "Outcome",
+    choosePathway: "Explore di experiences",
+    pathway: "Experience",
     openPathway: "Open Pathway",
     openStore: "Open GrownBy Store",
     openWeather: "Open Weather",
     backHome: "Back Home",
-    backAll: "All Pathway",
     nextLayer: "Next Layer",
     previousLayer: "Previous Layer",
-    journeyLayers: "Journey Layers",
-    pathwayProgress: "Pathway Progress",
+    journeyLayers: "Experience journey",
+    pathwayProgress: "Journey progress",
     reasonToReturn:
       "Build so visitors, customers, growers, youth, an partners always have reason fi come back.",
     storyTag: "Di story behind di farm",
@@ -397,11 +409,12 @@ const ui = {
     statsABody:
       "A destination fi food access, agritourism, education, workforce pathways, an community return.",
     statsB: "6",
-    statsBTitle: "mission pathways",
-    statsBBody: "Every pathway build fi reach a specific outcome.",
+    statsBTitle: "living pathways",
+    statsBBody:
+      "Every pathway build fi a specific experience an return value.",
     statsCTitle: "Come Back Again",
     statsCBody:
-      "Build so people understand di mission, get value, an have a reason fi come back again.",
+      "Build so people understand di vision, get value, an have a reason fi come back again.",
     seasonalTitle: "Warm season planning active",
     seasonalBody:
       "Field prep, seedling movement, event readiness, an seasonal coordination active.",
@@ -411,9 +424,15 @@ const ui = {
     langCardTitle: "Choose language",
     narratorHome:
       "Bronson Family Farm a more than a farm. It a regenerative ecosystem fi food, learning, work, an community return.",
+    storyValue: "Story value",
+    communityBenefit: "Community benefit",
+    whyThisExists: "Why dis deh yah",
+    whatChangesHere: "Wha change yah",
+    whatThisCreates: "Wha dis create",
+    whereThisLeads: "A weh dis lead",
   },
   he: {
-    demoLabel: "הדגמת מערכת אקולוגית מונחית משימה",
+    demoLabel: "חוויית מערכת אקולוגית חיה",
     title: "Bronson Family Farm",
     subtitle:
       "מערכת אקולוגית למזון, למידה, בריאות, תעסוקה וחזרה לקהילה.",
@@ -422,8 +441,8 @@ const ui = {
     heroTitleLine2: "היא יותר מחווה.",
     heroBody:
       "מערכת אקולוגית רגנרטיבית המחברת אדמה, גישה למזון, פעילות שוק, מגדלים, פיתוח כוח עבודה לנוער, חינוך ושותפויות ביאנגסטאון ובעמק מהונינג.",
-    missionLabel: "משימה",
-    missionBody:
+    openingTitle: "למה זה חשוב",
+    openingBody:
       "לשקם את האדמה, לגדל מזון בריא, ליצור הזדמנויות ולבנות מערכות קהילתיות עבור אזור עמק מהונינג.",
     enterMarketplace: "כניסה לשוק",
     beginGuidedTour: "התחלת סיור מודרך",
@@ -434,19 +453,16 @@ const ui = {
     voiceOff: "קריינות כבויה",
     guidedOn: "סיור מודרך פעיל",
     guidedOff: "סיור מודרך כבוי",
-    choosePathway: "בחרו מסלול",
-    pathway: "מסלול",
-    mission: "משימה",
-    outcome: "תוצאה",
+    choosePathway: "גלו את החוויות",
+    pathway: "חוויה",
     openPathway: "פתחו מסלול",
     openStore: "פתחו את חנות GrownBy",
     openWeather: "פתחו מזג אוויר",
     backHome: "חזרה לבית",
-    backAll: "כל המסלולים",
     nextLayer: "השכבה הבאה",
     previousLayer: "השכבה הקודמת",
-    journeyLayers: "שכבות המסע",
-    pathwayProgress: "התקדמות המסלול",
+    journeyLayers: "מסע החוויה",
+    pathwayProgress: "התקדמות המסע",
     reasonToReturn:
       "נבנה כך שלמבקרים, לקוחות, מגדלים, נוער ושותפים תמיד תהיה סיבה לחזור.",
     storyTag: "הסיפור מאחורי החווה",
@@ -470,11 +486,11 @@ const ui = {
     statsABody:
       "יעד לגישה למזון, אגריטוריזם, חינוך, מסלולי עבודה וחזרה לקהילה.",
     statsB: "6",
-    statsBTitle: "מסלולי משימה",
-    statsBBody: "כל מסלול נבנה כדי להשיג תוצאה מסוימת.",
+    statsBTitle: "מסלולים חיים",
+    statsBBody: "כל מסלול נבנה עבור חוויה מסוימת וערך של חזרה.",
     statsCTitle: "לחזור שוב",
     statsCBody:
-      "נבנה כדי שאנשים יבינו את המשימה, יקבלו ערך, ויהיה להם רצון לחזור שוב.",
+      "נבנה כדי שאנשים יבינו את החזון, יקבלו ערך, ויהיה להם רצון לחזור שוב.",
     seasonalTitle: "תכנון עונה חמה פעיל",
     seasonalBody:
       "הכנת השדה, תנועת שתילים, היערכות לאירועים ותיאום עונתי פעילים.",
@@ -484,6 +500,12 @@ const ui = {
     langCardTitle: "בחרו שפה",
     narratorHome:
       "Bronson Family Farm היא יותר מחווה. זו מערכת אקולוגית רגנרטיבית למזון, למידה, תעסוקה וחזרה לקהילה.",
+    storyValue: "ערך הסיפור",
+    communityBenefit: "תועלת קהילתית",
+    whyThisExists: "למה זה קיים",
+    whatChangesHere: "מה משתנה כאן",
+    whatThisCreates: "מה זה יוצר",
+    whereThisLeads: "לאן זה מוביל",
   },
 } as const;
 
@@ -494,10 +516,10 @@ const pathways: Pathway[] = [
     shortTitle: "Guest",
     heroKicker: "Guest Pathway",
     summary: "Understand the vision, story, and purpose of Bronson Family Farm.",
-    mission:
+    whyItMatters:
       "Guests leave understanding why this land matters and why the work should continue.",
-    outcome:
-      "Visitors connect emotionally to the story, understand the mission, and see why the ecosystem belongs in the future of the region.",
+    whatPeopleGain:
+      "Visitors connect emotionally to the story, understand the vision, and see why the ecosystem belongs in the future of the region.",
     colorA: "#0d5f43",
     colorB: "#1c8b62",
     buttonBg: "#d8ec77",
@@ -541,9 +563,9 @@ const pathways: Pathway[] = [
     shortTitle: "Customer",
     heroKicker: "Customer Pathway",
     summary: "Guide people toward fresh food, nutrition, and repeat healthy choices.",
-    mission:
+    whyItMatters:
       "Customers leave informed, connected to healthier food choices, and ready to return regularly.",
-    outcome:
+    whatPeopleGain:
       "Customers understand how fresh food supports wellness and why returning to the farm strengthens healthier habits over time.",
     colorA: "#4f7e20",
     colorB: "#7cb342",
@@ -588,17 +610,17 @@ const pathways: Pathway[] = [
     shortTitle: "Marketplace",
     heroKicker: "Marketplace Pathway",
     summary: "Convert interest into purchasing power and long-term sustainability.",
-    mission:
-      "Marketplace visitors clearly understand how to buy, support the mission, and keep the ecosystem sustainable.",
-    outcome:
-      "Visitors see how purchases help sustain the farm, strengthen food access, and move mission into practical action.",
+    whyItMatters:
+      "Marketplace visitors clearly understand how to buy, support the vision, and keep the ecosystem sustainable.",
+    whatPeopleGain:
+      "Visitors see how purchases help sustain the farm, strengthen food access, and move vision into practical action.",
     colorA: "#9f6513",
     colorB: "#e39b1f",
     buttonBg: "#ffe08a",
     buttonText: "#3b2608",
     layers: {
       soundbite: {
-        title: "This is where mission becomes movement.",
+        title: "This is where vision becomes movement.",
         body:
           "The marketplace turns interest into support, revenue, and long-term sustainability for the ecosystem.",
       },
@@ -620,7 +642,7 @@ const pathways: Pathway[] = [
       purpose: {
         title: "Why this pathway exists",
         body:
-          "Mission alone does not sustain a farm. The marketplace converts belief into action and purchasing power.",
+          "A living ecosystem needs a real engine of return. The marketplace converts belief into action and purchasing power.",
       },
       next: {
         title: "What comes next",
@@ -635,9 +657,9 @@ const pathways: Pathway[] = [
     shortTitle: "Grower",
     heroKicker: "Grower Pathway",
     summary: "Connect producers to opportunity and meaningful market participation.",
-    mission:
+    whyItMatters:
       "Growers understand there is a real place for them to participate, sell, learn, and grow with others.",
-    outcome:
+    whatPeopleGain:
       "Growers understand that this ecosystem is a place for collaboration, visibility, market opportunity, and shared learning.",
     colorA: "#0b6b65",
     colorB: "#19a7a0",
@@ -682,9 +704,9 @@ const pathways: Pathway[] = [
     shortTitle: "Youth Workforce",
     heroKicker: "Youth Workforce Pathway",
     summary: "Build skills, responsibility, and future readiness.",
-    mission:
+    whyItMatters:
       "Young people and families understand that this pathway leads to real growth, real support, and future readiness.",
-    outcome:
+    whatPeopleGain:
       "Young people and families see a real structure for skill-building, readiness, supervision, support, and future direction.",
     colorA: "#5b3b9c",
     colorB: "#8d5ed6",
@@ -729,9 +751,9 @@ const pathways: Pathway[] = [
     shortTitle: "Partners",
     heroKicker: "Partnership Pathway",
     summary: "Align resources and collaboration for community benefit.",
-    mission:
+    whyItMatters:
       "Partners understand where they fit, how their support matters, and what shared impact can look like.",
-    outcome:
+    whatPeopleGain:
       "Partners see where their support fits and how collaboration can strengthen land restoration, food access, education, and community benefit.",
     colorA: "#1556a5",
     colorB: "#2f8bed",
@@ -1305,7 +1327,7 @@ export default function App() {
                         color: "#ffe08a",
                       }}
                     >
-                      {text.missionLabel}
+                      {text.openingTitle}
                     </div>
                     <div
                       style={{
@@ -1315,7 +1337,7 @@ export default function App() {
                         color: "rgba(255,255,255,0.92)",
                       }}
                     >
-                      {text.missionBody}
+                      {text.openingBody}
                     </div>
                   </Panel>
 
@@ -1719,7 +1741,7 @@ export default function App() {
                             fontWeight: 700,
                           }}
                         >
-                          {text.mission}
+                          {text.whyThisExists}
                         </div>
                         <div
                           style={{
@@ -1729,7 +1751,7 @@ export default function App() {
                             color: "#384d42",
                           }}
                         >
-                          {p.mission}
+                          {p.whyItMatters}
                         </div>
                       </div>
 
@@ -1743,7 +1765,7 @@ export default function App() {
                             fontWeight: 700,
                           }}
                         >
-                          {text.outcome}
+                          {text.whatThisCreates}
                         </div>
                         <div
                           style={{
@@ -1753,7 +1775,7 @@ export default function App() {
                             color: "#5d6f64",
                           }}
                         >
-                          {p.outcome}
+                          {p.whatPeopleGain}
                         </div>
                       </div>
 
@@ -1930,7 +1952,7 @@ export default function App() {
                         marginBottom: 12,
                       }}
                     >
-                      A place people want to return to
+                      {text.storyValue}
                     </div>
                     <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 14 }}>
                       {text.livingOverview}
@@ -1963,7 +1985,7 @@ export default function App() {
 
                   <Panel style={{ padding: 22 }}>
                     <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 10 }}>
-                      {text.landRestoration}
+                      {text.whatChangesHere}
                     </div>
                     <div
                       style={{
@@ -1978,7 +2000,7 @@ export default function App() {
 
                   <Panel style={{ padding: 22 }}>
                     <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 10 }}>
-                      {text.communityFuture}
+                      {text.whereThisLeads}
                     </div>
                     <div
                       style={{
@@ -2072,10 +2094,16 @@ export default function App() {
                           marginBottom: 8,
                         }}
                       >
-                        {text.mission}
+                        {text.whyThisExists}
                       </div>
-                      <div style={{ fontSize: 16, lineHeight: 1.7, color: "#384d42" }}>
-                        {activePathway.mission}
+                      <div
+                        style={{
+                          fontSize: 16,
+                          lineHeight: 1.7,
+                          color: "#384d42",
+                        }}
+                      >
+                        {activePathway.whyItMatters}
                       </div>
                     </div>
 
@@ -2098,10 +2126,16 @@ export default function App() {
                           marginBottom: 8,
                         }}
                       >
-                        {text.outcome}
+                        {text.whatPeopleGain || text.whatThisCreates}
                       </div>
-                      <div style={{ fontSize: 16, lineHeight: 1.7, color: "#5d6f64" }}>
-                        {activePathway.outcome}
+                      <div
+                        style={{
+                          fontSize: 16,
+                          lineHeight: 1.7,
+                          color: "#5d6f64",
+                        }}
+                      >
+                        {activePathway.whatPeopleGain}
                       </div>
                     </div>
                   </WhiteCard>
@@ -2429,7 +2463,7 @@ export default function App() {
                         fontWeight: 800,
                       }}
                     >
-                      {text.mission}
+                      {text.whyThisExists}
                     </div>
                     <div
                       style={{
@@ -2439,7 +2473,7 @@ export default function App() {
                         color: "#42564b",
                       }}
                     >
-                      {activePathway.mission}
+                      {activePathway.whyItMatters}
                     </div>
                   </WhiteCard>
 
@@ -2453,7 +2487,7 @@ export default function App() {
                         fontWeight: 800,
                       }}
                     >
-                      {text.outcome}
+                      {text.whatThisCreates}
                     </div>
                     <div
                       style={{
@@ -2463,7 +2497,7 @@ export default function App() {
                         color: "#42564b",
                       }}
                     >
-                      {activePathway.outcome}
+                      {activePathway.whatPeopleGain}
                     </div>
                   </WhiteCard>
                 </div>
