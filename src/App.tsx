@@ -21,7 +21,7 @@ const IMAGES = {
   story: "/SAM_0220.JPG",
   guest: "/GrowArea2.jpg",
   customer: "/culniary_edibleflowers.jpeg",
-  marketplace: "/SAM_0255.JPG",
+  marketplace: "/SAM_0225.JPG",
   grower: "/SAM_0299.JPG",
   youth: "/Samaeera2.jpg",
   partners: "/SAM_0313.JPG",
@@ -31,8 +31,6 @@ const FOREST = {
   deep: "#0a3f2d",
   pine: "#0f5d43",
   moss: "#6f8f3d",
-  sage: "#dfe8dd",
-  cream: "#f4efe5",
   gold: "#e8cf69",
   text: "#173629",
   muted: "#5a6d63",
@@ -81,7 +79,7 @@ const pathways = {
       next: {
         title: "Where you can go next",
         body:
-          "From here, you can continue into the story, the marketplace, partnership, events, and future engagement with the ecosystem.",
+          "From here, you can continue into the story, the online store, partnership, events, and future engagement with the ecosystem.",
       },
     },
   },
@@ -128,38 +126,38 @@ const pathways = {
   marketplace: {
     title: "GrownBy",
     image: IMAGES.marketplace,
-    subtitle: "Where your support becomes action, movement, and sustainability.",
+    subtitle: "The online store for purchasing produce and supporting the ecosystem.",
     personalLine:
-      "What you choose to buy here helps carry the vision forward.",
+      "This is the online store where people across the ecosystem can purchase produce and support the work.",
     whyItMatters:
-      "Every purchase directly supports the Bronson Family Farm ecosystem.",
+      "GrownBy gives customers, guests, volunteers, and supporters a direct place to purchase produce online.",
     whatPeopleGain:
-      "You gain an easy way to support the farm through convenient, meaningful purchasing.",
+      "Visitors gain convenient online access to produce and a direct way to support the ecosystem.",
     panels: {
       soundbite: {
-        title: "What you support here becomes visible.",
+        title: "GrownBy is the online store.",
         body:
-          "This is where belief turns into action. GrownBy gives you a direct way to strengthen the farm’s future.",
+          "This is where produce can be purchased online by people across the ecosystem.",
       },
       intro: {
-        title: "What this means for you",
+        title: "What GrownBy means",
         body:
-          "This is not just a store. It is your practical point of connection to products, produce, and the larger ecosystem behind them.",
+          "GrownBy serves the customer-facing purchasing side of the ecosystem through the online store.",
       },
       knowledge: {
-        title: "What becomes real",
+        title: "What visitors understand",
         body:
-          "Every purchase helps strengthen local food systems, deepen sustainability, and move the vision from idea into daily practice.",
+          "This pathway makes clear where people go to purchase produce and support the work through the online marketplace.",
       },
       purpose: {
-        title: "Why this matters to you",
+        title: "Why this pathway exists",
         body:
-          "This pathway lets you participate in the future of the farm in a direct, visible way.",
+          "The ecosystem needs a clear buying destination. GrownBy is that destination.",
       },
       next: {
-        title: "Where you can go next",
+        title: "What comes next",
         body:
-          "You can enter the GrownBy store, support the farm, and return to the demo with deeper connection and clarity.",
+          "Visitors can enter the store, purchase produce, and stay connected through repeat support.",
       },
     },
   },
@@ -167,38 +165,39 @@ const pathways = {
   grower: {
     title: "Grower",
     image: IMAGES.grower,
-    subtitle: "A place to participate, contribute, and grow with others.",
+    subtitle:
+      "Growers register through the portal to participate in the ecosystem and benefit from the marketplace.",
     personalLine:
-      "This pathway is about belonging, visibility, and meaningful participation.",
+      "This pathway is for growers who want to enter the ecosystem, register through the portal, and gain access to marketplace participation and related benefits.",
     whyItMatters:
-      "It helps you see that there is a real place for growers inside this ecosystem.",
+      "Registration is the gateway for growers to become part of the ecosystem and benefit from its marketplace opportunities.",
     whatPeopleGain:
-      "You gain clearer connection to opportunity, collaboration, visibility, and contribution.",
+      "Growers gain entry into the ecosystem, clearer participation pathways, visibility, and access to marketplace-related benefits through registration.",
     panels: {
       soundbite: {
-        title: "You need more than land.",
+        title: "The grower journey begins with registration.",
         body:
-          "You need connection, opportunity, structure, visibility, and a place where your work can matter in a larger system.",
+          "Growers register through the portal in order to become part of the ecosystem and benefit from the marketplace.",
       },
       intro: {
-        title: "What you experience",
+        title: "What this pathway means",
         body:
-          "You encounter a pathway built around participation, contribution, shared learning, and a stronger sense of place.",
+          "This pathway gives growers a clear way to enter the ecosystem formally through portal registration rather than remaining outside of its opportunities.",
       },
       knowledge: {
-        title: "What becomes possible",
+        title: "What growers come to understand",
         body:
-          "This ecosystem can support collaboration, demonstrations, events, market visibility, and stronger regional food relationships.",
+          "Registration connects growers to participation, visibility, ecosystem alignment, and the benefits tied to marketplace involvement.",
       },
       purpose: {
-        title: "Why this matters to you",
+        title: "Why this pathway exists",
         body:
-          "This pathway reduces isolation and helps you see where you fit, why your work matters, and how to grow with others.",
+          "This pathway exists so growers can move from interest to recognized participation through registration in the portal.",
       },
       next: {
-        title: "Where you can go next",
+        title: "What comes next",
         body:
-          "You can move toward selling, collaboration, demonstration, participation, and deeper connection to the broader network.",
+          "After registering through the portal, growers can move deeper into the ecosystem and access the benefits associated with marketplace participation.",
       },
     },
   },
