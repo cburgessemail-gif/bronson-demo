@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type PageKey =
   | "home"
@@ -16,16 +16,15 @@ const STORE_URL = "https://grownby.com/farms/bronson-family-farm/shop";
 const WEATHER_URL =
   "https://www.wunderground.com/hourly/us/oh/youngstown/44510";
 
-/* ---------- LIVE IMAGES FROM PUBLIC FOLDER ---------- */
-
+/* images in /public */
 const IMAGES = {
   home: "/GrowArea.jpg",
   story: "/SAM_0220.JPG",
   guest: "/GrowArea2.jpg",
-  customer: "/SAM_0255.JPG",
-  marketplace: "/SAM_0225.JPG",
+  customer: "/culniary_edibleflowers.jpeg",
+  marketplace: "/SAM_0255.JPG",
   grower: "/SAM_0299.JPG",
-  youth: "/SAM_0301.JPG",
+  youth: "/Samaeera2.jpg",
   partners: "/SAM_0313.JPG",
 };
 
@@ -37,104 +36,200 @@ const layerOrder: LayerKey[] = [
   "next",
 ];
 
-const pathways = [
-  {
-    id: "guest",
+const pathways = {
+  guest: {
     title: "Guest",
     image: IMAGES.guest,
-    text: {
-      soundbite: "You are entering more than a farm.",
-      intro:
-        "Guests discover story, purpose, land restoration, and why this ecosystem matters.",
-      knowledge:
-        "Learn how agriculture, wellness, food access, and legacy connect here.",
-      purpose:
-        "This pathway helps people understand the meaning behind the project.",
-      next:
-        "Continue into events, marketplace, partnerships, and return visits.",
+    subtitle: "Understand the vision, story, and purpose.",
+    panels: {
+      soundbite: {
+        title: "You are entering more than a farm.",
+        body:
+          "Bronson Family Farm is a living ecosystem where land, legacy, food access, learning, and community purpose come together.",
+      },
+      intro: {
+        title: "What guests feel first",
+        body:
+          "Guests are welcomed into a place of restoration, possibility, and meaning. The experience is meant to feel grounded, hopeful, and worth returning to.",
+      },
+      knowledge: {
+        title: "What guests learn",
+        body:
+          "Guests see how this farm connects food, agritourism, wellness, family legacy, youth opportunity, and long-term community benefit.",
+      },
+      purpose: {
+        title: "Why this pathway exists",
+        body:
+          "This pathway turns curiosity into understanding so visitors can clearly feel the mission without being told what to think.",
+      },
+      next: {
+        title: "What comes next",
+        body:
+          "Guests can continue into the story, marketplace, partner relationships, events, and future engagement with the ecosystem.",
+      },
     },
   },
-  {
-    id: "customer",
+  customer: {
     title: "Customer",
     image: IMAGES.customer,
-    text: {
-      soundbite: "Fresh food is more than a purchase.",
-      intro:
-        "Customers connect fresh produce to healthier living and better choices.",
-      knowledge:
-        "Learn seasonal value, nutrition, and why local food matters.",
-      purpose:
-        "This pathway helps people choose healthier food again and again.",
-      next:
-        "Return through weekly purchases, markets, and seasonal offerings.",
+    subtitle: "Fresh food, nutrition, and healthier repeat choices.",
+    panels: {
+      soundbite: {
+        title: "Fresh food is more than a purchase.",
+        body:
+          "The customer experience connects food to wellness, better habits, and the daily value of choosing fresh over overprocessed options.",
+      },
+      intro: {
+        title: "What customers experience",
+        body:
+          "Customers encounter fresh, appealing, useful offerings that make healthy choices feel practical, beautiful, and worth repeating.",
+      },
+      knowledge: {
+        title: "What customers learn",
+        body:
+          "Customers see that local food supports health, family well-being, community resilience, and long-term habits that can change lives.",
+      },
+      purpose: {
+        title: "Why this pathway exists",
+        body:
+          "This pathway helps people connect nourishment to action so the farm becomes part of their recurring healthy choices.",
+      },
+      next: {
+        title: "What comes next",
+        body:
+          "Customers can move into the marketplace, seasonal buying, repeat visits, events, and stronger connection to the farm’s offerings.",
+      },
     },
   },
-  {
-    id: "marketplace",
+  marketplace: {
     title: "Marketplace",
     image: IMAGES.marketplace,
-    text: {
-      soundbite: "This is where support becomes movement.",
-      intro:
-        "The marketplace turns interest into purchasing power and sustainability.",
-      knowledge:
-        "Every purchase helps strengthen the ecosystem and future growth.",
-      purpose:
-        "A living project needs a real engine of return and revenue.",
-      next:
-        "Enter the GrownBy marketplace and support the farm directly.",
+    subtitle: "Where support becomes purchasing power and sustainability.",
+    panels: {
+      soundbite: {
+        title: "This is where vision becomes movement.",
+        body:
+          "The marketplace translates interest into action, revenue, and visible support for the farm’s long-term sustainability.",
+      },
+      intro: {
+        title: "What the marketplace means",
+        body:
+          "This is not just a sales page. It is the bridge between story, belief, products, support, and the practical future of the ecosystem.",
+      },
+      knowledge: {
+        title: "What visitors understand",
+        body:
+          "Every purchase strengthens the farm, supports local food systems, and helps move the broader vision into practical reality.",
+      },
+      purpose: {
+        title: "Why this pathway exists",
+        body:
+          "A living ecosystem needs a living engine. The marketplace is the place where community support becomes momentum.",
+      },
+      next: {
+        title: "What comes next",
+        body:
+          "Visitors can move directly into GrownBy, explore products, support the farm, and return to the demo with renewed meaning.",
+      },
     },
   },
-  {
-    id: "grower",
+  grower: {
     title: "Grower",
     image: IMAGES.grower,
-    text: {
-      soundbite: "Growers need more than land.",
-      intro:
-        "Growers need visibility, connection, participation, and opportunity.",
-      knowledge:
-        "This ecosystem can connect growers to markets and shared learning.",
-      purpose:
-        "The pathway helps growers see where they fit and why to engage.",
-      next:
-        "Move toward collaboration, selling, events, and expansion.",
+    subtitle: "Connect producers to opportunity and participation.",
+    panels: {
+      soundbite: {
+        title: "Growers need more than land.",
+        body:
+          "They need belonging, visibility, opportunity, participation, and a place where their work connects to a larger ecosystem.",
+      },
+      intro: {
+        title: "What growers experience",
+        body:
+          "Growers encounter a pathway built around contribution, shared learning, local connection, and meaningful market opportunity.",
+      },
+      knowledge: {
+        title: "What growers learn",
+        body:
+          "This ecosystem can support collaboration, events, production visibility, education, and stronger integration into regional food activity.",
+      },
+      purpose: {
+        title: "Why this pathway exists",
+        body:
+          "This pathway helps reduce isolation and shows growers where they fit, why they matter, and how they can grow with others.",
+      },
+      next: {
+        title: "What comes next",
+        body:
+          "Growers can move toward participation, selling, demonstration, collaboration, and deeper connection with the broader network.",
+      },
     },
   },
-  {
-    id: "youth",
+  youth: {
     title: "Youth Workforce",
     image: IMAGES.youth,
-    text: {
-      soundbite: "This pathway grows people.",
-      intro:
-        "Youth gain responsibility, confidence, structure, and readiness.",
-      knowledge:
-        "Hands-on learning includes teamwork, agriculture, logistics, and growth.",
-      purpose:
-        "This pathway bridges exposure to future opportunity.",
-      next:
-        "Move into deeper training, leadership, and support systems.",
+    subtitle: "Skills, responsibility, support, and future readiness.",
+    panels: {
+      soundbite: {
+        title: "This pathway grows people, not just tasks.",
+        body:
+          "The youth workforce experience is about confidence, responsibility, structure, support, and future readiness.",
+      },
+      intro: {
+        title: "What youth and families experience",
+        body:
+          "Young people encounter a practical setting where real participation, guidance, accountability, and encouragement are all visible.",
+      },
+      knowledge: {
+        title: "What they learn",
+        body:
+          "Participants build work habits, teamwork, agricultural exposure, discipline, logistics awareness, and personal growth.",
+      },
+      purpose: {
+        title: "Why this pathway exists",
+        body:
+          "This pathway creates a bridge between potential and preparation so young people can see themselves in a meaningful future.",
+      },
+      next: {
+        title: "What comes next",
+        body:
+          "Youth can move into deeper roles, guided learning, responsibility, support systems, and stronger future direction.",
+      },
     },
   },
-  {
-    id: "partners",
+  partners: {
     title: "Partners",
     image: IMAGES.partners,
-    text: {
-      soundbite: "Partnership here creates visible outcomes.",
-      intro:
-        "Resources become food access, learning, youth support, and renewal.",
-      knowledge:
-        "Partners can align with practical, local, measurable value.",
-      purpose:
-        "This pathway shows where collaboration makes sense.",
-      next:
-        "Move into sponsorship, planning, activation, and shared impact.",
+    subtitle: "Align resources and collaboration for community benefit.",
+    panels: {
+      soundbite: {
+        title: "Partnership here creates visible outcomes.",
+        body:
+          "Support becomes land restoration, education, food access, youth development, and practical benefit that people can see.",
+      },
+      intro: {
+        title: "What partners see",
+        body:
+          "Partners see a credible ecosystem where collaboration can connect directly to visible community-facing outcomes.",
+      },
+      knowledge: {
+        title: "What partners understand",
+        body:
+          "This pathway shows how aligned support can strengthen programs, events, learning, food systems, and long-term regional value.",
+      },
+      purpose: {
+        title: "Why this pathway exists",
+        body:
+          "It gives stakeholders a clear place to see where support matters and how shared investment creates visible return.",
+      },
+      next: {
+        title: "What comes next",
+        body:
+          "Partners can move into sponsorship, planning, activation, support roles, and deeper alignment with the larger ecosystem.",
+      },
     },
   },
-];
+};
 
 function openExternal(url: string) {
   window.open(url, "_blank", "noopener,noreferrer");
@@ -142,12 +237,14 @@ function openExternal(url: string) {
 
 function HeroImage({
   src,
-  height = 420,
-  dark = true,
+  height = 430,
+  overlay = true,
+  children,
 }: {
   src: string;
   height?: number;
-  dark?: boolean;
+  overlay?: boolean;
+  children?: React.ReactNode;
 }) {
   return (
     <div
@@ -160,18 +257,31 @@ function HeroImage({
         backgroundSize: "cover",
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
-        boxShadow: "0 25px 60px rgba(0,0,0,.18)",
+        boxShadow: "0 24px 60px rgba(0,0,0,.18)",
       }}
     >
-      {dark && (
+      {overlay && (
         <div
           style={{
             position: "absolute",
             inset: 0,
             background:
-              "linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.45))",
+              "linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.46))",
           }}
         />
+      )}
+      {children && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "end",
+            padding: 28,
+          }}
+        >
+          {children}
+        </div>
       )}
     </div>
   );
@@ -179,7 +289,7 @@ function HeroImage({
 
 function Card({
   children,
-  style = {},
+  style,
 }: {
   children: React.ReactNode;
   style?: React.CSSProperties;
@@ -190,7 +300,7 @@ function Card({
         background: "#fff",
         borderRadius: 28,
         padding: 24,
-        boxShadow: "0 18px 40px rgba(0,0,0,.08)",
+        boxShadow: "0 18px 42px rgba(0,0,0,.08)",
         ...style,
       }}
     >
@@ -199,14 +309,16 @@ function Card({
   );
 }
 
-function Btn({
+function SolidButton({
   children,
   onClick,
-  gold,
+  gold = false,
+  full = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   gold?: boolean;
+  full?: boolean;
 }) {
   return (
     <button
@@ -220,6 +332,7 @@ function Btn({
         fontWeight: 800,
         cursor: "pointer",
         fontSize: 16,
+        width: full ? "100%" : undefined,
       }}
     >
       {children}
@@ -227,14 +340,65 @@ function Btn({
   );
 }
 
+function GhostButton({
+  children,
+  onClick,
+  active = false,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  active?: boolean;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        padding: "12px 16px",
+        borderRadius: 14,
+        border: "1px solid rgba(0,0,0,.06)",
+        background: active ? "#0b5e43" : "#eef3ef",
+        color: active ? "#fff" : "#173629",
+        cursor: "pointer",
+        fontWeight: 800,
+        textTransform: "uppercase",
+        letterSpacing: ".12em",
+        fontSize: 12,
+        textAlign: "left",
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Label({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        fontSize: 12,
+        letterSpacing: ".24em",
+        textTransform: "uppercase",
+        color: "#85958b",
+        fontWeight: 800,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function App() {
   const [page, setPage] = useState<PageKey>("home");
   const [layer, setLayer] = useState<LayerKey>("soundbite");
 
-  const active = pathways.find((p) => p.id === page);
+  const active =
+    page !== "home" && page !== "story"
+      ? pathways[page as keyof typeof pathways]
+      : null;
 
-  const currentText =
-    active && active.text[layer as keyof typeof active.text];
+  const progress = useMemo(() => {
+    return ((layerOrder.indexOf(layer) + 1) / layerOrder.length) * 100;
+  }, [layer]);
 
   return (
     <div
@@ -243,7 +407,7 @@ export default function App() {
         background:
           "linear-gradient(180deg,#f4efe5 0%,#edf5ee 45%,#f7f7f7 100%)",
         fontFamily:
-          'Inter, ui-sans-serif, system-ui, Arial, sans-serif',
+          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif',
         color: "#173629",
       }}
     >
@@ -251,7 +415,7 @@ export default function App() {
         *{box-sizing:border-box}
         button{font-family:inherit}
         @media(max-width:1000px){
-          .grid2,.grid3{grid-template-columns:1fr!important}
+          .grid2,.grid3,.gridUtility{grid-template-columns:1fr!important}
         }
       `}</style>
 
@@ -262,7 +426,6 @@ export default function App() {
           padding: 20,
         }}
       >
-        {/* TOP NAV */}
         <div
           style={{
             background: "#0a3f2d",
@@ -277,20 +440,10 @@ export default function App() {
           }}
         >
           <div>
-            <div
-              style={{
-                fontSize: 28,
-                fontWeight: 800,
-              }}
-            >
+            <div style={{ fontSize: 28, fontWeight: 800 }}>
               Bronson Family Farm
             </div>
-            <div
-              style={{
-                opacity: 0.85,
-                fontSize: 16,
-              }}
-            >
+            <div style={{ opacity: 0.85, fontSize: 16 }}>
               More than a farm.
             </div>
           </div>
@@ -302,22 +455,59 @@ export default function App() {
               flexWrap: "wrap",
             }}
           >
-            <Btn onClick={() => setPage("home")}>Home</Btn>
-            <Btn onClick={() => setPage("story")}>Our Story</Btn>
-            <Btn onClick={() => openExternal(WEATHER_URL)}>
+            <SolidButton onClick={() => setPage("home")}>Home</SolidButton>
+            <SolidButton onClick={() => setPage("story")}>
+              Our Story
+            </SolidButton>
+            <SolidButton onClick={() => openExternal(WEATHER_URL)}>
               Weather
-            </Btn>
-            <Btn gold onClick={() => setPage("marketplace")}>
+            </SolidButton>
+            <SolidButton gold onClick={() => setPage("marketplace")}>
               Marketplace
-            </Btn>
+            </SolidButton>
           </div>
         </div>
 
-        {/* HOME */}
         {page === "home" && (
           <>
             <div style={{ marginTop: 24 }}>
-              <HeroImage src={IMAGES.home} height={520} />
+              <HeroImage src={IMAGES.home} height={530}>
+                <div style={{ position: "relative", zIndex: 1, color: "#fff" }}>
+                  <div
+                    style={{
+                      display: "inline-block",
+                      padding: "8px 14px",
+                      borderRadius: 999,
+                      background: "rgba(255,255,255,.12)",
+                      fontSize: 12,
+                      textTransform: "uppercase",
+                      letterSpacing: ".24em",
+                      fontWeight: 800,
+                    }}
+                  >
+                    Living Ecosystem Experience
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 18,
+                      fontSize: 56,
+                      lineHeight: 1.02,
+                      fontWeight: 800,
+                    }}
+                  >
+                    Bronson Family Farm
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 10,
+                      fontSize: 28,
+                      color: "rgba(255,255,255,.9)",
+                    }}
+                  >
+                    More than a farm.
+                  </div>
+                </div>
+              </HeroImage>
             </div>
 
             <div
@@ -332,77 +522,86 @@ export default function App() {
               <Card>
                 <div
                   style={{
-                    fontSize: 58,
-                    lineHeight: 1,
-                    fontWeight: 800,
-                  }}
-                >
-                  Bronson Family Farm
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 10,
-                    fontSize: 28,
-                    color: "#607267",
-                  }}
-                >
-                  More than a farm.
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 24,
                     fontSize: 22,
                     lineHeight: 1.8,
                     color: "#52645b",
                   }}
                 >
-                  A regenerative ecosystem for food access,
-                  marketplace activity, growers, youth
-                  workforce development, education, and
-                  community return.
+                  A regenerative ecosystem for food access, marketplace
+                  activity, growers, youth workforce development, education,
+                  and community return.
                 </div>
 
                 <div
                   style={{
-                    marginTop: 28,
+                    marginTop: 24,
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3,minmax(0,1fr))",
+                    gap: 16,
+                  }}
+                >
+                  <Card
+                    style={{
+                      padding: 18,
+                      background: "#f8fbf8",
+                      boxShadow: "none",
+                    }}
+                  >
+                    <div style={{ fontSize: 38, fontWeight: 800 }}>118+</div>
+                    <div style={{ marginTop: 8, fontSize: 16, lineHeight: 1.6, color: "#5c6f64" }}>
+                      Acres of vision and possibility
+                    </div>
+                  </Card>
+                  <Card
+                    style={{
+                      padding: 18,
+                      background: "#f8fbf8",
+                      boxShadow: "none",
+                    }}
+                  >
+                    <div style={{ fontSize: 38, fontWeight: 800 }}>6</div>
+                    <div style={{ marginTop: 8, fontSize: 16, lineHeight: 1.6, color: "#5c6f64" }}>
+                      Living pathways built for return
+                    </div>
+                  </Card>
+                  <Card
+                    style={{
+                      padding: 18,
+                      background: "#f8fbf8",
+                      boxShadow: "none",
+                    }}
+                  >
+                    <div style={{ fontSize: 38, fontWeight: 800 }}>1</div>
+                    <div style={{ marginTop: 8, fontSize: 16, lineHeight: 1.6, color: "#5c6f64" }}>
+                      Connected ecosystem with a clear message
+                    </div>
+                  </Card>
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 26,
                     display: "flex",
                     gap: 12,
                     flexWrap: "wrap",
                   }}
                 >
-                  <Btn
+                  <SolidButton
                     onClick={() => {
                       setPage("guest");
                       setLayer("soundbite");
                     }}
                   >
                     Enter Experience
-                  </Btn>
-
-                  <Btn
-                    gold
-                    onClick={() => openExternal(STORE_URL)}
-                  >
+                  </SolidButton>
+                  <SolidButton gold onClick={() => openExternal(STORE_URL)}>
                     Open Store
-                  </Btn>
+                  </SolidButton>
                 </div>
               </Card>
 
               <Card>
-                <div
-                  style={{
-                    fontSize: 12,
-                    letterSpacing: ".24em",
-                    textTransform: "uppercase",
-                    color: "#85958b",
-                    fontWeight: 800,
-                  }}
-                >
-                  Why It Matters
-                </div>
-
+                <Label>Why It Matters</Label>
                 <div
                   style={{
                     marginTop: 18,
@@ -411,30 +610,17 @@ export default function App() {
                     color: "#55685e",
                   }}
                 >
-                  Restore land. Grow healthy food. Create
-                  opportunity. Build systems for Youngstown
-                  and the Mahoning Valley Area.
+                  Restore land. Grow healthy food. Create opportunity. Build
+                  systems for Youngstown and the Mahoning Valley Area.
                 </div>
 
-                <div
-                  style={{
-                    marginTop: 24,
-                    display: "grid",
-                    gap: 12,
-                  }}
-                >
-                  <Btn
-                    gold
-                    onClick={() => openExternal(STORE_URL)}
-                  >
+                <div className="gridUtility" style={{ display: "grid", gap: 12, marginTop: 24 }}>
+                  <SolidButton gold full onClick={() => openExternal(STORE_URL)}>
                     Marketplace
-                  </Btn>
-
-                  <Btn
-                    onClick={() => openExternal(WEATHER_URL)}
-                  >
+                  </SolidButton>
+                  <SolidButton full onClick={() => openExternal(WEATHER_URL)}>
                     Weather
-                  </Btn>
+                  </SolidButton>
                 </div>
               </Card>
             </div>
@@ -448,24 +634,11 @@ export default function App() {
                 marginTop: 24,
               }}
             >
-              {pathways.map((p) => (
-                <Card key={p.id} style={{ padding: 0 }}>
-                  <HeroImage
-                    src={p.image}
-                    height={220}
-                    dark={false}
-                  />
-
+              {Object.entries(pathways).map(([key, p]) => (
+                <Card key={key} style={{ padding: 0 }}>
+                  <HeroImage src={p.image} height={220} overlay={false} />
                   <div style={{ padding: 22 }}>
-                    <div
-                      style={{
-                        fontSize: 28,
-                        fontWeight: 800,
-                      }}
-                    >
-                      {p.title}
-                    </div>
-
+                    <div style={{ fontSize: 28, fontWeight: 800 }}>{p.title}</div>
                     <div
                       style={{
                         marginTop: 14,
@@ -474,20 +647,18 @@ export default function App() {
                         color: "#607267",
                       }}
                     >
-                      {p.text.soundbite}
+                      {p.subtitle}
                     </div>
-
                     <div style={{ marginTop: 18 }}>
-                      <Btn
+                      <SolidButton
+                        full
                         onClick={() => {
-                          setPage(
-                            p.id as PageKey
-                          );
+                          setPage(key as PageKey);
                           setLayer("soundbite");
                         }}
                       >
                         Open Pathway
-                      </Btn>
+                      </SolidButton>
                     </div>
                   </div>
                 </Card>
@@ -496,7 +667,6 @@ export default function App() {
           </>
         )}
 
-        {/* STORY */}
         {page === "story" && (
           <>
             <div style={{ marginTop: 24 }}>
@@ -504,14 +674,7 @@ export default function App() {
             </div>
 
             <Card style={{ marginTop: 24 }}>
-              <div
-                style={{
-                  fontSize: 54,
-                  fontWeight: 800,
-                }}
-              >
-                Our Story
-              </div>
+              <div style={{ fontSize: 54, fontWeight: 800 }}>Our Story</div>
 
               <div
                 style={{
@@ -521,11 +684,9 @@ export default function App() {
                   color: "#55685e",
                 }}
               >
-                Inspired by family farming traditions and
-                shaped for Youngstown’s future, Bronson
-                Family Farm connects land restoration, food
-                access, agritourism, education, and
-                opportunity.
+                Inspired by family farming traditions and shaped for Youngstown’s
+                future, Bronson Family Farm connects land restoration, food
+                access, agritourism, education, and opportunity.
               </div>
 
               <div
@@ -536,100 +697,100 @@ export default function App() {
                   color: "#55685e",
                 }}
               >
-                The Bronson and Lorenzana legacy now moves
-                into a new generation of purpose.
+                The Bronson and Lorenzana legacy now moves into a new generation
+                of purpose.
+              </div>
+
+              <div
+                className="grid2"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 18,
+                  marginTop: 26,
+                }}
+              >
+                <Card style={{ background: "#f8fbf8", boxShadow: "none" }}>
+                  <Label>Story Value</Label>
+                  <div style={{ marginTop: 14, fontSize: 18, lineHeight: 1.8, color: "#5a6d63" }}>
+                    The farm gives people a way to understand legacy, land, and
+                    the deeper purpose behind this work.
+                  </div>
+                </Card>
+
+                <Card style={{ background: "#f8fbf8", boxShadow: "none" }}>
+                  <Label>Where This Leads</Label>
+                  <div style={{ marginTop: 14, fontSize: 18, lineHeight: 1.8, color: "#5a6d63" }}>
+                    The story leads into marketplace activity, youth
+                    development, partnership, education, and return visits.
+                  </div>
+                </Card>
               </div>
             </Card>
           </>
         )}
 
-        {/* PATHWAY PAGES */}
         {active && (
           <>
             <div style={{ marginTop: 24 }}>
-              <HeroImage
-                src={active.image}
-                height={440}
-              />
+              <HeroImage src={active.image} height={440} />
             </div>
 
             <div
               className="grid2"
               style={{
                 display: "grid",
-                gridTemplateColumns: ".8fr 1.2fr",
+                gridTemplateColumns: ".85fr 1.15fr",
                 gap: 22,
                 marginTop: 22,
               }}
             >
               <Card>
-                <div
-                  style={{
-                    fontSize: 42,
-                    fontWeight: 800,
-                  }}
-                >
-                  {active.title}
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 18,
-                    fontSize: 12,
-                    letterSpacing: ".24em",
-                    textTransform: "uppercase",
-                    color: "#85958b",
-                    fontWeight: 800,
-                  }}
-                >
-                  Journey Layer
-                </div>
-
+                <div style={{ fontSize: 40, fontWeight: 800 }}>{active.title}</div>
                 <div
                   style={{
                     marginTop: 12,
-                    fontSize: 26,
-                    fontWeight: 800,
+                    fontSize: 18,
+                    lineHeight: 1.7,
+                    color: "#5c6f64",
                   }}
                 >
-                  {layer.toUpperCase()}
+                  {active.subtitle}
                 </div>
 
-                <div
-                  style={{
-                    marginTop: 24,
-                    display: "grid",
-                    gap: 10,
-                  }}
-                >
-                  {layerOrder.map((l) => (
-                    <button
-                      key={l}
-                      onClick={() =>
-                        setLayer(l)
-                      }
+                <div style={{ marginTop: 20 }}>
+                  <Label>Journey Progress</Label>
+                  <div
+                    style={{
+                      marginTop: 10,
+                      width: "100%",
+                      height: 10,
+                      borderRadius: 999,
+                      background: "#e4ece5",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
                       style={{
-                        padding: "14px 16px",
-                        borderRadius: 16,
-                        border: "none",
-                        cursor: "pointer",
+                        width: `${progress}%`,
+                        height: "100%",
+                        borderRadius: 999,
                         background:
-                          layer === l
-                            ? "#0b5e43"
-                            : "#eef3ef",
-                        color:
-                          layer === l
-                            ? "#fff"
-                            : "#173629",
-                        fontWeight: 800,
-                        textTransform:
-                          "uppercase",
-                        letterSpacing:
-                          ".12em",
+                          "linear-gradient(90deg,#0b5e43 0%, #d8ec77 100%)",
                       }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: "grid", gap: 10, marginTop: 20 }}>
+                  {layerOrder.map((l) => (
+                    <GhostButton
+                      key={l}
+                      active={layer === l}
+                      onClick={() => setLayer(l)}
                     >
                       {l}
-                    </button>
+                    </GhostButton>
                   ))}
                 </div>
 
@@ -641,62 +802,34 @@ export default function App() {
                     flexWrap: "wrap",
                   }}
                 >
-                  <Btn
+                  <SolidButton
                     onClick={() =>
-                      setLayer(
-                        layerOrder[
-                          Math.max(
-                            layerOrder.indexOf(
-                              layer
-                            ) - 1,
-                            0
-                          )
-                        ]
-                      )
+                      setLayer(layerOrder[Math.max(layerOrder.indexOf(layer) - 1, 0)])
                     }
                   >
                     Prev
-                  </Btn>
+                  </SolidButton>
 
-                  <Btn
+                  <SolidButton
                     gold
                     onClick={() =>
-                      setLayer(
-                        layerOrder[
-                          Math.min(
-                            layerOrder.indexOf(
-                              layer
-                            ) + 1,
-                            4
-                          )
-                        ]
-                      )
+                      setLayer(layerOrder[Math.min(layerOrder.indexOf(layer) + 1, 4)])
                     }
                   >
                     Next
-                  </Btn>
+                  </SolidButton>
                 </div>
 
                 <div style={{ marginTop: 18 }}>
-                  <Btn
-                    onClick={() =>
-                      setPage("home")
-                    }
-                  >
+                  <SolidButton full onClick={() => setPage("home")}>
                     Back Home
-                  </Btn>
+                  </SolidButton>
                 </div>
               </Card>
 
               <Card>
-                <div
-                  style={{
-                    fontSize: 56,
-                    lineHeight: 1,
-                    fontWeight: 800,
-                  }}
-                >
-                  {active.title}
+                <div style={{ fontSize: 56, lineHeight: 1, fontWeight: 800 }}>
+                  {active.panels[layer].title}
                 </div>
 
                 <div
@@ -707,25 +840,38 @@ export default function App() {
                     color: "#55685e",
                   }}
                 >
-                  {currentText}
+                  {active.panels[layer].body}
+                </div>
+
+                <div
+                  className="grid2"
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 18,
+                    marginTop: 26,
+                  }}
+                >
+                  <Card style={{ background: "#f8fbf8", boxShadow: "none" }}>
+                    <Label>Why This Exists</Label>
+                    <div style={{ marginTop: 14, fontSize: 18, lineHeight: 1.8, color: "#5a6d63" }}>
+                      {active.whyItMatters}
+                    </div>
+                  </Card>
+
+                  <Card style={{ background: "#f8fbf8", boxShadow: "none" }}>
+                    <Label>What This Creates</Label>
+                    <div style={{ marginTop: 14, fontSize: 18, lineHeight: 1.8, color: "#5a6d63" }}>
+                      {active.whatPeopleGain}
+                    </div>
+                  </Card>
                 </div>
 
                 {page === "marketplace" && (
-                  <div
-                    style={{
-                      marginTop: 26,
-                    }}
-                  >
-                    <Btn
-                      gold
-                      onClick={() =>
-                        openExternal(
-                          STORE_URL
-                        )
-                      }
-                    >
+                  <div style={{ marginTop: 26 }}>
+                    <SolidButton gold onClick={() => openExternal(STORE_URL)}>
                       Open GrownBy Marketplace
-                    </Btn>
+                    </SolidButton>
                   </div>
                 )}
               </Card>
