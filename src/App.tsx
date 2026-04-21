@@ -123,6 +123,9 @@ const ui = {
     whatChangesHere: "What Changes Here",
     whatThisCreates: "What This Creates",
     whereThisLeads: "Where This Leads",
+    browseStore: "Browse seasonal offerings, connect support to action, and move directly into the farm marketplace.",
+    checkWeather:
+      "Open live Youngstown weather to support timing, event planning, and daily farm activity.",
   },
   es: {
     topLabel: "Experiencia de Ecosistema Vivo",
@@ -200,6 +203,10 @@ const ui = {
     whatChangesHere: "Qué cambia aquí",
     whatThisCreates: "Qué crea esto",
     whereThisLeads: "Hacia dónde conduce",
+    browseStore:
+      "Explore ofertas de temporada, conecte el apoyo con la acción y entre directamente al mercado de la granja.",
+    checkWeather:
+      "Abra el clima en vivo de Youngstown para apoyar el tiempo, la planificación de eventos y la actividad diaria de la granja.",
   },
   tl: {
     topLabel: "Living Ecosystem Experience",
@@ -277,6 +284,10 @@ const ui = {
     whatChangesHere: "Ano ang nagbabago rito",
     whatThisCreates: "Ano ang nililikha nito",
     whereThisLeads: "Saan ito patungo",
+    browseStore:
+      "Galugarin ang pana-panahong alok, iugnay ang suporta sa aksyon, at dumiretso sa marketplace ng farm.",
+    checkWeather:
+      "Buksan ang live na panahon sa Youngstown para suportahan ang timing, event planning, at araw-araw na gawain sa farm.",
   },
   it: {
     topLabel: "Esperienza Ecosistema Vivo",
@@ -354,6 +365,10 @@ const ui = {
     whatChangesHere: "Cosa cambia qui",
     whatThisCreates: "Cosa crea questo",
     whereThisLeads: "Dove conduce",
+    browseStore:
+      "Esplora le offerte stagionali, collega il supporto all'azione ed entra direttamente nel marketplace della fattoria.",
+    checkWeather:
+      "Apri il meteo live di Youngstown per supportare tempi, pianificazione eventi e attività quotidiana della fattoria.",
   },
   patwa: {
     topLabel: "Living Ecosystem Experience",
@@ -431,6 +446,10 @@ const ui = {
     whatChangesHere: "Wha change yah",
     whatThisCreates: "Wha dis create",
     whereThisLeads: "A weh dis lead",
+    browseStore:
+      "Browse di seasonal offering dem, connect support to action, an move straight into di farm marketplace.",
+    checkWeather:
+      "Open live Youngstown weather fi help wid timing, event planning, an daily farm work.",
   },
   he: {
     topLabel: "חוויית מערכת אקולוגית חיה",
@@ -508,6 +527,10 @@ const ui = {
     whatChangesHere: "מה משתנה כאן",
     whatThisCreates: "מה זה יוצר",
     whereThisLeads: "לאן זה מוביל",
+    browseStore:
+      "עיינו בהיצע העונתי, חברו בין תמיכה לפעולה, והיכנסו ישירות לשוק של החווה.",
+    checkWeather:
+      "פתחו את מזג האוויר החי של יאנגסטאון כדי לתמוך בתזמון, תכנון אירועים ופעילות החווה היומית.",
   },
 } as const;
 
@@ -944,6 +967,62 @@ function NavPill({
   );
 }
 
+function UtilityCard({
+  title,
+  body,
+  buttonLabel,
+  onClick,
+}: {
+  title: string;
+  body: string;
+  buttonLabel: string;
+  onClick: () => void;
+}) {
+  return (
+    <WhiteCard style={{ padding: 24, height: "100%" }}>
+      <div
+        style={{
+          fontSize: 12,
+          letterSpacing: "0.22em",
+          textTransform: "uppercase",
+          color: "#83948a",
+          fontWeight: 800,
+        }}
+      >
+        {title}
+      </div>
+      <div
+        style={{
+          marginTop: 16,
+          fontSize: 17,
+          lineHeight: 1.75,
+          color: "#56695f",
+          minHeight: 90,
+        }}
+      >
+        {body}
+      </div>
+      <button
+        onClick={onClick}
+        style={{
+          marginTop: 18,
+          padding: "14px 18px",
+          borderRadius: 18,
+          border: "none",
+          background: "#0f5d3f",
+          color: "#fff",
+          fontSize: 15,
+          fontWeight: 800,
+          cursor: "pointer",
+          width: "100%",
+        }}
+      >
+        {buttonLabel}
+      </button>
+    </WhiteCard>
+  );
+}
+
 export default function App() {
   const [page, setPage] = useState<PageKey>("home");
   const [language, setLanguage] = useState<LanguageKey>("en");
@@ -1002,7 +1081,8 @@ export default function App() {
           .story-grid,
           .pathway-main-grid,
           .double-grid,
-          .triple-grid {
+          .triple-grid,
+          .utility-grid {
             grid-template-columns: 1fr !important;
           }
         }
@@ -1458,7 +1538,7 @@ export default function App() {
                         color: "rgba(255,255,255,0.82)",
                       }}
                     >
-                      {text.statsCTBody}
+                      {text.statsCBody}
                     </div>
                   </Panel>
                 </div>
@@ -1591,6 +1671,29 @@ export default function App() {
                   ))}
                 </div>
               </Panel>
+            </div>
+
+            <div
+              className="utility-grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 20,
+                marginTop: 22,
+              }}
+            >
+              <UtilityCard
+                title={text.whatThisCreates}
+                body={text.browseStore}
+                buttonLabel={text.openStore}
+                onClick={() => openExternal(STORE_URL)}
+              />
+              <UtilityCard
+                title={text.whatChangesHere}
+                body={text.checkWeather}
+                buttonLabel={text.openWeather}
+                onClick={() => openExternal(WEATHER_URL)}
+              />
             </div>
 
             <div style={{ marginTop: 26 }}>
@@ -1789,8 +1892,8 @@ export default function App() {
                         style={{
                           marginTop: 24,
                           padding: "14px 18px",
-                          borderRadius: 18,
                           border: "none",
+                          borderRadius: 18,
                           background: p.buttonBg,
                           color: p.buttonText,
                           fontSize: 16,
@@ -1972,7 +2075,7 @@ export default function App() {
 
                   <Panel style={{ padding: 22 }}>
                     <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 10 }}>
-                      {text.familyLegacy}
+                      {text.communityBenefit}
                     </div>
                     <div
                       style={{
@@ -2502,6 +2605,28 @@ export default function App() {
                       {activePathway.whatPeopleGain}
                     </div>
                   </WhiteCard>
+                </div>
+
+                <div
+                  className="utility-grid"
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 20,
+                  }}
+                >
+                  <UtilityCard
+                    title={text.whereThisLeads}
+                    body={text.browseStore}
+                    buttonLabel={text.openStore}
+                    onClick={() => openExternal(STORE_URL)}
+                  />
+                  <UtilityCard
+                    title={text.whatChangesHere}
+                    body={text.checkWeather}
+                    buttonLabel={text.openWeather}
+                    onClick={() => openExternal(WEATHER_URL)}
+                  />
                 </div>
 
                 <Panel
