@@ -1,897 +1,518 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
-// Full replacement App.tsx
-// No external images required.
-// Tailwind-based, single-file, deploy-safe demo experience.
+type LanguageKey = "en" | "es" | "tl" | "fr" | "it" | "he";
+type RoleKey =
+  | "guest"
+  | "customer"
+  | "marketplace"
+  | "grower"
+  | "youth"
+  | "partners";
+type StageKey = "soundbite" | "intro" | "knowledge" | "purpose" | "next";
 
-type LanguageKey = 'en' | 'es' | 'tl' | 'it' | 'patwa' | 'he';
-type StepKey = 'soundbite' | 'intro' | 'knowledge' | 'purpose' | 'next';
-type PathwayKey = 'guest' | 'customer' | 'marketplace' | 'grower' | 'youth' | 'partners';
+type TranslatedText = Record<LanguageKey, string>;
 
-type LanguageOption = {
-  key: LanguageKey;
+type StageContent = {
   label: string;
-  voiceLabel: string;
-  dir?: 'ltr' | 'rtl';
+  title: TranslatedText;
+  body: TranslatedText;
+  bullets?: TranslatedText[];
+  cta?: {
+    label: TranslatedText;
+    href?: string;
+    action?: "next" | "home" | "guide";
+  };
 };
 
-type StepContent = {
-  title: string;
-  body: string;
-  bullets?: string[];
-  cta?: string;
-};
-
-type PathwayContent = {
-  title: string;
-  mission: string;
-  summary: string;
+type RoleContent = {
+  key: RoleKey;
+  shortLabel: string;
+  title: TranslatedText;
+  mission: TranslatedText;
+  subtitle: TranslatedText;
+  color: string;
+  image: string;
   accent: string;
-  icon: string;
-  outcome: string;
-  steps: Record<StepKey, StepContent>;
+  outcome: TranslatedText;
+  stages: Record<StageKey, StageContent>;
 };
 
-const languages: LanguageOption[] = [
-  { key: 'en', label: 'English', voiceLabel: 'English' },
-  { key: 'es', label: 'Español', voiceLabel: 'Spanish' },
-  { key: 'tl', label: 'Tagalog', voiceLabel: 'Tagalog' },
-  { key: 'it', label: 'Italiano', voiceLabel: 'Italian' },
-  { key: 'patwa', label: 'Patwa', voiceLabel: 'Jamaican Patois' },
-  { key: 'he', label: 'עברית', voiceLabel: 'Hebrew', dir: 'rtl' },
-];
+const LANGUAGES: { key: LanguageKey; label: string; speech: string; dir?: "ltr" | "rtl" }[] =
+  [
+    { key: "en", label: "English", speech: "en-US", dir: "ltr" },
+    { key: "es", label: "Español", speech: "es-ES", dir: "ltr" },
+    { key: "tl", label: "Tagalog", speech: "fil-PH", dir: "ltr" },
+    { key: "fr", label: "Français", speech: "fr-FR", dir: "ltr" },
+    { key: "it", label: "Italiano", speech: "it-IT", dir: "ltr" },
+    { key: "he", label: "עברית", speech: "he-IL", dir: "rtl" },
+  ];
 
-const stepOrder: StepKey[] = ['soundbite', 'intro', 'knowledge', 'purpose', 'next'];
+const STAGE_ORDER: StageKey[] = ["soundbite", "intro", "knowledge", "purpose", "next"];
 
-const stepLabels: Record<StepKey, string> = {
-  soundbite: 'Sound Bite',
-  intro: 'Intro',
-  knowledge: 'Knowledge',
-  purpose: 'Purpose',
-  next: 'Next',
+const BRAND = {
+  farmName: "Bronson Family Farm",
+  alliance: "Farm & Family Alliance",
+  website: "https://www.bronsonfamilyfarm.com/",
+  store: "https://grownby.com/farms/bronson-family-farm/shop",
+  eventbrite: "https://www.eventbrite.com/",
+  weather: "https://www.accuweather.com/en/us/youngstown/44503/minute-weather-forecast/330121",
 };
 
-const sharedTranslations: Record<LanguageKey, Record<string, string>> = {
-  en: {
-    homeTitle: 'Bronson Family Farm',
-    homeSubtitle: 'An ecosystem for food, learning, wellness, workforce, and community return.',
-    missionBar: 'Serving Mahoning Valley through regenerative agriculture, education, marketplace access, and partnership.',
-    choosePath: 'Choose a pathway',
-    explore: 'Explore Pathway',
-    mission: 'Mission',
-    outcome: 'Outcome',
-    guidedMode: 'Guided Voice',
-    on: 'On',
-    off: 'Off',
-    backHome: 'Back to Home',
-    backPathways: 'All Pathways',
-    nextLayer: 'Next Layer',
-    previous: 'Previous',
-    openStore: 'Open GrownBy Store',
-    language: 'Language',
-    layers: 'Journey Layers',
-    liveSignals: 'Live Signals',
-    weather: 'Youngstown Weather',
-    market: 'Marketplace',
-    story: 'Story',
-    resources: 'Resources',
-    progress: 'Progress',
-    complete: 'Complete',
-    returnLine: 'Built so people understand the mission, receive value, and have a reason to return again.',
-  },
-  es: {
-    homeTitle: 'Bronson Family Farm',
-    homeSubtitle: 'Un ecosistema para alimentos, aprendizaje, bienestar, trabajo y comunidad.',
-    missionBar: 'Sirviendo al Valle de Mahoning mediante agricultura regenerativa, educación, acceso al mercado y alianzas.',
-    choosePath: 'Elija una ruta',
-    explore: 'Explorar Ruta',
-    mission: 'Misión',
-    outcome: 'Resultado',
-    guidedMode: 'Voz Guiada',
-    on: 'Sí',
-    off: 'No',
-    backHome: 'Volver al Inicio',
-    backPathways: 'Todas las Rutas',
-    nextLayer: 'Siguiente Capa',
-    previous: 'Anterior',
-    openStore: 'Abrir Tienda GrownBy',
-    language: 'Idioma',
-    layers: 'Capas del Recorrido',
-    liveSignals: 'Señales en Vivo',
-    weather: 'Clima de Youngstown',
-    market: 'Mercado',
-    story: 'Historia',
-    resources: 'Recursos',
-    progress: 'Progreso',
-    complete: 'Completo',
-    returnLine: 'Diseñado para que las personas entiendan la misión, reciban valor y tengan una razón para regresar.',
-  },
-  tl: {
-    homeTitle: 'Bronson Family Farm',
-    homeSubtitle: 'Isang ecosystem para sa pagkain, pagkatuto, kagalingan, trabaho, at komunidad.',
-    missionBar: 'Naglilingkod sa Mahoning Valley sa pamamagitan ng regenerative agriculture, edukasyon, access sa marketplace, at partnership.',
-    choosePath: 'Pumili ng landas',
-    explore: 'Buksan ang Landas',
-    mission: 'Misyon',
-    outcome: 'Kinalabasan',
-    guidedMode: 'Gabay na Boses',
-    on: 'Bukas',
-    off: 'Patay',
-    backHome: 'Balik sa Home',
-    backPathways: 'Lahat ng Landas',
-    nextLayer: 'Susunod na Layer',
-    previous: 'Nakaraan',
-    openStore: 'Buksan ang GrownBy Store',
-    language: 'Wika',
-    layers: 'Mga Layer ng Paglalakbay',
-    liveSignals: 'Live Signals',
-    weather: 'Panahon sa Youngstown',
-    market: 'Marketplace',
-    story: 'Kuwento',
-    resources: 'Resources',
-    progress: 'Progreso',
-    complete: 'Tapos',
-    returnLine: 'Ginawa upang maunawaan ng tao ang misyon, makatanggap ng halaga, at magkaroon ng dahilan upang bumalik.',
-  },
-  it: {
-    homeTitle: 'Bronson Family Farm',
-    homeSubtitle: 'Un ecosistema per cibo, apprendimento, benessere, lavoro e comunità.',
-    missionBar: 'Al servizio della Mahoning Valley attraverso agricoltura rigenerativa, educazione, accesso al mercato e partnership.',
-    choosePath: 'Scegli un percorso',
-    explore: 'Esplora Percorso',
-    mission: 'Missione',
-    outcome: 'Risultato',
-    guidedMode: 'Voce Guidata',
-    on: 'On',
-    off: 'Off',
-    backHome: 'Torna alla Home',
-    backPathways: 'Tutti i Percorsi',
-    nextLayer: 'Livello Successivo',
-    previous: 'Precedente',
-    openStore: 'Apri Negozio GrownBy',
-    language: 'Lingua',
-    layers: 'Livelli del Percorso',
-    liveSignals: 'Segnali Live',
-    weather: 'Meteo Youngstown',
-    market: 'Marketplace',
-    story: 'Storia',
-    resources: 'Risorse',
-    progress: 'Progresso',
-    complete: 'Completo',
-    returnLine: 'Costruito perché le persone comprendano la missione, ricevano valore e abbiano un motivo per tornare.',
-  },
-  patwa: {
-    homeTitle: 'Bronson Family Farm',
-    homeSubtitle: 'A one ecosystem fi food, learning, wellness, work, an community.',
-    missionBar: 'A serve Mahoning Valley through regenerative farming, education, market access, an partnership.',
-    choosePath: 'Choose yuh pathway',
-    explore: 'Go Inna Pathway',
-    mission: 'Mission',
-    outcome: 'Outcome',
-    guidedMode: 'Guide Voice',
-    on: 'Pon',
-    off: 'Off',
-    backHome: 'Back Home',
-    backPathways: 'All Pathway',
-    nextLayer: 'Next Layer',
-    previous: 'Previous',
-    openStore: 'Open GrownBy Store',
-    language: 'Language',
-    layers: 'Journey Layer',
-    liveSignals: 'Live Signals',
-    weather: 'Youngstown Weather',
-    market: 'Marketplace',
-    story: 'Story',
-    resources: 'Resources',
-    progress: 'Progress',
-    complete: 'Done',
-    returnLine: 'Build so people understand di mission, get value, an have reason fi come back.',
-  },
-  he: {
-    homeTitle: 'Bronson Family Farm',
-    homeSubtitle: 'מערכת אקולוגית למזון, למידה, בריאות, עבודה וקהילה.',
-    missionBar: 'משרתים את עמק מהונינג באמצעות חקלאות רגנרטיבית, חינוך, גישה לשוק ושותפויות.',
-    choosePath: 'בחרו מסלול',
-    explore: 'פתחו מסלול',
-    mission: 'משימה',
-    outcome: 'תוצאה',
-    guidedMode: 'קול מודרך',
-    on: 'פעיל',
-    off: 'כבוי',
-    backHome: 'חזרה לדף הבית',
-    backPathways: 'כל המסלולים',
-    nextLayer: 'השכבה הבאה',
-    previous: 'הקודם',
-    openStore: 'פתחו את חנות GrownBy',
-    language: 'שפה',
-    layers: 'שכבות המסע',
-    liveSignals: 'אותות חיים',
-    weather: 'מזג האוויר ביאנגסטאון',
-    market: 'שוק',
-    story: 'סיפור',
-    resources: 'משאבים',
-    progress: 'התקדמות',
-    complete: 'הושלם',
-    returnLine: 'נבנה כדי שאנשים יבינו את המשימה, יקבלו ערך, וירצו לחזור שוב.',
-  },
+const IMAGES = {
+  hero:
+    "/images/entrance.jpg",
+  guest:
+    "/images/guest.jpg",
+  customer:
+    "/images/customer-nutrition.jpg",
+  marketplace:
+    "/images/marketplace-storefront.jpg",
+  grower:
+    "/images/grower-network.jpg",
+  youth:
+    "/images/youth-workforce.jpg",
+  partners:
+    "/images/partners.jpg",
 };
 
-const pathways: Record<PathwayKey, PathwayContent> = {
+const t = (text: TranslatedText, lang: LanguageKey) => text[lang] || text.en;
+
+const appData: Record<RoleKey, RoleContent> = {
   guest: {
-    title: 'Guest',
-    mission: 'Understand the vision, story, and purpose of Bronson Family Farm.',
-    summary: 'A welcoming entry experience that turns curiosity into understanding.',
-    accent: 'from-emerald-500/25 to-lime-400/10',
-    icon: '✦',
-    outcome: 'Guests leave understanding why this land matters and why the work should continue.',
-    steps: {
+    key: "guest",
+    shortLabel: "Guest",
+    color: "rgba(96, 148, 111, 0.16)",
+    accent: "#95d5a6",
+    image: IMAGES.guest,
+    title: {
+      en: "Guest Pathway",
+      es: "Ruta del Invitado",
+      tl: "Landas ng Bisita",
+      fr: "Parcours Visiteur",
+      it: "Percorso Ospite",
+      he: "מסלול אורח",
+    },
+    subtitle: {
+      en: "Understand the vision, story, and purpose of the land.",
+      es: "Comprende la visión, la historia y el propósito de la tierra.",
+      tl: "Unawain ang bisyon, kuwento, at layunin ng lupain.",
+      fr: "Comprendre la vision, l’histoire et la raison d’être du site.",
+      it: "Comprendere la visione, la storia e lo scopo del luogo.",
+      he: "להבין את החזון, הסיפור והמטרה של האדמה.",
+    },
+    mission: {
+      en: "The guest pathway helps visitors understand why this place exists, what is being restored here, and how the farm connects land, food, people, and legacy.",
+      es: "La ruta del invitado ayuda a los visitantes a comprender por qué existe este lugar, qué se está restaurando aquí y cómo la granja conecta tierra, alimentos, personas y legado.",
+      tl: "Tinutulungan ng landas ng bisita ang mga tao na maunawaan kung bakit umiiral ang lugar na ito, ano ang nire-restore dito, at paano inuugnay ng bukid ang lupa, pagkain, tao, at pamana.",
+      fr: "Le parcours visiteur aide à comprendre pourquoi ce lieu existe, ce qui y est restauré et comment la ferme relie la terre, l’alimentation, les personnes et l’héritage.",
+      it: "Il percorso ospite aiuta a capire perché questo luogo esiste, cosa viene ripristinato qui e come la fattoria collega terra, cibo, persone ed eredità.",
+      he: "מסלול האורח מסייע להבין מדוע המקום הזה קיים, מה משוקם כאן, וכיצד החווה מחברת בין אדמה, מזון, אנשים ומורשת.",
+    },
+    outcome: {
+      en: "Outcome: Guests leave understanding the story and wanting to return.",
+      es: "Resultado: Los invitados se van comprendiendo la historia y queriendo regresar.",
+      tl: "Kinalabasan: Umaalis ang mga bisita na nauunawaan ang kuwento at gustong bumalik.",
+      fr: "Résultat : les visiteurs repartent en comprenant l’histoire et en voulant revenir.",
+      it: "Risultato: gli ospiti comprendono la storia e vogliono tornare.",
+      he: "תוצאה: האורחים עוזבים כשהם מבינים את הסיפור ורוצים לחזור.",
+    },
+    stages: {
       soundbite: {
-        title: 'You are not just entering a farm.',
-        body: 'You are entering a regenerative community destination where land, food, wellness, family legacy, and opportunity come together on purpose.',
+        label: "Sound Bite",
+        title: {
+          en: "Step into the land behind the vision.",
+          es: "Entre en la tierra detrás de la visión.",
+          tl: "Pumasok sa lupang nasa likod ng bisyon.",
+          fr: "Entrez dans la terre derrière la vision.",
+          it: "Entra nella terra dietro la visione.",
+          he: "היכנסו אל האדמה שמאחורי החזון.",
+        },
+        body: {
+          en: "This is more than a farm. It is a regenerative place where story, land restoration, food access, and family legacy meet.",
+          es: "Esto es más que una granja. Es un lugar regenerativo donde se unen la historia, la restauración de la tierra, el acceso a alimentos y el legado familiar.",
+          tl: "Higit ito sa isang bukid. Isa itong regeneratibong lugar kung saan nagtatagpo ang kuwento, pagpapanumbalik ng lupa, access sa pagkain, at pamana ng pamilya.",
+          fr: "C’est plus qu’une ferme. C’est un lieu régénératif où se rejoignent histoire, restauration de la terre, accès à l’alimentation et héritage familial.",
+          it: "È più di una fattoria. È un luogo rigenerativo dove si incontrano storia, recupero della terra, accesso al cibo ed eredità familiare.",
+          he: "זה יותר מחווה. זהו מקום מתחדש שבו נפגשים סיפור, שיקום קרקע, גישה למזון ומורשת משפחתית.",
+        },
+        cta: {
+          label: {
+            en: "Continue",
+            es: "Continuar",
+            tl: "Magpatuloy",
+            fr: "Continuer",
+            it: "Continua",
+            he: "המשך",
+          },
+          action: "next",
+        },
       },
       intro: {
-        title: 'What people feel first',
-        body: 'Bronson Family Farm welcomes visitors into a place that restores land and reconnects people to food, nature, and community value in Youngstown.',
+        label: "Intro",
+        title: {
+          en: "Why this place matters",
+          es: "Por qué importa este lugar",
+          tl: "Bakit mahalaga ang lugar na ito",
+          fr: "Pourquoi ce lieu compte",
+          it: "Perché questo luogo conta",
+          he: "למה המקום הזה חשוב",
+        },
+        body: {
+          en: "Bronson Family Farm grows from family memory, agricultural heritage, and a commitment to transform underused land into a place of nourishment, beauty, and opportunity for Youngstown.",
+          es: "Bronson Family Farm surge de la memoria familiar, la herencia agrícola y el compromiso de transformar tierras subutilizadas en un lugar de alimento, belleza y oportunidad para Youngstown.",
+          tl: "Ang Bronson Family Farm ay nagmumula sa alaala ng pamilya, pamana sa agrikultura, at pangakong gawing lugar ng pagkain, ganda, at oportunidad para sa Youngstown ang hindi gaanong nagagamit na lupa.",
+          fr: "Bronson Family Farm naît de la mémoire familiale, d’un héritage agricole et d’un engagement à transformer des terres sous-utilisées en un lieu de nourriture, de beauté et d’opportunités pour Youngstown.",
+          it: "Bronson Family Farm nasce dalla memoria familiare, dall’eredità agricola e dall’impegno a trasformare terreni sottoutilizzati in un luogo di nutrimento, bellezza e opportunità per Youngstown.",
+          he: "חוות ברונסון נולדה מזיכרון משפחתי, מורשת חקלאית ומחויבות להפוך קרקע לא מנוצלת למקום של הזנה, יופי והזדמנות עבור יאנגסטאון.",
+        },
         bullets: [
-          'A living story, not a static presentation',
-          'Built to serve Mahoning Valley',
-          'Centered on return, belonging, and discovery',
+          {
+            en: "Restoring the land through regenerative growing",
+            es: "Restaurando la tierra mediante cultivo regenerativo",
+            tl: "Pagpapanumbalik ng lupa sa pamamagitan ng regenerative growing",
+            fr: "Restaurer la terre grâce à l’agriculture régénératrice",
+            it: "Ripristino della terra attraverso coltivazione rigenerativa",
+            he: "שיקום הקרקע באמצעות חקלאות מתחדשת",
+          },
+          {
+            en: "Connecting people to food, learning, and place",
+            es: "Conectando a las personas con alimentos, aprendizaje y lugar",
+            tl: "Pag-uugnay ng mga tao sa pagkain, pagkatuto, at lugar",
+            fr: "Relier les personnes à l’alimentation, à l’apprentissage et au lieu",
+            it: "Collegare le persone a cibo, apprendimento e luogo",
+            he: "חיבור אנשים למזון, ללמידה ולמקום",
+          },
+          {
+            en: "Building a legacy that serves families and community",
+            es: "Construyendo un legado que sirve a las familias y a la comunidad",
+            tl: "Pagbuo ng pamanang naglilingkod sa mga pamilya at komunidad",
+            fr: "Construire un héritage au service des familles et de la communauté",
+            it: "Costruire un’eredità al servizio di famiglie e comunità",
+            he: "בניית מורשת המשרתת משפחות וקהילה",
+          },
         ],
+        cta: {
+          label: {
+            en: "Show me more",
+            es: "Muéstrame más",
+            tl: "Ipakita pa",
+            fr: "Montrez-moi plus",
+            it: "Mostrami di più",
+            he: "הראה לי עוד",
+          },
+          action: "next",
+        },
       },
       knowledge: {
-        title: 'What guests learn',
-        body: 'This pathway explains the origin, the agricultural vision, the airport-land transformation, and the wider ecosystem connected to education, food access, and family legacy.',
+        label: "Knowledge",
+        title: {
+          en: "What guests discover",
+          es: "Lo que descubren los invitados",
+          tl: "Ano ang natutuklasan ng mga bisita",
+          fr: "Ce que découvrent les visiteurs",
+          it: "Cosa scoprono gli ospiti",
+          he: "מה האורחים מגלים",
+        },
+        body: {
+          en: "Guests encounter a living ecosystem: growing areas, educational experiences, community events, family stories, and a vision that blends agriculture, agritourism, stewardship, and belonging.",
+          es: "Los invitados encuentran un ecosistema vivo: áreas de cultivo, experiencias educativas, eventos comunitarios, historias familiares y una visión que combina agricultura, agroturismo, cuidado y pertenencia.",
+          tl: "Natutuklasan ng mga bisita ang isang buhay na ecosystem: mga taniman, pang-edukasyong karanasan, pangkomunidad na mga kaganapan, kuwento ng pamilya, at bisyong pinagsasama ang agrikultura, agritourism, pangangalaga, at pag-aari.",
+          fr: "Les visiteurs découvrent un écosystème vivant : zones de culture, expériences éducatives, événements communautaires, récits familiaux et une vision mêlant agriculture, agritourisme, soin du lieu et appartenance.",
+          it: "Gli ospiti scoprono un ecosistema vivente: aree di coltivazione, esperienze educative, eventi comunitari, storie familiari e una visione che unisce agricoltura, agriturismo, cura del territorio e appartenenza.",
+          he: "האורחים פוגשים מערכת אקולוגית חיה: אזורי גידול, חוויות לימודיות, אירועי קהילה, סיפורי משפחה וחזון המשלב חקלאות, אגריטוריזם, שמירה ושייכות.",
+        },
         bullets: [
-          'Regenerative agriculture and land restoration',
-          'Family heritage and community purpose',
-          'A gateway into learning, events, and partnerships',
+          {
+            en: "The story of the land and its future",
+            es: "La historia de la tierra y su futuro",
+            tl: "Ang kuwento ng lupa at ng kinabukasan nito",
+            fr: "L’histoire de la terre et de son avenir",
+            it: "La storia della terra e del suo futuro",
+            he: "הסיפור של האדמה ועתידה",
+          },
+          {
+            en: "How food, learning, and healing connect",
+            es: "Cómo se conectan la comida, el aprendizaje y la sanación",
+            tl: "Paano nag-uugnay ang pagkain, pagkatuto, at paghilom",
+            fr: "Comment l’alimentation, l’apprentissage et la guérison se rejoignent",
+            it: "Come si collegano cibo, apprendimento e guarigione",
+            he: "כיצד מזון, למידה וריפוי מתחברים",
+          },
+          {
+            en: "Why people come back again and again",
+            es: "Por qué la gente regresa una y otra vez",
+            tl: "Bakit paulit-ulit na bumabalik ang mga tao",
+            fr: "Pourquoi les gens reviennent encore et encore",
+            it: "Perché le persone tornano ancora e ancora",
+            he: "מדוע אנשים חוזרים שוב ושוב",
+          },
         ],
+        cta: {
+          label: {
+            en: "Why it matters",
+            es: "Por qué importa",
+            tl: "Bakit mahalaga",
+            fr: "Pourquoi c’est important",
+            it: "Perché conta",
+            he: "למה זה חשוב",
+          },
+          action: "next",
+        },
       },
       purpose: {
-        title: 'Why this pathway exists',
-        body: 'Guests need more than words. They need a clear reason to care, a clear reason to trust, and a clear reason to come back with others.',
+        label: "Purpose",
+        title: {
+          en: "Mission outcome",
+          es: "Resultado de la misión",
+          tl: "Kinalabasan ng misyon",
+          fr: "Résultat de la mission",
+          it: "Esito della missione",
+          he: "תוצאת המשימה",
+        },
+        body: {
+          en: "The guest journey is designed to move people from curiosity to understanding. Visitors do not just see the farm. They understand the mission and why this work belongs in the community.",
+          es: "El recorrido del invitado está diseñado para llevar a las personas de la curiosidad al entendimiento. Los visitantes no solo ven la granja. Comprenden la misión y por qué este trabajo pertenece a la comunidad.",
+          tl: "Ang paglalakbay ng bisita ay idinisenyo upang dalhin ang mga tao mula sa kuryosidad tungo sa pag-unawa. Hindi lamang nila nakikita ang bukid. Nauunawaan nila ang misyon at kung bakit mahalaga ang gawaing ito sa komunidad.",
+          fr: "Le parcours visiteur est conçu pour faire passer les personnes de la curiosité à la compréhension. Elles ne voient pas seulement la ferme. Elles comprennent la mission et pourquoi ce travail appartient à la communauté.",
+          it: "Il percorso ospite è pensato per portare le persone dalla curiosità alla comprensione. Non vedono soltanto la fattoria. Comprendono la missione e perché questo lavoro appartiene alla comunità.",
+          he: "מסלול האורח נועד להעביר אנשים מסקרנות להבנה. הם לא רק רואים את החווה. הם מבינים את המשימה ומדוע העבודה הזאת שייכת לקהילה.",
+        },
+        cta: {
+          label: {
+            en: "Where can I go next?",
+            es: "¿A dónde puedo ir después?",
+            tl: "Saan ako susunod pupunta?",
+            fr: "Où puis-je aller ensuite ?",
+            it: "Dove posso andare dopo?",
+            he: "לאן אפשר להמשיך מכאן?",
+          },
+          action: "next",
+        },
       },
       next: {
-        title: 'What happens next',
-        body: 'Guests can move into the marketplace, attend events, explore learning opportunities, or become advocates, volunteers, and future partners.',
-        cta: 'Continue deeper into the ecosystem.',
+        label: "Next",
+        title: {
+          en: "Choose your next destination",
+          es: "Elige tu próximo destino",
+          tl: "Piliin ang susunod mong destinasyon",
+          fr: "Choisissez votre prochaine destination",
+          it: "Scegli la tua prossima destinazione",
+          he: "בחרו את היעד הבא שלכם",
+        },
+        body: {
+          en: "Guests can continue into food, marketplace, grower, youth workforce, or partner pathways to see how the vision becomes action.",
+          es: "Los invitados pueden continuar hacia las rutas de alimentos, mercado, productores, fuerza laboral juvenil o socios para ver cómo la visión se convierte en acción.",
+          tl: "Maaaring magpatuloy ang mga bisita sa mga landas ng pagkain, marketplace, grower, youth workforce, o partners upang makita kung paano nagiging aksyon ang bisyon.",
+          fr: "Les visiteurs peuvent poursuivre vers les parcours alimentation, marché, producteurs, jeunesse ou partenaires pour voir comment la vision devient action.",
+          it: "Gli ospiti possono continuare nei percorsi cibo, mercato, coltivatori, lavoro giovanile o partner per vedere come la visione diventa azione.",
+          he: "האורחים יכולים להמשיך למסלולי מזון, שוק, מגדלים, כוח עבודה צעיר או שותפים כדי לראות כיצד החזון הופך לפעולה.",
+        },
+        cta: {
+          label: {
+            en: "Back home",
+            es: "Volver al inicio",
+            tl: "Bumalik sa home",
+            fr: "Retour à l’accueil",
+            it: "Torna alla home",
+            he: "חזרה לדף הבית",
+          },
+          action: "home",
+        },
       },
     },
   },
+
   customer: {
-    title: 'Customer',
-    mission: 'Guide people toward fresh food, nutrition, and repeat healthy choices.',
-    summary: 'A food-and-wellness pathway that helps people understand what to buy and why it matters.',
-    accent: 'from-green-500/25 to-yellow-400/10',
-    icon: '◉',
-    outcome: 'Customers leave informed, connected to healthier food choices, and ready to return regularly.',
-    steps: {
+    key: "customer",
+    shortLabel: "Customer",
+    color: "rgba(200, 170, 90, 0.16)",
+    accent: "#f6d365",
+    image: IMAGES.customer,
+    title: {
+      en: "Customer Pathway",
+      es: "Ruta del Cliente",
+      tl: "Landas ng Customer",
+      fr: "Parcours Client",
+      it: "Percorso Cliente",
+      he: "מסלול לקוח",
+    },
+    subtitle: {
+      en: "Fresh food, nutrition, and repeat healthy choices.",
+      es: "Alimentos frescos, nutrición y decisiones saludables repetidas.",
+      tl: "Sariwang pagkain, nutrisyon, at paulit-ulit na malusog na pagpili.",
+      fr: "Produits frais, nutrition et choix sains répétés.",
+      it: "Cibo fresco, nutrizione e scelte sane ripetute.",
+      he: "מזון טרי, תזונה ובחירות בריאות חוזרות.",
+    },
+    mission: {
+      en: "The customer pathway helps people connect healthy food with everyday life, making it easier to choose freshness, nutrition, and local produce again and again.",
+      es: "La ruta del cliente ayuda a las personas a conectar la comida saludable con la vida diaria, facilitando elegir frescura, nutrición y productos locales una y otra vez.",
+      tl: "Tinutulungan ng landas ng customer ang mga tao na iugnay ang masustansyang pagkain sa pang-araw-araw na buhay, upang mas madaling pumili ng sariwa, masustansya, at lokal na ani nang paulit-ulit.",
+      fr: "Le parcours client aide les personnes à relier une alimentation saine à la vie quotidienne, pour choisir plus facilement fraîcheur, nutrition et production locale encore et encore.",
+      it: "Il percorso cliente aiuta le persone a collegare il cibo sano alla vita quotidiana, rendendo più facile scegliere freschezza, nutrizione e prodotti locali più volte.",
+      he: "מסלול הלקוח מסייע לחבר בין מזון בריא לחיי היומיום, כך שקל יותר לבחור טריות, תזונה ותוצרת מקומית שוב ושוב.",
+    },
+    outcome: {
+      en: "Outcome: Customers return for fresh food and healthier routines.",
+      es: "Resultado: Los clientes regresan por comida fresca y rutinas más saludables.",
+      tl: "Kinalabasan: Bumabalik ang mga customer para sa sariwang pagkain at mas malusog na gawain.",
+      fr: "Résultat : les clients reviennent pour des produits frais et de meilleures habitudes.",
+      it: "Risultato: i clienti tornano per cibo fresco e abitudini più sane.",
+      he: "תוצאה: לקוחות חוזרים בשביל מזון טרי והרגלים בריאים יותר.",
+    },
+    stages: {
       soundbite: {
-        title: 'Food is not just a purchase. It is a health decision.',
-        body: 'This pathway helps customers connect fresh food to nourishment, family well-being, and everyday healthier habits.',
+        label: "Sound Bite",
+        title: {
+          en: "Food that supports life, not just appetite.",
+          es: "Comida que apoya la vida, no solo el apetito.",
+          tl: "Pagkaing sumusuporta sa buhay, hindi lang sa gana.",
+          fr: "Une alimentation qui soutient la vie, pas seulement l’appétit.",
+          it: "Cibo che sostiene la vita, non solo l’appetito.",
+          he: "מזון שתומך בחיים, לא רק בתיאבון.",
+        },
+        body: {
+          en: "Customers are invited into a healthier relationship with food through local produce, practical learning, and repeat access to fresh options.",
+          es: "Se invita a los clientes a una relación más saludable con la comida mediante productos locales, aprendizaje práctico y acceso repetido a opciones frescas.",
+          tl: "Inaanyayahan ang mga customer sa mas malusog na ugnayan sa pagkain sa pamamagitan ng lokal na ani, praktikal na pagkatuto, at paulit-ulit na access sa sariwang pagpipilian.",
+          fr: "Les clients sont invités à une relation plus saine avec l’alimentation grâce à des produits locaux, un apprentissage pratique et un accès répété à des options fraîches.",
+          it: "I clienti sono invitati a un rapporto più sano con il cibo attraverso prodotti locali, apprendimento pratico e accesso continuo a opzioni fresche.",
+          he: "הלקוחות מוזמנים לקשר בריא יותר עם אוכל באמצעות תוצרת מקומית, למידה מעשית וגישה חוזרת לאפשרויות טריות.",
+        },
+        cta: {
+          label: {
+            en: "Continue",
+            es: "Continuar",
+            tl: "Magpatuloy",
+            fr: "Continuer",
+            it: "Continua",
+            he: "המשך",
+          },
+          action: "next",
+        },
       },
       intro: {
-        title: 'What customers experience',
-        body: 'Customers are welcomed into a simple, understandable journey that connects produce, seedlings, food value, and better daily choices.',
+        label: "Intro",
+        title: {
+          en: "A customer experience built around access",
+          es: "Una experiencia del cliente construida alrededor del acceso",
+          tl: "Isang customer experience na nakatuon sa access",
+          fr: "Une expérience client construite autour de l’accès",
+          it: "Un’esperienza cliente costruita intorno all’accesso",
+          he: "חוויית לקוח הבנויה סביב גישה",
+        },
+        body: {
+          en: "The customer journey makes healthy choices easier. It brings people closer to real food, seasonal offerings, practical information, and simple reasons to come back.",
+          es: "El recorrido del cliente facilita las decisiones saludables. Acerca a las personas a comida real, ofertas de temporada, información práctica y razones simples para volver.",
+          tl: "Pinapadali ng customer journey ang mga malusog na pagpili. Inilalapit nito ang mga tao sa tunay na pagkain, pana-panahong alok, praktikal na impormasyon, at simpleng dahilan para bumalik.",
+          fr: "Le parcours client facilite les choix sains. Il rapproche les personnes d’une vraie alimentation, d’offres saisonnières, d’informations pratiques et de raisons simples de revenir.",
+          it: "Il percorso cliente rende più facili le scelte sane. Avvicina le persone a cibo vero, offerte stagionali, informazioni pratiche e semplici motivi per tornare.",
+          he: "מסלול הלקוח הופך בחירות בריאות לקלות יותר. הוא מקרב אנשים לאוכל אמיתי, להצעות עונתיות, למידע מעשי ולסיבות פשוטות לחזור.",
+        },
         bullets: [
-          'Fresh food connected to community',
-          'Education that is easy to understand',
-          'Reasons to return again and again',
+          {
+            en: "Fresh produce and seasonal availability",
+            es: "Productos frescos y disponibilidad estacional",
+            tl: "Sariwang ani at pana-panahong availability",
+            fr: "Produits frais et disponibilité saisonnière",
+            it: "Prodotti freschi e disponibilità stagionale",
+            he: "תוצרת טרייה וזמינות עונתית",
+          },
+          {
+            en: "Practical nutrition and food education",
+            es: "Nutrición práctica y educación alimentaria",
+            tl: "Praktikal na nutrisyon at edukasyon sa pagkain",
+            fr: "Nutrition pratique et éducation alimentaire",
+            it: "Nutrizione pratica ed educazione alimentare",
+            he: "תזונה מעשית וחינוך למזון",
+          },
+          {
+            en: "Reasons to return and shop again",
+            es: "Razones para volver y comprar otra vez",
+            tl: "Mga dahilan upang bumalik at muling mamili",
+            fr: "Des raisons de revenir et d’acheter à nouveau",
+            it: "Motivi per tornare e acquistare di nuovo",
+            he: "סיבות לחזור ולקנות שוב",
+          },
         ],
+        cta: {
+          label: {
+            en: "Show customer knowledge",
+            es: "Mostrar conocimiento del cliente",
+            tl: "Ipakita ang customer knowledge",
+            fr: "Montrer les connaissances client",
+            it: "Mostra le informazioni cliente",
+            he: "הצג ידע ללקוח",
+          },
+          action: "next",
+        },
       },
       knowledge: {
-        title: 'What customers learn',
-        body: 'Customers learn how local produce supports health, why fresh food matters, and how Bronson Family Farm can become part of a healthier routine.',
+        label: "Knowledge",
+        title: {
+          en: "How the customer pathway teaches",
+          es: "Cómo enseña la ruta del cliente",
+          tl: "Paano nagtuturo ang landas ng customer",
+          fr: "Comment le parcours client enseigne",
+          it: "Come il percorso cliente educa",
+          he: "איך מסלול הלקוח מלמד",
+        },
+        body: {
+          en: "Customers learn what fresh food looks like, why nutrition matters, how local food strengthens families, and how healthier choices can fit into regular life.",
+          es: "Los clientes aprenden cómo se ve la comida fresca, por qué importa la nutrición, cómo la comida local fortalece a las familias y cómo las decisiones más saludables pueden encajar en la vida diaria.",
+          tl: "Natututo ang mga customer kung ano ang hitsura ng sariwang pagkain, bakit mahalaga ang nutrisyon, paano pinapalakas ng lokal na pagkain ang mga pamilya, at paano maisasama ang mas malusog na pagpili sa araw-araw na buhay.",
+          fr: "Les clients découvrent à quoi ressemble une alimentation fraîche, pourquoi la nutrition compte, comment l’alimentation locale renforce les familles et comment des choix plus sains peuvent s’intégrer à la vie quotidienne.",
+          it: "I clienti imparano com’è il cibo fresco, perché la nutrizione conta, come il cibo locale rafforza le famiglie e come scelte più sane possano entrare nella vita quotidiana.",
+          he: "הלקוחות לומדים איך נראה מזון טרי, למה תזונה חשובה, איך מזון מקומי מחזק משפחות ואיך בחירות בריאות יותר משתלבות בחיי היום-יום.",
+        },
         bullets: [
-          'Fresh versus overprocessed food',
-          'Nutrition, access, and healthy habits',
-          'Seasonal offerings and repeat engagement',
+          {
+            en: "Fresh food over overprocessed substitutes",
+            es: "Comida fresca en lugar de sustitutos ultraprocesados",
+            tl: "Sariwang pagkain kaysa sa sobrang processed na kapalit",
+            fr: "Des aliments frais plutôt que des substituts ultra-transformés",
+            it: "Cibo fresco invece di sostituti ultra-processati",
+            he: "מזון טרי במקום חלופות מעובדות יתר על המידה",
+          },
+          {
+            en: "Simple learning people can use right away",
+            es: "Aprendizaje simple que la gente puede usar de inmediato",
+            tl: "Simpleng pagkatutong magagamit agad ng mga tao",
+            fr: "Un apprentissage simple utilisable immédiatement",
+            it: "Apprendimento semplice da usare subito",
+            he: "למידה פשוטה שאפשר להשתמש בה מיד",
+          },
+          {
+            en: "Healthy choice becomes repeat choice",
+            es: "La elección saludable se convierte en elección repetida",
+            tl: "Ang malusog na pagpili ay nagiging paulit-ulit na pagpili",
+            fr: "Le choix sain devient un choix répété",
+            it: "La scelta sana diventa una scelta ripetuta",
+            he: "בחירה בריאה הופכת לבחירה חוזרת",
+          },
         ],
+        cta: {
+          label: {
+            en: "Purpose of this pathway",
+            es: "Propósito de esta ruta",
+            tl: "Layunin ng landas na ito",
+            fr: "Objectif de ce parcours",
+            it: "Scopo di questo percorso",
+            he: "מטרת המסלול הזה",
+          },
+          action: "next",
+        },
       },
       purpose: {
-        title: 'Why this pathway exists',
-        body: 'The purpose is to move people from interest to informed action so they buy with meaning, eat with intention, and return with trust.',
-      },
-      next: {
-        title: 'What happens next',
-        body: 'Customers can move directly into the marketplace, reserve for events, revisit seasonal products, and reconnect with the farm over time.',
-        cta: 'Shop, learn, and return.',
-      },
-    },
-  },
-  marketplace: {
-    title: 'Marketplace',
-    mission: 'Convert interest into purchasing power and long-term sustainability.',
-    summary: 'The commercial pathway where intention becomes action through GrownBy and farm offerings.',
-    accent: 'from-amber-500/25 to-orange-400/10',
-    icon: '▣',
-    outcome: 'Marketplace visitors clearly understand how to buy, support the mission, and keep the ecosystem sustainable.',
-    steps: {
-      soundbite: {
-        title: 'This is where mission meets movement.',
-        body: 'The marketplace turns support into real transactions that strengthen food access, farm growth, and long-term sustainability.',
-      },
-      intro: {
-        title: 'What the marketplace means',
-        body: 'This is not a generic shop page. It is the bridge between the farm story and real purchasing power through Bronson Family Farm and GrownBy.',
-        bullets: [
-          'Buy produce and seasonal items',
-          'Support a regenerative local ecosystem',
-          'Create repeat revenue for growth',
-        ],
-      },
-      knowledge: {
-        title: 'What people understand here',
-        body: 'The marketplace shows how orders, pickups, customer trust, and sustainable sales all help the farm keep serving the community.',
-        bullets: [
-          'GrownBy integration and customer pathway',
-          'Seasonal shopping and local food flow',
-          'Sustainability through recurring support',
-        ],
-      },
-      purpose: {
-        title: 'Why this pathway exists',
-        body: 'Interest alone does not sustain land, programs, or operations. The marketplace exists so value can move into action and real support.',
-      },
-      next: {
-        title: 'What happens next',
-        body: 'Visitors can open the GrownBy storefront, review upcoming availability, place orders, and re-enter the wider farm ecosystem with confidence.',
-        cta: 'Move from support to purchase.',
-      },
-    },
-  },
-  grower: {
-    title: 'Grower',
-    mission: 'Connect producers to opportunity and meaningful market participation.',
-    summary: 'A pathway for growers to see possibility, connection, and a place inside the ecosystem.',
-    accent: 'from-teal-500/25 to-cyan-400/10',
-    icon: '⬡',
-    outcome: 'Growers understand there is a real place for them to participate, sell, learn, and grow with others.',
-    steps: {
-      soundbite: {
-        title: 'Growers need more than land. They need pathway, structure, and opportunity.',
-        body: 'This experience shows how growers can connect to training, market access, collaboration, and long-term participation.',
-      },
-      intro: {
-        title: 'What growers encounter',
-        body: 'Growers are welcomed into a system that values production, shared learning, visibility, and economic opportunity.',
-        bullets: [
-          'Participation in a larger ecosystem',
-          'Visibility and market connection',
-          'A sense of belonging and growth',
-        ],
-      },
-      knowledge: {
-        title: 'What growers learn',
-        body: 'This pathway explains how growers can connect to marketplace flow, learning opportunities, events, and future regional participation.',
-        bullets: [
-          'Market participation and product flow',
-          'Collaborative learning and support',
-          'Opportunity within a broader food system',
-        ],
-      },
-      purpose: {
-        title: 'Why this pathway exists',
-        body: 'The grower pathway exists to reduce isolation, increase opportunity, and make participation feel practical, visible, and worth returning to.',
-      },
-      next: {
-        title: 'What happens next',
-        body: 'Growers can move toward collaboration, future listings, event participation, and stronger integration into the regional food ecosystem.',
-        cta: 'Connect and participate.',
-      },
-    },
-  },
-  youth: {
-    title: 'Youth Workforce',
-    mission: 'Build skills, responsibility, and future readiness.',
-    summary: 'A structured pathway for learning, practice, support, and personal growth.',
-    accent: 'from-violet-500/25 to-fuchsia-400/10',
-    icon: '▲',
-    outcome: 'Young people and families understand that this pathway leads to real growth, real support, and future readiness.',
-    steps: {
-      soundbite: {
-        title: 'This pathway helps young people grow into responsibility.',
-        body: 'Youth workforce is not just about tasks. It is about skills, confidence, support, and future direction.',
-      },
-      intro: {
-        title: 'What youth and families experience',
-        body: 'This pathway introduces a supportive structure where young people learn through hands-on work, guided expectations, and caring supervision.',
-        bullets: [
-          'Hands-on learning and practical roles',
-          'Support systems and supervision',
-          'A pathway that connects growth to future readiness',
-        ],
-      },
-      knowledge: {
-        title: 'What they learn',
-        body: 'Young people see how responsibility, teamwork, agriculture, logistics, and personal development come together in one real environment.',
-        bullets: [
-          'Work habits and role clarity',
-          'Skill development and readiness',
-          'Support resources including youth supervision and wellness support',
-        ],
-      },
-      purpose: {
-        title: 'Why this pathway exists',
-        body: 'This pathway exists to help youth move from exposure to growth, with meaningful experience and support that strengthens their future.',
-      },
-      next: {
-        title: 'What happens next',
-        body: 'Youth participants can continue into structured programming, guided roles, supervision, and family-connected support pathways.',
-        cta: 'Grow into readiness.',
-      },
-    },
-  },
-  partners: {
-    title: 'Partners',
-    mission: 'Align resources and collaboration for community benefit.',
-    summary: 'A pathway that shows why partnership here produces meaningful local impact.',
-    accent: 'from-sky-500/25 to-blue-400/10',
-    icon: '◆',
-    outcome: 'Partners understand where they fit, how their support matters, and what shared impact can look like.',
-    steps: {
-      soundbite: {
-        title: 'Partnership here is practical, visible, and community-facing.',
-        body: 'This pathway shows how aligned partners can support land restoration, food access, education, workforce, and public value.',
-      },
-      intro: {
-        title: 'What partners see',
-        body: 'Partners see a platform where resources do not disappear into abstraction. They are translated into visible outcomes for people and place.',
-        bullets: [
-          'Shared value and visible alignment',
-          'Community-facing outcomes',
-          'Opportunities for long-term collaboration',
-        ],
-      },
-      knowledge: {
-        title: 'What partners understand',
-        body: 'The partner pathway explains how support can connect to events, youth development, food access, education, marketplace growth, and place-based revitalization.',
-        bullets: [
-          'Where support fits',
-          'How collaboration strengthens capacity',
-          'Why this ecosystem is worth joining',
-        ],
-      },
-      purpose: {
-        title: 'Why this pathway exists',
-        body: 'Partnership requires clarity. This pathway exists so organizations, institutions, and supporters can immediately understand their role and value.',
-      },
-      next: {
-        title: 'What happens next',
-        body: 'Partners can move into meetings, sponsorship, collaboration, program support, event engagement, and ecosystem-building decisions.',
-        cta: 'Align support with impact.',
-      },
-    },
-  },
-};
-
-const pathwayOrder: PathwayKey[] = ['guest', 'customer', 'marketplace', 'grower', 'youth', 'partners'];
-
-function useTypedTranslation(language: LanguageKey) {
-  return (key: string) => sharedTranslations[language]?.[key] ?? sharedTranslations.en[key] ?? key;
-}
-
-function useSpeech(language: LanguageKey, enabled: boolean) {
-  const speak = (text: string) => {
-    if (!enabled || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voices = window.speechSynthesis.getVoices();
-
-    const matchers: Record<LanguageKey, string[]> = {
-      en: ['en-US', 'en_US', 'English'],
-      es: ['es', 'Spanish'],
-      tl: ['tl', 'fil', 'Tagalog'],
-      it: ['it', 'Italian'],
-      patwa: ['en-JM', 'Jamaica', 'English'],
-      he: ['he', 'Hebrew', 'iw'],
-    };
-
-    const preferred = matchers[language];
-    const foundVoice = voices.find((voice) =>
-      preferred.some((p) => voice.lang?.includes(p) || voice.name?.toLowerCase().includes(p.toLowerCase()))
-    );
-
-    if (foundVoice) utterance.voice = foundVoice;
-    utterance.rate = language === 'patwa' ? 0.92 : 0.98;
-    utterance.pitch = 1;
-    utterance.lang = foundVoice?.lang || (language === 'he' ? 'he-IL' : language === 'es' ? 'es-US' : language === 'it' ? 'it-IT' : 'en-US');
-    window.speechSynthesis.speak(utterance);
-  };
-
-  const stop = () => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-  };
-
-  return { speak, stop };
-}
-
-function LayerProgress({ currentStep }: { currentStep: StepKey }) {
-  const currentIndex = stepOrder.indexOf(currentStep);
-  return (
-    <div className="flex flex-wrap gap-2">
-      {stepOrder.map((step, idx) => {
-        const active = idx === currentIndex;
-        const done = idx < currentIndex;
-        return (
-          <div
-            key={step}
-            className={`rounded-full border px-3 py-1 text-xs tracking-[0.18em] uppercase transition ${
-              active
-                ? 'border-white/50 bg-white/18 text-white'
-                : done
-                ? 'border-emerald-300/40 bg-emerald-300/15 text-emerald-100'
-                : 'border-white/12 bg-white/6 text-white/60'
-            }`}
-          >
-            {stepLabels[step]}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function GlassCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`rounded-3xl border border-white/14 bg-white/[0.06] shadow-2xl shadow-black/25 backdrop-blur-xl ${className}`}>
-      {children}
-    </div>
-  );
-}
-
-function App() {
-  const [language, setLanguage] = useState<LanguageKey>('en');
-  const [voiceEnabled, setVoiceEnabled] = useState<boolean>(false);
-  const [selectedPathway, setSelectedPathway] = useState<PathwayKey | null>(null);
-  const [currentStep, setCurrentStep] = useState<StepKey>('soundbite');
-  const [showIntroGlow, setShowIntroGlow] = useState(false);
-
-  const t = useTypedTranslation(language);
-  const { speak, stop } = useSpeech(language, voiceEnabled);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowIntroGlow(true), 250);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (!selectedPathway) return;
-    const content = pathways[selectedPathway].steps[currentStep];
-    const speakText = `${pathways[selectedPathway].title}. ${content.title}. ${content.body}`;
-    speak(speakText);
-    return () => stop();
-  }, [selectedPathway, currentStep, language, voiceEnabled]);
-
-  const activePathway = selectedPathway ? pathways[selectedPathway] : null;
-  const activeStep = activePathway ? activePathway.steps[currentStep] : null;
-  const progressPct = useMemo(() => ((stepOrder.indexOf(currentStep) + 1) / stepOrder.length) * 100, [currentStep]);
-
-  const nextStep = () => {
-    const idx = stepOrder.indexOf(currentStep);
-    if (idx < stepOrder.length - 1) setCurrentStep(stepOrder[idx + 1]);
-  };
-
-  const prevStep = () => {
-    const idx = stepOrder.indexOf(currentStep);
-    if (idx > 0) setCurrentStep(stepOrder[idx - 1]);
-  };
-
-  const openPathway = (path: PathwayKey) => {
-    setSelectedPathway(path);
-    setCurrentStep('soundbite');
-  };
-
-  const openStore = () => {
-    window.open('https://grownby.com/farms/bronson-family-farm/shop', '_blank', 'noopener,noreferrer');
-  };
-
-  const openWeather = () => {
-    window.open('https://www.accuweather.com/en/us/youngstown/44503/minute-weather-forecast/330121', '_blank', 'noopener,noreferrer');
-  };
-
-  const dir = languages.find((l) => l.key === language)?.dir ?? 'ltr';
-
-  return (
-    <div dir={dir} className="min-h-screen overflow-hidden bg-[#07140f] text-white">
-      <div className="fixed inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(58,130,84,0.25),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(239,180,58,0.14),transparent_26%),linear-gradient(180deg,#07140f_0%,#0d1f17_42%,#08120e_100%)]" />
-        <div className="absolute inset-0 opacity-[0.09] [background-image:linear-gradient(rgba(255,255,255,0.7)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.7)_1px,transparent_1px)] [background-size:48px_48px]" />
-        <div className={`absolute -left-20 top-12 h-72 w-72 rounded-full bg-emerald-500/18 blur-3xl transition-opacity duration-1000 ${showIntroGlow ? 'opacity-100' : 'opacity-0'}`} />
-        <div className={`absolute bottom-0 right-0 h-[28rem] w-[28rem] rounded-full bg-amber-400/12 blur-3xl transition-opacity duration-1000 ${showIntroGlow ? 'opacity-100' : 'opacity-0'}`} />
-      </div>
-
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-4 sm:px-6 lg:px-8">
-        <header className="mb-4">
-          <GlassCard className="px-4 py-4 sm:px-6 sm:py-5">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div className="max-w-3xl">
-                <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[10px] uppercase tracking-[0.25em] text-emerald-100/90">
-                  Developed by Bronson Family Farm
-                </div>
-                <h1 className="text-3xl font-semibold tracking-[0.04em] sm:text-4xl lg:text-5xl">{t('homeTitle')}</h1>
-                <p className="mt-2 max-w-3xl text-sm leading-6 text-white/78 sm:text-base">{t('homeSubtitle')}</p>
-                <p className="mt-3 text-xs uppercase tracking-[0.22em] text-white/55 sm:text-[11px]">{t('missionBar')}</p>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2 lg:w-[28rem]">
-                <div className="rounded-2xl border border-white/10 bg-black/15 p-3">
-                  <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-white/55">{t('language')}</div>
-                  <select
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value as LanguageKey)}
-                    className="w-full rounded-xl border border-white/12 bg-white/8 px-3 py-2 text-sm text-white outline-none"
-                  >
-                    {languages.map((lang) => (
-                      <option key={lang.key} value={lang.key} className="bg-slate-900 text-white">
-                        {lang.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="rounded-2xl border border-white/10 bg-black/15 p-3">
-                  <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-white/55">{t('guidedMode')}</div>
-                  <button
-                    onClick={() => setVoiceEnabled((v) => !v)}
-                    className={`w-full rounded-xl px-3 py-2 text-sm font-medium transition ${
-                      voiceEnabled ? 'bg-emerald-400/80 text-black' : 'bg-white/8 text-white'
-                    }`}
-                  >
-                    {voiceEnabled ? t('on') : t('off')}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </GlassCard>
-        </header>
-
-        {!selectedPathway ? (
-          <main className="grid flex-1 gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="space-y-4">
-              <GlassCard className="p-5 sm:p-6 lg:p-8">
-                <div className="mb-4 flex items-center justify-between gap-4">
-                  <div>
-                    <div className="text-[11px] uppercase tracking-[0.24em] text-emerald-100/65">{t('choosePath')}</div>
-                    <h2 className="mt-2 text-2xl font-semibold tracking-[0.03em] sm:text-3xl">A complete pathway-based demo</h2>
-                  </div>
-                  <div className="hidden rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-right sm:block">
-                    <div className="text-[10px] uppercase tracking-[0.22em] text-white/50">{t('complete')}</div>
-                    <div className="mt-1 text-xl font-semibold">6 / 6</div>
-                  </div>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                  {pathwayOrder.map((key) => {
-                    const item = pathways[key];
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => openPathway(key)}
-                        className={`group rounded-[28px] border border-white/12 bg-gradient-to-br ${item.accent} p-[1px] text-left transition duration-300 hover:-translate-y-1 hover:border-white/20`}
-                      >
-                        <div className="h-full rounded-[27px] bg-[#09150f]/90 p-5">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="text-2xl">{item.icon}</div>
-                            <div className="rounded-full border border-white/10 bg-white/6 px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-white/50">
-                              Pathway
-                            </div>
-                          </div>
-                          <h3 className="mt-5 text-xl font-semibold tracking-[0.03em] text-white/95">{item.title}</h3>
-                          <p className="mt-3 text-sm leading-6 text-white/72">{item.summary}</p>
-                          <div className="mt-5 space-y-3">
-                            <div>
-                              <div className="mb-1 text-[10px] uppercase tracking-[0.18em] text-white/45">{t('mission')}</div>
-                              <div className="text-sm text-emerald-100/88">{item.mission}</div>
-                            </div>
-                            <div>
-                              <div className="mb-1 text-[10px] uppercase tracking-[0.18em] text-white/45">{t('outcome')}</div>
-                              <div className="text-sm text-white/76">{item.outcome}</div>
-                            </div>
-                          </div>
-                          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-2 text-xs uppercase tracking-[0.18em] text-white/75 transition group-hover:bg-white/10">
-                            {t('explore')} <span>→</span>
-                          </div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </GlassCard>
-
-              <GlassCard className="p-5 sm:p-6">
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-white/50">{t('story')}</div>
-                    <div className="mt-2 text-lg font-medium">Land + Legacy + Community</div>
-                    <p className="mt-2 text-sm leading-6 text-white/70">This demo helps people quickly understand why Bronson Family Farm exists and what each experience leads toward.</p>
-                  </div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-white/50">{t('market')}</div>
-                    <div className="mt-2 text-lg font-medium">Mission into Action</div>
-                    <p className="mt-2 text-sm leading-6 text-white/70">The marketplace pathway is positioned as a meaningful destination tied to GrownBy, repeat purchases, and sustainability.</p>
-                  </div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-white/50">{t('resources')}</div>
-                    <div className="mt-2 text-lg font-medium">Reasons to Return</div>
-                    <p className="mt-2 text-sm leading-6 text-white/70">Every pathway points people toward value, action, and a stronger reason to come back again.</p>
-                  </div>
-                </div>
-              </GlassCard>
-            </div>
-
-            <div className="space-y-4">
-              <GlassCard className="p-5 sm:p-6">
-                <div className="mb-3 flex items-center justify-between">
-                  <div className="text-[11px] uppercase tracking-[0.22em] text-white/50">{t('liveSignals')}</div>
-                  <div className="rounded-full bg-emerald-400/15 px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-emerald-100">Live feel</div>
-                </div>
-                <div className="space-y-3">
-                  <button onClick={openWeather} className="w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition hover:bg-white/10">
-                    <div className="text-sm font-medium">{t('weather')}</div>
-                    <div className="mt-1 text-sm text-white/65">Open current Youngstown conditions in a new tab.</div>
-                  </button>
-                  <button onClick={openStore} className="w-full rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-left transition hover:bg-amber-300/14">
-                    <div className="text-sm font-medium">{t('openStore')}</div>
-                    <div className="mt-1 text-sm text-white/70">Direct bridge to the Bronson Family Farm marketplace on GrownBy.</div>
-                  </button>
-                </div>
-              </GlassCard>
-
-              <GlassCard className="p-5 sm:p-6">
-                <div className="text-[11px] uppercase tracking-[0.22em] text-white/50">{t('progress')}</div>
-                <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/8">
-                  <div className="h-full w-full rounded-full bg-gradient-to-r from-emerald-300/80 via-lime-200/70 to-amber-300/75" />
-                </div>
-                <p className="mt-4 text-sm leading-6 text-white/72">{t('returnLine')}</p>
-              </GlassCard>
-
-              <GlassCard className="p-5 sm:p-6">
-                <div className="text-[11px] uppercase tracking-[0.22em] text-white/50">Pathway outcomes</div>
-                <div className="mt-4 space-y-3 text-sm text-white/75">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">Guest → understanding</div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">Customer → healthy repeat choices</div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">Marketplace → purchasing power</div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">Grower → participation and opportunity</div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">Youth → skills and readiness</div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">Partners → aligned community impact</div>
-                </div>
-              </GlassCard>
-            </div>
-          </main>
-        ) : activePathway && activeStep ? (
-          <main className="grid flex-1 gap-4 lg:grid-cols-[0.82fr_1.18fr]">
-            <div className="space-y-4">
-              <GlassCard className="p-5 sm:p-6">
-                <div className={`rounded-[28px] bg-gradient-to-br ${activePathway.accent} p-[1px]`}>
-                  <div className="rounded-[27px] bg-[#08120d]/92 p-5">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="text-3xl">{activePathway.icon}</div>
-                      <div className="rounded-full border border-white/10 bg-white/6 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white/55">
-                        {activePathway.title}
-                      </div>
-                    </div>
-                    <h2 className="mt-5 text-3xl font-semibold tracking-[0.03em]">{activePathway.title} Pathway</h2>
-                    <p className="mt-3 text-sm leading-6 text-white/72">{activePathway.summary}</p>
-                    <div className="mt-5 space-y-4">
-                      <div>
-                        <div className="mb-1 text-[10px] uppercase tracking-[0.18em] text-white/45">{t('mission')}</div>
-                        <p className="text-sm text-emerald-100/88">{activePathway.mission}</p>
-                      </div>
-                      <div>
-                        <div className="mb-1 text-[10px] uppercase tracking-[0.18em] text-white/45">{t('outcome')}</div>
-                        <p className="text-sm text-white/75">{activePathway.outcome}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </GlassCard>
-
-              <GlassCard className="p-5 sm:p-6">
-                <div className="mb-3 flex items-center justify-between">
-                  <div className="text-[11px] uppercase tracking-[0.22em] text-white/50">{t('layers')}</div>
-                  <div className="text-xs text-white/55">{Math.round(progressPct)}%</div>
-                </div>
-                <LayerProgress currentStep={currentStep} />
-                <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/8">
-                  <div className="h-full rounded-full bg-gradient-to-r from-emerald-300/80 to-amber-300/80" style={{ width: `${progressPct}%` }} />
-                </div>
-              </GlassCard>
-
-              <GlassCard className="p-5 sm:p-6">
-                <div className="grid gap-3">
-                  {stepOrder.map((step) => (
-                    <button
-                      key={step}
-                      onClick={() => setCurrentStep(step)}
-                      className={`rounded-2xl border px-4 py-3 text-left transition ${
-                        currentStep === step
-                          ? 'border-white/25 bg-white/12'
-                          : 'border-white/10 bg-white/5 hover:bg-white/8'
-                      }`}
-                    >
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-white/45">Layer</div>
-                      <div className="mt-1 text-sm font-medium">{stepLabels[step]}</div>
-                    </button>
-                  ))}
-                </div>
-              </GlassCard>
-            </div>
-
-            <div className="space-y-4">
-              <GlassCard className="p-6 sm:p-7 lg:p-8">
-                <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <div className="text-[11px] uppercase tracking-[0.22em] text-white/50">{stepLabels[currentStep]}</div>
-                    <h3 className="mt-2 text-2xl font-semibold tracking-[0.03em] sm:text-3xl">{activeStep.title}</h3>
-                  </div>
-                  <div className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.18em] text-white/65">
-                    {activePathway.title}
-                  </div>
-                </div>
-
-                <p className="max-w-4xl text-base leading-8 text-white/82">{activeStep.body}</p>
-
-                {activeStep.bullets && (
-                  <div className="mt-6 grid gap-3 md:grid-cols-3">
-                    {activeStep.bullets.map((bullet) => (
-                      <div key={bullet} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-white/78">
-                        {bullet}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {activeStep.cta && (
-                  <div className="mt-6 rounded-2xl border border-emerald-300/18 bg-emerald-300/10 p-4 text-sm text-emerald-100/90">
-                    {activeStep.cta}
-                  </div>
-                )}
-              </GlassCard>
-
-              <GlassCard className="p-5 sm:p-6">
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                  <button onClick={() => { stop(); setSelectedPathway(null); }} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm transition hover:bg-white/10">
-                    {t('backHome')}
-                  </button>
-                  <button onClick={prevStep} disabled={currentStep === 'soundbite'} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40">
-                    {t('previous')}
-                  </button>
-                  <button onClick={nextStep} disabled={currentStep === 'next'} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40">
-                    {t('nextLayer')}
-                  </button>
-                  {selectedPathway === 'marketplace' ? (
-                    <button onClick={openStore} className="rounded-2xl border border-amber-300/20 bg-amber-300/12 px-4 py-3 text-sm transition hover:bg-amber-300/16">
-                      {t('openStore')}
-                    </button>
-                  ) : (
-                    <button onClick={openWeather} className="rounded-2xl border border-emerald-300/18 bg-emerald-300/10 px-4 py-3 text-sm transition hover:bg-emerald-300/14">
-                      {t('weather')}
-                    </button>
-                  )}
-                </div>
-              </GlassCard>
-
-              <GlassCard className="p-5 sm:p-6">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-white/45">Mission in plain language</div>
-                    <div className="mt-2 text-sm leading-7 text-white/80">{activePathway.mission}</div>
-                  </div>
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-white/45">What success looks like</div>
-                    <div className="mt-2 text-sm leading-7 text-white/80">{activePathway.outcome}</div>
-                  </div>
-                </div>
-              </GlassCard>
-            </div>
-          </main>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-export default App;
+        label: "Purpose",
+        title: {
+          en: "Mission outcome",
+          es: "Resultado de la misión",
+          tl: "Kinalabasan ng misyon",
+          fr: "Résultat de la mission",
+          it: "Esito della missione",
+          he: "תוצאת המשימה",
+        },
+        body: {
+          en: "The customer pathway is successful when people trust the food, understand the value of freshness, and return because healthy eating feels possible and local.",
+          es: "La ruta del cliente tiene éxito cuando las personas confían en la comida, comprenden el valor de la frescura y regresan porque
