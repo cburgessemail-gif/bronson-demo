@@ -48,16 +48,16 @@ const languageOptions: { key: LanguageKey; label: string; rtl?: boolean }[] = [
 
 const ui = {
   en: {
-    demoLabel: "Living Ecosystem Experience",
-    title: "Bronson Family Farm",
-    subtitle:
+    topLabel: "Living Ecosystem Experience",
+    siteTitle: "Bronson Family Farm",
+    siteSubtitle:
       "An ecosystem for food, learning, wellness, workforce, and community return.",
-    introTag: "Step into the ecosystem",
-    heroTitleLine1: "Bronson Family Farm",
-    heroTitleLine2: "is more than a farm.",
+    heroTag: "Step into the ecosystem",
+    heroTitle1: "Bronson Family Farm",
+    heroTitle2: "is more than a farm.",
     heroBody:
       "A regenerative ecosystem connecting land, food access, marketplace activity, growers, youth workforce development, education, and partnership in Youngstown and the Mahoning Valley.",
-    openingTitle: "Why It Matters",
+    openingTitle: "Why it matters",
     openingBody:
       "Restore land, grow healthy food, create opportunity, and build community systems for the Mahoning Valley Area.",
     enterMarketplace: "Enter Marketplace",
@@ -69,16 +69,16 @@ const ui = {
     voiceOff: "Narration Off",
     guidedOn: "Guided Tour On",
     guidedOff: "Guided Tour Off",
-    choosePathway: "Explore Experiences",
-    pathway: "Experience",
+    exploreExperiences: "Explore Experiences",
+    experience: "Experience",
     openPathway: "Open Pathway",
     openStore: "Open GrownBy Store",
     openWeather: "Open Weather",
     backHome: "Back Home",
     nextLayer: "Next Layer",
     previousLayer: "Previous Layer",
-    journeyLayers: "Experience Journey",
-    pathwayProgress: "Journey Progress",
+    experienceJourney: "Experience Journey",
+    journeyProgress: "Journey Progress",
     reasonToReturn:
       "Built so visitors, customers, growers, youth, and partners always have a reason to come back.",
     storyTag: "The story behind the farm",
@@ -103,7 +103,8 @@ const ui = {
       "A destination for food access, agritourism, education, workforce pathways, and community return.",
     statsB: "6",
     statsBTitle: "living pathways",
-    statsBBody: "Every pathway is built to achieve a specific experience and return value.",
+    statsBBody:
+      "Every pathway is built to create a meaningful experience, a clear message, and a reason to return.",
     statsCTitle: "Return Again",
     statsCBody:
       "Built so people understand the vision, receive value, and have a reason to return again.",
@@ -124,13 +125,13 @@ const ui = {
     whereThisLeads: "Where This Leads",
   },
   es: {
-    demoLabel: "Experiencia de Ecosistema Vivo",
-    title: "Bronson Family Farm",
-    subtitle:
+    topLabel: "Experiencia de Ecosistema Vivo",
+    siteTitle: "Bronson Family Farm",
+    siteSubtitle:
       "Un ecosistema para alimentos, aprendizaje, bienestar, trabajo y retorno comunitario.",
-    introTag: "Entre al ecosistema",
-    heroTitleLine1: "Bronson Family Farm",
-    heroTitleLine2: "es más que una granja.",
+    heroTag: "Entre al ecosistema",
+    heroTitle1: "Bronson Family Farm",
+    heroTitle2: "es más que una granja.",
     heroBody:
       "Un ecosistema regenerativo que conecta tierra, acceso a alimentos, actividad de mercado, productores, desarrollo laboral juvenil, educación y alianzas en Youngstown y el Valle de Mahoning.",
     openingTitle: "Por qué importa",
@@ -145,16 +146,16 @@ const ui = {
     voiceOff: "Narración Inactiva",
     guidedOn: "Tour Guiado Activo",
     guidedOff: "Tour Guiado Inactivo",
-    choosePathway: "Explorar experiencias",
-    pathway: "Experiencia",
+    exploreExperiences: "Explorar experiencias",
+    experience: "Experiencia",
     openPathway: "Abrir Ruta",
     openStore: "Abrir Tienda GrownBy",
     openWeather: "Abrir Clima",
     backHome: "Volver al Inicio",
     nextLayer: "Siguiente Capa",
     previousLayer: "Capa Anterior",
-    journeyLayers: "Recorrido de la experiencia",
-    pathwayProgress: "Progreso del recorrido",
+    experienceJourney: "Recorrido de la experiencia",
+    journeyProgress: "Progreso del recorrido",
     reasonToReturn:
       "Construido para que visitantes, clientes, productores, jóvenes y socios siempre tengan una razón para regresar.",
     storyTag: "La historia detrás de la granja",
@@ -180,7 +181,7 @@ const ui = {
     statsB: "6",
     statsBTitle: "rutas vivas",
     statsBBody:
-      "Cada ruta está construida para ofrecer una experiencia y un valor de retorno específicos.",
+      "Cada ruta está construida para crear una experiencia significativa, un mensaje claro y una razón para regresar.",
     statsCTitle: "Regresar",
     statsCBody:
       "Construido para que las personas entiendan la visión, reciban valor y tengan una razón para volver.",
@@ -201,13 +202,13 @@ const ui = {
     whereThisLeads: "Hacia dónde conduce",
   },
   tl: {
-    demoLabel: "Living Ecosystem Experience",
-    title: "Bronson Family Farm",
-    subtitle:
+    topLabel: "Living Ecosystem Experience",
+    siteTitle: "Bronson Family Farm",
+    siteSubtitle:
       "Isang ecosystem para sa pagkain, pagkatuto, wellness, trabaho, at pagbabalik sa komunidad.",
-    introTag: "Pumasok sa ecosystem",
-    heroTitleLine1: "Bronson Family Farm",
-    heroTitleLine2: "ay higit pa sa isang farm.",
+    heroTag: "Pumasok sa ecosystem",
+    heroTitle1: "Bronson Family Farm",
+    heroTitle2: "ay higit pa sa isang farm.",
     heroBody:
       "Isang regenerative ecosystem na nag-uugnay sa lupa, food access, marketplace activity, growers, youth workforce development, education, at partnership sa Youngstown at Mahoning Valley.",
     openingTitle: "Bakit mahalaga ito",
@@ -222,16 +223,16 @@ const ui = {
     voiceOff: "Narration Off",
     guidedOn: "Guided Tour On",
     guidedOff: "Guided Tour Off",
-    choosePathway: "Galugarin ang mga karanasan",
-    pathway: "Karanasan",
+    exploreExperiences: "Galugarin ang mga karanasan",
+    experience: "Karanasan",
     openPathway: "Buksan ang Landas",
     openStore: "Buksan ang GrownBy Store",
     openWeather: "Buksan ang Panahon",
     backHome: "Balik Home",
     nextLayer: "Susunod na Layer",
     previousLayer: "Nakaraang Layer",
-    journeyLayers: "Journey ng karanasan",
-    pathwayProgress: "Pag-usad ng journey",
+    experienceJourney: "Journey ng karanasan",
+    journeyProgress: "Pag-usad ng journey",
     reasonToReturn:
       "Ginawa upang ang mga bisita, customer, grower, youth, at partner ay laging may dahilan para bumalik.",
     storyTag: "Ang kuwento sa likod ng farm",
@@ -257,7 +258,7 @@ const ui = {
     statsB: "6",
     statsBTitle: "living pathways",
     statsBBody:
-      "Bawat pathway ay ginawa para sa tiyak na karanasan at halagang maibabalik.",
+      "Bawat pathway ay ginawa para sa makabuluhang karanasan, malinaw na mensahe, at dahilan para bumalik.",
     statsCTitle: "Bumalik Muli",
     statsCBody:
       "Ginawa upang maunawaan ng mga tao ang vision, makatanggap ng halaga, at magkaroon ng dahilan upang bumalik.",
@@ -278,13 +279,13 @@ const ui = {
     whereThisLeads: "Saan ito patungo",
   },
   it: {
-    demoLabel: "Esperienza Ecosistema Vivo",
-    title: "Bronson Family Farm",
-    subtitle:
+    topLabel: "Esperienza Ecosistema Vivo",
+    siteTitle: "Bronson Family Farm",
+    siteSubtitle:
       "Un ecosistema per cibo, apprendimento, benessere, lavoro e ritorno alla comunità.",
-    introTag: "Entra nell'ecosistema",
-    heroTitleLine1: "Bronson Family Farm",
-    heroTitleLine2: "è più di una fattoria.",
+    heroTag: "Entra nell'ecosistema",
+    heroTitle1: "Bronson Family Farm",
+    heroTitle2: "è più di una fattoria.",
     heroBody:
       "Un ecosistema rigenerativo che collega terra, accesso al cibo, attività di mercato, coltivatori, sviluppo del lavoro giovanile, educazione e partnership a Youngstown e nella Mahoning Valley.",
     openingTitle: "Perché conta",
@@ -299,16 +300,16 @@ const ui = {
     voiceOff: "Narration Off",
     guidedOn: "Tour Guidato Attivo",
     guidedOff: "Tour Guidato Disattivo",
-    choosePathway: "Esplora le esperienze",
-    pathway: "Esperienza",
+    exploreExperiences: "Esplora le esperienze",
+    experience: "Esperienza",
     openPathway: "Apri Percorso",
     openStore: "Apri Negozio GrownBy",
     openWeather: "Apri Meteo",
     backHome: "Torna Home",
     nextLayer: "Livello Successivo",
     previousLayer: "Livello Precedente",
-    journeyLayers: "Percorso dell'esperienza",
-    pathwayProgress: "Avanzamento del percorso",
+    experienceJourney: "Percorso dell'esperienza",
+    journeyProgress: "Avanzamento del percorso",
     reasonToReturn:
       "Costruito affinché visitatori, clienti, coltivatori, giovani e partner abbiano sempre un motivo per tornare.",
     storyTag: "La storia dietro la fattoria",
@@ -334,7 +335,7 @@ const ui = {
     statsB: "6",
     statsBTitle: "percorsi vivi",
     statsBBody:
-      "Ogni percorso è costruito per offrire un'esperienza specifica e valore di ritorno.",
+      "Ogni percorso è costruito per creare un'esperienza significativa, un messaggio chiaro e un motivo per tornare.",
     statsCTitle: "Tornare Ancora",
     statsCBody:
       "Costruito perché le persone comprendano la visione, ricevano valore e abbiano un motivo per tornare.",
@@ -355,13 +356,13 @@ const ui = {
     whereThisLeads: "Dove conduce",
   },
   patwa: {
-    demoLabel: "Living Ecosystem Experience",
-    title: "Bronson Family Farm",
-    subtitle:
+    topLabel: "Living Ecosystem Experience",
+    siteTitle: "Bronson Family Farm",
+    siteSubtitle:
       "A one ecosystem fi food, learning, wellness, work, an community return.",
-    introTag: "Step inna di ecosystem",
-    heroTitleLine1: "Bronson Family Farm",
-    heroTitleLine2: "a more than a farm.",
+    heroTag: "Step inna di ecosystem",
+    heroTitle1: "Bronson Family Farm",
+    heroTitle2: "a more than a farm.",
     heroBody:
       "A regenerative ecosystem weh connect land, food access, marketplace activity, growers, youth workforce development, education, an partnership inna Youngstown an Mahoning Valley.",
     openingTitle: "Why it matter",
@@ -376,16 +377,16 @@ const ui = {
     voiceOff: "Narration Off",
     guidedOn: "Guided Tour On",
     guidedOff: "Guided Tour Off",
-    choosePathway: "Explore di experiences",
-    pathway: "Experience",
+    exploreExperiences: "Explore di experiences",
+    experience: "Experience",
     openPathway: "Open Pathway",
     openStore: "Open GrownBy Store",
     openWeather: "Open Weather",
     backHome: "Back Home",
     nextLayer: "Next Layer",
     previousLayer: "Previous Layer",
-    journeyLayers: "Experience journey",
-    pathwayProgress: "Journey progress",
+    experienceJourney: "Experience journey",
+    journeyProgress: "Journey progress",
     reasonToReturn:
       "Build so visitors, customers, growers, youth, an partners always have reason fi come back.",
     storyTag: "Di story behind di farm",
@@ -411,7 +412,7 @@ const ui = {
     statsB: "6",
     statsBTitle: "living pathways",
     statsBBody:
-      "Every pathway build fi a specific experience an return value.",
+      "Every pathway build fi create meaningful experience, clear message, an reason fi return.",
     statsCTitle: "Come Back Again",
     statsCBody:
       "Build so people understand di vision, get value, an have a reason fi come back again.",
@@ -432,13 +433,13 @@ const ui = {
     whereThisLeads: "A weh dis lead",
   },
   he: {
-    demoLabel: "חוויית מערכת אקולוגית חיה",
-    title: "Bronson Family Farm",
-    subtitle:
+    topLabel: "חוויית מערכת אקולוגית חיה",
+    siteTitle: "Bronson Family Farm",
+    siteSubtitle:
       "מערכת אקולוגית למזון, למידה, בריאות, תעסוקה וחזרה לקהילה.",
-    introTag: "היכנסו למערכת האקולוגית",
-    heroTitleLine1: "Bronson Family Farm",
-    heroTitleLine2: "היא יותר מחווה.",
+    heroTag: "היכנסו למערכת האקולוגית",
+    heroTitle1: "Bronson Family Farm",
+    heroTitle2: "היא יותר מחווה.",
     heroBody:
       "מערכת אקולוגית רגנרטיבית המחברת אדמה, גישה למזון, פעילות שוק, מגדלים, פיתוח כוח עבודה לנוער, חינוך ושותפויות ביאנגסטאון ובעמק מהונינג.",
     openingTitle: "למה זה חשוב",
@@ -453,16 +454,16 @@ const ui = {
     voiceOff: "קריינות כבויה",
     guidedOn: "סיור מודרך פעיל",
     guidedOff: "סיור מודרך כבוי",
-    choosePathway: "גלו את החוויות",
-    pathway: "חוויה",
+    exploreExperiences: "גלו את החוויות",
+    experience: "חוויה",
     openPathway: "פתחו מסלול",
     openStore: "פתחו את חנות GrownBy",
     openWeather: "פתחו מזג אוויר",
     backHome: "חזרה לבית",
     nextLayer: "השכבה הבאה",
     previousLayer: "השכבה הקודמת",
-    journeyLayers: "מסע החוויה",
-    pathwayProgress: "התקדמות המסע",
+    experienceJourney: "מסע החוויה",
+    journeyProgress: "התקדמות המסע",
     reasonToReturn:
       "נבנה כך שלמבקרים, לקוחות, מגדלים, נוער ושותפים תמיד תהיה סיבה לחזור.",
     storyTag: "הסיפור מאחורי החווה",
@@ -487,7 +488,8 @@ const ui = {
       "יעד לגישה למזון, אגריטוריזם, חינוך, מסלולי עבודה וחזרה לקהילה.",
     statsB: "6",
     statsBTitle: "מסלולים חיים",
-    statsBBody: "כל מסלול נבנה עבור חוויה מסוימת וערך של חזרה.",
+    statsBBody:
+      "כל מסלול נבנה כדי ליצור חוויה משמעותית, מסר ברור, וסיבה לחזור.",
     statsCTitle: "לחזור שוב",
     statsCBody:
       "נבנה כדי שאנשים יבינו את החזון, יקבלו ערך, ויהיה להם רצון לחזור שוב.",
@@ -1058,10 +1060,10 @@ export default function App() {
                   marginBottom: 10,
                 }}
               >
-                {text.demoLabel}
+                {text.topLabel}
               </div>
               <div style={{ fontSize: 26, fontWeight: 800, marginBottom: 8 }}>
-                {text.title}
+                {text.siteTitle}
               </div>
               <div
                 style={{
@@ -1071,7 +1073,7 @@ export default function App() {
                   maxWidth: 820,
                 }}
               >
-                {text.subtitle}
+                {text.siteSubtitle}
               </div>
             </div>
 
@@ -1281,7 +1283,7 @@ export default function App() {
                       color: "#e5f1d3",
                     }}
                   >
-                    {text.introTag}
+                    {text.heroTag}
                   </div>
 
                   <div
@@ -1295,8 +1297,8 @@ export default function App() {
                       maxWidth: 900,
                     }}
                   >
-                    <div>{text.heroTitleLine1}</div>
-                    <div>{text.heroTitleLine2}</div>
+                    <div>{text.heroTitle1}</div>
+                    <div>{text.heroTitle2}</div>
                   </div>
 
                   <div
@@ -1456,7 +1458,7 @@ export default function App() {
                         color: "rgba(255,255,255,0.82)",
                       }}
                     >
-                      {text.statsCBody}
+                      {text.statsCTBody}
                     </div>
                   </Panel>
                 </div>
@@ -1612,7 +1614,7 @@ export default function App() {
                       fontWeight: 800,
                     }}
                   >
-                    {text.choosePathway}
+                    {text.exploreExperiences}
                   </div>
                   <div
                     style={{
@@ -1704,7 +1706,7 @@ export default function App() {
                             fontWeight: 700,
                           }}
                         >
-                          {text.pathway}
+                          {text.experience}
                         </div>
                       </div>
 
@@ -2126,7 +2128,7 @@ export default function App() {
                           marginBottom: 8,
                         }}
                       >
-                        {text.whatPeopleGain || text.whatThisCreates}
+                        {text.whatThisCreates}
                       </div>
                       <div
                         style={{
@@ -2159,7 +2161,7 @@ export default function App() {
                         fontWeight: 800,
                       }}
                     >
-                      {text.pathwayProgress}
+                      {text.journeyProgress}
                     </div>
                     <div style={{ fontSize: 14, fontWeight: 700, color: "#5c6f64" }}>
                       {Math.round(progress)}%
@@ -2328,7 +2330,7 @@ export default function App() {
                       fontWeight: 800,
                     }}
                   >
-                    {text.journeyLayers}
+                    {text.experienceJourney}
                   </div>
 
                   <div
