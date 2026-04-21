@@ -3,16 +3,13 @@
 html,
 body,
 #root {
+  margin: 0;
+  padding: 0;
   min-height: 100%;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 body {
-  margin: 0;
-  background: #0b0f0c;
+  background: #08110a;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
