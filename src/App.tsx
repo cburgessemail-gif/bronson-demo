@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useState } from "react";
 
-type LanguageKey = "en" | "es" | "tl" | "it" | "fr" | "he";
-type RoleKey =
+type Role =
+  | "home"
   | "guest"
   | "customer"
   | "marketplace"
@@ -9,1196 +9,188 @@ type RoleKey =
   | "youth"
   | "partners";
 
-type LayerKey = "soundbite" | "intro" | "knowledge" | "summary" | "next";
+export default function App() {
+  const [page, setPage] = useState<Role>("home");
 
-type SectionCard = {
-  title: string;
-  text: string;
-};
-
-type NextStep = {
-  label: string;
-  description: string;
-  cta: string;
-  href?: string;
-};
-
-type RoleContent = {
-  mission: string;
-  strap: string;
-  image: string;
-  imageAlt: string;
-  overlayClassName: string;
-  soundbite: string;
-  intro: string;
-  knowledge: SectionCard[];
-  summary: string;
-  next: NextStep[];
-};
-
-const BRAND = {
-  name: "Bronson Family Farm",
-  sub: "Living ecosystem demo",
-  developedBy: "Developed by Bronson Family Farm",
-  site: "https://www.bronsonfamilyfarm.com/",
-  grownBy: "https://grownby.com/farms/bronson-family-farm/shop",
-};
-
-const LANGUAGES: Record<LanguageKey, { label: string; dir?: "ltr" | "rtl" }> = {
-  en: { label: "English", dir: "ltr" },
-  es: { label: "Español", dir: "ltr" },
-  tl: { label: "Filipino", dir: "ltr" },
-  it: { label: "Italiano", dir: "ltr" },
-  fr: { label: "Français", dir: "ltr" },
-  he: { label: "עברית", dir: "rtl" },
-};
-
-const UI_TEXT: Record<
-  LanguageKey,
-  {
-    welcome: string;
-    selectLanguage: string;
-    choosePathway: string;
-    enter: string;
-    backHome: string;
-    backPathways: string;
-    guidedVoice: string;
-    voiceOn: string;
-    voiceOff: string;
-    layers: Record<LayerKey, string>;
-    mission: string;
-    purpose: string;
-    whatYouCanDoNext: string;
-    roleLabels: Record<RoleKey, string>;
-    footer: string;
-    ecosystem: string;
-    liveLinks: string;
-  }
-> = {
-  en: {
-    welcome: "Step into the ecosystem.",
-    selectLanguage: "Language",
-    choosePathway: "Choose a pathway",
-    enter: "Enter pathway",
-    backHome: "Back to home",
-    backPathways: "Back to pathways",
-    guidedVoice: "Guided voice",
-    voiceOn: "On",
-    voiceOff: "Off",
-    layers: {
-      soundbite: "Sound bite",
-      intro: "Intro",
-      knowledge: "Knowledge",
-      summary: "Summary of purpose",
-      next: "Next",
-    },
-    mission: "Mission",
-    purpose: "Purpose",
-    whatYouCanDoNext: "What you can do next",
-    roleLabels: {
-      guest: "Guest",
-      customer: "Customer",
-      marketplace: "Marketplace",
-      grower: "Grower",
-      youth: "Youth Workforce",
-      partners: "Partners",
-    },
-    footer: "Co-owned by Bronson Family Farm and Farm & Family Alliance",
-    ecosystem: "An immersive farm, food, learning, and community platform.",
-    liveLinks: "Live links",
-  },
-  es: {
-    welcome: "Entre al ecosistema.",
-    selectLanguage: "Idioma",
-    choosePathway: "Elija una ruta",
-    enter: "Entrar",
-    backHome: "Volver al inicio",
-    backPathways: "Volver a rutas",
-    guidedVoice: "Narración guiada",
-    voiceOn: "Activada",
-    voiceOff: "Desactivada",
-    layers: {
-      soundbite: "Mensaje breve",
-      intro: "Introducción",
-      knowledge: "Conocimiento",
-      summary: "Resumen del propósito",
-      next: "Siguiente",
-    },
-    mission: "Misión",
-    purpose: "Propósito",
-    whatYouCanDoNext: "Lo que puede hacer ahora",
-    roleLabels: {
-      guest: "Invitado",
-      customer: "Cliente",
-      marketplace: "Mercado",
-      grower: "Productor",
-      youth: "Juventud Laboral",
-      partners: "Socios",
-    },
-    footer: "Copropiedad de Bronson Family Farm y Farm & Family Alliance",
-    ecosystem: "Una plataforma inmersiva de granja, alimentos, aprendizaje y comunidad.",
-    liveLinks: "Enlaces en vivo",
-  },
-  tl: {
-    welcome: "Pumasok sa ecosystem.",
-    selectLanguage: "Wika",
-    choosePathway: "Pumili ng pathway",
-    enter: "Pumasok",
-    backHome: "Bumalik sa home",
-    backPathways: "Bumalik sa pathways",
-    guidedVoice: "Gabay na boses",
-    voiceOn: "Bukas",
-    voiceOff: "Patay",
-    layers: {
-      soundbite: "Maikling mensahe",
-      intro: "Panimula",
-      knowledge: "Kaalaman",
-      summary: "Buod ng layunin",
-      next: "Susunod",
-    },
-    mission: "Misyon",
-    purpose: "Layunin",
-    whatYouCanDoNext: "Mga susunod na hakbang",
-    roleLabels: {
-      guest: "Bisita",
-      customer: "Mamimili",
-      marketplace: "Pamilihan",
-      grower: "Grower",
-      youth: "Kabataang Workforce",
-      partners: "Kasosyo",
-    },
-    footer: "Magkasamang pag-aari ng Bronson Family Farm at Farm & Family Alliance",
-    ecosystem: "Isang nakaka-engganyong farm, food, learning, at community platform.",
-    liveLinks: "Mga live link",
-  },
-  it: {
-    welcome: "Entra nell’ecosistema.",
-    selectLanguage: "Lingua",
-    choosePathway: "Scegli un percorso",
-    enter: "Entra",
-    backHome: "Torna alla home",
-    backPathways: "Torna ai percorsi",
-    guidedVoice: "Voce guidata",
-    voiceOn: "Attiva",
-    voiceOff: "Disattiva",
-    layers: {
-      soundbite: "Messaggio rapido",
-      intro: "Introduzione",
-      knowledge: "Conoscenza",
-      summary: "Sintesi dello scopo",
-      next: "Prossimo",
-    },
-    mission: "Missione",
-    purpose: "Scopo",
-    whatYouCanDoNext: "Cosa puoi fare ora",
-    roleLabels: {
-      guest: "Ospite",
-      customer: "Cliente",
-      marketplace: "Marketplace",
-      grower: "Coltivatore",
-      youth: "Forza Lavoro Giovani",
-      partners: "Partner",
-    },
-    footer: "Co-proprietà di Bronson Family Farm e Farm & Family Alliance",
-    ecosystem: "Una piattaforma immersiva su fattoria, cibo, apprendimento e comunità.",
-    liveLinks: "Link live",
-  },
-  fr: {
-    welcome: "Entrez dans l’écosystème.",
-    selectLanguage: "Langue",
-    choosePathway: "Choisissez un parcours",
-    enter: "Entrer",
-    backHome: "Retour à l’accueil",
-    backPathways: "Retour aux parcours",
-    guidedVoice: "Voix guidée",
-    voiceOn: "Activée",
-    voiceOff: "Désactivée",
-    layers: {
-      soundbite: "Accroche",
-      intro: "Introduction",
-      knowledge: "Connaissance",
-      summary: "Résumé de l’objectif",
-      next: "Suite",
-    },
-    mission: "Mission",
-    purpose: "Objectif",
-    whatYouCanDoNext: "Ce que vous pouvez faire ensuite",
-    roleLabels: {
-      guest: "Invité",
-      customer: "Client",
-      marketplace: "Marché",
-      grower: "Producteur",
-      youth: "Jeunesse & Travail",
-      partners: "Partenaires",
-    },
-    footer: "Copropriété de Bronson Family Farm et Farm & Family Alliance",
-    ecosystem:
-      "Une plateforme immersive dédiée à la ferme, à l’alimentation, à l’apprentissage et à la communauté.",
-    liveLinks: "Liens en direct",
-  },
-  he: {
-    welcome: "ברוכים הבאים לאקוסיסטם.",
-    selectLanguage: "שפה",
-    choosePathway: "בחרו מסלול",
-    enter: "כניסה",
-    backHome: "חזרה לדף הבית",
-    backPathways: "חזרה למסלולים",
-    guidedVoice: "קריינות מודרכת",
-    voiceOn: "פועל",
-    voiceOff: "כבוי",
-    layers: {
-      soundbite: "מסר קצר",
-      intro: "מבוא",
-      knowledge: "ידע",
-      summary: "סיכום המטרה",
-      next: "הבא",
-    },
-    mission: "משימה",
-    purpose: "מטרה",
-    whatYouCanDoNext: "מה אפשר לעשות עכשיו",
-    roleLabels: {
-      guest: "אורח",
-      customer: "לקוח",
-      marketplace: "שוק",
-      grower: "מגדל",
-      youth: "כוח עבודה צעיר",
-      partners: "שותפים",
-    },
-    footer: "בבעלות משותפת של Bronson Family Farm ו-Farm & Family Alliance",
-    ecosystem: "פלטפורמה סוחפת לחווה, מזון, למידה וקהילה.",
-    liveLinks: "קישורים חיים",
-  },
-};
-
-const ROLE_CONTENT: Record<RoleKey, RoleContent> = {
-  guest: {
-    mission: "Help guests understand the vision, story, and purpose of Bronson Family Farm.",
-    strap: "Walk the land. See the story. Understand why this exists.",
-    image: "/images/guest-forest.jpg",
-    imageAlt: "Forest edge and farm pathway at Bronson Family Farm",
-    overlayClassName: "bg-gradient-to-br from-emerald-950/80 via-green-950/55 to-black/80",
-    soundbite:
-      "This is not just land. It is a living vision where history, farming, family, and community restoration meet.",
-    intro:
-      "The guest pathway introduces the purpose of Bronson Family Farm through place, memory, stewardship, and possibility. It welcomes people into the story before asking them to take action.",
-    knowledge: [
-      {
-        title: "Why this matters",
-        text: "Bronson Family Farm exists to restore land, reconnect people to food, and create a place where community can gather, learn, grow, and build a healthier future.",
-      },
-      {
-        title: "What makes it different",
-        text: "This is a regenerative, community-rooted ecosystem. It includes growing, education, agritourism, youth workforce development, partnerships, and a marketplace that turns interest into real support.",
-      },
-      {
-        title: "What guests discover",
-        text: "Guests can explore the vision, learn the farm story, understand the pathways, and see how one place can support food access, opportunity, wellness, and belonging.",
-      },
-    ],
-    summary:
-      "The guest pathway turns curiosity into understanding. Its purpose is to help visitors connect the land to the larger mission.",
-    next: [
-      {
-        label: "Visit the main website",
-        description: "See the public-facing farm story and current information.",
-        cta: "Open website",
-        href: BRAND.site,
-      },
-      {
-        label: "Explore Marketplace",
-        description: "See how the ecosystem converts interest into support and purchasing power.",
-        cta: "Go to Marketplace",
-      },
-      {
-        label: "See Partner pathway",
-        description: "Understand how collaboration helps the mission grow.",
-        cta: "View Partners",
-      },
-    ],
-  },
-  customer: {
-    mission: "Help customers choose fresh food, understand nutrition, and return for healthier choices.",
-    strap: "Fresh food. Better choices. Reasons to come back.",
-    image: "/images/customer-produce.jpg",
-    imageAlt: "Fresh produce arranged for customers",
-    overlayClassName: "bg-gradient-to-br from-lime-950/80 via-green-950/50 to-black/80",
-    soundbite:
-      "The customer pathway connects people to fresh food, useful knowledge, and healthier repeat decisions.",
-    intro:
-      "This pathway shows that buying from Bronson Family Farm is more than a transaction. It is access to food, nutrition awareness, seasonal options, and a reason to stay connected to the farm.",
-    knowledge: [
-      {
-        title: "Fresh food matters",
-        text: "As food costs rise, many families are pushed toward overprocessed substitutes. This pathway keeps fresh options visible, practical, and worth returning for.",
-      },
-      {
-        title: "Education is part of the experience",
-        text: "Customers are not only buying produce. They are learning what is in season, why it matters, and how fresh choices support health and community well-being.",
-      },
-      {
-        title: "Return value",
-        text: "The customer experience is designed to make people want to come back again and again through useful knowledge, visible offerings, and a welcoming ecosystem.",
-      },
-    ],
-    summary:
-      "The customer pathway is built to support healthy choices, repeat engagement, and stronger connection between food and wellness.",
-    next: [
-      {
-        label: "Open the store",
-        description: "Go directly to Bronson Family Farm’s GrownBy marketplace.",
-        cta: "Open GrownBy",
-        href: BRAND.grownBy,
-      },
-      {
-        label: "Explore Marketplace",
-        description: "See how products, growers, and purchasing power connect.",
-        cta: "Go to Marketplace",
-      },
-      {
-        label: "Return to pathways",
-        description: "Move into youth, grower, or partner pathways.",
-        cta: "Back to Pathways",
-      },
-    ],
-  },
-  marketplace: {
-    mission: "Convert interest into purchasing power and long-term sustainability.",
-    strap: "Where attention becomes action.",
-    image: "/images/marketplace-storefront.jpg",
-    imageAlt: "Marketplace storefront and farm commerce experience",
-    overlayClassName: "bg-gradient-to-br from-amber-950/80 via-orange-950/55 to-black/80",
-    soundbite:
-      "The marketplace is where the ecosystem becomes sustainable through real products, real participation, and real support.",
-    intro:
-      "This pathway centers the GrownBy storefront and the larger farm economy. It shows how customers, growers, and partners help turn a vision into an operating ecosystem.",
-    knowledge: [
-      {
-        title: "Marketplace role",
-        text: "The marketplace is not a side feature. It is a core pathway that converts interest into orders, visibility, repeat purchasing, and farm sustainability.",
-      },
-      {
-        title: "Why GrownBy matters",
-        text: "GrownBy supports direct farm selling and creates a visible bridge from the demo experience into meaningful action. It helps the mission move beyond explanation into participation.",
-      },
-      {
-        title: "Connected value",
-        text: "This marketplace can serve fresh produce, seedlings, educational events, grower opportunities, and future ecosystem offerings that deepen engagement over time.",
-      },
-    ],
-    summary:
-      "The marketplace pathway exists to move people from admiration to participation, and from participation to sustainability.",
-    next: [
-      {
-        label: "Open Bronson Family Farm on GrownBy",
-        description: "Launch the live storefront.",
-        cta: "Open storefront",
-        href: BRAND.grownBy,
-      },
-      {
-        label: "See Grower pathway",
-        description: "Understand how growers enter and benefit from the ecosystem.",
-        cta: "View Growers",
-      },
-      {
-        label: "See Customer pathway",
-        description: "Return to the food and nutrition experience.",
-        cta: "View Customers",
-      },
-    ],
-  },
-  grower: {
-    mission: "Connect producers to opportunity, participation, and market access.",
-    strap: "Grow here. Belong here. Benefit here.",
-    image: "/images/grower-field.jpg",
-    imageAlt: "Grower working in a productive field",
-    overlayClassName: "bg-gradient-to-br from-teal-950/80 via-emerald-950/50 to-black/80",
-    soundbite:
-      "Growers do not simply appear in the marketplace. They register through the portal and gain access to the benefits of the ecosystem.",
-    intro:
-      "This pathway makes the grower journey clear. Producers come in through the ecosystem, connect to opportunity, and then participate in the marketplace with greater visibility and support.",
-    knowledge: [
-      {
-        title: "Entry through the portal",
-        text: "Growers register through the ecosystem so they can be connected to opportunities, guidance, visibility, collaboration, and market participation.",
-      },
-      {
-        title: "Why the pathway matters",
-        text: "The grower pathway shows that the marketplace is stronger when producers are supported, welcomed, and connected to an organized community of opportunity.",
-      },
-      {
-        title: "Benefits of participation",
-        text: "This can include market access, community visibility, educational support, ecosystem belonging, and connection to larger farm and workforce goals.",
-      },
-    ],
-    summary:
-      "The grower pathway exists to connect producers to opportunity and market participation through a welcoming, useful ecosystem.",
-    next: [
-      {
-        label: "Go to Marketplace",
-        description: "See where grower participation creates value.",
-        cta: "Open Marketplace",
-      },
-      {
-        label: "See Partner pathway",
-        description: "Understand how aligned resources can support growers.",
-        cta: "View Partners",
-      },
-      {
-        label: "Return to Pathways",
-        description: "Explore the rest of the ecosystem.",
-        cta: "Back to Pathways",
-      },
-    ],
-  },
-  youth: {
-    mission: "Build skills, responsibility, and future readiness through the youth workforce pathway.",
-    strap: "Learning by doing, guided by purpose.",
-    image: "/images/youth-workforce.jpg",
-    imageAlt: "Youth workforce participants learning on the farm",
-    overlayClassName: "bg-gradient-to-br from-sky-950/80 via-cyan-950/50 to-black/80",
-    soundbite:
-      "The youth workforce pathway turns exposure into skills, responsibility, and future readiness.",
-    intro:
-      "This pathway is more than a youth activity. It is a structured experience of growth, guidance, responsibility, and preparation for what comes next.",
-    knowledge: [
-      {
-        title: "How it works",
-        text: "Young people move through meaningful experiences that build habits, confidence, teamwork, and connection to food, land, and community.",
-      },
-      {
-        title: "Support matters",
-        text: "The supervisor role lives inside the youth workforce pathway and provides guidance, accountability, structure, and support resources as needed.",
-      },
-      {
-        title: "Long-term value",
-        text: "This pathway helps build future readiness by making learning active, useful, and connected to real work, real outcomes, and real belonging.",
-      },
-    ],
-    summary:
-      "The youth workforce pathway exists to help young people build practical skills, confidence, and readiness for future opportunity.",
-    next: [
-      {
-        label: "See Partner pathway",
-        description: "Explore how schools and organizations can align resources.",
-        cta: "View Partners",
-      },
-      {
-        label: "See Guest pathway",
-        description: "Return to the story and vision behind the work.",
-        cta: "View Guests",
-      },
-      {
-        label: "Return to Pathways",
-        description: "Continue exploring the ecosystem.",
-        cta: "Back to Pathways",
-      },
-    ],
-  },
-  partners: {
-    mission: "Align resources and collaboration for broader community benefit.",
-    strap: "Shared vision. Shared alignment. Shared impact.",
-    image: "/images/partners-collaboration.jpg",
-    imageAlt: "Partners collaborating around farm and community vision",
-    overlayClassName: "bg-gradient-to-br from-violet-950/80 via-fuchsia-950/50 to-black/80",
-    soundbite:
-      "The partner pathway shows how aligned people and organizations can strengthen community benefit through shared purpose.",
-    intro:
-      "This pathway is for institutions, collaborators, sponsors, educators, health organizations, growers, and community leaders who want to understand where their support fits and why it matters.",
-    knowledge: [
-      {
-        title: "Why alignment matters",
-        text: "Partners help expand what one farm can do by contributing expertise, visibility, learning opportunities, infrastructure, resources, and shared reach.",
-      },
-      {
-        title: "What collaboration can support",
-        text: "This can include education, workforce development, food access, event participation, market growth, wellness support, technical assistance, and long-term ecosystem building.",
-      },
-      {
-        title: "What partners gain",
-        text: "Partners gain a meaningful place to align resources with visible community benefit, local impact, and a living model that people can experience directly.",
-      },
-    ],
-    summary:
-      "The partner pathway exists to align resources and collaboration for community benefit through a visible, place-based ecosystem.",
-    next: [
-      {
-        label: "Visit main website",
-        description: "See the broader public-facing story and updates.",
-        cta: "Open website",
-        href: BRAND.site,
-      },
-      {
-        label: "See Marketplace",
-        description: "View the pathway that supports sustainability.",
-        cta: "Open Marketplace",
-      },
-      {
-        label: "Return to Pathways",
-        description: "Explore another mission pathway.",
-        cta: "Back to Pathways",
-      },
-    ],
-  },
-};
-
-const ROLE_ORDER: RoleKey[] = [
-  "guest",
-  "customer",
-  "marketplace",
-  "grower",
-  "youth",
-  "partners",
-];
-
-const roleDestinationMap: Partial<Record<string, RoleKey>> = {
-  "Go to Marketplace": "marketplace",
-  "Open Marketplace": "marketplace",
-  "View Partners": "partners",
-  "View Customers": "customer",
-  "View Growers": "grower",
-  "View Guests": "guest",
-};
-
-function cls(...parts: Array<string | false | null | undefined>) {
-  return parts.filter(Boolean).join(" ");
-}
-
-function SafeImage({
-  src,
-  alt,
-  className,
-  fallbackClassName = "",
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-  fallbackClassName?: string;
-}) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return <div className={cls("h-full w-full", fallbackClassName)} />;
-  }
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      className={className}
-      onError={() => setFailed(true)}
-    />
-  );
-}
-
-function BackgroundShell({
-  src,
-  alt,
-  overlayClassName,
-  children,
-}: {
-  src: string;
-  alt: string;
-  overlayClassName: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      <SafeImage
-        src={src}
-        alt={alt}
-        className="absolute inset-0 h-full w-full object-cover"
-        fallbackClassName="absolute inset-0 bg-gradient-to-br from-green-950 via-zinc-900 to-black"
-      />
-      <div className={cls("absolute inset-0", overlayClassName)} />
-      <div className="absolute inset-0 bg-black/30" />
-      {children}
-    </div>
-  );
-}
-
-function LogoRow() {
-  const logos = [
-    "/images/logo-bronson.png",
-    "/images/logo-ffa.png",
-    "/images/logo-home-depot.png",
-    "/images/logo-petitti.png",
-    "/images/logo-elliotts.png",
-    "/images/logo-central-state.png",
-    "/images/logo-youngstown.png",
-    "/images/logo-jcc.png",
-  ];
-
-  return (
-    <div className="mt-6 flex flex-wrap items-center justify-center gap-3 opacity-95">
-      {logos.map((src, i) => (
-        <div
-          key={src + i}
-          className="h-12 w-24 rounded-2xl border border-white/15 bg-white/10 p-2 backdrop-blur-sm"
-        >
-          <SafeImage
-            src={src}
-            alt="Partner logo"
-            className="h-full w-full object-contain"
-            fallbackClassName="hidden"
-          />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function LayerTabs({
-  language,
-  layer,
-  setLayer,
-}: {
-  language: LanguageKey;
-  layer: LayerKey;
-  setLayer: (value: LayerKey) => void;
-}) {
-  const t = UI_TEXT[language];
-
-  return (
-    <div className="flex flex-wrap gap-2">
-      {(["soundbite", "intro", "knowledge", "summary", "next"] as LayerKey[]).map((key) => (
-        <button
-          key={key}
-          onClick={() => setLayer(key)}
-          className={cls(
-            "rounded-full border px-4 py-2 text-sm transition",
-            layer === key
-              ? "border-white/40 bg-white text-zinc-900"
-              : "border-white/15 bg-white/10 text-white hover:bg-white/15"
-          )}
-        >
-          {t.layers[key]}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function LanguageSelector({
-  language,
-  setLanguage,
-}: {
-  language: LanguageKey;
-  setLanguage: (value: LanguageKey) => void;
-}) {
-  return (
-    <div className="flex flex-wrap gap-2">
-      {(Object.keys(LANGUAGES) as LanguageKey[]).map((key) => (
-        <button
-          key={key}
-          onClick={() => setLanguage(key)}
-          className={cls(
-            "rounded-full border px-3 py-1.5 text-sm transition",
-            language === key
-              ? "border-white/40 bg-white text-zinc-900"
-              : "border-white/15 bg-white/10 text-white hover:bg-white/15"
-          )}
-          dir={LANGUAGES[key].dir || "ltr"}
-        >
-          {LANGUAGES[key].label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function useSpeech(text: string, enabled: boolean, language: LanguageKey) {
-  useEffect(() => {
-    if (!enabled || typeof window === "undefined" || !("speechSynthesis" in window)) return;
-
-    const synth = window.speechSynthesis;
-    synth.cancel();
-
-    const utter = new SpeechSynthesisUtterance(text);
-    const langMap: Record<LanguageKey, string> = {
-      en: "en-US",
-      es: "es-ES",
-      tl: "fil-PH",
-      it: "it-IT",
-      fr: "fr-FR",
-      he: "he-IL",
-    };
-
-    utter.lang = langMap[language];
-    utter.rate = 0.93;
-    utter.pitch = 1;
-    utter.volume = 1;
-
-    const voices = synth.getVoices();
-    const match =
-      voices.find((v) => v.lang?.toLowerCase() === utter.lang.toLowerCase()) ||
-      voices.find((v) => v.lang?.toLowerCase().startsWith(utter.lang.slice(0, 2).toLowerCase()));
-
-    if (match) utter.voice = match;
-
-    synth.speak(utter);
-    return () => synth.cancel();
-  }, [text, enabled, language]);
-}
-
-function App() {
-  const [language, setLanguage] = useState<LanguageKey>("en");
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const [activeRole, setActiveRole] = useState<RoleKey | null>(null);
-  const [layer, setLayer] = useState<LayerKey>("soundbite");
-  const topRef = useRef<HTMLDivElement | null>(null);
-
-  const t = UI_TEXT[language];
-  const role = activeRole ? ROLE_CONTENT[activeRole] : null;
-
-  const narration = useMemo(() => {
-    if (!role) {
-      return "Welcome to Bronson Family Farm. Choose a pathway to experience the mission of this ecosystem.";
-    }
-    if (layer === "soundbite") return role.soundbite;
-    if (layer === "intro") return role.intro;
-    if (layer === "knowledge") {
-      return role.knowledge.map((item) => `${item.title}. ${item.text}`).join(" ");
-    }
-    if (layer === "summary") return role.summary;
-    return role.next.map((n) => `${n.label}. ${n.description}`).join(" ");
-  }, [role, layer]);
-
-  useSpeech(narration, voiceEnabled, language);
-
-  useEffect(() => {
-    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [activeRole, layer, language]);
-
-  const openNext = (step: NextStep) => {
-    if (step.href) {
-      window.open(step.href, "_blank", "noopener,noreferrer");
-      return;
-    }
-    if (step.cta === "Back to Pathways") {
-      setActiveRole(null);
-      setLayer("soundbite");
-      return;
-    }
-    const mapped = roleDestinationMap[step.cta];
-    if (mapped) {
-      setActiveRole(mapped);
-      setLayer("soundbite");
-    }
-  };
-
-  const headerChips = ["Farm", "Food", "Learning", "Workforce", "Marketplace", "Partnerships"];
-
-  return (
-    <div
-      ref={topRef}
-      dir={LANGUAGES[language].dir || "ltr"}
-      className="min-h-screen bg-zinc-950 text-white"
+  const Button = ({
+    label,
+    go,
+  }: {
+    label: string;
+    go: Role;
+  }) => (
+    <button
+      onClick={() => setPage(go)}
+      className="rounded-2xl border border-white/20 bg-white/10 px-5 py-3 text-white hover:bg-white hover:text-black transition"
     >
-      {!activeRole ? (
-        <div className="relative min-h-screen">
-          <BackgroundShell
-            src="/images/entrance-farm.jpg"
-            alt="Bronson Family Farm entrance"
-            overlayClassName="bg-gradient-to-b from-black/20 via-black/45 to-black/75"
-          >
-            <div className="relative z-10 flex min-h-screen items-center">
-              <div className="mx-auto w-full max-w-7xl px-6 py-10">
-                <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-                  <div>
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.22em] text-white/85 backdrop-blur-sm">
-                      {BRAND.sub}
-                    </div>
+      {label}
+    </button>
+  );
 
-                    <h1 className="max-w-4xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-7xl">
-                      {t.welcome}
-                    </h1>
+  const Shell = ({
+    title,
+    subtitle,
+    image,
+    children,
+  }: {
+    title: string;
+    subtitle: string;
+    image: string;
+    children: React.ReactNode;
+  }) => (
+    <div className="min-h-screen relative text-white">
+      <img
+        src={image}
+        className="absolute inset-0 w-full h-full object-cover"
+        alt=""
+      />
+      <div className="absolute inset-0 bg-black/60" />
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-10">
+        <button
+          onClick={() => setPage("home")}
+          className="mb-8 rounded-full border border-white/20 bg-white/10 px-4 py-2 hover:bg-white hover:text-black transition"
+        >
+          Back Home
+        </button>
 
-                    <p className="mt-5 max-w-3xl text-base leading-7 text-white/85 sm:text-lg">
-                      {t.ecosystem}
-                    </p>
+        <h1 className="text-5xl font-semibold mb-4">{title}</h1>
+        <p className="text-xl text-white/85 mb-8 max-w-3xl">{subtitle}</p>
 
-                    <p className="mt-4 max-w-3xl text-base leading-7 text-white/80">
-                      Bronson Family Farm is a living ecosystem where guests understand the vision,
-                      customers discover fresh food and nutrition, growers connect to opportunity,
-                      youth build future readiness, partners align resources, and the marketplace
-                      turns interest into sustainability.
-                    </p>
+        {children}
+      </div>
+    </div>
+  );
 
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {headerChips.map((chip) => (
-                        <span
-                          key={chip}
-                          className="rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-sm text-white/90 backdrop-blur-sm"
-                        >
-                          {chip}
-                        </span>
-                      ))}
-                    </div>
-
-                    <LogoRow />
-
-                    <div className="mt-8 flex flex-wrap items-center gap-4">
-                      <div className="rounded-3xl border border-white/15 bg-black/30 p-4 backdrop-blur-md">
-                        <div className="mb-2 text-xs uppercase tracking-[0.18em] text-white/65">
-                          {t.selectLanguage}
-                        </div>
-                        <LanguageSelector language={language} setLanguage={setLanguage} />
-                      </div>
-
-                      <div className="rounded-3xl border border-white/15 bg-black/30 p-4 backdrop-blur-md">
-                        <div className="mb-2 text-xs uppercase tracking-[0.18em] text-white/65">
-                          {t.guidedVoice}
-                        </div>
-                        <button
-                          onClick={() => setVoiceEnabled((v) => !v)}
-                          className={cls(
-                            "rounded-full border px-4 py-2 text-sm transition",
-                            voiceEnabled
-                              ? "border-white/40 bg-white text-zinc-900"
-                              : "border-white/15 bg-white/10 text-white hover:bg-white/15"
-                          )}
-                        >
-                          {voiceEnabled ? t.voiceOn : t.voiceOff}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="rounded-[2rem] border border-white/15 bg-black/35 p-4 shadow-2xl backdrop-blur-md sm:p-6">
-                    <div className="mb-4 flex items-center justify-between">
-                      <div>
-                        <div className="text-xs uppercase tracking-[0.18em] text-white/60">
-                          {t.choosePathway}
-                        </div>
-                        <div className="mt-1 text-2xl font-semibold">{BRAND.name}</div>
-                      </div>
-                      <a
-                        href={BRAND.grownBy}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm hover:bg-white/15"
-                      >
-                        GrownBy
-                      </a>
-                    </div>
-
-                    <div className="grid gap-3">
-                      {ROLE_ORDER.map((roleKey) => {
-                        const data = ROLE_CONTENT[roleKey];
-                        return (
-                          <button
-                            key={roleKey}
-                            onClick={() => {
-                              setActiveRole(roleKey);
-                              setLayer("soundbite");
-                            }}
-                            className="group rounded-[1.5rem] border border-white/10 bg-white/5 p-4 text-left transition hover:border-white/25 hover:bg-white/10"
-                          >
-                            <div className="flex items-start gap-4">
-                              <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-zinc-800">
-                                <SafeImage
-                                  src={data.image}
-                                  alt={data.imageAlt}
-                                  className="h-full w-full object-cover"
-                                  fallbackClassName="bg-zinc-700"
-                                />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <div className="text-lg font-medium">{t.roleLabels[roleKey]}</div>
-                                <div className="mt-1 text-sm leading-6 text-white/75">
-                                  {data.strap}
-                                </div>
-                              </div>
-                              <div className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/75 group-hover:bg-white group-hover:text-zinc-900">
-                                {t.enter}
-                              </div>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <div className="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-white/75">
-                      <div className="mb-2 text-xs uppercase tracking-[0.18em] text-white/55">
-                        {t.liveLinks}
-                      </div>
-                      <div className="flex flex-wrap gap-3">
-                        <a
-                          href={BRAND.site}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="rounded-full border border-white/15 bg-white/10 px-4 py-2 hover:bg-white/15"
-                        >
-                          Website
-                        </a>
-                        <a
-                          href={BRAND.grownBy}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="rounded-full border border-white/15 bg-white/10 px-4 py-2 hover:bg-white/15"
-                        >
-                          Storefront
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 text-center text-xs uppercase tracking-[0.18em] text-white/55">
-                  {BRAND.developedBy}
-                </div>
-              </div>
-            </div>
-          </BackgroundShell>
+  if (page === "guest")
+    return (
+      <Shell
+        title="Guest Pathway"
+        subtitle="Understand the vision, story, purpose, and meaning of Bronson Family Farm."
+        image="/images/guest-forest.jpg"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <Button label="Customer Pathway" go="customer" />
+          <Button label="Partners Pathway" go="partners" />
         </div>
-      ) : (
-        <div className="relative min-h-screen">
-          <BackgroundShell
-            src={role.image}
-            alt={role.imageAlt}
-            overlayClassName={role.overlayClassName}
-          >
-            <div className="relative z-10 min-h-screen">
-              <div className="mx-auto max-w-7xl px-6 py-6 sm:py-8">
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-wrap items-center justify-between gap-4">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <button
-                        onClick={() => {
-                          setActiveRole(null);
-                          setLayer("soundbite");
-                        }}
-                        className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm hover:bg-white/15"
-                      >
-                        {t.backHome}
-                      </button>
-                      <button
-                        onClick={() => {
-                          setActiveRole(null);
-                          setLayer("soundbite");
-                        }}
-                        className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm hover:bg-white/15"
-                      >
-                        {t.backPathways}
-                      </button>
-                    </div>
+      </Shell>
+    );
 
-                    <div className="flex flex-wrap items-center gap-3">
-                      <LanguageSelector language={language} setLanguage={setLanguage} />
-                      <button
-                        onClick={() => setVoiceEnabled((v) => !v)}
-                        className={cls(
-                          "rounded-full border px-4 py-2 text-sm transition",
-                          voiceEnabled
-                            ? "border-white/40 bg-white text-zinc-900"
-                            : "border-white/15 bg-white/10 text-white hover:bg-white/15"
-                        )}
-                      >
-                        {t.guidedVoice}: {voiceEnabled ? t.voiceOn : t.voiceOff}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-                    <div className="rounded-[2rem] border border-white/15 bg-black/35 p-6 shadow-2xl backdrop-blur-md sm:p-8">
-                      <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/75">
-                        {t.roleLabels[activeRole]}
-                      </div>
-
-                      <h1 className="text-3xl font-semibold leading-tight sm:text-5xl">
-                        {role.strap}
-                      </h1>
-
-                      <p className="mt-4 max-w-3xl text-base leading-7 text-white/85">
-                        {role.mission}
-                      </p>
-
-                      <div className="mt-6">
-                        <LayerTabs language={language} layer={layer} setLayer={setLayer} />
-                      </div>
-
-                      <div className="mt-8 rounded-[1.5rem] border border-white/10 bg-white/5 p-5 sm:p-6">
-                        {layer === "soundbite" && (
-                          <div>
-                            <div className="mb-2 text-xs uppercase tracking-[0.18em] text-white/55">
-                              {t.layers.soundbite}
-                            </div>
-                            <p className="text-2xl font-medium leading-relaxed text-white">
-                              {role.soundbite}
-                            </p>
-                          </div>
-                        )}
-
-                        {layer === "intro" && (
-                          <div>
-                            <div className="mb-2 text-xs uppercase tracking-[0.18em] text-white/55">
-                              {t.layers.intro}
-                            </div>
-                            <p className="text-lg leading-8 text-white/90">{role.intro}</p>
-                          </div>
-                        )}
-
-                        {layer === "knowledge" && (
-                          <div>
-                            <div className="mb-4 text-xs uppercase tracking-[0.18em] text-white/55">
-                              {t.layers.knowledge}
-                            </div>
-                            <div className="grid gap-4">
-                              {role.knowledge.map((item) => (
-                                <div
-                                  key={item.title}
-                                  className="rounded-[1.25rem] border border-white/10 bg-black/20 p-5"
-                                >
-                                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                                  <p className="mt-2 text-base leading-7 text-white/85">
-                                    {item.text}
-                                  </p>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        {layer === "summary" && (
-                          <div>
-                            <div className="mb-2 text-xs uppercase tracking-[0.18em] text-white/55">
-                              {t.layers.summary}
-                            </div>
-                            <div className="rounded-[1.25rem] border border-white/10 bg-black/20 p-5">
-                              <div className="text-sm uppercase tracking-[0.16em] text-white/55">
-                                {t.purpose}
-                              </div>
-                              <p className="mt-3 text-xl leading-8 text-white/95">
-                                {role.summary}
-                              </p>
-                            </div>
-                          </div>
-                        )}
-
-                        {layer === "next" && (
-                          <div>
-                            <div className="mb-4 text-xs uppercase tracking-[0.18em] text-white/55">
-                              {t.whatYouCanDoNext}
-                            </div>
-                            <div className="grid gap-4">
-                              {role.next.map((step) => (
-                                <div
-                                  key={step.label}
-                                  className="rounded-[1.25rem] border border-white/10 bg-black/20 p-5"
-                                >
-                                  <div className="text-lg font-semibold">{step.label}</div>
-                                  <p className="mt-2 text-base leading-7 text-white/85">
-                                    {step.description}
-                                  </p>
-                                  <button
-                                    onClick={() => openNext(step)}
-                                    className="mt-4 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm hover:bg-white hover:text-zinc-900"
-                                  >
-                                    {step.cta}
-                                  </button>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="space-y-6">
-                      <div className="overflow-hidden rounded-[2rem] border border-white/15 bg-black/35 shadow-2xl backdrop-blur-md">
-                        <div className="aspect-[4/3] w-full overflow-hidden">
-                          <SafeImage
-                            src={role.image}
-                            alt={role.imageAlt}
-                            className="h-full w-full object-cover"
-                            fallbackClassName="bg-gradient-to-br from-zinc-800 to-zinc-950"
-                          />
-                        </div>
-                        <div className="p-5">
-                          <div className="text-xs uppercase tracking-[0.18em] text-white/55">
-                            {t.mission}
-                          </div>
-                          <p className="mt-2 text-base leading-7 text-white/90">{role.mission}</p>
-                        </div>
-                      </div>
-
-                      {activeRole === "marketplace" && (
-                        <div className="rounded-[2rem] border border-white/15 bg-black/35 p-5 shadow-2xl backdrop-blur-md">
-                          <div className="mb-3 text-xs uppercase tracking-[0.18em] text-white/55">
-                            Marketplace destination
-                          </div>
-                          <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5">
-                            <div className="aspect-[16/9] w-full overflow-hidden">
-                              <SafeImage
-                                src="/images/grownby-storefront.jpg"
-                                alt="Bronson Family Farm GrownBy storefront preview"
-                                className="h-full w-full object-cover"
-                                fallbackClassName="bg-gradient-to-br from-amber-900 to-zinc-950"
-                              />
-                            </div>
-                            <div className="p-5">
-                              <h3 className="text-xl font-semibold">Bronson Family Farm on GrownBy</h3>
-                              <p className="mt-2 text-base leading-7 text-white/85">
-                                This is the live storefront connection for the demo. It is the
-                                marketplace destination where visibility can become real support.
-                              </p>
-                              <a
-                                href={BRAND.grownBy}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="mt-4 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm hover:bg-white hover:text-zinc-900"
-                              >
-                                Open storefront
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="rounded-[2rem] border border-white/15 bg-black/35 p-5 shadow-2xl backdrop-blur-md">
-                        <div className="mb-3 text-xs uppercase tracking-[0.18em] text-white/55">
-                          Ecosystem pathways
-                        </div>
-                        <div className="grid gap-3">
-                          {ROLE_ORDER.map((roleKey) => (
-                            <button
-                              key={roleKey}
-                              onClick={() => {
-                                setActiveRole(roleKey);
-                                setLayer("soundbite");
-                              }}
-                              className={cls(
-                                "rounded-[1.25rem] border p-4 text-left transition",
-                                activeRole === roleKey
-                                  ? "border-white/30 bg-white/15"
-                                  : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
-                              )}
-                            >
-                              <div className="text-base font-medium">{t.roleLabels[roleKey]}</div>
-                              <div className="mt-1 text-sm leading-6 text-white/75">
-                                {ROLE_CONTENT[roleKey].strap}
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="rounded-[2rem] border border-white/15 bg-black/35 p-5 text-sm leading-7 text-white/80 shadow-2xl backdrop-blur-md">
-                        <div className="text-xs uppercase tracking-[0.18em] text-white/55">
-                          {t.footer}
-                        </div>
-                        <div className="mt-3">{BRAND.developedBy}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </BackgroundShell>
+  if (page === "customer")
+    return (
+      <Shell
+        title="Customer Pathway"
+        subtitle="Fresh food, nutrition, healthy choices, reasons to return."
+        image="/images/customer-produce.jpg"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <Button label="Open Marketplace" go="marketplace" />
+          <Button label="Grower Pathway" go="grower" />
         </div>
-      )}
+      </Shell>
+    );
+
+  if (page === "marketplace")
+    return (
+      <Shell
+        title="Marketplace"
+        subtitle="Where attention becomes action and support becomes sustainability."
+        image="/images/marketplace-storefront.jpg"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <a
+            href="https://grownby.com/farms/bronson-family-farm/shop"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-2xl border border-white/20 bg-white/10 px-5 py-3 text-center hover:bg-white hover:text-black transition"
+          >
+            Open GrownBy Store
+          </a>
+          <Button label="Grower Pathway" go="grower" />
+        </div>
+      </Shell>
+    );
+
+  if (page === "grower")
+    return (
+      <Shell
+        title="Grower Pathway"
+        subtitle="Connect producers to opportunity, visibility, and market participation."
+        image="/images/grower-field.jpg"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <Button label="Marketplace" go="marketplace" />
+          <Button label="Partners" go="partners" />
+        </div>
+      </Shell>
+    );
+
+  if (page === "youth")
+    return (
+      <Shell
+        title="Youth Workforce"
+        subtitle="Build skills, confidence, responsibility, and future readiness."
+        image="/images/youth-workforce.jpg"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <Button label="Partners" go="partners" />
+          <Button label="Guest Pathway" go="guest" />
+        </div>
+      </Shell>
+    );
+
+  if (page === "partners")
+    return (
+      <Shell
+        title="Partners Pathway"
+        subtitle="Align resources, sponsors, schools, health systems, and community benefit."
+        image="/images/partners-collaboration.jpg"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <Button label="Marketplace" go="marketplace" />
+          <Button label="Youth Workforce" go="youth" />
+        </div>
+      </Shell>
+    );
+
+  return (
+    <div className="min-h-screen relative text-white">
+      <img
+        src="/images/entrance-farm.jpg"
+        className="absolute inset-0 w-full h-full object-cover"
+        alt=""
+      />
+      <div className="absolute inset-0 bg-black/60" />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
+        <h1 className="text-6xl font-semibold mb-4">
+          Bronson Family Farm
+        </h1>
+
+        <p className="text-2xl text-white/85 mb-10 max-w-4xl">
+          Step into the ecosystem. Food. Learning. Growers. Workforce.
+          Marketplace. Partnerships.
+        </p>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          <Button label="Guest" go="guest" />
+          <Button label="Customer" go="customer" />
+          <Button label="Marketplace" go="marketplace" />
+          <Button label="Grower" go="grower" />
+          <Button label="Youth Workforce" go="youth" />
+          <Button label="Partners" go="partners" />
+        </div>
+
+        <div className="mt-10">
+          <a
+            href="https://grownby.com/farms/bronson-family-farm/shop"
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-2xl border border-white/20 bg-white/10 px-5 py-3 hover:bg-white hover:text-black transition"
+          >
+            Enter Storefront
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default App;
