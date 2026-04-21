@@ -1,70 +1,3 @@
-import React, { useMemo, useState } from "react";
-
-type LanguageKey = "en" | "es" | "tl" | "it" | "fr" | "he";
-type PageKey =
-  | "home"
-  | "story"
-  | "guest"
-  | "customer"
-  | "marketplace"
-  | "grower"
-  | "youth"
-  | "partners";
-type LayerKey = "soundbite" | "intro" | "knowledge" | "purpose" | "next";
-
-const STORE_URL = "https://grownby.com/farms/bronson-family-farm/shop";
-const WEATHER_URL =
-  "https://www.wunderground.com/hourly/us/oh/youngstown/44510";
-
-const IMAGES = {
-  home: "/GrowArea.jpg",
-  story: "/SAM_0220.JPG",
-  guest: "/GrowArea2.jpg",
-  customer: "/culniary_edibleflowers.jpeg",
-  marketplace: "/SAM_0255.JPG",
-  grower: "/SAM_0225.JPG",
-  youth: "/Samaeera2.jpg",
-  partners: "/SAM_0313.JPG",
-};
-
-const colors = {
-  pine: "#0b5e43",
-  forest: "#083e2d",
-  gold: "#e7cf6a",
-  text: "#173629",
-  muted: "#61756a",
-};
-
-const layerOrder: LayerKey[] = [
-  "soundbite",
-  "intro",
-  "knowledge",
-  "purpose",
-  "next",
-];
-
-const languages = [
-  { key: "en", label: "English", dir: "ltr" },
-  { key: "es", label: "Español", dir: "ltr" },
-  { key: "tl", label: "Tagalog", dir: "ltr" },
-  { key: "it", label: "Italiano", dir: "ltr" },
-  { key: "fr", label: "Français", dir: "ltr" },
-  { key: "he", label: "עברית", dir: "rtl" },
-];
-
-const ui = {
-  en: {
-    home: "Home",
-    story: "Our Story",
-    weather: "Weather",
-    store: "GrownBy",
-    begin: "Begin Journey",
-    back: "Back Home",
-    prev: "Prev",
-    next: "Next",
-  },
-};
-
 const pathways = {
   guest: {
     title: "Guest",
@@ -110,36 +43,36 @@ const pathways = {
     image: IMAGES.customer,
     subtitle: "Fresh food, nourishment, and healthier repeat choices.",
     personalLine:
-      "This pathway is about what reaches your table, habits, and health.",
+      "This pathway is about what reaches your table, your habits, and your health.",
     whyItMatters:
-      "Fresh local food can become part of everyday wellness.",
+      "This experience connects you to healthier choices that can become part of everyday life.",
     whatPeopleGain:
-      "You gain clearer connection between fresh food and better living.",
+      "You gain clearer connection between fresh food, better choices, and lasting value.",
     panels: {
       soundbite: {
         title: "Fresh food is personal.",
         body:
-          "What you choose to eat shapes energy, wellness, and family life.",
+          "What you choose to eat shapes energy, wellness, family life, and the kind of future you build around the table.",
       },
       intro: {
         title: "What you experience",
         body:
-          "Healthy choices are meant to feel natural, appealing, and practical.",
+          "You encounter food that feels useful, appealing, and real. The experience is meant to make healthy choice feel natural, not distant.",
       },
       knowledge: {
-        title: "What becomes clear",
+        title: "What you begin to understand",
         body:
-          "Fresh food supports health, community resilience, and independence.",
+          "Fresh, local food is not just a product. It strengthens health, supports community resilience, and pushes back against overprocessed dependency.",
       },
       purpose: {
-        title: "Why this matters",
+        title: "Why this matters to you",
         body:
-          "The farm becomes part of your recurring healthy lifestyle.",
+          "This pathway helps you connect nourishment to action so the farm becomes part of your recurring healthy choices.",
       },
       next: {
         title: "Where you can go next",
         body:
-          "Continue into GrownBy, seasonal buying, events, and return visits.",
+          "You can continue into GrownBy, seasonal buying, repeat visits, events, and stronger connection to the farm’s offerings.",
       },
     },
   },
@@ -147,38 +80,38 @@ const pathways = {
   marketplace: {
     title: "GrownBy",
     image: IMAGES.marketplace,
-    subtitle: "The online store for produce and ecosystem support.",
+    subtitle: "The online store for purchasing produce and supporting the ecosystem.",
     personalLine:
-      "Customers, guests, volunteers, and supporters purchase here.",
+      "This is the online store where people across the ecosystem can purchase produce and support the work.",
     whyItMatters:
-      "This is the buying destination for the ecosystem.",
+      "GrownBy gives customers, guests, volunteers, and supporters a direct place to purchase produce online.",
     whatPeopleGain:
-      "Convenient produce access and a direct way to support the mission.",
+      "Visitors gain convenient online access to produce and a direct way to support the ecosystem.",
     panels: {
       soundbite: {
         title: "GrownBy is the online store.",
         body:
-          "Produce can be purchased online here.",
+          "This is where produce can be purchased online by people across the ecosystem.",
       },
       intro: {
-        title: "What it means",
+        title: "What GrownBy means",
         body:
-          "This is the customer-facing marketplace side of the ecosystem.",
+          "GrownBy serves the customer-facing purchasing side of the ecosystem through the online store.",
       },
       knowledge: {
-        title: "What becomes clear",
+        title: "What visitors understand",
         body:
-          "People now know exactly where to buy and support.",
+          "This pathway makes clear where people go to purchase produce and support the work through the online marketplace.",
       },
       purpose: {
-        title: "Why this exists",
+        title: "Why this pathway exists",
         body:
-          "Every ecosystem needs a clear buying destination.",
+          "The ecosystem needs a clear buying destination. GrownBy is that destination.",
       },
       next: {
-        title: "Where you can go next",
+        title: "What comes next",
         body:
-          "Enter the store and stay connected through repeat support.",
+          "Visitors can enter the store, purchase produce, and stay connected through repeat support.",
       },
     },
   },
@@ -187,38 +120,38 @@ const pathways = {
     title: "Grower",
     image: IMAGES.grower,
     subtitle:
-      "Growers register through the portal to join the ecosystem.",
+      "Growers register through the portal to participate in the ecosystem and benefit from the marketplace.",
     personalLine:
-      "Registration opens marketplace participation and network benefits.",
+      "This pathway is for growers who want to enter the ecosystem, register through the portal, and gain access to marketplace participation and related benefits.",
     whyItMatters:
-      "Registration is the gateway to ecosystem opportunity.",
+      "Registration is the gateway for growers to become part of the ecosystem and benefit from its marketplace opportunities.",
     whatPeopleGain:
-      "Growers gain visibility, participation, and market access.",
+      "Growers gain entry into the ecosystem, clearer participation pathways, visibility, and access to marketplace-related benefits through registration.",
     panels: {
       soundbite: {
         title: "The grower journey begins with registration.",
         body:
-          "Growers register through the portal to become part of the ecosystem.",
+          "Growers register through the portal in order to become part of the ecosystem and benefit from the marketplace.",
       },
       intro: {
-        title: "What this means",
+        title: "What this pathway means",
         body:
-          "This pathway turns interest into recognized participation.",
+          "This pathway gives growers a clear way to enter the ecosystem formally through portal registration rather than remaining outside of its opportunities.",
       },
       knowledge: {
-        title: "What becomes clear",
+        title: "What growers come to understand",
         body:
-          "Registration connects growers to participation and opportunity.",
+          "Registration connects growers to participation, visibility, ecosystem alignment, and the benefits tied to marketplace involvement.",
       },
       purpose: {
-        title: "Why this exists",
+        title: "Why this pathway exists",
         body:
-          "So growers can move into the ecosystem formally.",
+          "This pathway exists so growers can move from interest to recognized participation through registration in the portal.",
       },
       next: {
-        title: "Where you can go next",
+        title: "What comes next",
         body:
-          "Advance into marketplace access and deeper network benefits.",
+          "After registering through the portal, growers can move deeper into the ecosystem and access the benefits associated with marketplace participation.",
       },
     },
   },
@@ -226,38 +159,38 @@ const pathways = {
   youth: {
     title: "Youth Workforce",
     image: IMAGES.youth,
-    subtitle: "Growth, responsibility, confidence, and readiness.",
+    subtitle: "Growth, responsibility, support, and future readiness.",
     personalLine:
-      "This pathway helps potential become preparation.",
+      "This pathway is about becoming stronger, more prepared, and more confident.",
     whyItMatters:
-      "Young people need visible bridges into opportunity.",
+      "It helps young people and families see a real bridge between potential and preparation.",
     whatPeopleGain:
-      "Confidence, discipline, teamwork, readiness, direction.",
+      "You gain structure, readiness, support, confidence, and clearer future direction.",
     panels: {
       soundbite: {
         title: "This pathway grows people.",
         body:
-          "It builds confidence and responsibility through lived experience.",
+          "It is not just about tasks. It is about confidence, readiness, responsibility, and learning how to move forward with support.",
       },
       intro: {
         title: "What you experience",
         body:
-          "Guidance, accountability, encouragement, and practical work.",
+          "You encounter a place where guidance, accountability, encouragement, and practical work all come together.",
       },
       knowledge: {
-        title: "What you build",
+        title: "What you build here",
         body:
-          "Work habits, teamwork, discipline, and confidence.",
+          "You build work habits, teamwork, discipline, agricultural exposure, logistics awareness, and personal growth through lived experience.",
       },
       purpose: {
-        title: "Why this matters",
+        title: "Why this matters to you",
         body:
-          "Potential becomes preparation.",
+          "This pathway gives shape to what is possible by helping potential turn into preparation.",
       },
       next: {
         title: "Where you can go next",
         body:
-          "Move into deeper roles, guided learning, and future direction.",
+          "You can move into deeper roles, guided learning, responsibility, support systems, and stronger future direction.",
       },
     },
   },
@@ -265,414 +198,39 @@ const pathways = {
   partners: {
     title: "Partners",
     image: IMAGES.partners,
-    subtitle: "Aligned support creates visible community benefit.",
+    subtitle: "Where aligned support creates visible community benefit.",
     personalLine:
-      "This pathway shows how support becomes visible impact.",
+      "This pathway shows how your support can be seen, felt, and understood.",
     whyItMatters:
-      "Partners need to see where support creates return.",
+      "It helps partners see where they fit and how their support becomes visible return.",
     whatPeopleGain:
-      "Clearer understanding of collaboration and regional impact.",
+      "You gain clearer understanding of how collaboration can strengthen food access, education, land restoration, and local impact.",
     panels: {
       soundbite: {
-        title: "Support becomes visible here.",
+        title: "What you support here becomes visible.",
         body:
-          "Partnership becomes restoration, education, youth development, and food access.",
+          "Partnership here is not abstract. Support becomes restoration, education, youth development, food access, and practical benefit people can see.",
       },
       intro: {
         title: "What you experience",
         body:
-          "A credible ecosystem where support creates visible value.",
+          "You see a credible ecosystem where aligned support connects directly to visible outcomes and long-term value.",
       },
       knowledge: {
         title: "What becomes clear",
         body:
-          "Partnership strengthens programs, systems, and opportunity.",
+          "This pathway shows how partnership can strengthen programs, events, learning, food systems, and wider regional benefit.",
       },
       purpose: {
-        title: "Why this matters",
+        title: "Why this matters to you",
         body:
-          "Shared investment creates shared return.",
+          "It gives you a clear place to understand where support matters and how shared investment creates return.",
       },
       next: {
         title: "Where you can go next",
         body:
-          "Move into sponsorship, planning, activation, and alignment.",
+          "You can move into sponsorship, planning, activation, support roles, and deeper alignment with the broader ecosystem.",
       },
     },
   },
 };
-
-function openExternal(url: string) {
-  window.open(url, "_blank", "noopener,noreferrer");
-}
-
-export default function App() {
-  const [page, setPage] = useState<PageKey>("home");
-  const [layer, setLayer] = useState<LayerKey>("soundbite");
-  const [lang, setLang] = useState("en");
-
-  const t = ui.en;
-
-  const active =
-    page !== "home" && page !== "story"
-      ? pathways[page as keyof typeof pathways]
-      : null;
-
-  const progress = useMemo(
-    () => ((layerOrder.indexOf(layer) + 1) / layerOrder.length) * 100,
-    [layer]
-  );
-
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(180deg,#f4efe5 0%,#edf5ee 55%,#ffffff 100%)",
-        fontFamily:
-          'Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif',
-        color: colors.text,
-        padding: 24,
-      }}
-    >
-      <div style={{ maxWidth: 1450, margin: "0 auto" }}>
-        <div
-          style={{
-            background: `linear-gradient(135deg,${colors.forest},${colors.pine})`,
-            color: "#fff",
-            borderRadius: 28,
-            padding: 22,
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            gap: 12,
-          }}
-        >
-          <div>
-            <div style={{ fontSize: 30, fontWeight: 800 }}>
-              Bronson Family Farm
-            </div>
-            <div style={{ fontSize: 18, opacity: 0.9 }}>
-              More than a farm.
-            </div>
-          </div>
-
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <button onClick={() => setPage("home")}>{t.home}</button>
-            <button onClick={() => setPage("story")}>{t.story}</button>
-            <button onClick={() => openExternal(WEATHER_URL)}>
-              {t.weather}
-            </button>
-            <button onClick={() => setPage("marketplace")}>{t.store}</button>
-
-            <select
-              value={lang}
-              onChange={(e) => setLang(e.target.value)}
-            >
-              {languages.map((l) => (
-                <option key={l.key} value={l.key}>
-                  {l.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {page === "home" && (
-          <>
-            <div
-              style={{
-                marginTop: 24,
-                height: 520,
-                borderRadius: 34,
-                backgroundImage: `url(${IMAGES.home})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1.2fr .8fr",
-                gap: 22,
-                marginTop: 22,
-              }}
-            >
-              <div
-                style={{
-                  background: "#fff",
-                  borderRadius: 28,
-                  padding: 28,
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: 58,
-                    fontWeight: 700,
-                    lineHeight: 1,
-                  }}
-                >
-                  Bronson Family Farm
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 8,
-                    fontSize: 30,
-                    color: colors.muted,
-                  }}
-                >
-                  More than a farm.
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 22,
-                    fontSize: 22,
-                    lineHeight: 1.8,
-                    color: colors.muted,
-                  }}
-                >
-                  A regenerative ecosystem connecting land, food access,
-                  marketplace activity, growers, youth workforce development,
-                  education, and partnership in Youngstown and the Mahoning
-                  Valley.
-                </div>
-
-                <div style={{ marginTop: 24, display: "flex", gap: 12 }}>
-                  <button
-                    onClick={() => {
-                      setPage("guest");
-                      setLayer("soundbite");
-                    }}
-                  >
-                    {t.begin}
-                  </button>
-
-                  <button onClick={() => openExternal(STORE_URL)}>
-                    {t.store}
-                  </button>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  background: "#fff",
-                  borderRadius: 28,
-                  padding: 28,
-                }}
-              >
-                <div style={{ fontSize: 24, fontWeight: 700 }}>
-                  Why it matters
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 16,
-                    fontSize: 20,
-                    lineHeight: 1.8,
-                    color: colors.muted,
-                  }}
-                >
-                  Restore land. Grow healthy food. Create opportunity. Build
-                  systems people want to return to.
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-
-        {page === "story" && (
-          <div style={{ marginTop: 24 }}>
-            <div
-              style={{
-                height: 500,
-                borderRadius: 34,
-                backgroundImage: `url(${IMAGES.story})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-
-            <div
-              style={{
-                marginTop: 22,
-                background: "#fff",
-                borderRadius: 28,
-                padding: 28,
-              }}
-            >
-              <div style={{ fontSize: 54, fontWeight: 800 }}>
-                Our Story
-              </div>
-
-              <div
-                style={{
-                  marginTop: 20,
-                  fontSize: 22,
-                  lineHeight: 1.9,
-                  color: colors.muted,
-                }}
-              >
-                Inspired by family farming traditions and shaped for
-                Youngstown’s future, Bronson Family Farm connects land
-                restoration, food access, agritourism, education, and
-                opportunity.
-              </div>
-            </div>
-          </div>
-        )}
-
-        {active && (
-          <>
-            <div
-              style={{
-                marginTop: 24,
-                height: 430,
-                borderRadius: 34,
-                backgroundImage: `url(${active.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: ".85fr 1.15fr",
-                gap: 22,
-                marginTop: 22,
-              }}
-            >
-              <div
-                style={{
-                  background: "#fff",
-                  borderRadius: 28,
-                  padding: 26,
-                }}
-              >
-                <div style={{ fontSize: 44, fontWeight: 800 }}>
-                  {active.title}
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 14,
-                    fontSize: 18,
-                    lineHeight: 1.8,
-                    color: colors.muted,
-                  }}
-                >
-                  {active.subtitle}
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 18,
-                    height: 10,
-                    background: "#e7eee9",
-                    borderRadius: 999,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: `${progress}%`,
-                      height: "100%",
-                      background: colors.pine,
-                      borderRadius: 999,
-                    }}
-                  />
-                </div>
-
-                <div
-                  style={{
-                    display: "grid",
-                    gap: 10,
-                    marginTop: 18,
-                  }}
-                >
-                  {layerOrder.map((l) => (
-                    <button key={l} onClick={() => setLayer(l)}>
-                      {l}
-                    </button>
-                  ))}
-                </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    gap: 10,
-                    marginTop: 16,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <button
-                    onClick={() =>
-                      setLayer(
-                        layerOrder[
-                          Math.max(layerOrder.indexOf(layer) - 1, 0)
-                        ]
-                      )
-                    }
-                  >
-                    {t.prev}
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      setLayer(
-                        layerOrder[
-                          Math.min(layerOrder.indexOf(layer) + 1, 4)
-                        ]
-                      )
-                    }
-                  >
-                    {t.next}
-                  </button>
-
-                  <button onClick={() => setPage("home")}>
-                    {t.back}
-                  </button>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  background: "#fff",
-                  borderRadius: 28,
-                  padding: 28,
-                }}
-              >
-                <div style={{ fontSize: 52, fontWeight: 800 }}>
-                  {active.panels[layer].title}
-                </div>
-
-                <div
-                  style={{
-                    marginTop: 22,
-                    fontSize: 23,
-                    lineHeight: 1.85,
-                    color: colors.muted,
-                  }}
-                >
-                  {active.panels[layer].body}
-                </div>
-
-                {page === "marketplace" && (
-                  <div style={{ marginTop: 24 }}>
-                    <button
-                      onClick={() => openExternal(STORE_URL)}
-                    >
-                      Open GrownBy
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
