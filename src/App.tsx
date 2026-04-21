@@ -50,216 +50,233 @@ const pathways = {
   guest: {
     title: "Guest",
     image: IMAGES.guest,
-    subtitle: "Understand the vision, story, and purpose.",
+    subtitle: "Begin by feeling the land, the story, and the purpose.",
+    personalLine:
+      "You are not just visiting. You are being welcomed into a living vision.",
     whyItMatters:
-      "Guests leave understanding why this land matters and why the work should continue.",
+      "This experience helps you understand why this land matters and why the work should continue.",
     whatPeopleGain:
-      "Visitors connect emotionally to the story, understand the vision, and see why the ecosystem belongs in the future of the region.",
+      "You leave with emotional connection, clearer understanding, and a reason to return.",
     panels: {
       soundbite: {
         title: "You are entering more than a farm.",
         body:
-          "Bronson Family Farm is a living ecosystem where land, legacy, food access, learning, and community purpose come together.",
+          "This is a place where land, legacy, food access, restoration, and hope are held together in one living experience.",
       },
       intro: {
-        title: "What guests feel first",
+        title: "What you feel first",
         body:
-          "Guests are welcomed into a place of restoration, possibility, and meaning. The experience is meant to feel grounded, hopeful, and worth returning to.",
+          "You are meant to feel grounded here. The land, the quiet, the story, and the possibility are all part of your first impression.",
       },
       knowledge: {
-        title: "What guests learn",
+        title: "What becomes clear",
         body:
-          "Guests see how this farm connects food, agritourism, wellness, family legacy, youth opportunity, and long-term community benefit.",
+          "As you move deeper, you begin to see how food, wellness, family history, youth opportunity, and community renewal are connected.",
       },
       purpose: {
-        title: "Why this pathway exists",
+        title: "Why this matters to you",
         body:
-          "This pathway turns curiosity into understanding so visitors can clearly feel the mission without being told what to think.",
+          "This pathway is personal because it invites you to care, not just observe. It gives meaning to what you are seeing.",
       },
       next: {
-        title: "What comes next",
+        title: "Where you can go next",
         body:
-          "Guests can continue into the story, GrownBy, partner relationships, events, and future engagement with the ecosystem.",
+          "From here, you can continue into the story, the marketplace, partnership, events, and future engagement with the ecosystem.",
       },
     },
   },
+
   customer: {
     title: "Customer",
     image: IMAGES.customer,
-    subtitle: "Fresh food, nutrition, and healthier repeat choices.",
+    subtitle: "Fresh food, nourishment, and choices that support your well-being.",
+    personalLine:
+      "This pathway is about what reaches your table, your habits, and your health.",
     whyItMatters:
-      "Customers leave informed, connected to healthier food choices, and ready to return regularly.",
+      "This experience connects you to healthier choices that can become part of everyday life.",
     whatPeopleGain:
-      "Customers understand how fresh food supports wellness and why returning to the farm strengthens healthier habits over time.",
+      "You gain clearer connection between fresh food, better choices, and lasting value.",
     panels: {
       soundbite: {
-        title: "Fresh food is more than a purchase.",
+        title: "Fresh food is personal.",
         body:
-          "The customer experience connects food to wellness, better habits, and the daily value of choosing fresh over overprocessed options.",
+          "What you choose to eat shapes energy, wellness, family life, and the kind of future you build around the table.",
       },
       intro: {
-        title: "What customers experience",
+        title: "What you experience",
         body:
-          "Customers encounter fresh, appealing, useful offerings that make healthy choices feel practical, beautiful, and worth repeating.",
+          "You encounter food that feels useful, appealing, and real. The experience is meant to make healthy choice feel natural, not distant.",
       },
       knowledge: {
-        title: "What customers learn",
+        title: "What you begin to understand",
         body:
-          "Customers see that local food supports health, family well-being, community resilience, and long-term habits that can change lives.",
+          "Fresh, local food is not just a product. It strengthens health, supports community resilience, and pushes back against overprocessed dependency.",
       },
       purpose: {
-        title: "Why this pathway exists",
+        title: "Why this matters to you",
         body:
-          "This pathway helps people connect nourishment to action so the farm becomes part of their recurring healthy choices.",
+          "This pathway helps you connect nourishment to action so the farm becomes part of your recurring healthy choices.",
       },
       next: {
-        title: "What comes next",
+        title: "Where you can go next",
         body:
-          "Customers can move into GrownBy, seasonal buying, repeat visits, events, and stronger connection to the farm’s offerings.",
+          "You can continue into GrownBy, seasonal buying, repeat visits, events, and stronger connection to the farm’s offerings.",
       },
     },
   },
+
   marketplace: {
     title: "GrownBy",
     image: IMAGES.marketplace,
-    subtitle: "Where support becomes purchasing power and sustainability.",
+    subtitle: "Where your support becomes action, movement, and sustainability.",
+    personalLine:
+      "What you choose to buy here helps carry the vision forward.",
     whyItMatters:
-      "Purchasing here directly supports the Bronson Family Farm ecosystem.",
+      "Every purchase directly supports the Bronson Family Farm ecosystem.",
     whatPeopleGain:
-      "Easy access to products, convenient ordering, and meaningful support.",
+      "You gain an easy way to support the farm through convenient, meaningful purchasing.",
     panels: {
       soundbite: {
-        title: "GrownBy turns vision into movement.",
+        title: "What you support here becomes visible.",
         body:
-          "This is where interest becomes action, revenue, and visible support for Bronson Family Farm.",
+          "This is where belief turns into action. GrownBy gives you a direct way to strengthen the farm’s future.",
       },
       intro: {
-        title: "What GrownBy means",
+        title: "What this means for you",
         body:
-          "GrownBy is the bridge between story, products, belief, and real-world support.",
+          "This is not just a store. It is your practical point of connection to products, produce, and the larger ecosystem behind them.",
       },
       knowledge: {
-        title: "What visitors understand",
+        title: "What becomes real",
         body:
-          "Every purchase helps strengthen the farm, local food systems, and future growth.",
+          "Every purchase helps strengthen local food systems, deepen sustainability, and move the vision from idea into daily practice.",
       },
       purpose: {
-        title: "Why this pathway exists",
+        title: "Why this matters to you",
         body:
-          "A living ecosystem needs a living engine. GrownBy helps power the vision.",
+          "This pathway lets you participate in the future of the farm in a direct, visible way.",
       },
       next: {
-        title: "What comes next",
+        title: "Where you can go next",
         body:
-          "Visitors can enter the store, support the farm, and return with deeper connection.",
+          "You can enter the GrownBy store, support the farm, and return to the demo with deeper connection and clarity.",
       },
     },
   },
+
   grower: {
     title: "Grower",
     image: IMAGES.grower,
-    subtitle: "Connect producers to opportunity and participation.",
+    subtitle: "A place to participate, contribute, and grow with others.",
+    personalLine:
+      "This pathway is about belonging, visibility, and meaningful participation.",
     whyItMatters:
-      "Growers understand there is a real place for them to participate, sell, learn, and grow with others.",
+      "It helps you see that there is a real place for growers inside this ecosystem.",
     whatPeopleGain:
-      "Growers understand that this ecosystem is a place for collaboration, visibility, market opportunity, and shared learning.",
+      "You gain clearer connection to opportunity, collaboration, visibility, and contribution.",
     panels: {
       soundbite: {
-        title: "Growers need more than land.",
+        title: "You need more than land.",
         body:
-          "They need structure, opportunity, connection, and a meaningful place within the ecosystem.",
+          "You need connection, opportunity, structure, visibility, and a place where your work can matter in a larger system.",
       },
       intro: {
-        title: "What growers experience",
+        title: "What you experience",
         body:
-          "Growers are welcomed into a pathway built around participation, market connection, and shared value.",
+          "You encounter a pathway built around participation, contribution, shared learning, and a stronger sense of place.",
       },
       knowledge: {
-        title: "What growers learn",
+        title: "What becomes possible",
         body:
-          "Growers see how Bronson Family Farm can connect to events, learning, market flow, and regional participation.",
+          "This ecosystem can support collaboration, demonstrations, events, market visibility, and stronger regional food relationships.",
       },
       purpose: {
-        title: "Why this pathway exists",
+        title: "Why this matters to you",
         body:
-          "This pathway reduces isolation and shows growers a practical reason to engage, contribute, and return.",
+          "This pathway reduces isolation and helps you see where you fit, why your work matters, and how to grow with others.",
       },
       next: {
-        title: "What comes next",
+        title: "Where you can go next",
         body:
-          "Growers can move toward collaboration, selling, demonstration, and deeper connection with the broader network.",
+          "You can move toward selling, collaboration, demonstration, participation, and deeper connection to the broader network.",
       },
     },
   },
+
   youth: {
     title: "Youth Workforce",
     image: IMAGES.youth,
-    subtitle: "Skills, responsibility, support, and future readiness.",
+    subtitle: "Growth, responsibility, support, and future readiness.",
+    personalLine:
+      "This pathway is about becoming stronger, more prepared, and more confident.",
     whyItMatters:
-      "Young people and families understand that this pathway leads to real growth, real support, and future readiness.",
+      "It helps young people and families see a real bridge between potential and preparation.",
     whatPeopleGain:
-      "Young people and families see a real structure for skill-building, readiness, supervision, support, and future direction.",
+      "You gain structure, readiness, support, confidence, and clearer future direction.",
     panels: {
       soundbite: {
-        title: "This pathway grows people, not just tasks.",
+        title: "This pathway grows people.",
         body:
-          "The youth workforce experience is about confidence, responsibility, structure, support, and future readiness.",
+          "It is not just about tasks. It is about confidence, readiness, responsibility, and learning how to move forward with support.",
       },
       intro: {
-        title: "What youth and families experience",
+        title: "What you experience",
         body:
-          "Young people encounter a practical setting where real participation, guidance, accountability, and encouragement are all visible.",
+          "You encounter a place where guidance, accountability, encouragement, and practical work all come together.",
       },
       knowledge: {
-        title: "What they learn",
+        title: "What you build here",
         body:
-          "Participants build work habits, teamwork, agricultural exposure, discipline, logistics awareness, and personal growth.",
+          "You build work habits, teamwork, discipline, agricultural exposure, logistics awareness, and personal growth through lived experience.",
       },
       purpose: {
-        title: "Why this pathway exists",
+        title: "Why this matters to you",
         body:
-          "This pathway creates a bridge between potential and preparation so young people can see themselves in a meaningful future.",
+          "This pathway gives shape to what is possible by helping potential turn into preparation.",
       },
       next: {
-        title: "What comes next",
+        title: "Where you can go next",
         body:
-          "Youth can move into deeper roles, guided learning, responsibility, support systems, and stronger future direction.",
+          "You can move into deeper roles, guided learning, responsibility, support systems, and stronger future direction.",
       },
     },
   },
+
   partners: {
     title: "Partners",
     image: IMAGES.partners,
-    subtitle: "Align resources and collaboration for community benefit.",
+    subtitle: "Where aligned support creates visible community benefit.",
+    personalLine:
+      "This pathway shows how your support can be seen, felt, and understood.",
     whyItMatters:
-      "Partners understand where they fit, how their support matters, and what shared impact can look like.",
+      "It helps partners see where they fit and how their support becomes visible return.",
     whatPeopleGain:
-      "Partners see where their support fits and how collaboration can strengthen land restoration, food access, education, and community benefit.",
+      "You gain clearer understanding of how collaboration can strengthen food access, education, land restoration, and local impact.",
     panels: {
       soundbite: {
-        title: "Partnership here creates visible outcomes.",
+        title: "What you support here becomes visible.",
         body:
-          "Support becomes land restoration, education, food access, youth development, and practical benefit that people can see.",
+          "Partnership here is not abstract. Support becomes restoration, education, youth development, food access, and practical benefit people can see.",
       },
       intro: {
-        title: "What partners see",
+        title: "What you experience",
         body:
-          "Partners see a credible ecosystem where collaboration can connect directly to visible community-facing outcomes.",
+          "You see a credible ecosystem where aligned support connects directly to visible outcomes and long-term value.",
       },
       knowledge: {
-        title: "What partners understand",
+        title: "What becomes clear",
         body:
-          "This pathway shows how aligned support can strengthen programs, events, learning, food systems, and long-term regional value.",
+          "This pathway shows how partnership can strengthen programs, events, learning, food systems, and wider regional benefit.",
       },
       purpose: {
-        title: "Why this pathway exists",
+        title: "Why this matters to you",
         body:
-          "It gives stakeholders a clear place to see where support matters and how shared investment creates visible return.",
+          "It gives you a clear place to understand where support matters and how shared investment creates return.",
       },
       next: {
-        title: "What comes next",
+        title: "Where you can go next",
         body:
-          "Partners can move into sponsorship, planning, activation, support roles, and deeper alignment with the larger ecosystem.",
+          "You can move into sponsorship, planning, activation, support roles, and deeper alignment with the broader ecosystem.",
       },
     },
   },
@@ -477,7 +494,7 @@ export default function App() {
         button{font-family:inherit}
         button:hover{transform:translateY(-1px)}
         @media(max-width:1000px){
-          .grid2,.grid3,.gridUtility{grid-template-columns:1fr!important}
+          .grid2,.grid3,.gridUtility,.gridPersonal{grid-template-columns:1fr!important}
         }
       `}</style>
 
@@ -521,7 +538,7 @@ export default function App() {
         {page === "home" && (
           <>
             <div style={{ marginTop: 24 }}>
-              <HeroImage src={IMAGES.home} height={530}>
+              <HeroImage src={IMAGES.home} height={550}>
                 <div style={{ position: "relative", zIndex: 1, color: "#fff", maxWidth: 900 }}>
                   <div
                     style={{
@@ -563,6 +580,19 @@ export default function App() {
                   >
                     More than a farm.
                   </div>
+
+                  <div
+                    style={{
+                      marginTop: 18,
+                      fontSize: 21,
+                      lineHeight: 1.8,
+                      maxWidth: 780,
+                      color: "rgba(255,255,255,.94)",
+                    }}
+                  >
+                    This is a place where people are meant to feel welcomed, seen,
+                    nourished, and connected to something larger than themselves.
+                  </div>
                 </div>
               </HeroImage>
             </div>
@@ -571,7 +601,7 @@ export default function App() {
               className="grid2"
               style={{
                 display: "grid",
-                gridTemplateColumns: "1.2fr .8fr",
+                gridTemplateColumns: "1.15fr .85fr",
                 gap: 22,
                 marginTop: 22,
               }}
@@ -579,8 +609,8 @@ export default function App() {
               <Card>
                 <div
                   style={{
-                    fontSize: 22,
-                    lineHeight: 1.8,
+                    fontSize: 23,
+                    lineHeight: 1.85,
                     color: FOREST.muted,
                   }}
                 >
@@ -590,6 +620,7 @@ export default function App() {
                 </div>
 
                 <div
+                  className="gridPersonal"
                   style={{
                     marginTop: 24,
                     display: "grid",
@@ -605,16 +636,16 @@ export default function App() {
                       boxShadow: "none",
                     }}
                   >
-                    <div style={{ fontSize: 38, fontWeight: 800 }}>118+</div>
+                    <div style={{ fontSize: 38, fontWeight: 800 }}>Feel</div>
                     <div
                       style={{
                         marginTop: 8,
                         fontSize: 16,
-                        lineHeight: 1.6,
+                        lineHeight: 1.7,
                         color: FOREST.muted,
                       }}
                     >
-                      Acres of vision and possibility
+                      the welcome, the land, and the meaning.
                     </div>
                   </Card>
 
@@ -626,16 +657,16 @@ export default function App() {
                       boxShadow: "none",
                     }}
                   >
-                    <div style={{ fontSize: 38, fontWeight: 800 }}>6</div>
+                    <div style={{ fontSize: 38, fontWeight: 800 }}>See</div>
                     <div
                       style={{
                         marginTop: 8,
                         fontSize: 16,
-                        lineHeight: 1.6,
+                        lineHeight: 1.7,
                         color: FOREST.muted,
                       }}
                     >
-                      Living pathways built for return
+                      how food, people, and purpose fit together.
                     </div>
                   </Card>
 
@@ -647,16 +678,16 @@ export default function App() {
                       boxShadow: "none",
                     }}
                   >
-                    <div style={{ fontSize: 38, fontWeight: 800 }}>1</div>
+                    <div style={{ fontSize: 38, fontWeight: 800 }}>Return</div>
                     <div
                       style={{
                         marginTop: 8,
                         fontSize: 16,
-                        lineHeight: 1.6,
+                        lineHeight: 1.7,
                         color: FOREST.muted,
                       }}
                     >
-                      Connected ecosystem with a clear message
+                      with deeper connection and clearer purpose.
                     </div>
                   </Card>
                 </div>
@@ -675,7 +706,7 @@ export default function App() {
                       setLayer("soundbite");
                     }}
                   >
-                    Enter Experience
+                    Begin Your Journey
                   </SolidButton>
                   <SolidButton gold onClick={() => openExternal(STORE_URL)}>
                     Open GrownBy
@@ -684,28 +715,31 @@ export default function App() {
               </Card>
 
               <Card>
-                <Label>Why It Matters</Label>
+                <Label>Personal Invitation</Label>
                 <div
                   style={{
                     marginTop: 18,
-                    fontSize: 20,
-                    lineHeight: 1.8,
+                    fontSize: 21,
+                    lineHeight: 1.9,
                     color: FOREST.muted,
                   }}
                 >
-                  Restore land. Grow healthy food. Create opportunity. Build
-                  systems for Youngstown and the Mahoning Valley Area.
+                  This experience is designed to feel personal. Each pathway
+                  speaks to a different kind of visitor, need, and future.
                 </div>
 
                 <div
                   className="gridUtility"
                   style={{ display: "grid", gap: 12, marginTop: 24 }}
                 >
-                  <SolidButton gold full onClick={() => openExternal(STORE_URL)}>
-                    Open GrownBy
+                  <SolidButton full onClick={() => setPage("guest")}>
+                    Enter as Guest
                   </SolidButton>
-                  <SolidButton full onClick={() => openExternal(WEATHER_URL)}>
-                    Weather
+                  <SolidButton full onClick={() => setPage("customer")}>
+                    Enter as Customer
+                  </SolidButton>
+                  <SolidButton gold full onClick={() => setPage("marketplace")}>
+                    Enter GrownBy
                   </SolidButton>
                 </div>
               </Card>
@@ -745,6 +779,17 @@ export default function App() {
                       {p.subtitle}
                     </div>
 
+                    <div
+                      style={{
+                        marginTop: 14,
+                        fontSize: 16,
+                        lineHeight: 1.75,
+                        color: "#74867b",
+                      }}
+                    >
+                      {p.personalLine}
+                    </div>
+
                     <div style={{ marginTop: 18 }}>
                       <SolidButton
                         full
@@ -776,7 +821,7 @@ export default function App() {
                 style={{
                   marginTop: 22,
                   fontSize: 22,
-                  lineHeight: 1.8,
+                  lineHeight: 1.85,
                   color: FOREST.muted,
                 }}
               >
@@ -789,7 +834,7 @@ export default function App() {
                 style={{
                   marginTop: 18,
                   fontSize: 22,
-                  lineHeight: 1.8,
+                  lineHeight: 1.85,
                   color: FOREST.muted,
                 }}
               >
@@ -822,8 +867,8 @@ export default function App() {
                       color: FOREST.muted,
                     }}
                   >
-                    The farm gives people a way to understand legacy, land, and
-                    the deeper purpose behind this work.
+                    The story gives people a reason to care. It helps them feel
+                    the purpose before they ever take another step.
                   </div>
                 </Card>
 
@@ -843,8 +888,8 @@ export default function App() {
                       color: FOREST.muted,
                     }}
                   >
-                    The story leads into marketplace activity, youth
-                    development, partnership, education, and return visits.
+                    The story leads into food, youth development, partnership,
+                    GrownBy, education, and return visits that feel meaningful.
                   </div>
                 </Card>
               </div>
@@ -857,6 +902,9 @@ export default function App() {
                   flexWrap: "wrap",
                 }}
               >
+                <SolidButton onClick={() => setPage("guest")}>
+                  Continue as Guest
+                </SolidButton>
                 <SolidButton gold onClick={() => setPage("marketplace")}>
                   Enter GrownBy
                 </SolidButton>
@@ -868,7 +916,37 @@ export default function App() {
         {active && (
           <>
             <div style={{ marginTop: 24 }}>
-              <HeroImage src={active.image} height={440} />
+              <HeroImage src={active.image} height={440}>
+                <div
+                  style={{
+                    position: "relative",
+                    zIndex: 1,
+                    color: "#fff",
+                    maxWidth: 820,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 50,
+                      lineHeight: 1,
+                      fontWeight: 800,
+                      letterSpacing: "-.03em",
+                    }}
+                  >
+                    {active.title}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 14,
+                      fontSize: 24,
+                      lineHeight: 1.7,
+                      color: "rgba(255,255,255,.92)",
+                    }}
+                  >
+                    {active.personalLine}
+                  </div>
+                </div>
+              </HeroImage>
             </div>
 
             <div
@@ -896,14 +974,14 @@ export default function App() {
                   style={{
                     marginTop: 12,
                     fontSize: 18,
-                    lineHeight: 1.7,
+                    lineHeight: 1.75,
                     color: FOREST.muted,
                   }}
                 >
                   {active.subtitle}
                 </div>
 
-                <div style={{ marginTop: 20 }}>
+                <div style={{ marginTop: 22 }}>
                   <Label>Journey Progress</Label>
                   <div
                     style={{
@@ -987,7 +1065,7 @@ export default function App() {
                   style={{
                     marginTop: 22,
                     fontSize: 23,
-                    lineHeight: 1.78,
+                    lineHeight: 1.82,
                     color: FOREST.muted,
                   }}
                 >
@@ -1042,6 +1120,28 @@ export default function App() {
                       {active.whatPeopleGain}
                     </div>
                   </Card>
+                </div>
+
+                <div
+                  style={{
+                    marginTop: 24,
+                    padding: 20,
+                    borderRadius: 24,
+                    background:
+                      "linear-gradient(180deg, rgba(248,251,248,.98), rgba(240,246,241,.96))",
+                  }}
+                >
+                  <Label>For You</Label>
+                  <div
+                    style={{
+                      marginTop: 12,
+                      fontSize: 19,
+                      lineHeight: 1.85,
+                      color: FOREST.muted,
+                    }}
+                  >
+                    {active.personalLine}
+                  </div>
                 </div>
 
                 {page === "marketplace" && (
