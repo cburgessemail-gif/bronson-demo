@@ -28,7 +28,7 @@ type RoleContent = {
   strap: string;
   image: string;
   imageAlt: string;
-  accent: string;
+  overlayClassName: string;
   soundbite: string;
   intro: string;
   knowledge: SectionCard[];
@@ -65,14 +65,10 @@ const UI_TEXT: Record<
     guidedVoice: string;
     voiceOn: string;
     voiceOff: string;
-    layer: string;
     layers: Record<LayerKey, string>;
     mission: string;
     purpose: string;
     whatYouCanDoNext: string;
-    open: string;
-    explore: string;
-    learn: string;
     roleLabels: Record<RoleKey, string>;
     footer: string;
     ecosystem: string;
@@ -89,7 +85,6 @@ const UI_TEXT: Record<
     guidedVoice: "Guided voice",
     voiceOn: "On",
     voiceOff: "Off",
-    layer: "Layer",
     layers: {
       soundbite: "Sound bite",
       intro: "Intro",
@@ -100,9 +95,6 @@ const UI_TEXT: Record<
     mission: "Mission",
     purpose: "Purpose",
     whatYouCanDoNext: "What you can do next",
-    open: "Open",
-    explore: "Explore",
-    learn: "Learn more",
     roleLabels: {
       guest: "Guest",
       customer: "Customer",
@@ -125,7 +117,6 @@ const UI_TEXT: Record<
     guidedVoice: "Narración guiada",
     voiceOn: "Activada",
     voiceOff: "Desactivada",
-    layer: "Capa",
     layers: {
       soundbite: "Mensaje breve",
       intro: "Introducción",
@@ -136,9 +127,6 @@ const UI_TEXT: Record<
     mission: "Misión",
     purpose: "Propósito",
     whatYouCanDoNext: "Lo que puede hacer ahora",
-    open: "Abrir",
-    explore: "Explorar",
-    learn: "Más información",
     roleLabels: {
       guest: "Invitado",
       customer: "Cliente",
@@ -161,7 +149,6 @@ const UI_TEXT: Record<
     guidedVoice: "Gabay na boses",
     voiceOn: "Bukas",
     voiceOff: "Patay",
-    layer: "Antas",
     layers: {
       soundbite: "Maikling mensahe",
       intro: "Panimula",
@@ -172,9 +159,6 @@ const UI_TEXT: Record<
     mission: "Misyon",
     purpose: "Layunin",
     whatYouCanDoNext: "Mga susunod na hakbang",
-    open: "Buksan",
-    explore: "Tuklasin",
-    learn: "Matuto pa",
     roleLabels: {
       guest: "Bisita",
       customer: "Mamimili",
@@ -197,7 +181,6 @@ const UI_TEXT: Record<
     guidedVoice: "Voce guidata",
     voiceOn: "Attiva",
     voiceOff: "Disattiva",
-    layer: "Livello",
     layers: {
       soundbite: "Messaggio rapido",
       intro: "Introduzione",
@@ -208,9 +191,6 @@ const UI_TEXT: Record<
     mission: "Missione",
     purpose: "Scopo",
     whatYouCanDoNext: "Cosa puoi fare ora",
-    open: "Apri",
-    explore: "Esplora",
-    learn: "Scopri di più",
     roleLabels: {
       guest: "Ospite",
       customer: "Cliente",
@@ -233,7 +213,6 @@ const UI_TEXT: Record<
     guidedVoice: "Voix guidée",
     voiceOn: "Activée",
     voiceOff: "Désactivée",
-    layer: "Niveau",
     layers: {
       soundbite: "Accroche",
       intro: "Introduction",
@@ -244,9 +223,6 @@ const UI_TEXT: Record<
     mission: "Mission",
     purpose: "Objectif",
     whatYouCanDoNext: "Ce que vous pouvez faire ensuite",
-    open: "Ouvrir",
-    explore: "Explorer",
-    learn: "En savoir plus",
     roleLabels: {
       guest: "Invité",
       customer: "Client",
@@ -256,7 +232,8 @@ const UI_TEXT: Record<
       partners: "Partenaires",
     },
     footer: "Copropriété de Bronson Family Farm et Farm & Family Alliance",
-    ecosystem: "Une plateforme immersive dédiée à la ferme, à l’alimentation, à l’apprentissage et à la communauté.",
+    ecosystem:
+      "Une plateforme immersive dédiée à la ferme, à l’alimentation, à l’apprentissage et à la communauté.",
     liveLinks: "Liens en direct",
   },
   he: {
@@ -269,7 +246,6 @@ const UI_TEXT: Record<
     guidedVoice: "קריינות מודרכת",
     voiceOn: "פועל",
     voiceOff: "כבוי",
-    layer: "שכבה",
     layers: {
       soundbite: "מסר קצר",
       intro: "מבוא",
@@ -280,9 +256,6 @@ const UI_TEXT: Record<
     mission: "משימה",
     purpose: "מטרה",
     whatYouCanDoNext: "מה אפשר לעשות עכשיו",
-    open: "פתח",
-    explore: "גלה",
-    learn: "למידע נוסף",
     roleLabels: {
       guest: "אורח",
       customer: "לקוח",
@@ -303,7 +276,7 @@ const ROLE_CONTENT: Record<RoleKey, RoleContent> = {
     strap: "Walk the land. See the story. Understand why this exists.",
     image: "/images/guest-forest.jpg",
     imageAlt: "Forest edge and farm pathway at Bronson Family Farm",
-    accent: "from-emerald-900/80 via-green-900/50 to-black/80",
+    overlayClassName: "bg-gradient-to-br from-emerald-950/80 via-green-950/55 to-black/80",
     soundbite:
       "This is not just land. It is a living vision where history, farming, family, and community restoration meet.",
     intro:
@@ -348,7 +321,7 @@ const ROLE_CONTENT: Record<RoleKey, RoleContent> = {
     strap: "Fresh food. Better choices. Reasons to come back.",
     image: "/images/customer-produce.jpg",
     imageAlt: "Fresh produce arranged for customers",
-    accent: "from-lime-900/80 via-green-900/40 to-black/80",
+    overlayClassName: "bg-gradient-to-br from-lime-950/80 via-green-950/50 to-black/80",
     soundbite:
       "The customer pathway connects people to fresh food, useful knowledge, and healthier repeat decisions.",
     intro:
@@ -393,7 +366,7 @@ const ROLE_CONTENT: Record<RoleKey, RoleContent> = {
     strap: "Where attention becomes action.",
     image: "/images/marketplace-storefront.jpg",
     imageAlt: "Marketplace storefront and farm commerce experience",
-    accent: "from-amber-900/80 via-orange-900/50 to-black/80",
+    overlayClassName: "bg-gradient-to-br from-amber-950/80 via-orange-950/55 to-black/80",
     soundbite:
       "The marketplace is where the ecosystem becomes sustainable through real products, real participation, and real support.",
     intro:
@@ -438,7 +411,7 @@ const ROLE_CONTENT: Record<RoleKey, RoleContent> = {
     strap: "Grow here. Belong here. Benefit here.",
     image: "/images/grower-field.jpg",
     imageAlt: "Grower working in a productive field",
-    accent: "from-teal-900/80 via-emerald-900/40 to-black/80",
+    overlayClassName: "bg-gradient-to-br from-teal-950/80 via-emerald-950/50 to-black/80",
     soundbite:
       "Growers do not simply appear in the marketplace. They register through the portal and gain access to the benefits of the ecosystem.",
     intro:
@@ -482,7 +455,7 @@ const ROLE_CONTENT: Record<RoleKey, RoleContent> = {
     strap: "Learning by doing, guided by purpose.",
     image: "/images/youth-workforce.jpg",
     imageAlt: "Youth workforce participants learning on the farm",
-    accent: "from-sky-900/80 via-cyan-900/40 to-black/80",
+    overlayClassName: "bg-gradient-to-br from-sky-950/80 via-cyan-950/50 to-black/80",
     soundbite:
       "The youth workforce pathway turns exposure into skills, responsibility, and future readiness.",
     intro:
@@ -526,7 +499,7 @@ const ROLE_CONTENT: Record<RoleKey, RoleContent> = {
     strap: "Shared vision. Shared alignment. Shared impact.",
     image: "/images/partners-collaboration.jpg",
     imageAlt: "Partners collaborating around farm and community vision",
-    accent: "from-violet-900/80 via-fuchsia-900/40 to-black/80",
+    overlayClassName: "bg-gradient-to-br from-violet-950/80 via-fuchsia-950/50 to-black/80",
     soundbite:
       "The partner pathway shows how aligned people and organizations can strengthen community benefit through shared purpose.",
     intro:
@@ -590,7 +563,34 @@ function cls(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-function BackgroundImage({
+function SafeImage({
+  src,
+  alt,
+  className,
+  fallbackClassName = "",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  fallbackClassName?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return <div className={cls("h-full w-full", fallbackClassName)} />;
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
+function BackgroundShell({
   src,
   alt,
   overlayClassName,
@@ -598,27 +598,19 @@ function BackgroundImage({
 }: {
   src: string;
   alt: string;
-  overlayClassName?: string;
+  overlayClassName: string;
   children: React.ReactNode;
 }) {
-  const [loaded, setLoaded] = useState(true);
-
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <img
+      <SafeImage
         src={src}
         alt={alt}
-        className={cls(
-          "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
-          loaded ? "opacity-100" : "opacity-0"
-        )}
-        onError={() => setLoaded(false)}
+        className="absolute inset-0 h-full w-full object-cover"
+        fallbackClassName="absolute inset-0 bg-gradient-to-br from-green-950 via-zinc-900 to-black"
       />
-      {!loaded && (
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.22),_transparent_35%),linear-gradient(135deg,rgba(5,46,22,0.95),rgba(9,9,11,0.98))]" />
-      )}
       <div className={cls("absolute inset-0", overlayClassName)} />
-      <div className="absolute inset-0 bg-black/25" />
+      <div className="absolute inset-0 bg-black/30" />
       {children}
     </div>
   );
@@ -643,13 +635,11 @@ function LogoRow() {
           key={src + i}
           className="h-12 w-24 rounded-2xl border border-white/15 bg-white/10 p-2 backdrop-blur-sm"
         >
-          <img
+          <SafeImage
             src={src}
             alt="Partner logo"
             className="h-full w-full object-contain"
-            onError={(e) => {
-              (e.currentTarget.parentElement as HTMLDivElement).style.display = "none";
-            }}
+            fallbackClassName="hidden"
           />
         </div>
       ))}
@@ -718,9 +708,9 @@ function LanguageSelector({
 
 function useSpeech(text: string, enabled: boolean, language: LanguageKey) {
   useEffect(() => {
-    const synth = window.speechSynthesis;
-    if (!enabled || !text || !synth) return;
+    if (!enabled || typeof window === "undefined" || !("speechSynthesis" in window)) return;
 
+    const synth = window.speechSynthesis;
     synth.cancel();
 
     const utter = new SpeechSynthesisUtterance(text);
@@ -732,9 +722,10 @@ function useSpeech(text: string, enabled: boolean, language: LanguageKey) {
       fr: "fr-FR",
       he: "he-IL",
     };
+
     utter.lang = langMap[language];
     utter.rate = 0.93;
-    utter.pitch = 1.0;
+    utter.pitch = 1;
     utter.volume = 1;
 
     const voices = synth.getVoices();
@@ -745,7 +736,6 @@ function useSpeech(text: string, enabled: boolean, language: LanguageKey) {
     if (match) utter.voice = match;
 
     synth.speak(utter);
-
     return () => synth.cancel();
   }, [text, enabled, language]);
 }
@@ -762,16 +752,13 @@ function App() {
 
   const narration = useMemo(() => {
     if (!role) {
-      return [
-        "Welcome to Bronson Family Farm.",
-        "Choose a pathway to experience the mission of this ecosystem.",
-      ].join(" ");
+      return "Welcome to Bronson Family Farm. Choose a pathway to experience the mission of this ecosystem.";
     }
-
     if (layer === "soundbite") return role.soundbite;
     if (layer === "intro") return role.intro;
-    if (layer === "knowledge")
+    if (layer === "knowledge") {
       return role.knowledge.map((item) => `${item.title}. ${item.text}`).join(" ");
+    }
     if (layer === "summary") return role.summary;
     return role.next.map((n) => `${n.label}. ${n.description}`).join(" ");
   }, [role, layer]);
@@ -796,18 +783,10 @@ function App() {
     if (mapped) {
       setActiveRole(mapped);
       setLayer("soundbite");
-      return;
     }
   };
 
-  const headerChips = [
-    "Farm",
-    "Food",
-    "Learning",
-    "Workforce",
-    "Marketplace",
-    "Partnerships",
-  ];
+  const headerChips = ["Farm", "Food", "Learning", "Workforce", "Marketplace", "Partnerships"];
 
   return (
     <div
@@ -817,10 +796,10 @@ function App() {
     >
       {!activeRole ? (
         <div className="relative min-h-screen">
-          <BackgroundImage
+          <BackgroundShell
             src="/images/entrance-farm.jpg"
             alt="Bronson Family Farm entrance"
-            overlayClassName="bg-[linear-gradient(180deg,rgba(0,0,0,0.25),rgba(0,0,0,0.68)),radial-gradient(circle_at_top,rgba(163,230,53,0.20),transparent_30%)]"
+            overlayClassName="bg-gradient-to-b from-black/20 via-black/45 to-black/75"
           >
             <div className="relative z-10 flex min-h-screen items-center">
               <div className="mx-auto w-full max-w-7xl px-6 py-10">
@@ -839,10 +818,10 @@ function App() {
                     </p>
 
                     <p className="mt-4 max-w-3xl text-base leading-7 text-white/80">
-                      Bronson Family Farm is a living ecosystem where guests understand the
-                      vision, customers discover fresh food and nutrition, growers connect to
-                      opportunity, youth build future readiness, partners align resources, and the
-                      marketplace turns interest into sustainability.
+                      Bronson Family Farm is a living ecosystem where guests understand the vision,
+                      customers discover fresh food and nutrition, growers connect to opportunity,
+                      youth build future readiness, partners align resources, and the marketplace
+                      turns interest into sustainability.
                     </p>
 
                     <div className="mt-6 flex flex-wrap gap-2">
@@ -917,19 +896,15 @@ function App() {
                           >
                             <div className="flex items-start gap-4">
                               <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-zinc-800">
-                                <img
+                                <SafeImage
                                   src={data.image}
                                   alt={data.imageAlt}
                                   className="h-full w-full object-cover"
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = "none";
-                                  }}
+                                  fallbackClassName="bg-zinc-700"
                                 />
                               </div>
                               <div className="min-w-0 flex-1">
-                                <div className="text-lg font-medium">
-                                  {t.roleLabels[roleKey]}
-                                </div>
+                                <div className="text-lg font-medium">{t.roleLabels[roleKey]}</div>
                                 <div className="mt-1 text-sm leading-6 text-white/75">
                                   {data.strap}
                                 </div>
@@ -974,14 +949,14 @@ function App() {
                 </div>
               </div>
             </div>
-          </BackgroundImage>
+          </BackgroundShell>
         </div>
       ) : (
         <div className="relative min-h-screen">
-          <BackgroundImage
+          <BackgroundShell
             src={role.image}
             alt={role.imageAlt}
-            overlayClassName={cls("bg-gradient-to-br", role.accent)}
+            overlayClassName={role.overlayClassName}
           >
             <div className="relative z-10 min-h-screen">
               <div className="mx-auto max-w-7xl px-6 py-6 sm:py-8">
@@ -1132,28 +1107,18 @@ function App() {
                     <div className="space-y-6">
                       <div className="overflow-hidden rounded-[2rem] border border-white/15 bg-black/35 shadow-2xl backdrop-blur-md">
                         <div className="aspect-[4/3] w-full overflow-hidden">
-                          <img
+                          <SafeImage
                             src={role.image}
                             alt={role.imageAlt}
                             className="h-full w-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.style.display = "none";
-                              const parent = e.currentTarget.parentElement;
-                              if (parent) {
-                                parent.classList.add(
-                                  "bg-[radial-gradient(circle_at_top,_rgba(163,230,53,0.20),_transparent_35%),linear-gradient(135deg,rgba(9,46,22,0.95),rgba(9,9,11,0.98))]"
-                                );
-                              }
-                            }}
+                            fallbackClassName="bg-gradient-to-br from-zinc-800 to-zinc-950"
                           />
                         </div>
                         <div className="p-5">
                           <div className="text-xs uppercase tracking-[0.18em] text-white/55">
                             {t.mission}
                           </div>
-                          <p className="mt-2 text-base leading-7 text-white/90">
-                            {role.mission}
-                          </p>
+                          <p className="mt-2 text-base leading-7 text-white/90">{role.mission}</p>
                         </div>
                       </div>
 
@@ -1164,19 +1129,11 @@ function App() {
                           </div>
                           <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5">
                             <div className="aspect-[16/9] w-full overflow-hidden">
-                              <img
+                              <SafeImage
                                 src="/images/grownby-storefront.jpg"
                                 alt="Bronson Family Farm GrownBy storefront preview"
                                 className="h-full w-full object-cover"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = "none";
-                                  const parent = e.currentTarget.parentElement;
-                                  if (parent) {
-                                    parent.classList.add(
-                                      "bg-[linear-gradient(135deg,rgba(120,53,15,0.9),rgba(9,9,11,0.98))]"
-                                    );
-                                  }
-                                }}
+                                fallbackClassName="bg-gradient-to-br from-amber-900 to-zinc-950"
                               />
                             </div>
                             <div className="p-5">
@@ -1237,7 +1194,7 @@ function App() {
                 </div>
               </div>
             </div>
-          </BackgroundImage>
+          </BackgroundShell>
         </div>
       )}
     </div>
