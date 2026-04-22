@@ -29,6 +29,7 @@ const IMAGES = {
 };
 
 const SITE_URL = "https://www.bronsonfamilyfarm.com/";
+const FACEBOOK_URL = "https://www.facebook.com/";
 const STOREFRONT_URL = "https://grownby.com/farms/bronson-family-farm/shop";
 
 const translations = {
@@ -37,13 +38,14 @@ const translations = {
     title: "Step into the ecosystem.",
     subtitle: "An immersive farm, food, learning, and community platform.",
     summary:
-      "Bronson Family Farm is a living ecosystem where guests understand the vision, customers discover fresh food and nutrition, growers connect to opportunity, youth build future readiness, partners align resources, and the marketplace turns interest into sustainability.",
+      "Bronson Family Farm is a living ecosystem where guests understand the vision, customers discover fresh food and nutrition, growers connect to opportunity, youth build future readiness, partners align resources, and the marketplace turns interest into sustainability. This demo represents the fuller platform vision.",
     language: "Language",
     voice: "Guided voice",
     on: "On",
     off: "Off",
     choose: "Choose a pathway",
     website: "Website",
+    facebook: "Facebook",
     storefront: "Storefront",
     enter: "Enter pathway",
     back: "Back to entrance",
@@ -55,6 +57,9 @@ const translations = {
     knowledgeLabel: "What this pathway delivers",
     summaryLabel: "Purpose outcome",
     nextLabel: "Next step",
+    tour: "Guided tour",
+    startTour: "Start guided tour",
+    stopTour: "Stop guided tour",
   },
   Español: {
     ecosystem: "Demostración del ecosistema vivo",
@@ -68,6 +73,7 @@ const translations = {
     off: "Desactivada",
     choose: "Elija una ruta",
     website: "Sitio web",
+    facebook: "Facebook",
     storefront: "Tienda",
     enter: "Entrar",
     back: "Volver a la entrada",
@@ -79,6 +85,9 @@ const translations = {
     knowledgeLabel: "Lo que ofrece esta ruta",
     summaryLabel: "Resultado del propósito",
     nextLabel: "Siguiente paso",
+    tour: "Recorrido guiado",
+    startTour: "Iniciar recorrido",
+    stopTour: "Detener recorrido",
   },
   Filipino: {
     ecosystem: "Demo ng buhay na ecosystem",
@@ -92,6 +101,7 @@ const translations = {
     off: "Patay",
     choose: "Pumili ng landas",
     website: "Website",
+    facebook: "Facebook",
     storefront: "Storefront",
     enter: "Pumasok",
     back: "Bumalik sa simula",
@@ -103,6 +113,9 @@ const translations = {
     knowledgeLabel: "Ano ang ibinibigay ng landas na ito",
     summaryLabel: "Kinalabasan ng layunin",
     nextLabel: "Susunod na hakbang",
+    tour: "Gabay na tour",
+    startTour: "Simulan ang tour",
+    stopTour: "Itigil ang tour",
   },
   Italiano: {
     ecosystem: "Demo dell'ecosistema vivo",
@@ -116,6 +129,7 @@ const translations = {
     off: "Disattiva",
     choose: "Scegli un percorso",
     website: "Sito web",
+    facebook: "Facebook",
     storefront: "Negozio",
     enter: "Entra",
     back: "Torna all’ingresso",
@@ -127,6 +141,9 @@ const translations = {
     knowledgeLabel: "Cosa offre questo percorso",
     summaryLabel: "Risultato dello scopo",
     nextLabel: "Prossimo passo",
+    tour: "Tour guidato",
+    startTour: "Avvia tour",
+    stopTour: "Ferma tour",
   },
   Français: {
     ecosystem: "Démo de l’écosystème vivant",
@@ -140,6 +157,7 @@ const translations = {
     off: "Désactivée",
     choose: "Choisissez un parcours",
     website: "Site web",
+    facebook: "Facebook",
     storefront: "Boutique",
     enter: "Entrer",
     back: "Retour à l’entrée",
@@ -151,6 +169,9 @@ const translations = {
     knowledgeLabel: "Ce que ce parcours apporte",
     summaryLabel: "Résultat attendu",
     nextLabel: "Étape suivante",
+    tour: "Visite guidée",
+    startTour: "Démarrer la visite",
+    stopTour: "Arrêter la visite",
   },
   עברית: {
     ecosystem: "הדגמת המערכת החיה",
@@ -164,6 +185,7 @@ const translations = {
     off: "כבוי",
     choose: "בחרו מסלול",
     website: "אתר",
+    facebook: "פייסבוק",
     storefront: "חנות",
     enter: "כניסה",
     back: "חזרה לכניסה",
@@ -175,6 +197,9 @@ const translations = {
     knowledgeLabel: "מה המסלול הזה מספק",
     summaryLabel: "תוצאת המטרה",
     nextLabel: "השלב הבא",
+    tour: "סיור מודרך",
+    startTour: "התחל סיור",
+    stopTour: "עצור סיור",
   },
 } as const;
 
@@ -311,13 +336,13 @@ export default function App() {
   const [view, setView] = useState<View>("home");
   const [voiceOn, setVoiceOn] = useState(false);
   const [voicesLoaded, setVoicesLoaded] = useState(0);
+  const [tourOn, setTourOn] = useState(false);
 
   const t = translations[lang];
   const isRTL = lang === "עברית";
 
   useEffect(() => {
     if (!("speechSynthesis" in window)) return;
-
     const loadVoices = () => setVoicesLoaded(window.speechSynthesis.getVoices().length);
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
@@ -328,20 +353,43 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!tourOn) return;
+
+    const sequence: View[] = [
+      "home",
+      "guest",
+      "customer",
+      "marketplace",
+      "grower",
+      "youth",
+      "partners",
+      "home",
+    ];
+
+    const currentIndex = sequence.indexOf(view);
+    const nextIndex = currentIndex === -1 ? 1 : (currentIndex + 1) % sequence.length;
+
+    const timer = window.setTimeout(() => {
+      setView(sequence[nextIndex]);
+    }, view === "home" ? 5000 : 6500);
+
+    return () => window.clearTimeout(timer);
+  }, [tourOn, view]);
+
   const speechText = useMemo(() => {
     if (view === "home") {
       return `${t.title} ${t.subtitle} ${t.summary}`;
     }
     const content = pathwayContent[view as PathwayKey];
     return `${content.title}. ${content.soundbite}. ${content.mission}. ${content.purpose}. ${content.next}`;
-  }, [view, lang, t]);
+  }, [view, t]);
 
   useEffect(() => {
     if (!voiceOn) {
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
       return;
     }
-
     if (!("speechSynthesis" in window)) return;
 
     const utterance = new SpeechSynthesisUtterance(speechText);
@@ -370,13 +418,14 @@ export default function App() {
     minHeight: "100vh",
     width: "100%",
     color: "#f8f5ee",
-    backgroundImage: `linear-gradient(rgba(16, 28, 18, 0.70), rgba(10, 18, 12, 0.82)), url(${currentImage})`,
+    backgroundImage: `linear-gradient(rgba(13, 24, 16, 0.52), rgba(8, 15, 10, 0.78)), url(${currentImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundAttachment: "fixed",
     fontFamily:
       '"Segoe UI", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif',
     direction: isRTL ? "rtl" : "ltr",
+    transition: "background-image 700ms ease-in-out",
   };
 
   const shellStyle: React.CSSProperties = {
@@ -387,13 +436,14 @@ export default function App() {
 
   const glassStyle: React.CSSProperties = {
     background: "rgba(255,255,255,0.10)",
-    border: "1px solid rgba(255,255,255,0.20)",
+    border: "1px solid rgba(255,255,255,0.18)",
     boxShadow: "0 24px 80px rgba(0,0,0,0.28)",
     backdropFilter: "blur(16px)",
     WebkitBackdropFilter: "blur(16px)",
     borderRadius: 28,
   };
 
+  const heroTextShadow = "0 6px 30px rgba(0,0,0,0.35)";
   const pillButton = (active: boolean): React.CSSProperties => ({
     border: "1px solid rgba(255,255,255,0.20)",
     background: active ? "linear-gradient(135deg, #486b41, #6b8e58)" : "rgba(255,255,255,0.10)",
@@ -426,9 +476,14 @@ export default function App() {
     background: "linear-gradient(135deg, #9c7044, #c28a4c)",
   };
 
+  const blueLinkButtonStyle: React.CSSProperties = {
+    ...linkButtonStyle,
+    background: "linear-gradient(135deg, #35508a, #4e6fc1)",
+  };
+
   const entranceCardStyle: React.CSSProperties = {
     ...glassStyle,
-    padding: 24,
+    padding: 28,
     overflow: "hidden",
   };
 
@@ -521,7 +576,7 @@ export default function App() {
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "space-between",
-              gap: 18,
+              gap: 22,
             }}
           >
             <div style={{ maxWidth: 820 }}>
@@ -540,11 +595,12 @@ export default function App() {
 
               <h1
                 style={{
-                  fontSize: "clamp(40px, 7vw, 84px)",
-                  lineHeight: 0.95,
+                  fontSize: "clamp(42px, 7vw, 88px)",
+                  lineHeight: 0.92,
                   margin: "0 0 14px",
                   fontWeight: 900,
-                  letterSpacing: "-0.04em",
+                  letterSpacing: "-0.05em",
+                  textShadow: heroTextShadow,
                 }}
               >
                 {t.title}
@@ -552,10 +608,11 @@ export default function App() {
 
               <div
                 style={{
-                  fontSize: "clamp(18px, 2.2vw, 28px)",
+                  fontSize: "clamp(18px, 2.1vw, 30px)",
                   fontWeight: 600,
                   marginBottom: 14,
                   color: "#f1f5e8",
+                  textShadow: heroTextShadow,
                 }}
               >
                 {t.subtitle}
@@ -563,9 +620,9 @@ export default function App() {
 
               <div
                 style={{
-                  fontSize: "clamp(16px, 1.5vw, 20px)",
+                  fontSize: "clamp(16px, 1.45vw, 20px)",
                   lineHeight: 1.65,
-                  color: "rgba(255,255,255,0.94)",
+                  color: "rgba(255,255,255,0.95)",
                   maxWidth: 1000,
                 }}
               >
@@ -575,13 +632,13 @@ export default function App() {
 
             <div
               style={{
-                width: "min(100%, 320px)",
-                minHeight: 220,
-                borderRadius: 24,
+                width: "min(100%, 360px)",
+                minHeight: 260,
+                borderRadius: 28,
                 overflow: "hidden",
                 border: "1px solid rgba(255,255,255,0.18)",
                 boxShadow: "0 22px 50px rgba(0,0,0,0.24)",
-                backgroundImage: `url(${IMAGES.home})`,
+                backgroundImage: `linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.18)), url(${IMAGES.home})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -592,8 +649,8 @@ export default function App() {
             style={{
               display: "grid",
               gridTemplateColumns: "1fr",
-              gap: 16,
-              marginTop: 24,
+              gap: 18,
+              marginTop: 26,
             }}
           >
             <div>
@@ -611,11 +668,26 @@ export default function App() {
               </div>
             </div>
 
-            <div>
-              <div style={sectionHeadingStyle}>{t.voice}</div>
-              <button onClick={() => setVoiceOn((v) => !v)} style={pillButton(voiceOn)}>
-                {voiceOn ? t.on : t.off}
-              </button>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
+              <div>
+                <div style={sectionHeadingStyle}>{t.voice}</div>
+                <button onClick={() => setVoiceOn((v) => !v)} style={pillButton(voiceOn)}>
+                  {voiceOn ? t.on : t.off}
+                </button>
+              </div>
+
+              <div>
+                <div style={sectionHeadingStyle}>{t.tour}</div>
+                <button
+                  onClick={() => {
+                    setTourOn((v) => !v);
+                    if (!tourOn) setView("home");
+                  }}
+                  style={pillButton(tourOn)}
+                >
+                  {tourOn ? t.stopTour : t.startTour}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -638,7 +710,10 @@ export default function App() {
             <div
               key={card.key}
               style={pathwayCardStyle}
-              onClick={() => setView(card.key)}
+              onClick={() => {
+                setTourOn(false);
+                setView(card.key);
+              }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
                 (e.currentTarget as HTMLDivElement).style.boxShadow = "0 28px 56px rgba(0,0,0,0.28)";
@@ -650,8 +725,8 @@ export default function App() {
             >
               <div
                 style={{
-                  height: 190,
-                  backgroundImage: `linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.30)), url(${card.image})`,
+                  height: 210,
+                  backgroundImage: `linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.34)), url(${card.image})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
@@ -698,6 +773,9 @@ export default function App() {
             <a href={SITE_URL} target="_blank" rel="noreferrer" style={linkButtonStyle}>
               {t.website}
             </a>
+            <a href={FACEBOOK_URL} target="_blank" rel="noreferrer" style={blueLinkButtonStyle}>
+              {t.facebook}
+            </a>
             <a href={STOREFRONT_URL} target="_blank" rel="noreferrer" style={secondaryLinkButtonStyle}>
               {t.storefront}
             </a>
@@ -722,7 +800,13 @@ export default function App() {
             marginBottom: 18,
           }}
         >
-          <button onClick={() => setView("home")} style={pillButton(true)}>
+          <button
+            onClick={() => {
+              setTourOn(false);
+              setView("home");
+            }}
+            style={pillButton(true)}
+          >
             ← {t.back}
           </button>
         </div>
@@ -730,7 +814,7 @@ export default function App() {
         <div style={{ ...glassStyle, overflow: "hidden" }}>
           <div
             style={{
-              minHeight: 310,
+              minHeight: 340,
               backgroundImage: `linear-gradient(rgba(8, 18, 10, 0.35), rgba(8, 18, 10, 0.62)), url(${IMAGES[key]})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -754,11 +838,12 @@ export default function App() {
 
               <h1
                 style={{
-                  fontSize: "clamp(38px, 6vw, 70px)",
+                  fontSize: "clamp(40px, 6vw, 74px)",
                   lineHeight: 0.95,
                   margin: "0 0 10px",
                   fontWeight: 900,
                   letterSpacing: "-0.04em",
+                  textShadow: heroTextShadow,
                 }}
               >
                 {content.title}
@@ -771,6 +856,7 @@ export default function App() {
                   maxWidth: 860,
                   fontWeight: 650,
                   color: "#fbfff5",
+                  textShadow: heroTextShadow,
                 }}
               >
                 {content.soundbite}
@@ -830,7 +916,7 @@ export default function App() {
                 <div
                   style={{
                     ...panelStyle,
-                    minHeight: 240,
+                    minHeight: 260,
                     backgroundImage: `linear-gradient(rgba(255,255,255,0.05), rgba(255,255,255,0.10)), url(${IMAGES[key]})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -842,6 +928,9 @@ export default function App() {
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
                     <a href={SITE_URL} target="_blank" rel="noreferrer" style={linkButtonStyle}>
                       {t.website}
+                    </a>
+                    <a href={FACEBOOK_URL} target="_blank" rel="noreferrer" style={blueLinkButtonStyle}>
+                      {t.facebook}
                     </a>
                     {(key === "marketplace" || key === "customer" || key === "grower") && (
                       <a
