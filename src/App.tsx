@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// src/App.tsx
+import React, { useMemo, useState } from "react";
 
 type Role =
   | "home"
@@ -9,10 +10,79 @@ type Role =
   | "youth"
   | "partners";
 
+type Lang = "EN" | "ES" | "TL" | "IT" | "FR" | "HE";
+
 export default function App() {
   const [page, setPage] = useState<Role>("home");
+  const [lang, setLang] = useState<Lang>("EN");
 
-  const Button = ({
+  const text = useMemo(
+    () => ({
+      EN: {
+        title: "Bronson Family Farm",
+        intro:
+          "Step into the ecosystem. Food. Learning. Growers. Workforce. Marketplace. Partnerships.",
+        back: "Back Home",
+        store: "Enter Storefront",
+      },
+      ES: {
+        title: "Bronson Family Farm",
+        intro:
+          "Entre al ecosistema. Comida. Aprendizaje. Productores. Empleo juvenil. Mercado. Alianzas.",
+        back: "Volver",
+        store: "Entrar Tienda",
+      },
+      TL: {
+        title: "Bronson Family Farm",
+        intro:
+          "Pumasok sa ecosystem. Pagkain. Pagkatuto. Growers. Kabataan. Marketplace. Partnerships.",
+        back: "Bumalik",
+        store: "Pumasok sa Tindahan",
+      },
+      IT: {
+        title: "Bronson Family Farm",
+        intro:
+          "Entra nell’ecosistema. Cibo. Formazione. Coltivatori. Giovani. Mercato. Partner.",
+        back: "Home",
+        store: "Entra Negozio",
+      },
+      FR: {
+        title: "Bronson Family Farm",
+        intro:
+          "Entrez dans l’écosystème. Nourriture. Formation. Producteurs. Jeunesse. Marché. Partenariats.",
+        back: "Accueil",
+        store: "Entrer Boutique",
+      },
+      HE: {
+        title: "Bronson Family Farm",
+        intro:
+          "היכנסו למערכת האקולוגית. מזון. למידה. מגדלים. נוער. שוק. שותפויות.",
+        back: "בית",
+        store: "כניסה לחנות",
+      },
+    }),
+    []
+  );
+
+  const LangBar = () => (
+    <div className="flex flex-wrap gap-2 mb-8">
+      {(["EN", "ES", "TL", "IT", "FR", "HE"] as Lang[]).map((l) => (
+        <button
+          key={l}
+          onClick={() => setLang(l)}
+          className={`px-3 py-1 rounded-full text-sm border transition ${
+            lang === l
+              ? "bg-white text-black border-white"
+              : "bg-white/10 text-white border-white/20"
+          }`}
+        >
+          {l}
+        </button>
+      ))}
+    </div>
+  );
+
+  const NavBtn = ({
     label,
     go,
   }: {
@@ -21,7 +91,7 @@ export default function App() {
   }) => (
     <button
       onClick={() => setPage(go)}
-      className="rounded-2xl border border-white/20 bg-white/10 px-5 py-3 text-white hover:bg-white hover:text-black transition"
+      className="rounded-2xl border border-white/20 bg-white/10 px-5 py-3 text-white hover:bg-white hover:text-black transition-all duration-300"
     >
       {label}
     </button>
@@ -38,23 +108,29 @@ export default function App() {
     image: string;
     children: React.ReactNode;
   }) => (
-    <div className="min-h-screen relative text-white">
+    <div className="min-h-screen relative text-white overflow-hidden">
       <img
         src={image}
         className="absolute inset-0 w-full h-full object-cover"
         alt=""
       />
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-black/65" />
+
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-10">
+        <LangBar />
+
         <button
           onClick={() => setPage("home")}
           className="mb-8 rounded-full border border-white/20 bg-white/10 px-4 py-2 hover:bg-white hover:text-black transition"
         >
-          Back Home
+          {text[lang].back}
         </button>
 
-        <h1 className="text-5xl font-semibold mb-4">{title}</h1>
-        <p className="text-xl text-white/85 mb-8 max-w-3xl">{subtitle}</p>
+        <h1 className="text-4xl md:text-5xl font-semibold mb-4">{title}</h1>
+
+        <p className="text-lg md:text-xl text-white/85 mb-10 max-w-3xl">
+          {subtitle}
+        </p>
 
         {children}
       </div>
@@ -64,13 +140,13 @@ export default function App() {
   if (page === "guest")
     return (
       <Shell
-        title="Guest Pathway"
-        subtitle="Understand the vision, story, purpose, and meaning of Bronson Family Farm."
+        title="Guest Experience"
+        subtitle="Understand the vision, story, purpose, airport legacy, and regenerative future."
         image="/images/guest-forest.jpg"
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Button label="Customer Pathway" go="customer" />
-          <Button label="Partners Pathway" go="partners" />
+          <NavBtn label="Customer Journey" go="customer" />
+          <NavBtn label="Partners Pathway" go="partners" />
         </div>
       </Shell>
     );
@@ -78,13 +154,13 @@ export default function App() {
   if (page === "customer")
     return (
       <Shell
-        title="Customer Pathway"
-        subtitle="Fresh food, nutrition, healthy choices, reasons to return."
+        title="Customer Journey"
+        subtitle="Fresh food, recipes, nutrition, healthier choices, reasons to return again and again."
         image="/images/customer-produce.jpg"
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Button label="Open Marketplace" go="marketplace" />
-          <Button label="Grower Pathway" go="grower" />
+          <NavBtn label="Open Marketplace" go="marketplace" />
+          <NavBtn label="Grower Opportunities" go="grower" />
         </div>
       </Shell>
     );
@@ -93,7 +169,7 @@ export default function App() {
     return (
       <Shell
         title="Marketplace"
-        subtitle="Where attention becomes action and support becomes sustainability."
+        subtitle="Where interest becomes support and support becomes sustainability."
         image="/images/marketplace-storefront.jpg"
       >
         <div className="grid gap-4 md:grid-cols-2">
@@ -105,7 +181,8 @@ export default function App() {
           >
             Open GrownBy Store
           </a>
-          <Button label="Grower Pathway" go="grower" />
+
+          <NavBtn label="Grower Pathway" go="grower" />
         </div>
       </Shell>
     );
@@ -114,12 +191,12 @@ export default function App() {
     return (
       <Shell
         title="Grower Pathway"
-        subtitle="Connect producers to opportunity, visibility, and market participation."
+        subtitle="Connect producers to visibility, buyers, training, and market participation."
         image="/images/grower-field.jpg"
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Button label="Marketplace" go="marketplace" />
-          <Button label="Partners" go="partners" />
+          <NavBtn label="Marketplace" go="marketplace" />
+          <NavBtn label="Partners" go="partners" />
         </div>
       </Shell>
     );
@@ -128,12 +205,12 @@ export default function App() {
     return (
       <Shell
         title="Youth Workforce"
-        subtitle="Build skills, confidence, responsibility, and future readiness."
+        subtitle="Build skills, responsibility, confidence, leadership, and future readiness."
         image="/images/youth-workforce.jpg"
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Button label="Partners" go="partners" />
-          <Button label="Guest Pathway" go="guest" />
+          <NavBtn label="Partners" go="partners" />
+          <NavBtn label="Guest Pathway" go="guest" />
         </div>
       </Shell>
     );
@@ -142,42 +219,43 @@ export default function App() {
     return (
       <Shell
         title="Partners Pathway"
-        subtitle="Align resources, sponsors, schools, health systems, and community benefit."
+        subtitle="Align schools, sponsors, health systems, growers, and community resources."
         image="/images/partners-collaboration.jpg"
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Button label="Marketplace" go="marketplace" />
-          <Button label="Youth Workforce" go="youth" />
+          <NavBtn label="Marketplace" go="marketplace" />
+          <NavBtn label="Youth Workforce" go="youth" />
         </div>
       </Shell>
     );
 
   return (
-    <div className="min-h-screen relative text-white">
+    <div className="min-h-screen relative text-white overflow-hidden">
       <img
         src="/images/entrance-farm.jpg"
         className="absolute inset-0 w-full h-full object-cover"
         alt=""
       />
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-black/65" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-12">
-        <h1 className="text-6xl font-semibold mb-4">
-          Bronson Family Farm
+        <LangBar />
+
+        <h1 className="text-5xl md:text-7xl font-semibold mb-4">
+          {text[lang].title}
         </h1>
 
-        <p className="text-2xl text-white/85 mb-10 max-w-4xl">
-          Step into the ecosystem. Food. Learning. Growers. Workforce.
-          Marketplace. Partnerships.
+        <p className="text-xl md:text-2xl text-white/85 mb-10 max-w-4xl">
+          {text[lang].intro}
         </p>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <Button label="Guest" go="guest" />
-          <Button label="Customer" go="customer" />
-          <Button label="Marketplace" go="marketplace" />
-          <Button label="Grower" go="grower" />
-          <Button label="Youth Workforce" go="youth" />
-          <Button label="Partners" go="partners" />
+          <NavBtn label="Guest" go="guest" />
+          <NavBtn label="Customer" go="customer" />
+          <NavBtn label="Marketplace" go="marketplace" />
+          <NavBtn label="Grower" go="grower" />
+          <NavBtn label="Youth Workforce" go="youth" />
+          <NavBtn label="Partners" go="partners" />
         </div>
 
         <div className="mt-10">
@@ -185,9 +263,9 @@ export default function App() {
             href="https://grownby.com/farms/bronson-family-farm/shop"
             target="_blank"
             rel="noreferrer"
-            className="rounded-2xl border border-white/20 bg-white/10 px-5 py-3 hover:bg-white hover:text-black transition"
+            className="rounded-2xl border border-white/20 bg-white/10 px-6 py-3 hover:bg-white hover:text-black transition"
           >
-            Enter Storefront
+            {text[lang].store}
           </a>
         </div>
       </div>
