@@ -348,23 +348,20 @@ export default function App() {
     utterance.rate = 0.93;
     utterance.pitch = 1.0;
     utterance.volume = 1;
-
-    const locale = getVoiceLocale(lang);
-    utterance.lang = locale;
+    utterance.lang = getVoiceLocale(lang);
 
     const availableVoices = window.speechSynthesis.getVoices();
     const matchedVoice =
-      availableVoices.find((v) => v.lang.toLowerCase().startsWith(locale.toLowerCase().split("-")[0])) ||
-      availableVoices.find((v) => v.lang.toLowerCase().startsWith("en"));
+      availableVoices.find((v) =>
+        v.lang.toLowerCase().startsWith(getVoiceLocale(lang).toLowerCase().split("-")[0])
+      ) || availableVoices.find((v) => v.lang.toLowerCase().startsWith("en"));
 
     if (matchedVoice) utterance.voice = matchedVoice;
 
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
 
-    return () => {
-      window.speechSynthesis.cancel();
-    };
+    return () => window.speechSynthesis.cancel();
   }, [speechText, voiceOn, lang, voicesLoaded]);
 
   const currentImage = view === "home" ? IMAGES.home : IMAGES[view];
@@ -461,19 +458,6 @@ export default function App() {
     color: "#d8e6c8",
     marginBottom: 8,
     fontWeight: 800,
-  };
-
-  const detailGridStyle: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: "1.2fr 1fr",
-    gap: 22,
-    marginTop: 24,
-  };
-
-  const detailRightGridStyle: React.CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: "1fr",
-    gap: 18,
   };
 
   const knowledgeListStyle: React.CSSProperties = {
@@ -636,7 +620,16 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ marginTop: 24, fontSize: 14, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "#d9e7cc" }}>
+        <div
+          style={{
+            marginTop: 24,
+            fontSize: 14,
+            fontWeight: 800,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "#d9e7cc",
+          }}
+        >
           {t.choose}
         </div>
 
@@ -652,7 +645,7 @@ export default function App() {
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
-                (e.currentTarget as HTMLDivElement).style.boxShadow = glassStyle.boxShadow as string;
+                (e.currentTarget as HTMLDivElement).style.boxShadow = "0 24px 80px rgba(0,0,0,0.28)";
               }}
             >
               <div
@@ -664,10 +657,24 @@ export default function App() {
                 }}
               />
               <div style={{ padding: 20 }}>
-                <div style={{ fontSize: 28, fontWeight: 900, marginBottom: 8, letterSpacing: "-0.03em" }}>
+                <div
+                  style={{
+                    fontSize: 28,
+                    fontWeight: 900,
+                    marginBottom: 8,
+                    letterSpacing: "-0.03em",
+                  }}
+                >
                   {card.title}
                 </div>
-                <div style={{ fontSize: 17, lineHeight: 1.5, color: "rgba(255,255,255,0.92)", minHeight: 74 }}>
+                <div
+                  style={{
+                    fontSize: 17,
+                    lineHeight: 1.5,
+                    color: "rgba(255,255,255,0.92)",
+                    minHeight: 74,
+                  }}
+                >
                   {card.text}
                 </div>
                 <button
@@ -716,8 +723,7 @@ export default function App() {
           }}
         >
           <button onClick={() => setView("home")} style={pillButton(true)}>
-            {isRTL ? "← " : "← "}
-            {t.back}
+            ← {t.back}
           </button>
         </div>
 
@@ -803,8 +809,10 @@ export default function App() {
 
             <div
               style={{
-                ...detailGridStyle,
+                display: "grid",
                 gridTemplateColumns: "minmax(0, 1.25fr) minmax(320px, 0.75fr)",
+                gap: 22,
+                marginTop: 24,
               }}
             >
               <div style={panelStyle}>
@@ -818,7 +826,7 @@ export default function App() {
                 </ul>
               </div>
 
-              <div style={detailRightGridStyle}>
+              <div style={{ display: "grid", gap: 18 }}>
                 <div
                   style={{
                     ...panelStyle,
