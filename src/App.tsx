@@ -6,6 +6,7 @@ type Pathway = {
   desc: string;
   img: string;
   btn: string;
+  target: string;
 };
 
 type ProofCard = {
@@ -13,6 +14,16 @@ type ProofCard = {
   desc: string;
   img: string;
   btn: string;
+};
+
+type JourneyCard = {
+  title: string;
+  kicker: string;
+  summary: string;
+  points: string[];
+  cta: string;
+  image: string;
+  action: "marketplace" | "history" | "connect" | "happening";
 };
 
 type CopySet = {
@@ -41,6 +52,9 @@ type CopySet = {
   happeningTag: string;
   historyTag: string;
   connectTag: string;
+  journeyTag: string;
+  journeyTitle: string;
+  journeyDesc: string;
 };
 
 export default function App() {
@@ -104,6 +118,10 @@ export default function App() {
         happeningTag: "Momentum on the Land",
         historyTag: "Historic Ground",
         connectTag: "Get Involved",
+        journeyTag: "Journey Mode",
+        journeyTitle: "Every pathway leads to something meaningful",
+        journeyDesc:
+          "Each role in the ecosystem opens into purpose, value, and a next step.",
       },
       ES: {
         siteTag: "Sitio Histórico del Aeropuerto Lansdowne | Est. 1926",
@@ -144,6 +162,10 @@ export default function App() {
         happeningTag: "Impulso en la Tierra",
         historyTag: "Terreno Histórico",
         connectTag: "Participe",
+        journeyTag: "Modo de Recorrido",
+        journeyTitle: "Cada camino lleva a algo significativo",
+        journeyDesc:
+          "Cada rol dentro del ecosistema se abre hacia propósito, valor y un siguiente paso.",
       },
       TL: {
         siteTag: "Makasaysayang Lansdowne Airport Site | Itinatag noong 1926",
@@ -184,6 +206,10 @@ export default function App() {
         happeningTag: "Galaw sa Lupain",
         historyTag: "Makasaysayang Lupain",
         connectTag: "Makilahok",
+        journeyTag: "Journey Mode",
+        journeyTitle: "Bawat pathway ay may makabuluhang pupuntahan",
+        journeyDesc:
+          "Bawat papel sa ecosystem ay may layunin, halaga, at susunod na hakbang.",
       },
       FR: {
         siteTag: "Site historique de l’aéroport de Lansdowne | Fondé en 1926",
@@ -224,6 +250,10 @@ export default function App() {
         happeningTag: "Élan sur le Terrain",
         historyTag: "Terrain Historique",
         connectTag: "Impliquez-vous",
+        journeyTag: "Mode Parcours",
+        journeyTitle: "Chaque parcours mène à quelque chose d’utile",
+        journeyDesc:
+          "Chaque rôle dans l’écosystème ouvre sur un but, une valeur et une prochaine étape.",
       },
       HE: {
         siteTag: "אתר היסטורי שדה התעופה לנסדאון | נוסד 1926",
@@ -264,6 +294,10 @@ export default function App() {
         happeningTag: "תנופה על הקרקע",
         historyTag: "קרקע היסטורית",
         connectTag: "הצטרפו",
+        journeyTag: "מסע חווייתי",
+        journeyTitle: "כל מסלול מוביל למשהו משמעותי",
+        journeyDesc:
+          "כל תפקיד במערכת פותח מטרה, ערך וצעד הבא.",
       },
     };
 
@@ -292,6 +326,7 @@ export default function App() {
       desc: "Explore the land, history, purpose, and future of Bronson Family Farm.",
       img: images.guest,
       btn: "Enter as Guest",
+      target: "journey-guest",
     },
     {
       title: "Customer",
@@ -299,6 +334,7 @@ export default function App() {
       desc: "Access seasonal produce, healthy choices, events, and repeat buying opportunities.",
       img: images.customer,
       btn: "Shop Fresh",
+      target: "journey-customer",
     },
     {
       title: "Marketplace",
@@ -306,6 +342,7 @@ export default function App() {
       desc: "Buy from Bronson Family Farm and regional growers through a modern marketplace.",
       img: images.marketplace,
       btn: "Enter Marketplace",
+      target: "journey-marketplace",
     },
     {
       title: "Grower",
@@ -313,6 +350,7 @@ export default function App() {
       desc: "Connect producers to market access, collaboration, and opportunity.",
       img: images.grower,
       btn: "Become a Grower",
+      target: "journey-grower",
     },
     {
       title: "Youth Workforce",
@@ -320,6 +358,7 @@ export default function App() {
       desc: "Hands-on learning in agriculture, logistics, leadership, and entrepreneurship.",
       img: images.youth,
       btn: "Join Program",
+      target: "journey-youth",
     },
     {
       title: "Partners",
@@ -327,6 +366,7 @@ export default function App() {
       desc: "Align sponsorship, education, and mission-driven collaboration.",
       img: images.partners,
       btn: "Partner With Us",
+      target: "journey-partners",
     },
   ];
 
@@ -374,6 +414,93 @@ export default function App() {
     { name: "Regional Partners", sub: "Collaboration & Support" },
   ];
 
+  const journeyCards: JourneyCard[] = [
+    {
+      title: "Guest Pathway",
+      kicker: "Experience the vision",
+      summary:
+        "See the story of the land, understand the purpose, and connect with the meaning behind the farm.",
+      points: [
+        "Historic Lansdowne Airport legacy",
+        "Why regenerative agriculture matters here",
+        "A living story of place, renewal, and belonging",
+      ],
+      cta: "See the history",
+      image: images.guest,
+      action: "history",
+    },
+    {
+      title: "Customer Pathway",
+      kicker: "Choose fresh food and repeat value",
+      summary:
+        "Discover produce, healthy choices, and a market experience designed to bring people back again and again.",
+      points: [
+        "Seasonal produce and fresh offerings",
+        "Healthy food access and local buying",
+        "A welcoming farm-to-customer experience",
+      ],
+      cta: "See what’s happening now",
+      image: images.customer,
+      action: "happening",
+    },
+    {
+      title: "Marketplace Pathway",
+      kicker: "Convert interest into purchasing power",
+      summary:
+        "The marketplace creates a bridge between community demand, farm sales, and local economic sustainability.",
+      points: [
+        "Direct shopping through GrownBy",
+        "Visibility for Bronson Family Farm",
+        "A pathway toward regional grower participation",
+      ],
+      cta: "Open marketplace",
+      image: images.marketplace,
+      action: "marketplace",
+    },
+    {
+      title: "Grower Pathway",
+      kicker: "Connect producers to opportunity",
+      summary:
+        "Growers can connect with visibility, training, participation, and long-term market access through the ecosystem.",
+      points: [
+        "Market presence and local selling pathways",
+        "Collaboration and ecosystem participation",
+        "A stronger regional grower network",
+      ],
+      cta: "Connect with the ecosystem",
+      image: images.grower,
+      action: "connect",
+    },
+    {
+      title: "Youth Workforce Pathway",
+      kicker: "Build skills and future readiness",
+      summary:
+        "This pathway demonstrates how young people can grow through agriculture, logistics, responsibility, and leadership.",
+      points: [
+        "Hands-on exposure to real work",
+        "Agriculture, teamwork, and responsibility",
+        "A future-facing local workforce vision",
+      ],
+      cta: "Get involved",
+      image: images.youth,
+      action: "connect",
+    },
+    {
+      title: "Partners Pathway",
+      kicker: "Align resources for community benefit",
+      summary:
+        "Partners help scale land use, food access, education, workforce development, and long-term community impact.",
+      points: [
+        "Schools, sponsors, institutions, and civic alignment",
+        "Shared benefit through practical collaboration",
+        "A stronger future through coordinated support",
+      ],
+      cta: "Partner with us",
+      image: images.partners,
+      action: "connect",
+    },
+  ];
+
   const initials = (name: string) =>
     name
       .split(" ")
@@ -382,11 +509,11 @@ export default function App() {
       .slice(0, 3)
       .toUpperCase();
 
-  const handlePathwayClick = (title: string) => {
-    if (title === "Marketplace") openMarketplace();
-    else if (title === "Guest") goTo("history");
-    else if (title === "Customer") goTo("happening-now");
-    else goTo("connect");
+  const handleJourneyAction = (action: JourneyCard["action"]) => {
+    if (action === "marketplace") openMarketplace();
+    if (action === "history") goTo("history");
+    if (action === "happening") goTo("happening-now");
+    if (action === "connect") goTo("connect");
   };
 
   const handleProofClick = (title: string) => {
@@ -582,7 +709,7 @@ export default function App() {
                 </p>
 
                 <button
-                  onClick={() => handlePathwayClick(item.title)}
+                  onClick={() => goTo(item.target)}
                   className="w-full rounded-2xl bg-[#245730] py-3.5 text-sm font-semibold tracking-[0.03em] text-white shadow-sm transition hover:bg-[#1b4424]"
                 >
                   {item.btn}
@@ -590,6 +717,76 @@ export default function App() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section id="journeys" className="bg-[#f3f1e8] px-6 py-20 md:px-10 md:py-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-14 max-w-3xl text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#5d7f59]">
+              {copy.journeyTag}
+            </p>
+            <h3 className="text-3xl font-semibold tracking-tight text-[#1f2d1f] md:text-5xl">
+              {copy.journeyTitle}
+            </h3>
+            <p className="mx-auto mt-5 text-lg leading-8 text-[#556255]">
+              {copy.journeyDesc}
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            {journeyCards.map((card, index) => (
+              <section
+                id={`journey-${card.title.toLowerCase().split(" ")[0]}`}
+                key={card.title}
+                className="overflow-hidden rounded-[1.8rem] border border-[#e2e3d7] bg-white shadow-[0_12px_34px_rgba(22,35,20,0.06)]"
+              >
+                <div className={`grid items-stretch gap-0 lg:grid-cols-2 ${index % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""}`}>
+                  <div className="min-h-[320px]">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="flex items-center p-8 md:p-10">
+                    <div>
+                      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-[#688465]">
+                        {card.kicker}
+                      </p>
+                      <h4 className="text-3xl font-semibold tracking-tight text-[#1f2d1f]">
+                        {card.title}
+                      </h4>
+                      <p className="mt-5 text-[16px] leading-8 text-[#556255]">
+                        {card.summary}
+                      </p>
+
+                      <div className="mt-6 space-y-3">
+                        {card.points.map((point) => (
+                          <div key={point} className="flex items-start gap-3">
+                            <div className="mt-2 h-2.5 w-2.5 rounded-full bg-[#2e6a3b]" />
+                            <p className="text-[15px] leading-7 text-[#556255]">
+                              {point}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="mt-8">
+                        <button
+                          onClick={() => handleJourneyAction(card.action)}
+                          className="rounded-2xl bg-[#245730] px-6 py-3.5 text-sm font-semibold tracking-[0.03em] text-white transition hover:bg-[#1b4424]"
+                        >
+                          {card.cta}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            ))}
+          </div>
         </div>
       </section>
 
