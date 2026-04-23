@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type Pathway = {
   title: string;
@@ -27,8 +27,124 @@ export default function App() {
     window.open("https://grownby.com/farms/bronson-family-farm/shop", "_blank");
   };
 
-  // Centralized image mapping:
-  // If one image feels wrong, change only this object.
+  const languageNames: Record<string, string> = {
+    EN: "English",
+    ES: "Español",
+    TL: "Tagalog",
+    FR: "Français",
+  };
+
+  const copy = useMemo(() => {
+    const translations = {
+      EN: {
+        siteTag: "Historic Lansdowne Airport Site | Est. 1926",
+        heroTitle:
+          "From Youngstown’s first airport to a new future of food, learning, and community renewal.",
+        heroDesc:
+          "Bronson Family Farm is transforming historic land into a regenerative farm, agritourism destination, youth workforce pathway, and living ecosystem for the Mahoning Valley.",
+        enterBtn: "Enter the Ecosystem",
+        exploreBtn: "Explore Pathways",
+        trustLine:
+          "Regenerative Agriculture • Youth Workforce • Local Food Access • Grower Opportunity • Community Legacy",
+        pathwaysTitle: "Choose Your Pathway Into the Ecosystem",
+        pathwaysDesc:
+          "A place where land, food, learning, business, and community come together.",
+        happeningTitle: "Happening Now at Bronson Family Farm",
+        happeningDesc:
+          "Fresh activity. Real opportunities. Community momentum.",
+        historyTitle: "A Historic Place With a Living Future",
+        historyDesc:
+          "Lansdowne Airport was dedicated in 1926 as Youngstown’s first airport. Today, Bronson Family Farm is helping reconnect land, food, families, growers, and opportunity on the same historic ground.",
+        connectTitle: "Be Part of What’s Growing",
+        connectDesc:
+          "Fresh food. Opportunity. Community renewal. Legacy in motion.",
+        footerLine1: "Historic Lansdowne Airport Site • Youngstown, Ohio",
+        footerLine2: "www.bronsonfamilyfarm.com",
+        liveLang: "Live language view",
+      },
+      ES: {
+        siteTag: "Sitio Histórico del Aeropuerto Lansdowne | Est. 1926",
+        heroTitle:
+          "Del primer aeropuerto de Youngstown a un nuevo futuro de alimentos, aprendizaje y renovación comunitaria.",
+        heroDesc:
+          "Bronson Family Farm está transformando tierra histórica en una granja regenerativa, destino de agroturismo, camino de formación laboral juvenil y ecosistema vivo para el Valle de Mahoning.",
+        enterBtn: "Entrar al Ecosistema",
+        exploreBtn: "Explorar Caminos",
+        trustLine:
+          "Agricultura Regenerativa • Fuerza Laboral Juvenil • Acceso a Alimentos Locales • Oportunidad para Productores • Legado Comunitario",
+        pathwaysTitle: "Elija su Camino Dentro del Ecosistema",
+        pathwaysDesc:
+          "Un lugar donde la tierra, los alimentos, el aprendizaje, los negocios y la comunidad se unen.",
+        happeningTitle: "Lo Que Está Pasando Ahora en Bronson Family Farm",
+        happeningDesc:
+          "Actividad fresca. Oportunidades reales. Impulso comunitario.",
+        historyTitle: "Un Lugar Histórico con un Futuro Vivo",
+        historyDesc:
+          "El Aeropuerto Lansdowne fue inaugurado en 1926 como el primer aeropuerto de Youngstown. Hoy, Bronson Family Farm ayuda a reconectar la tierra, los alimentos, las familias, los productores y la oportunidad en el mismo terreno histórico.",
+        connectTitle: "Sea Parte de Lo Que Está Creciendo",
+        connectDesc:
+          "Alimentos frescos. Oportunidad. Renovación comunitaria. Legado en movimiento.",
+        footerLine1: "Sitio Histórico del Aeropuerto Lansdowne • Youngstown, Ohio",
+        footerLine2: "www.bronsonfamilyfarm.com",
+        liveLang: "Vista activa del idioma",
+      },
+      TL: {
+        siteTag: "Makasaysayang Lansdowne Airport Site | Itinatag noong 1926",
+        heroTitle:
+          "Mula sa unang paliparan ng Youngstown tungo sa bagong hinaharap ng pagkain, pagkatuto, at pagpapanibago ng komunidad.",
+        heroDesc:
+          "Binabago ng Bronson Family Farm ang makasaysayang lupain upang maging regenerative farm, agritourism destination, youth workforce pathway, at buhay na ecosystem para sa Mahoning Valley.",
+        enterBtn: "Pumasok sa Ecosystem",
+        exploreBtn: "Tuklasin ang Mga Pathway",
+        trustLine:
+          "Regenerative Agriculture • Youth Workforce • Access sa Lokal na Pagkain • Oportunidad para sa Growers • Pamayanang May Pamana",
+        pathwaysTitle: "Piliin ang Iyong Pathway Papasok sa Ecosystem",
+        pathwaysDesc:
+          "Isang lugar kung saan nagsasama ang lupa, pagkain, pagkatuto, negosyo, at komunidad.",
+        happeningTitle: "Mga Nangyayari Ngayon sa Bronson Family Farm",
+        happeningDesc:
+          "Sariwang kilos. Tunay na oportunidad. Lakas ng komunidad.",
+        historyTitle: "Isang Makasaysayang Lugar na May Buhay na Hinaharap",
+        historyDesc:
+          "Inialay ang Lansdowne Airport noong 1926 bilang unang paliparan ng Youngstown. Ngayon, tinutulungan ng Bronson Family Farm na muling pagdugtungin ang lupa, pagkain, pamilya, growers, at oportunidad sa parehong makasaysayang lugar.",
+        connectTitle: "Maging Bahagi ng Lumalago",
+        connectDesc:
+          "Sariwang pagkain. Oportunidad. Pagpapanibago ng komunidad. Pamana na kumikilos.",
+        footerLine1: "Makasaysayang Lansdowne Airport Site • Youngstown, Ohio",
+        footerLine2: "www.bronsonfamilyfarm.com",
+        liveLang: "Aktibong wika",
+      },
+      FR: {
+        siteTag: "Site historique de l’aéroport de Lansdowne | Fondé en 1926",
+        heroTitle:
+          "Du premier aéroport de Youngstown vers un nouvel avenir de nourriture, d’apprentissage et de renouveau communautaire.",
+        heroDesc:
+          "Bronson Family Farm transforme un terrain historique en ferme régénératrice, destination d’agritourisme, parcours de main-d’œuvre jeunesse et écosystème vivant pour la vallée de Mahoning.",
+        enterBtn: "Entrer dans l’Écosystème",
+        exploreBtn: "Explorer les Parcours",
+        trustLine:
+          "Agriculture Régénératrice • Jeunesse et Emploi • Accès à l’Alimentation Locale • Opportunités pour les Producteurs • Héritage Communautaire",
+        pathwaysTitle: "Choisissez Votre Parcours dans l’Écosystème",
+        pathwaysDesc:
+          "Un lieu où la terre, la nourriture, l’apprentissage, l’entreprise et la communauté se rejoignent.",
+        happeningTitle: "Ce Qui Se Passe Maintenant à Bronson Family Farm",
+        happeningDesc:
+          "Activité concrète. Véritables opportunités. Élan communautaire.",
+        historyTitle: "Un Lieu Historique Avec un Avenir Vivant",
+        historyDesc:
+          "L’aéroport de Lansdowne a été inauguré en 1926 comme premier aéroport de Youngstown. Aujourd’hui, Bronson Family Farm aide à reconnecter la terre, la nourriture, les familles, les producteurs et les opportunités sur ce même site historique.",
+        connectTitle: "Faites Partie de Ce Qui Grandit",
+        connectDesc:
+          "Nourriture fraîche. Opportunité. Renouveau communautaire. Héritage en mouvement.",
+        footerLine1: "Site historique de l’aéroport de Lansdowne • Youngstown, Ohio",
+        footerLine2: "www.bronsonfamilyfarm.com",
+        liveLang: "Langue active",
+      },
+    };
+
+    return translations[lang as keyof typeof translations] || translations.EN;
+  }, [lang]);
+
   const images = {
     hero: "/GrowArea.jpg",
     guest: "/GrowArea2.jpg",
@@ -124,78 +240,120 @@ export default function App() {
     "Apply Today",
   ];
 
-  return (
-    <div className="min-h-screen bg-[#f7f4ec] text-[#1f2d1f] font-sans">
-      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-200 bg-white/95 px-6 py-4 backdrop-blur">
-        <h1 className="text-2xl font-semibold tracking-wide md:text-3xl">
-          Bronson Family Farm
-        </h1>
+  const handlePathwayClick = (title: string) => {
+    if (title === "Marketplace") openMarketplace();
+    else if (title === "Guest") goTo("history");
+    else if (title === "Customer") goTo("happening-now");
+    else goTo("connect");
+  };
 
-        <div className="flex gap-2">
-          {["EN", "ES", "TL", "FR"].map((l) => (
-            <button
-              key={l}
-              onClick={() => setLang(l)}
-              className={`rounded-full border px-3 py-1 text-sm transition ${
-                lang === l
-                  ? "border-green-800 bg-green-800 text-white"
-                  : "border-gray-300 bg-white text-green-800 hover:border-green-700"
-              }`}
-            >
-              {l}
-            </button>
-          ))}
+  const handleProofClick = (title: string) => {
+    if (title === "Buy Local") openMarketplace();
+    else if (title === "Upcoming Events") goTo("connect");
+    else if (title === "Growing Together") goTo("connect");
+    else goTo("happening-now");
+  };
+
+  const handleActionClick = (btn: string) => {
+    if (btn === "Shop Fresh") openMarketplace();
+    else if (btn === "Visit the Farm") goTo("history");
+    else goTo("connect");
+  };
+
+  return (
+    <div className="min-h-screen bg-[#f7f4ec] text-[#1f2d1f] antialiased">
+      <header className="sticky top-0 z-50 border-b border-[#d9ddcf] bg-[rgba(250,248,242,0.94)] backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
+          <div>
+            <h1 className="text-xl font-semibold tracking-[0.02em] md:text-2xl">
+              Bronson Family Farm
+            </h1>
+            <p className="mt-1 hidden text-xs uppercase tracking-[0.22em] text-[#577053] md:block">
+              Regenerative farm ecosystem
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {["EN", "ES", "TL", "FR"].map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition duration-200 ${
+                  lang === l
+                    ? "border border-[#244b2d] bg-[#244b2d] text-white shadow-sm"
+                    : "border border-[#cfd6c4] bg-white text-[#244b2d] hover:border-[#244b2d] hover:bg-[#f0f4ea]"
+                }`}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
       <section
         id="hero"
-        className="relative flex min-h-[88vh] items-center bg-cover bg-center"
+        className="relative flex min-h-[90vh] items-center overflow-hidden bg-cover bg-center"
         style={{ backgroundImage: `url('${images.hero}')` }}
       >
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,22,13,0.78)_0%,rgba(12,22,13,0.58)_42%,rgba(12,22,13,0.34)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#f7f4ec] to-transparent" />
 
-        <div className="relative z-10 max-w-4xl px-8 text-white md:px-16">
-          <p className="mb-4 text-sm uppercase tracking-[4px] md:text-base">
-            Historic Lansdowne Airport Site | Est. 1926
-          </p>
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-24 md:px-10 md:py-32">
+          <div className="max-w-4xl">
+            <div className="mb-5 inline-flex rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.25em] text-white/90 shadow-sm backdrop-blur-sm md:text-xs">
+              {copy.siteTag}
+            </div>
 
-          <h2 className="mb-6 text-4xl font-semibold leading-tight md:text-6xl">
-            From Youngstown’s first airport to a new future of food, learning,
-            and community renewal.
-          </h2>
+            <h2 className="max-w-4xl text-4xl font-semibold leading-[1.06] text-white md:text-6xl md:leading-[1.02]">
+              {copy.heroTitle}
+            </h2>
 
-          <p className="mb-8 max-w-3xl text-lg leading-relaxed text-white/90 md:text-2xl">
-            Bronson Family Farm is transforming historic land into a regenerative
-            farm, agritourism destination, youth workforce pathway, and living
-            ecosystem for the Mahoning Valley.
-          </p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-white/90 md:text-2xl md:leading-9">
+              {copy.heroDesc}
+            </p>
 
-          <div className="flex flex-wrap gap-4">
-            <button
-              onClick={() => goTo("pathways")}
-              className="rounded-xl bg-green-700 px-6 py-3 text-white transition hover:bg-green-800"
-            >
-              Enter the Ecosystem
-            </button>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <button
+                onClick={() => goTo("pathways")}
+                className="rounded-2xl bg-[#2e6a3b] px-7 py-3.5 text-sm font-semibold tracking-[0.03em] text-white shadow-lg shadow-black/15 transition hover:-translate-y-0.5 hover:bg-[#245730]"
+              >
+                {copy.enterBtn}
+              </button>
 
-            <button
-              onClick={() => goTo("pathways")}
-              className="rounded-xl border border-white px-6 py-3 text-white transition hover:bg-white hover:text-[#1f2d1f]"
-            >
-              Explore Pathways
-            </button>
+              <button
+                onClick={() => goTo("pathways")}
+                className="rounded-2xl border border-white/70 bg-white/8 px-7 py-3.5 text-sm font-semibold tracking-[0.03em] text-white backdrop-blur-sm transition hover:bg-white hover:text-[#1f2d1f]"
+              >
+                {copy.exploreBtn}
+              </button>
+            </div>
+
+            <div className="mt-8 inline-flex rounded-full border border-white/20 bg-black/15 px-4 py-2 text-xs tracking-[0.14em] text-white/80 backdrop-blur-sm">
+              {copy.liveLang}: {languageNames[lang]}
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="pathways" className="mx-auto max-w-7xl px-6 py-20 md:px-12">
-        <div className="mb-14 text-center">
-          <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
-            Choose Your Pathway Into the Ecosystem
+      <section className="border-y border-[#e1e4d7] bg-[#eef2e7]">
+        <div className="mx-auto max-w-7xl px-6 py-5 md:px-10">
+          <p className="text-center text-sm font-medium uppercase tracking-[0.16em] text-[#466146] md:text-[15px]">
+            {copy.trustLine}
+          </p>
+        </div>
+      </section>
+
+      <section id="pathways" className="mx-auto max-w-7xl px-6 py-20 md:px-10 md:py-24">
+        <div className="mx-auto mb-14 max-w-3xl text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#5d7f59]">
+            Ecosystem Pathways
+          </p>
+          <h3 className="text-3xl font-semibold tracking-tight text-[#1f2d1f] md:text-5xl">
+            {copy.pathwaysTitle}
           </h3>
-          <p className="mx-auto max-w-3xl text-lg text-gray-700">
-            A place where land, food, learning, business, and community come together.
+          <p className="mx-auto mt-5 text-lg leading-8 text-[#556255]">
+            {copy.pathwaysDesc}
           </p>
         </div>
 
@@ -203,31 +361,33 @@ export default function App() {
           {pathways.map((item) => (
             <div
               key={item.title}
-              className="overflow-hidden rounded-2xl bg-white shadow-md transition hover:shadow-xl"
+              className="group overflow-hidden rounded-[1.5rem] border border-[#e2e6d9] bg-white shadow-[0_10px_30px_rgba(22,35,20,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(22,35,20,0.12)]"
             >
-              <img
-                src={item.img}
-                alt={item.title}
-                className="h-56 w-full object-cover"
-              />
+              <div className="relative overflow-hidden">
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="h-60 w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
+              </div>
 
-              <div className="p-6">
-                <p className="mb-2 text-sm uppercase tracking-wide text-green-700">
+              <div className="p-6 md:p-7">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#6b8b67]">
                   {item.title}
                 </p>
 
-                <h4 className="mb-3 text-2xl font-semibold">{item.subtitle}</h4>
+                <h4 className="mb-3 text-2xl font-semibold tracking-tight text-[#1f2d1f]">
+                  {item.subtitle}
+                </h4>
 
-                <p className="mb-6 leading-7 text-gray-700">{item.desc}</p>
+                <p className="mb-6 min-h-[84px] text-[15px] leading-7 text-[#5a6457]">
+                  {item.desc}
+                </p>
 
                 <button
-                  onClick={() => {
-                    if (item.title === "Marketplace") openMarketplace();
-                    else if (item.title === "Guest") goTo("history");
-                    else if (item.title === "Customer") goTo("happening-now");
-                    else goTo("connect");
-                  }}
-                  className="w-full rounded-xl bg-green-700 py-3 text-white transition hover:bg-green-800"
+                  onClick={() => handlePathwayClick(item.title)}
+                  className="w-full rounded-2xl bg-[#245730] py-3.5 text-sm font-semibold tracking-[0.03em] text-white shadow-sm transition hover:bg-[#1b4424]"
                 >
                   {item.btn}
                 </button>
@@ -237,14 +397,17 @@ export default function App() {
         </div>
       </section>
 
-      <section id="happening-now" className="bg-[#e7efe4] px-6 py-20 md:px-12">
+      <section id="happening-now" className="bg-[#e7efe4] px-6 py-20 md:px-10 md:py-24">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-14 text-center">
-            <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
-              Happening Now at Bronson Family Farm
+          <div className="mx-auto mb-14 max-w-3xl text-center">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#5d7f59]">
+              Momentum on the Land
+            </p>
+            <h3 className="text-3xl font-semibold tracking-tight text-[#1f2d1f] md:text-5xl">
+              {copy.happeningTitle}
             </h3>
-            <p className="mx-auto max-w-3xl text-lg text-gray-700">
-              Fresh activity. Real opportunities. Community momentum.
+            <p className="mx-auto mt-5 text-lg leading-8 text-[#556255]">
+              {copy.happeningDesc}
             </p>
           </div>
 
@@ -252,26 +415,27 @@ export default function App() {
             {proof.map((item) => (
               <div
                 key={item.title}
-                className="overflow-hidden rounded-2xl bg-white shadow transition hover:shadow-lg"
+                className="group overflow-hidden rounded-[1.4rem] border border-[#dfe7da] bg-white shadow-[0_8px_24px_rgba(22,35,20,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(22,35,20,0.1)]"
               >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="h-48 w-full object-cover"
-                />
+                <div className="overflow-hidden">
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                  />
+                </div>
 
-                <div className="p-5">
-                  <h4 className="mb-2 text-xl font-semibold">{item.title}</h4>
-                  <p className="mb-5 leading-7 text-gray-700">{item.desc}</p>
+                <div className="p-5 md:p-6">
+                  <h4 className="mb-2 text-xl font-semibold tracking-tight text-[#1f2d1f]">
+                    {item.title}
+                  </h4>
+                  <p className="mb-5 min-h-[96px] text-[15px] leading-7 text-[#5a6457]">
+                    {item.desc}
+                  </p>
 
                   <button
-                    onClick={() => {
-                      if (item.title === "Buy Local") openMarketplace();
-                      else if (item.title === "Upcoming Events") goTo("connect");
-                      else if (item.title === "Growing Together") goTo("connect");
-                      else goTo("happening-now");
-                    }}
-                    className="w-full rounded-xl border border-green-700 py-3 text-green-800 transition hover:bg-green-700 hover:text-white"
+                    onClick={() => handleProofClick(item.title)}
+                    className="w-full rounded-2xl border border-[#245730] py-3 text-sm font-semibold tracking-[0.03em] text-[#245730] transition hover:bg-[#245730] hover:text-white"
                   >
                     {item.btn}
                   </button>
@@ -282,54 +446,59 @@ export default function App() {
         </div>
       </section>
 
-      <section id="history" className="mx-auto max-w-5xl px-6 py-20 text-center md:px-12">
-        <h3 className="mb-6 text-3xl font-semibold md:text-4xl">
-          A Historic Place With a Living Future
+      <section id="history" className="mx-auto max-w-5xl px-6 py-20 text-center md:px-10 md:py-24">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#5d7f59]">
+          Historic Ground
+        </p>
+
+        <h3 className="text-3xl font-semibold tracking-tight text-[#1f2d1f] md:text-5xl">
+          {copy.historyTitle}
         </h3>
 
-        <p className="text-lg leading-8 text-gray-700">
-          Lansdowne Airport was dedicated in 1926 as Youngstown’s first airport.
-          Today, Bronson Family Farm is helping reconnect land, food, families,
-          growers, and opportunity on the same historic ground.
+        <p className="mx-auto mt-6 max-w-4xl text-lg leading-9 text-[#556255] md:text-xl">
+          {copy.historyDesc}
         </p>
       </section>
 
       <section
         id="connect"
-        className="relative bg-cover bg-center px-6 py-20 text-white md:px-12"
+        className="relative overflow-hidden bg-cover bg-center px-6 py-20 text-white md:px-10 md:py-24"
         style={{ backgroundImage: `url('${images.footer}')` }}
       >
-        <div className="absolute inset-0 bg-[#18311d]/85" />
+        <div className="absolute inset-0 bg-[rgba(17,41,22,0.86)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_42%)]" />
 
         <div className="relative z-10 mx-auto max-w-6xl text-center">
-          <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
-            Be Part of What’s Growing
-          </h3>
-
-          <p className="mx-auto mb-10 max-w-3xl text-lg text-white/85">
-            Fresh food. Opportunity. Community renewal. Legacy in motion.
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-white/75">
+            Get Involved
           </p>
 
-          <div className="mb-12 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          <h3 className="text-3xl font-semibold tracking-tight md:text-5xl">
+            {copy.connectTitle}
+          </h3>
+
+          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-white/85">
+            {copy.connectDesc}
+          </p>
+
+          <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             {actions.map((btn) => (
               <button
                 key={btn}
-                onClick={() => {
-                  if (btn === "Shop Fresh") openMarketplace();
-                  else if (btn === "Visit the Farm") goTo("history");
-                  else goTo("connect");
-                }}
-                className="rounded-xl bg-white px-4 py-3 font-medium text-[#18311d] transition hover:bg-gray-200"
+                onClick={() => handleActionClick(btn)}
+                className="rounded-2xl bg-white px-4 py-3.5 text-sm font-semibold tracking-[0.03em] text-[#18311d] shadow-[0_10px_24px_rgba(0,0,0,0.12)] transition hover:-translate-y-0.5 hover:bg-[#f0f2ea]"
               >
                 {btn}
               </button>
             ))}
           </div>
 
-          <p className="text-white/75">
-            Historic Lansdowne Airport Site • Youngstown, Ohio
-          </p>
-          <p className="mt-2 text-white/75">www.bronsonfamilyfarm.com</p>
+          <div className="mt-12 border-t border-white/15 pt-8">
+            <p className="text-sm uppercase tracking-[0.18em] text-white/70">
+              {copy.footerLine1}
+            </p>
+            <p className="mt-3 text-base text-white/78">{copy.footerLine2}</p>
+          </div>
         </div>
       </section>
     </div>
