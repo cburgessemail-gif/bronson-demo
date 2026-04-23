@@ -27,47 +27,64 @@ export default function App() {
     window.open("https://grownby.com/farms/bronson-family-farm/shop", "_blank");
   };
 
+  // Centralized image mapping:
+  // If one image feels wrong, change only this object.
+  const images = {
+    hero: "/GrowArea.jpg",
+    guest: "/GrowArea2.jpg",
+    customer: "/SAM_0225.JPG",
+    marketplace: "/SAM_0249.JPG",
+    grower: "/SAM_0238.JPG",
+    youth: "/SAM_0222.JPG",
+    partners: "/SAM_0223.JPG",
+    production: "/SAM_0226.JPG",
+    buyLocal: "/SAM_0229.JPG",
+    events: "/SAM_0255.JPG",
+    community: "/SAM_0257.JPG",
+    footer: "/SAM_0249.JPG",
+  };
+
   const pathways: Pathway[] = [
     {
       title: "Guest",
       subtitle: "Discover the Story",
       desc: "Explore the land, history, purpose, and future of Bronson Family Farm.",
-      img: "/GrowArea.jpg",
+      img: images.guest,
       btn: "Enter as Guest",
     },
     {
       title: "Customer",
       subtitle: "Eat Fresh. Live Better.",
       desc: "Access seasonal produce, healthy choices, events, and repeat buying opportunities.",
-      img: "/SAM_0220.JPG",
+      img: images.customer,
       btn: "Shop Fresh",
     },
     {
       title: "Marketplace",
       subtitle: "Support Local Commerce",
       desc: "Buy from Bronson Family Farm and regional growers through a modern marketplace.",
-      img: "/SAM_0221.JPG",
+      img: images.marketplace,
       btn: "Enter Marketplace",
     },
     {
       title: "Grower",
       subtitle: "Grow With Us",
       desc: "Connect producers to market access, collaboration, and opportunity.",
-      img: "/GrowArea2.jpg",
+      img: images.grower,
       btn: "Become a Grower",
     },
     {
       title: "Youth Workforce",
       subtitle: "Build Skills for the Future",
       desc: "Hands-on learning in agriculture, logistics, leadership, and entrepreneurship.",
-      img: "/SAM_0222.JPG",
+      img: images.youth,
       btn: "Join Program",
     },
     {
       title: "Partners",
       subtitle: "Create Community Impact",
       desc: "Align sponsorship, education, and mission-driven collaboration.",
-      img: "/SAM_0223.JPG",
+      img: images.partners,
       btn: "Partner With Us",
     },
   ];
@@ -76,30 +93,30 @@ export default function App() {
     {
       title: "In Production",
       desc: "Seedlings, produce, regenerative growing systems, seasonal expansion.",
-      img: "/SAM_0225.JPG",
+      img: images.production,
       btn: "View What’s Growing",
     },
     {
       title: "Buy Local",
       desc: "Shop fresh food and support local growers through the marketplace.",
-      img: "/SAM_0226.JPG",
+      img: images.buyLocal,
       btn: "Enter Marketplace",
     },
     {
       title: "Upcoming Events",
       desc: "Tours, workshops, Growers Supply Market, and family experiences on the land.",
-      img: "/SAM_0229.JPG",
+      img: images.events,
       btn: "View Events",
     },
     {
       title: "Growing Together",
       desc: "Education, sponsors, civic collaboration, workforce pathways, and partnerships.",
-      img: "/SAM_0238.JPG",
+      img: images.community,
       btn: "See Partners",
     },
   ];
 
-  const actions: string[] = [
+  const actions = [
     "Visit the Farm",
     "Shop Fresh",
     "Grow With Us",
@@ -134,7 +151,7 @@ export default function App() {
       <section
         id="hero"
         className="relative flex min-h-[88vh] items-center bg-cover bg-center"
-        style={{ backgroundImage: "url('/GrowArea.jpg')" }}
+        style={{ backgroundImage: `url('${images.hero}')` }}
       >
         <div className="absolute inset-0 bg-black/40" />
 
@@ -161,6 +178,7 @@ export default function App() {
             >
               Enter the Ecosystem
             </button>
+
             <button
               onClick={() => goTo("pathways")}
               className="rounded-xl border border-white px-6 py-3 text-white transition hover:bg-white hover:text-[#1f2d1f]"
@@ -245,6 +263,7 @@ export default function App() {
                 <div className="p-5">
                   <h4 className="mb-2 text-xl font-semibold">{item.title}</h4>
                   <p className="mb-5 leading-7 text-gray-700">{item.desc}</p>
+
                   <button
                     onClick={() => {
                       if (item.title === "Buy Local") openMarketplace();
@@ -278,9 +297,10 @@ export default function App() {
       <section
         id="connect"
         className="relative bg-cover bg-center px-6 py-20 text-white md:px-12"
-        style={{ backgroundImage: "url('/SAM_0249.JPG')" }}
+        style={{ backgroundImage: `url('${images.footer}')` }}
       >
         <div className="absolute inset-0 bg-[#18311d]/85" />
+
         <div className="relative z-10 mx-auto max-w-6xl text-center">
           <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
             Be Part of What’s Growing
