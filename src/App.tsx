@@ -18,6 +18,15 @@ type ProofCard = {
 export default function App() {
   const [lang, setLang] = useState("EN");
 
+  const goTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const openMarketplace = () => {
+    window.open("https://grownby.com/farms/bronson-family-farm/shop", "_blank");
+  };
+
   const pathways: Pathway[] = [
     {
       title: "Guest",
@@ -123,6 +132,7 @@ export default function App() {
       </header>
 
       <section
+        id="hero"
         className="relative flex min-h-[88vh] items-center bg-cover bg-center"
         style={{ backgroundImage: "url('/GrowArea.jpg')" }}
       >
@@ -145,17 +155,23 @@ export default function App() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <button className="rounded-xl bg-green-700 px-6 py-3 text-white transition hover:bg-green-800">
+            <button
+              onClick={() => goTo("pathways")}
+              className="rounded-xl bg-green-700 px-6 py-3 text-white transition hover:bg-green-800"
+            >
               Enter the Ecosystem
             </button>
-            <button className="rounded-xl border border-white px-6 py-3 text-white transition hover:bg-white hover:text-[#1f2d1f]">
+            <button
+              onClick={() => goTo("pathways")}
+              className="rounded-xl border border-white px-6 py-3 text-white transition hover:bg-white hover:text-[#1f2d1f]"
+            >
               Explore Pathways
             </button>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20 md:px-12">
+      <section id="pathways" className="mx-auto max-w-7xl px-6 py-20 md:px-12">
         <div className="mb-14 text-center">
           <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
             Choose Your Pathway Into the Ecosystem
@@ -186,7 +202,15 @@ export default function App() {
 
                 <p className="mb-6 leading-7 text-gray-700">{item.desc}</p>
 
-                <button className="w-full rounded-xl bg-green-700 py-3 text-white transition hover:bg-green-800">
+                <button
+                  onClick={() => {
+                    if (item.title === "Marketplace") openMarketplace();
+                    else if (item.title === "Guest") goTo("history");
+                    else if (item.title === "Customer") goTo("happening-now");
+                    else goTo("connect");
+                  }}
+                  className="w-full rounded-xl bg-green-700 py-3 text-white transition hover:bg-green-800"
+                >
                   {item.btn}
                 </button>
               </div>
@@ -195,7 +219,7 @@ export default function App() {
         </div>
       </section>
 
-      <section className="bg-[#e7efe4] px-6 py-20 md:px-12">
+      <section id="happening-now" className="bg-[#e7efe4] px-6 py-20 md:px-12">
         <div className="mx-auto max-w-7xl">
           <div className="mb-14 text-center">
             <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
@@ -221,7 +245,15 @@ export default function App() {
                 <div className="p-5">
                   <h4 className="mb-2 text-xl font-semibold">{item.title}</h4>
                   <p className="mb-5 leading-7 text-gray-700">{item.desc}</p>
-                  <button className="w-full rounded-xl border border-green-700 py-3 text-green-800 transition hover:bg-green-700 hover:text-white">
+                  <button
+                    onClick={() => {
+                      if (item.title === "Buy Local") openMarketplace();
+                      else if (item.title === "Upcoming Events") goTo("connect");
+                      else if (item.title === "Growing Together") goTo("connect");
+                      else goTo("happening-now");
+                    }}
+                    className="w-full rounded-xl border border-green-700 py-3 text-green-800 transition hover:bg-green-700 hover:text-white"
+                  >
                     {item.btn}
                   </button>
                 </div>
@@ -231,7 +263,7 @@ export default function App() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-5xl px-6 py-20 text-center md:px-12">
+      <section id="history" className="mx-auto max-w-5xl px-6 py-20 text-center md:px-12">
         <h3 className="mb-6 text-3xl font-semibold md:text-4xl">
           A Historic Place With a Living Future
         </h3>
@@ -244,6 +276,7 @@ export default function App() {
       </section>
 
       <section
+        id="connect"
         className="relative bg-cover bg-center px-6 py-20 text-white md:px-12"
         style={{ backgroundImage: "url('/SAM_0249.JPG')" }}
       >
@@ -261,6 +294,11 @@ export default function App() {
             {actions.map((btn) => (
               <button
                 key={btn}
+                onClick={() => {
+                  if (btn === "Shop Fresh") openMarketplace();
+                  else if (btn === "Visit the Farm") goTo("history");
+                  else goTo("connect");
+                }}
                 className="rounded-xl bg-white px-4 py-3 font-medium text-[#18311d] transition hover:bg-gray-200"
               >
                 {btn}
