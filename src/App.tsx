@@ -15,6 +15,34 @@ type ProofCard = {
   btn: string;
 };
 
+type CopySet = {
+  siteTag: string;
+  heroTitle: string;
+  heroDesc: string;
+  enterBtn: string;
+  exploreBtn: string;
+  trustLine: string;
+  alignmentTag: string;
+  alignmentTitle: string;
+  alignmentDesc: string;
+  resultsRibbon: string[];
+  pathwaysTitle: string;
+  pathwaysDesc: string;
+  happeningTitle: string;
+  happeningDesc: string;
+  historyTitle: string;
+  historyDesc: string;
+  connectTitle: string;
+  connectDesc: string;
+  footerLine1: string;
+  footerLine2: string;
+  liveLang: string;
+  pathwayTag: string;
+  happeningTag: string;
+  historyTag: string;
+  connectTag: string;
+};
+
 export default function App() {
   const [lang, setLang] = useState("EN");
 
@@ -32,10 +60,11 @@ export default function App() {
     ES: "Español",
     TL: "Tagalog",
     FR: "Français",
+    HE: "עברית",
   };
 
-  const copy = useMemo(() => {
-    const translations = {
+  const copy = useMemo<CopySet>(() => {
+    const translations: Record<string, CopySet> = {
       EN: {
         siteTag: "Historic Lansdowne Airport Site | Est. 1926",
         heroTitle:
@@ -46,6 +75,16 @@ export default function App() {
         exploreBtn: "Explore Pathways",
         trustLine:
           "Regenerative Agriculture • Youth Workforce • Local Food Access • Grower Opportunity • Community Legacy",
+        alignmentTag: "Community Alignment",
+        alignmentTitle: "A vision strengthened through collaboration",
+        alignmentDesc:
+          "Bronson Family Farm connects land, food, workforce development, education, growers, families, and community partnership through a living ecosystem rooted in opportunity and renewal.",
+        resultsRibbon: [
+          "Historic Land Reimagined",
+          "Grower Pathways",
+          "Youth Workforce Vision",
+          "Community Market Access",
+        ],
         pathwaysTitle: "Choose Your Pathway Into the Ecosystem",
         pathwaysDesc:
           "A place where land, food, learning, business, and community come together.",
@@ -61,18 +100,32 @@ export default function App() {
         footerLine1: "Historic Lansdowne Airport Site • Youngstown, Ohio",
         footerLine2: "www.bronsonfamilyfarm.com",
         liveLang: "Live language view",
+        pathwayTag: "Ecosystem Pathways",
+        happeningTag: "Momentum on the Land",
+        historyTag: "Historic Ground",
+        connectTag: "Get Involved",
       },
       ES: {
         siteTag: "Sitio Histórico del Aeropuerto Lansdowne | Est. 1926",
         heroTitle:
           "Del primer aeropuerto de Youngstown a un nuevo futuro de alimentos, aprendizaje y renovación comunitaria.",
         heroDesc:
-          "Bronson Family Farm está transformando tierra histórica en una granja regenerativa, destino de agroturismo, camino de formación laboral juvenil y ecosistema vivo para el Valle de Mahoning.",
+          "Bronson Family Farm está transformando tierra histórica en una granja regenerativa, un destino de agroturismo, un camino de formación laboral juvenil y un ecosistema vivo para el Valle de Mahoning.",
         enterBtn: "Entrar al Ecosistema",
         exploreBtn: "Explorar Caminos",
         trustLine:
           "Agricultura Regenerativa • Fuerza Laboral Juvenil • Acceso a Alimentos Locales • Oportunidad para Productores • Legado Comunitario",
-        pathwaysTitle: "Elija su Camino Dentro del Ecosistema",
+        alignmentTag: "Alineación Comunitaria",
+        alignmentTitle: "Una visión fortalecida por la colaboración",
+        alignmentDesc:
+          "Bronson Family Farm conecta tierra, alimentos, desarrollo laboral, educación, productores, familias y colaboración comunitaria a través de un ecosistema vivo arraigado en la oportunidad y la renovación.",
+        resultsRibbon: [
+          "Tierra Histórica Reimaginada",
+          "Caminos para Productores",
+          "Visión de Fuerza Laboral Juvenil",
+          "Acceso Comunitario al Mercado",
+        ],
+        pathwaysTitle: "Elija Su Camino Dentro del Ecosistema",
         pathwaysDesc:
           "Un lugar donde la tierra, los alimentos, el aprendizaje, los negocios y la comunidad se unen.",
         happeningTitle: "Lo Que Está Pasando Ahora en Bronson Family Farm",
@@ -86,7 +139,11 @@ export default function App() {
           "Alimentos frescos. Oportunidad. Renovación comunitaria. Legado en movimiento.",
         footerLine1: "Sitio Histórico del Aeropuerto Lansdowne • Youngstown, Ohio",
         footerLine2: "www.bronsonfamilyfarm.com",
-        liveLang: "Vista activa del idioma",
+        liveLang: "Idioma activo",
+        pathwayTag: "Caminos del Ecosistema",
+        happeningTag: "Impulso en la Tierra",
+        historyTag: "Terreno Histórico",
+        connectTag: "Participe",
       },
       TL: {
         siteTag: "Makasaysayang Lansdowne Airport Site | Itinatag noong 1926",
@@ -98,6 +155,16 @@ export default function App() {
         exploreBtn: "Tuklasin ang Mga Pathway",
         trustLine:
           "Regenerative Agriculture • Youth Workforce • Access sa Lokal na Pagkain • Oportunidad para sa Growers • Pamayanang May Pamana",
+        alignmentTag: "Pagkakahanay ng Komunidad",
+        alignmentTitle: "Isang bisyong pinatatag ng pakikipagtulungan",
+        alignmentDesc:
+          "Pinagdurugtong ng Bronson Family Farm ang lupa, pagkain, workforce development, edukasyon, growers, pamilya, at pakikipag-ugnayan ng komunidad sa pamamagitan ng buhay na ecosystem na nakaugat sa oportunidad at pagpapanibago.",
+        resultsRibbon: [
+          "Makasaysayang Lupang Binuhay Muli",
+          "Mga Pathway para sa Growers",
+          "Bisyon ng Youth Workforce",
+          "Access ng Komunidad sa Pamilihan",
+        ],
         pathwaysTitle: "Piliin ang Iyong Pathway Papasok sa Ecosystem",
         pathwaysDesc:
           "Isang lugar kung saan nagsasama ang lupa, pagkain, pagkatuto, negosyo, at komunidad.",
@@ -113,6 +180,10 @@ export default function App() {
         footerLine1: "Makasaysayang Lansdowne Airport Site • Youngstown, Ohio",
         footerLine2: "www.bronsonfamilyfarm.com",
         liveLang: "Aktibong wika",
+        pathwayTag: "Mga Pathway ng Ecosystem",
+        happeningTag: "Galaw sa Lupain",
+        historyTag: "Makasaysayang Lupain",
+        connectTag: "Makilahok",
       },
       FR: {
         siteTag: "Site historique de l’aéroport de Lansdowne | Fondé en 1926",
@@ -124,6 +195,16 @@ export default function App() {
         exploreBtn: "Explorer les Parcours",
         trustLine:
           "Agriculture Régénératrice • Jeunesse et Emploi • Accès à l’Alimentation Locale • Opportunités pour les Producteurs • Héritage Communautaire",
+        alignmentTag: "Alignement Communautaire",
+        alignmentTitle: "Une vision renforcée par la collaboration",
+        alignmentDesc:
+          "Bronson Family Farm relie la terre, la nourriture, le développement de la main-d’œuvre, l’éducation, les producteurs, les familles et les partenariats communautaires à travers un écosystème vivant enraciné dans l’opportunité et le renouveau.",
+        resultsRibbon: [
+          "Terrain Historique Réinventé",
+          "Parcours pour les Producteurs",
+          "Vision Jeunesse et Emploi",
+          "Accès Communautaire au Marché",
+        ],
         pathwaysTitle: "Choisissez Votre Parcours dans l’Écosystème",
         pathwaysDesc:
           "Un lieu où la terre, la nourriture, l’apprentissage, l’entreprise et la communauté se rejoignent.",
@@ -139,10 +220,54 @@ export default function App() {
         footerLine1: "Site historique de l’aéroport de Lansdowne • Youngstown, Ohio",
         footerLine2: "www.bronsonfamilyfarm.com",
         liveLang: "Langue active",
+        pathwayTag: "Parcours de l’Écosystème",
+        happeningTag: "Élan sur le Terrain",
+        historyTag: "Terrain Historique",
+        connectTag: "Impliquez-vous",
+      },
+      HE: {
+        siteTag: "אתר היסטורי שדה התעופה לנסדאון | נוסד 1926",
+        heroTitle:
+          "משדה התעופה הראשון של יאנגסטאון לעתיד חדש של מזון, למידה והתחדשות קהילתית.",
+        heroDesc:
+          "Bronson Family Farm משנה אדמה היסטורית לחווה מתחדשת, יעד אגרו-תיירותי, מסלול תעסוקה לנוער ומערכת חיה עבור עמק מהונינג.",
+        enterBtn: "היכנס למערכת",
+        exploreBtn: "חקור מסלולים",
+        trustLine:
+          "חקלאות מתחדשת • תעסוקת נוער • גישה למזון מקומי • הזדמנויות למגדלים • מורשת קהילתית",
+        alignmentTag: "חיבור קהילתי",
+        alignmentTitle: "חזון שמתחזק באמצעות שיתוף פעולה",
+        alignmentDesc:
+          "Bronson Family Farm מחברת בין אדמה, מזון, פיתוח כוח עבודה, חינוך, מגדלים, משפחות ושותפות קהילתית באמצעות מערכת חיה המושרשת בהזדמנות ובהתחדשות.",
+        resultsRibbon: [
+          "אדמה היסטורית בדמיון חדש",
+          "מסלולים למגדלים",
+          "חזון לתעסוקת נוער",
+          "גישה קהילתית לשוק",
+        ],
+        pathwaysTitle: "בחר את המסלול שלך במערכת",
+        pathwaysDesc:
+          "מקום שבו אדמה, מזון, למידה, עסקים וקהילה נפגשים.",
+        happeningTitle: "מה קורה עכשיו ב-Bronson Family Farm",
+        happeningDesc:
+          "פעילות חיה. הזדמנויות אמיתיות. תנופה קהילתית.",
+        historyTitle: "מקום היסטורי עם עתיד חי",
+        historyDesc:
+          "שדה התעופה לנסדאון נחנך בשנת 1926 כשדה התעופה הראשון של יאנגסטאון. כיום Bronson Family Farm מחברת מחדש אדמה, מזון, משפחות, מגדלים והזדמנויות באותו מקום היסטורי.",
+        connectTitle: "היו חלק ממה שצומח",
+        connectDesc:
+          "מזון טרי. הזדמנות. התחדשות קהילתית. מורשת בתנועה.",
+        footerLine1: "אתר היסטורי לנסדאון • יאנגסטאון, אוהיו",
+        footerLine2: "www.bronsonfamilyfarm.com",
+        liveLang: "שפה פעילה",
+        pathwayTag: "מסלולי המערכת",
+        happeningTag: "תנופה על הקרקע",
+        historyTag: "קרקע היסטורית",
+        connectTag: "הצטרפו",
       },
     };
 
-    return translations[lang as keyof typeof translations] || translations.EN;
+    return translations[lang] || translations.EN;
   }, [lang]);
 
   const images = {
@@ -240,6 +365,23 @@ export default function App() {
     "Apply Today",
   ];
 
+  const partnerCards = [
+    { name: "City of Youngstown", sub: "Community Alignment" },
+    { name: "OSU Extension", sub: "Agriculture & Education" },
+    { name: "Flying High Inc.", sub: "Workforce Pathways" },
+    { name: "Julilee Gardens Inc.", sub: "Community Growing Partner" },
+    { name: "United Way", sub: "Community Impact" },
+    { name: "Regional Partners", sub: "Collaboration & Support" },
+  ];
+
+  const initials = (name: string) =>
+    name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .slice(0, 3)
+      .toUpperCase();
+
   const handlePathwayClick = (title: string) => {
     if (title === "Marketplace") openMarketplace();
     else if (title === "Guest") goTo("history");
@@ -261,7 +403,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f4ec] text-[#1f2d1f] antialiased">
+    <div
+      className="min-h-screen bg-[#f7f4ec] text-[#1f2d1f] antialiased"
+      dir={lang === "HE" ? "rtl" : "ltr"}
+    >
       <header className="sticky top-0 z-50 border-b border-[#d9ddcf] bg-[rgba(250,248,242,0.94)] backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
           <div>
@@ -269,12 +414,12 @@ export default function App() {
               Bronson Family Farm
             </h1>
             <p className="mt-1 hidden text-xs uppercase tracking-[0.22em] text-[#577053] md:block">
-              Regenerative farm ecosystem
+              Regenerative Farm Ecosystem
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            {["EN", "ES", "TL", "FR"].map((l) => (
+            {["EN", "ES", "TL", "FR", "HE"].map((l) => (
               <button
                 key={l}
                 onClick={() => setLang(l)}
@@ -344,10 +489,61 @@ export default function App() {
         </div>
       </section>
 
+      <section className="border-b border-[#e1e4d7] bg-[#f8f7f1]">
+        <div className="mx-auto max-w-7xl px-6 py-10 md:px-10 md:py-12">
+          <div className="text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#6a7d67]">
+              {copy.alignmentTag}
+            </p>
+            <h3 className="text-2xl font-semibold tracking-tight text-[#1f2d1f] md:text-3xl">
+              {copy.alignmentTitle}
+            </h3>
+            <p className="mx-auto mt-4 max-w-4xl text-[15px] leading-7 text-[#5a6457] md:text-base">
+              {copy.alignmentDesc}
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {partnerCards.map((item) => (
+              <div
+                key={item.name}
+                className="group rounded-[1.35rem] border border-[#dde4d8] bg-white px-5 py-6 text-center shadow-[0_8px_24px_rgba(22,35,20,0.04)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_14px_34px_rgba(22,35,20,0.08)]"
+              >
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-[#d8e0d2] bg-[#f2f5ee] text-[#2d5935] shadow-inner">
+                  <span className="text-lg font-semibold tracking-[0.08em]">
+                    {initials(item.name)}
+                  </span>
+                </div>
+
+                <p className="text-sm font-semibold uppercase tracking-[0.1em] text-[#244b2d]">
+                  {item.name}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-[#647061]">
+                  {item.sub}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#e2e6da] bg-[#eef2e7]">
+        <div className="mx-auto grid max-w-7xl gap-4 px-6 py-5 text-center md:grid-cols-4 md:px-10">
+          {copy.resultsRibbon.map((item) => (
+            <div
+              key={item}
+              className="text-sm font-semibold uppercase tracking-[0.14em] text-[#466146]"
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section id="pathways" className="mx-auto max-w-7xl px-6 py-20 md:px-10 md:py-24">
         <div className="mx-auto mb-14 max-w-3xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#5d7f59]">
-            Ecosystem Pathways
+            {copy.pathwayTag}
           </p>
           <h3 className="text-3xl font-semibold tracking-tight text-[#1f2d1f] md:text-5xl">
             {copy.pathwaysTitle}
@@ -401,7 +597,7 @@ export default function App() {
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto mb-14 max-w-3xl text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#5d7f59]">
-              Momentum on the Land
+              {copy.happeningTag}
             </p>
             <h3 className="text-3xl font-semibold tracking-tight text-[#1f2d1f] md:text-5xl">
               {copy.happeningTitle}
@@ -448,7 +644,7 @@ export default function App() {
 
       <section id="history" className="mx-auto max-w-5xl px-6 py-20 text-center md:px-10 md:py-24">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#5d7f59]">
-          Historic Ground
+          {copy.historyTag}
         </p>
 
         <h3 className="text-3xl font-semibold tracking-tight text-[#1f2d1f] md:text-5xl">
@@ -470,7 +666,7 @@ export default function App() {
 
         <div className="relative z-10 mx-auto max-w-6xl text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-white/75">
-            Get Involved
+            {copy.connectTag}
           </p>
 
           <h3 className="text-3xl font-semibold tracking-tight md:text-5xl">
