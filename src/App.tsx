@@ -13,11 +13,11 @@ type Page =
 const IMAGES = {
   home: "/images/GrowArea.jpg",
   guest: "/images/GrowArea.jpg",
-  customer: "/images/customer-produce.jpg",
+  customer: "/images/SAM_0249.JPG",
   marketplace: "/images/Bronson Family Farm market flyer.png",
   grower: "/images/GrowArea.jpg",
-  youth: "/images/youth-workforce.jpg",
-  partners: "/images/partners-community.jpg",
+  youth: "/images/SAM_0249.JPG",
+  partners: "/images/SAM_0252.JPG",
   value: "/images/Youngstown Farmers Market_0423.png",
 };
 
@@ -42,7 +42,7 @@ const panel: React.CSSProperties = {
 
 const grid: React.CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "repeat(3,1fr)",
+  gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
   gap: "14px",
   marginTop: "24px",
 };
@@ -61,7 +61,7 @@ const btn = (bg: string): React.CSSProperties => ({
 function screen(image: string): React.CSSProperties {
   return {
     ...wrap,
-    backgroundImage: `linear-gradient(rgba(0,0,0,.16),rgba(0,0,0,.22)), url(${image})`,
+    backgroundImage: `linear-gradient(rgba(0,0,0,.16),rgba(0,0,0,.22)), url("${image}")`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -99,7 +99,7 @@ function Path({
 export default function App() {
   const [page, setPage] = useState<Page>("home");
 
-  if (page === "guest")
+  if (page === "guest") {
     return (
       <Path
         title="Guest Experience"
@@ -108,8 +108,9 @@ export default function App() {
         next={() => setPage("customer")}
       />
     );
+  }
 
-  if (page === "customer")
+  if (page === "customer") {
     return (
       <Path
         title="Customer Pathway"
@@ -118,8 +119,9 @@ export default function App() {
         next={() => setPage("marketplace")}
       />
     );
+  }
 
-  if (page === "marketplace")
+  if (page === "marketplace") {
     return (
       <Path
         title="Marketplace"
@@ -128,8 +130,9 @@ export default function App() {
         next={() => setPage("grower")}
       />
     );
+  }
 
-  if (page === "grower")
+  if (page === "grower") {
     return (
       <Path
         title="Grower Pathway"
@@ -138,8 +141,9 @@ export default function App() {
         next={() => setPage("youth")}
       />
     );
+  }
 
-  if (page === "youth")
+  if (page === "youth") {
     return (
       <Path
         title="Youth Workforce"
@@ -148,8 +152,9 @@ export default function App() {
         next={() => setPage("partners")}
       />
     );
+  }
 
-  if (page === "partners")
+  if (page === "partners") {
     return (
       <Path
         title="Partners"
@@ -158,8 +163,9 @@ export default function App() {
         next={() => setPage("value")}
       />
     );
+  }
 
-  if (page === "value")
+  if (page === "value") {
     return (
       <Path
         title="Value-Added Producers"
@@ -168,6 +174,7 @@ export default function App() {
         next={() => setPage("home")}
       />
     );
+  }
 
   return (
     <div style={screen(IMAGES.home)}>
@@ -196,10 +203,7 @@ export default function App() {
         </p>
 
         <div style={grid}>
-          <button
-            style={btn("#15803d")}
-            onClick={() => setPage("guest")}
-          >
+          <button style={btn("#15803d")} onClick={() => setPage("guest")}>
             Enter Experience
           </button>
 
@@ -210,39 +214,29 @@ export default function App() {
             Marketplace
           </button>
 
-          <button
-            style={btn("#7c3aed")}
-            onClick={() => setPage("grower")}
-          >
+          <button style={btn("#7c3aed")} onClick={() => setPage("grower")}>
             Growers
           </button>
 
-          <button
-            style={btn("#1d4ed8")}
-            onClick={() => setPage("youth")}
-          >
+          <button style={btn("#1d4ed8")} onClick={() => setPage("youth")}>
             Youth Workforce
           </button>
 
-          <button
-            style={btn("#b45309")}
-            onClick={() => setPage("partners")}
-          >
+          <button style={btn("#b45309")} onClick={() => setPage("partners")}>
             Partners
           </button>
 
           <button
             style={btn("#be123c")}
-            onClick={() =>
-              window.open("https://www.eventbrite.com", "_blank")
-            }
+            onClick={() => window.open("https://www.eventbrite.com", "_blank")}
           >
             Register at Eventbrite
           </button>
         </div>
 
         <p style={{ marginTop: "28px", fontSize: "18px" }}>
-          Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
+          Developed by Bronson Family Farm • Farm & Family Alliance • Parker
+          Farms
         </p>
       </div>
     </div>
