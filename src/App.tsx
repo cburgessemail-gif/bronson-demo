@@ -1,36 +1,19 @@
 import React, { useMemo, useState } from "react";
 
-type PathwayKey =
-  | "guest"
-  | "customer"
-  | "marketplace"
-  | "grower"
-  | "youth"
-  | "partners";
+type PathwayKey = "guest" | "customer" | "marketplace" | "grower" | "youth" | "partners";
 
 type Pathway = {
   title: string;
   label: string;
   mission: string;
-  image: string;
   soundbite: string;
   intro: string;
   knowledge: string[];
   purpose: string;
   next: string;
   action: string;
-};
-
-const img = (name: string) => `/images/${name}`;
-
-const images = {
-  hero: img("farm-aerial-wide.jpg"),
-  guest: img("farm-aerial-wide.jpg"),
-  customer: img("fresh-produce.jpg"),
-  marketplace: img("grownby-storefront.jpg"),
-  grower: img("grower-field.jpg"),
-  youth: img("youth-workforce.jpg"),
-  partners: img("partner-table.jpg"),
+  gradient: string;
+  icon: string;
 };
 
 const pathways: Record<PathwayKey, Pathway> = {
@@ -38,115 +21,120 @@ const pathways: Record<PathwayKey, Pathway> = {
     title: "Guest Pathway",
     label: "Guest",
     mission: "Understand the vision, story, and purpose.",
-    image: images.guest,
-    soundbite:
-      "This land is a living demonstration of restoration, food access, legacy, and community possibility.",
+    soundbite: "Enter through story, land, legacy, restoration, and community possibility.",
     intro:
-      "Guests enter through story. Bronson Family Farm introduces them to the Historic Lansdowne Airport site, the land, the people, and the purpose behind the farm ecosystem.",
+      "Guests are introduced to Bronson Family Farm as a living farm ecosystem rooted at the Historic Lansdowne Airport on Youngstown’s East Side.",
     knowledge: [
-      "The farm connects agriculture, agritourism, education, food access, and community wellness.",
-      "Guests can attend events, walk the experience, learn the story, and return as supporters.",
-      "The goal is to help visitors understand why this work matters for Youngstown and the Mahoning Valley.",
+      "Learn why the farm connects agriculture, agritourism, food access, education, and wellness.",
+      "See how visitors can return as customers, volunteers, supporters, or partners.",
+      "Understand the farm as a place for restoration, learning, and community connection.",
     ],
     purpose:
-      "The Guest Pathway helps people understand the farm’s mission before asking them to buy, volunteer, partner, or participate.",
-    next: "Explore the marketplace, attend Growers Supply Market, volunteer, or share the farm story.",
+      "The Guest Pathway helps people understand why the farm exists before asking them to participate.",
+    next: "Explore the marketplace, attend Growers Supply Market, volunteer, or share the story.",
     action: "Begin Guest Journey",
+    gradient: "from-emerald-950 via-green-800 to-amber-700",
+    icon: "🌿",
   },
   customer: {
     title: "Customer Pathway",
     label: "Customer",
     mission: "Connect fresh food, nutrition, and repeat healthy choices.",
-    image: images.customer,
     soundbite:
-      "Customers come for food, seedlings, and resources — then return because the farm helps them live healthier.",
+      "Customers find food, seedlings, Bubble Babies™, nutrition resources, and reasons to return.",
     intro:
-      "The Customer Pathway shows how families can discover produce, seedlings, Bubble Babies™, nutrition education, and seasonal farm offerings.",
+      "Customers are guided toward seasonal products, market pickup, fresh food education, and practical ways to make healthier choices.",
     knowledge: [
-      "Customers can preorder through the marketplace and return for pickup opportunities.",
-      "The farm supports healthier choices through demonstrations, food education, and fresh local products.",
-      "Customer participation helps sustain the farm and strengthens local food access.",
+      "Preorder through the marketplace and return for pickup opportunities.",
+      "Learn how fresh food, seedlings, and growing resources support healthier homes.",
+      "Support local agriculture while strengthening food access in the Mahoning Valley.",
     ],
     purpose:
-      "The Customer Pathway turns interest in fresh food into repeated engagement, learning, and purchasing power.",
-    next: "Review available products, visit the GrownBy store, or attend the next market event.",
+      "The Customer Pathway turns interest in fresh food into repeated engagement and purchasing power.",
+    next: "Review available products, visit GrownBy, or attend the next market event.",
     action: "View Customer Resources",
+    gradient: "from-lime-900 via-emerald-700 to-yellow-600",
+    icon: "🥬",
   },
   marketplace: {
     title: "Marketplace Pathway",
     label: "Marketplace",
     mission: "Convert interest into purchasing power and sustainability.",
-    image: images.marketplace,
     soundbite:
       "The marketplace is where attention becomes action: orders, pickup, grower visibility, and revenue.",
     intro:
-      "The Marketplace Pathway demonstrates how Bronson Family Farm connects customers, growers, value-added producers, and community buyers through GrownBy and market events.",
+      "The Marketplace Pathway connects customers, growers, value-added producers, and community buyers through GrownBy and market events.",
     knowledge: [
-      "GrownBy supports online ordering and product visibility for the farm.",
-      "The marketplace can help growers move from participation to sales.",
-      "The marketplace supports sustainability by connecting food access, education, and revenue.",
+      "GrownBy supports ordering, visibility, and customer access.",
+      "The marketplace helps growers move from participation to sales.",
+      "Marketplace activity supports sustainability, food access, and local economic growth.",
     ],
     purpose:
-      "The Marketplace Pathway shows how the ecosystem becomes financially active while still serving community needs.",
-    next: "Enter the GrownBy store, support local growers, preorder products, or return for market days.",
+      "The Marketplace Pathway shows how the ecosystem becomes financially active while serving community needs.",
+    next: "Enter GrownBy, support local growers, preorder products, or return for market days.",
     action: "Enter Marketplace",
+    gradient: "from-orange-900 via-amber-700 to-emerald-700",
+    icon: "🛒",
   },
   grower: {
     title: "Grower Pathway",
     label: "Grower",
     mission: "Connect producers to opportunity and market participation.",
-    image: images.grower,
     soundbite:
-      "Growers enter the ecosystem to access customers, shared resources, education, and visibility.",
+      "Growers access customers, shared resources, education, visibility, and a stronger food network.",
     intro:
-      "The Grower Pathway shows how producers can connect to events, marketplace opportunities, education, and a broader local food network.",
+      "Growers are invited into an ecosystem that supports market participation, supply sharing, education, collaboration, and sales visibility.",
     knowledge: [
-      "Growers can register interest and participate in Growers Supply Market.",
-      "The ecosystem supports shared learning, sales visibility, and collaboration.",
-      "Growers are invited to return as part of a stronger regional food system.",
+      "Register interest and participate in Growers Supply Market.",
+      "Connect with shared resources, demonstrations, and education.",
+      "Return as part of a regional grower network designed for opportunity.",
     ],
     purpose:
       "The Grower Pathway builds a bridge between independent growing and shared marketplace success.",
     next: "Register interest, attend Growers Supply Market, or connect with shared resources.",
     action: "Explore Grower Entry",
+    gradient: "from-green-950 via-lime-800 to-stone-700",
+    icon: "🌱",
   },
   youth: {
     title: "Youth Workforce Pathway",
     label: "Youth Workforce",
     mission: "Build skills, responsibility, and future readiness.",
-    image: images.youth,
     soundbite:
-      "Youth enter as learners and grow into workers, leaders, problem-solvers, and community contributors.",
+      "Youth enter as learners and grow into workers, leaders, problem-solvers, and contributors.",
     intro:
-      "The Youth Workforce Pathway turns the farm into a living classroom where young people can learn agriculture, customer service, teamwork, responsibility, and entrepreneurship.",
+      "The Youth Workforce Pathway turns the farm into a living classroom for agriculture, teamwork, responsibility, customer service, and entrepreneurship.",
     knowledge: [
-      "Youth can learn through hands-on growing, setup, market preparation, and supervised roles.",
-      "The farm connects practical work with confidence, accountability, and career readiness.",
-      "Youth participation supports both personal development and community benefit.",
+      "Learn through hands-on growing, setup, market preparation, and supervised roles.",
+      "Connect practical work with confidence, accountability, and career readiness.",
+      "Support community benefit while building future-facing skills.",
     ],
     purpose:
-      "The Youth Workforce Pathway gives young people meaningful work, exposure, responsibility, and future-facing skills.",
+      "The Youth Workforce Pathway gives young people meaningful work, exposure, responsibility, and confidence.",
     next: "Explore youth roles, supervised learning, farm tasks, and market-day responsibilities.",
     action: "View Youth Pathway",
+    gradient: "from-sky-950 via-emerald-800 to-lime-700",
+    icon: "🧑🏽‍🌾",
   },
   partners: {
     title: "Partner Pathway",
     label: "Partner",
     mission: "Align resources and collaboration for community benefit.",
-    image: images.partners,
     soundbite:
       "Partners help turn vision into infrastructure, education, food access, and measurable impact.",
     intro:
-      "The Partner Pathway shows how funders, civic leaders, businesses, educators, and community organizations can support the farm ecosystem.",
+      "Partners can support supplies, sponsorships, demonstrations, infrastructure, education, technical assistance, storytelling, and community access.",
     knowledge: [
-      "Partners may support supplies, sponsorships, demonstrations, infrastructure, education, or media.",
-      "Partnerships help strengthen food access, youth development, agritourism, and economic activity.",
+      "Support may include sponsorship, supplies, demonstrations, media, or infrastructure.",
+      "Partnership strengthens food access, youth development, agritourism, and economic activity.",
       "The ecosystem honors clear roles for Bronson Family Farm, Farm & Family Alliance, Inc., Parker Farms, and supporting partners.",
     ],
     purpose:
       "The Partner Pathway makes collaboration practical, visible, and tied to outcomes.",
     next: "Sponsor, volunteer, donate supplies, join an event, schedule a site visit, or support infrastructure.",
     action: "View Partner Opportunities",
+    gradient: "from-stone-950 via-emerald-900 to-amber-800",
+    icon: "🤝",
   },
 };
 
@@ -164,35 +152,24 @@ const partners = [
 
 const languages = ["English", "Spanish", "Tagalog", "Italian", "French", "Hebrew"];
 
-function ImageBlock({
-  src,
-  title,
-  className = "",
-}: {
-  src: string;
-  title: string;
-  className?: string;
-}) {
-  const [failed, setFailed] = useState(false);
-
+function VisualPanel({ pathway }: { pathway: Pathway }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-950 via-stone-800 to-amber-900 shadow-xl ${className}`}
+      className={`relative min-h-[460px] overflow-hidden rounded-[2rem] bg-gradient-to-br ${pathway.gradient} shadow-xl`}
     >
-      {!failed && (
-        <img
-          src={src}
-          alt={title}
-          className="absolute inset-0 h-full w-full object-cover"
-          onError={() => setFailed(true)}
-        />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-        <p className="text-xs uppercase tracking-[0.25em] text-emerald-100">
-          Bronson Family Farm
-        </p>
-        <h3 className="mt-2 text-2xl font-semibold">{title}</h3>
+      <div className="absolute inset-0 opacity-25">
+        <div className="absolute left-10 top-10 h-52 w-52 rounded-full bg-white blur-3xl" />
+        <div className="absolute bottom-10 right-10 h-72 w-72 rounded-full bg-black blur-3xl" />
+      </div>
+      <div className="relative flex h-full min-h-[460px] flex-col justify-between p-8 text-white">
+        <div className="text-7xl">{pathway.icon}</div>
+        <div>
+          <p className="text-xs uppercase tracking-[0.3em] text-emerald-100">
+            Bronson Family Farm
+          </p>
+          <h3 className="mt-3 text-4xl font-semibold">{pathway.title}</h3>
+          <p className="mt-4 max-w-md text-lg leading-8 text-white/90">{pathway.soundbite}</p>
+        </div>
       </div>
     </div>
   );
@@ -201,28 +178,21 @@ function ImageBlock({
 export default function App() {
   const [selected, setSelected] = useState<PathwayKey>("guest");
   const [language, setLanguage] = useState("English");
-
   const pathway = useMemo(() => pathways[selected], [selected]);
 
   const goPathway = (key: PathwayKey) => {
     setSelected(key);
-    setTimeout(() => {
-      document.getElementById("pathway")?.scrollIntoView({ behavior: "smooth" });
-    }, 50);
+    setTimeout(() => document.getElementById("pathway")?.scrollIntoView({ behavior: "smooth" }), 50);
   };
 
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-stone-900">
       <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-black via-emerald-950 to-stone-900">
-        <img
-          src={images.hero}
-          alt="Bronson Family Farm aerial view"
-          className="absolute inset-0 h-full w-full object-cover opacity-80"
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/55 to-emerald-950/75" />
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute left-[-8rem] top-[-8rem] h-96 w-96 rounded-full bg-emerald-400 blur-3xl" />
+          <div className="absolute bottom-[-10rem] right-[-5rem] h-[34rem] w-[34rem] rounded-full bg-lime-700 blur-3xl" />
+          <div className="absolute right-1/3 top-1/4 h-72 w-72 rounded-full bg-amber-500 blur-3xl" />
+        </div>
 
         <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-8">
           <header className="flex flex-wrap items-center justify-between gap-4">
@@ -256,9 +226,8 @@ export default function App() {
             </h2>
 
             <p className="mt-6 max-w-3xl text-lg leading-8 text-stone-100 md:text-xl">
-              This demo shows how people enter the Bronson Family Farm ecosystem,
-              understand the mission, find resources, and return through meaningful
-              role-based pathways.
+              This demo shows how people enter the Bronson Family Farm ecosystem, understand
+              the mission, find resources, and return through meaningful role-based pathways.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
@@ -284,15 +253,13 @@ export default function App() {
         id="pathway"
         className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[0.95fr_1.05fr]"
       >
-        <ImageBlock src={pathway.image} title={pathway.title} className="min-h-[460px]" />
+        <VisualPanel pathway={pathway} />
 
         <div className="rounded-[2rem] bg-white p-6 shadow-xl md:p-10">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-emerald-700">
             {language} Guided Pathway
           </p>
-
           <h2 className="mt-3 text-3xl font-semibold md:text-5xl">{pathway.title}</h2>
-
           <p className="mt-4 text-lg font-semibold text-stone-700">{pathway.mission}</p>
 
           <div className="mt-8 grid gap-5">
@@ -344,9 +311,8 @@ export default function App() {
               GrownBy connects the farm ecosystem to real purchasing power.
             </h2>
             <p className="mt-5 text-lg leading-8 text-emerald-50">
-              The marketplace is not just a page. It is a working pathway for orders,
-              pickup, grower participation, product visibility, customer return, and
-              long-term sustainability.
+              The marketplace is a working pathway for orders, pickup, grower participation,
+              product visibility, customer return, and long-term sustainability.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -368,11 +334,13 @@ export default function App() {
             </div>
           </div>
 
-          <ImageBlock
-            src={images.marketplace}
-            title="Marketplace / GrownBy Storefront"
-            className="min-h-[360px]"
-          />
+          <div className="rounded-[2rem] bg-gradient-to-br from-amber-700 via-orange-800 to-emerald-900 p-8 shadow-xl">
+            <div className="text-7xl">🛒</div>
+            <h3 className="mt-8 text-3xl font-semibold">Marketplace / GrownBy Storefront</h3>
+            <p className="mt-4 text-lg leading-8 text-emerald-50">
+              Products, pickup, growers, customers, and repeat engagement connect here.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -391,7 +359,8 @@ export default function App() {
               onClick={() => goPathway(key)}
               className="rounded-3xl bg-white p-6 text-left shadow transition hover:-translate-y-1 hover:shadow-xl"
             >
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-700">
+              <div className="text-4xl">{pathways[key].icon}</div>
+              <p className="mt-4 text-sm font-bold uppercase tracking-[0.2em] text-emerald-700">
                 {pathways[key].label}
               </p>
               <h3 className="mt-3 text-2xl font-semibold">{pathways[key].title}</h3>
@@ -412,10 +381,7 @@ export default function App() {
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {partners.map((partner) => (
-              <div
-                key={partner}
-                className="rounded-3xl bg-white p-5 text-lg font-semibold shadow"
-              >
+              <div key={partner} className="rounded-3xl bg-white p-5 text-lg font-semibold shadow">
                 {partner}
               </div>
             ))}
@@ -432,10 +398,9 @@ export default function App() {
             People should know where they fit, what they can do, and why they should return.
           </h2>
           <p className="mt-5 max-w-4xl text-lg leading-8 text-stone-700">
-            This demo is designed to make the Bronson Family Farm ecosystem understandable,
-            usable, and repeatable. Guests see the story. Customers find food and resources.
-            Growers see opportunity. Youth see skill-building. Partners see alignment.
-            The marketplace turns the experience into action.
+            Guests see the story. Customers find food and resources. Growers see opportunity.
+            Youth see skill-building. Partners see alignment. The marketplace turns the
+            experience into action.
           </p>
         </div>
       </section>
