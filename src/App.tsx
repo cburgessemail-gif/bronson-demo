@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 type Page =
   | "home"
@@ -21,78 +21,76 @@ const IMAGES = {
   value: "/images/Youngstown Farmers Market_0423.png",
 };
 
-const shell: React.CSSProperties = {
+const wrap: React.CSSProperties = {
   minHeight: "100vh",
   display: "flex",
-  alignItems: "center",
   justifyContent: "center",
-  padding: "28px",
+  alignItems: "center",
+  padding: "30px",
 };
 
-const card: React.CSSProperties = {
+const panel: React.CSSProperties = {
   width: "100%",
-  maxWidth: "980px",
+  maxWidth: "1120px",
   background: "rgba(0,0,0,.58)",
-  color: "#ffffff",
-  borderRadius: "18px",
-  padding: "28px",
-  border: "1px solid rgba(255,255,255,.16)",
+  color: "#fff",
+  borderRadius: "22px",
+  padding: "34px",
+  border: "1px solid rgba(255,255,255,.14)",
   backdropFilter: "blur(4px)",
 };
 
-const btn: React.CSSProperties = {
-  padding: "12px 18px",
-  border: "none",
-  borderRadius: "10px",
-  fontWeight: 700,
-  cursor: "pointer",
-  color: "#fff",
+const grid: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "repeat(3,1fr)",
+  gap: "14px",
+  marginTop: "24px",
 };
 
-function bg(image: string): React.CSSProperties {
+const btn = (bg: string): React.CSSProperties => ({
+  background: bg,
+  color: "#fff",
+  border: "none",
+  borderRadius: "12px",
+  padding: "14px 18px",
+  fontWeight: 700,
+  fontSize: "18px",
+  cursor: "pointer",
+});
+
+function screen(image: string): React.CSSProperties {
   return {
-    ...shell,
-    backgroundImage: `linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.28)), url(${image})`,
+    ...wrap,
+    backgroundImage: `linear-gradient(rgba(0,0,0,.16),rgba(0,0,0,.22)), url(${image})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
   };
 }
 
-function Screen({
+function Path({
   title,
-  body,
+  text,
   image,
   next,
 }: {
   title: string;
-  body: string;
+  text: string;
   image: string;
-  next?: () => void;
+  next: () => void;
 }) {
   return (
-    <div style={bg(image)}>
-      <div style={card}>
-        <h1 style={{ fontSize: "42px", marginBottom: "10px" }}>{title}</h1>
+    <div style={screen(image)}>
+      <div style={panel}>
+        <h1 style={{ fontSize: "56px", marginBottom: "14px" }}>{title}</h1>
+        <p style={{ fontSize: "26px", lineHeight: 1.6 }}>{text}</p>
 
-        <p
-          style={{
-            fontSize: "21px",
-            lineHeight: 1.6,
-            marginBottom: "22px",
-          }}
+        <button
+          onClick={next}
+          style={{ ...btn("#e11d48"), marginTop: "20px" }}
         >
-          {body}
-        </p>
-
-        {next && (
-          <button
-            onClick={next}
-            style={{ ...btn, background: "#e11d48" }}
-          >
-            Continue
-          </button>
-        )}
+          Continue
+        </button>
       </div>
     </div>
   );
@@ -101,166 +99,152 @@ function Screen({
 export default function App() {
   const [page, setPage] = useState<Page>("home");
 
-  const view = useMemo(() => {
-    switch (page) {
-      case "guest":
-        return (
-          <Screen
-            title="Guest Experience"
-            body="Experience the land, purpose, and vision of Bronson Family Farm."
-            image={IMAGES.guest}
-            next={() => setPage("customer")}
-          />
-        );
+  if (page === "guest")
+    return (
+      <Path
+        title="Guest Experience"
+        text="Experience the land, purpose, and vision of Bronson Family Farm."
+        image={IMAGES.guest}
+        next={() => setPage("customer")}
+      />
+    );
 
-      case "customer":
-        return (
-          <Screen
-            title="Customer Pathway"
-            body="Fresh produce, healthier choices, nutrition, and repeat visits."
-            image={IMAGES.customer}
-            next={() => setPage("marketplace")}
-          />
-        );
+  if (page === "customer")
+    return (
+      <Path
+        title="Customer Pathway"
+        text="Fresh produce, nutrition, healthier choices, and return visits."
+        image={IMAGES.customer}
+        next={() => setPage("marketplace")}
+      />
+    );
 
-      case "marketplace":
-        return (
-          <Screen
-            title="Marketplace"
-            body="Support growers. Shop local. Strengthen sustainability."
-            image={IMAGES.marketplace}
-            next={() => setPage("grower")}
-          />
-        );
+  if (page === "marketplace")
+    return (
+      <Path
+        title="Marketplace"
+        text="Support growers. Shop local. Strengthen sustainability."
+        image={IMAGES.marketplace}
+        next={() => setPage("grower")}
+      />
+    );
 
-      case "grower":
-        return (
-          <Screen
-            title="Grower Pathway"
-            body="Connect producers to land, customers, and opportunity."
-            image={IMAGES.grower}
-            next={() => setPage("youth")}
-          />
-        );
+  if (page === "grower")
+    return (
+      <Path
+        title="Grower Pathway"
+        text="Connect producers to land, customers, and opportunity."
+        image={IMAGES.grower}
+        next={() => setPage("youth")}
+      />
+    );
 
-      case "youth":
-        return (
-          <Screen
-            title="Youth Workforce"
-            body="Build skills, discipline, teamwork, and future readiness."
-            image={IMAGES.youth}
-            next={() => setPage("partners")}
-          />
-        );
+  if (page === "youth")
+    return (
+      <Path
+        title="Youth Workforce"
+        text="Build discipline, skills, teamwork, and future readiness."
+        image={IMAGES.youth}
+        next={() => setPage("partners")}
+      />
+    );
 
-      case "partners":
-        return (
-          <Screen
-            title="Partners"
-            body="Organizations align resources for community benefit."
-            image={IMAGES.partners}
-            next={() => setPage("value")}
-          />
-        );
+  if (page === "partners")
+    return (
+      <Path
+        title="Partners"
+        text="Organizations align resources for community benefit."
+        image={IMAGES.partners}
+        next={() => setPage("value")}
+      />
+    );
 
-      case "value":
-        return (
-          <Screen
-            title="Value-Added Producers"
-            body="Food makers, crafters, processors, and entrepreneurs create value."
-            image={IMAGES.value}
-            next={() => setPage("home")}
-          />
-        );
+  if (page === "value")
+    return (
+      <Path
+        title="Value-Added Producers"
+        text="Entrepreneurs create products and extend farm value."
+        image={IMAGES.value}
+        next={() => setPage("home")}
+      />
+    );
 
-      default:
-        return (
-          <div style={bg(IMAGES.home)}>
-            <div style={card}>
-              <h1 style={{ fontSize: "56px", marginBottom: "8px" }}>
-                Bronson Family Farm
-              </h1>
+  return (
+    <div style={screen(IMAGES.home)}>
+      <div style={panel}>
+        <h1 style={{ fontSize: "72px", marginBottom: "8px" }}>
+          Bronson Family Farm
+        </h1>
 
-              <h2
-                style={{
-                  marginTop: 0,
-                  fontSize: "28px",
-                  color: "#facc15",
-                }}
-              >
-                Growers Supply Market
-              </h2>
+        <h2
+          style={{
+            color: "#facc15",
+            fontSize: "42px",
+            marginTop: 0,
+            marginBottom: "18px",
+          }}
+        >
+          Growers Supply Market
+        </h2>
 
-              <p style={{ fontSize: "22px", lineHeight: 1.6 }}>
-                May 16, 2026 • 9:00 AM – 2:00 PM
-                <br />
-                Youngstown, Ohio
-                <br />
-                <strong>By Invitation Only</strong>
-              </p>
+        <p style={{ fontSize: "30px", lineHeight: 1.5 }}>
+          May 16, 2026 • 9:00 AM – 2:00 PM
+          <br />
+          Youngstown, Ohio
+          <br />
+          <strong>By Invitation Only</strong>
+        </p>
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns:
-                    "repeat(auto-fit,minmax(220px,1fr))",
-                  gap: "14px",
-                  marginTop: "24px",
-                }}
-              >
-                <button
-                  style={{ ...btn, background: "#15803d" }}
-                  onClick={() => setPage("guest")}
-                >
-                  Enter Experience
-                </button>
+        <div style={grid}>
+          <button
+            style={btn("#15803d")}
+            onClick={() => setPage("guest")}
+          >
+            Enter Experience
+          </button>
 
-                <button
-                  style={{ ...btn, background: "#0f766e" }}
-                  onClick={() => setPage("marketplace")}
-                >
-                  Marketplace
-                </button>
+          <button
+            style={btn("#0f766e")}
+            onClick={() => setPage("marketplace")}
+          >
+            Marketplace
+          </button>
 
-                <button
-                  style={{ ...btn, background: "#7c3aed" }}
-                  onClick={() => setPage("grower")}
-                >
-                  Growers
-                </button>
+          <button
+            style={btn("#7c3aed")}
+            onClick={() => setPage("grower")}
+          >
+            Growers
+          </button>
 
-                <button
-                  style={{ ...btn, background: "#1d4ed8" }}
-                  onClick={() => setPage("youth")}
-                >
-                  Youth Workforce
-                </button>
+          <button
+            style={btn("#1d4ed8")}
+            onClick={() => setPage("youth")}
+          >
+            Youth Workforce
+          </button>
 
-                <button
-                  style={{ ...btn, background: "#b45309" }}
-                  onClick={() => setPage("partners")}
-                >
-                  Partners
-                </button>
+          <button
+            style={btn("#b45309")}
+            onClick={() => setPage("partners")}
+          >
+            Partners
+          </button>
 
-                <button
-                  style={{ ...btn, background: "#be123c" }}
-                  onClick={() =>
-                    window.open("https://www.eventbrite.com", "_blank")
-                  }
-                >
-                  Register at Eventbrite
-                </button>
-              </div>
+          <button
+            style={btn("#be123c")}
+            onClick={() =>
+              window.open("https://www.eventbrite.com", "_blank")
+            }
+          >
+            Register at Eventbrite
+          </button>
+        </div>
 
-              <p style={{ marginTop: "24px", opacity: 0.92 }}>
-                Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
-              </p>
-            </div>
-          </div>
-        );
-    }
-  }, [page]);
-
-  return view;
+        <p style={{ marginTop: "28px", fontSize: "18px" }}>
+          Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
+        </p>
+      </div>
+    </div>
+  );
 }
