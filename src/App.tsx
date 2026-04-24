@@ -31,72 +31,131 @@ const STORE_URL = "https://grownby.com/farms/bronson-family-farm/shop";
 const WEBSITE_URL = "https://www.bronsonfamilyfarm.com";
 const CONTACT_EMAIL = "cburgess@bronsonfamilyfarm.com";
 
+const sam = (start: number, end: number) => {
+  const files: string[] = [];
+  for (let i = start; i <= end; i++) {
+    const name = `SAM_${String(i).padStart(4, "0")}.JPG`;
+    files.push(`/${name}`, `/images/${name}`);
+  }
+  return files;
+};
+
 const imageBank = {
+  // HOME PAGE — PRESERVED. Do not change unless specifically instructed.
   hero: [
-    "/images/entrance-farm.jpg",
-    "/images/FarAerial.jpg",
-    "/images/Aerial.jpg",
+    "/GrowArea.jpg",
     "/images/GrowArea.jpg",
-    "/images/SAM_0220.JPG",
   ],
+
+  // Guest = arrival, land, farm setting, first impression.
   guest: [
-    "/images/entrance-farm.jpg",
-    "/images/guest-forest.jpg",
-    "/images/FarAerial.jpg",
-    "/images/Aerial.jpg",
-    "/images/SAM_0220.JPG",
-  ],
-  customer: [
-    "/images/customer-produce.jpg",
-    "/images/BubbleBabies.jpg",
-    "/images/Bubble Babies.jpg",
-    "/images/Seedlings.jpg",
-    "/images/Produce.jpg",
-  ],
-  marketplace: [
-    "/images/marketplace-storefront.jpg",
-    "/images/GrownByStorefront.jpg",
-    "/images/GrownBy Storefront.jpg",
-    "/images/GrownBy.jpg",
-    "/images/Marketplace.jpg",
-    "/images/FarmStop.jpg",
-  ],
-  marketplaceProduce: [
-    "/images/customer-produce.jpg",
-    "/images/Produce.jpg",
-    "/images/BubbleBabies.jpg",
-    "/images/Seedlings.jpg",
-    "/images/MarketTable.jpg",
-  ],
-  grower: [
-    "/images/grower-field.jpg",
+    "/GrowArea2.jpg",
+    "/images/GrowArea2.jpg",
+    "/GrowArea.jpg",
     "/images/GrowArea.jpg",
-    "/images/Grow Area.jpg",
-    "/images/GrowingArea.jpg",
-    "/images/FarmField.jpg",
+    ...sam(0220, 0224),
   ],
+
+  // Customer = produce, seedlings, Bubble Babies™, food choices.
+  customer: [
+    "/SAM_0225.JPG",
+    "/images/SAM_0225.JPG",
+    "/SAM_0226.JPG",
+    "/images/SAM_0226.JPG",
+    "/SAM_0229.JPG",
+    "/images/SAM_0229.JPG",
+    ...sam(0225, 0231),
+  ],
+
+  // Marketplace = buying, GrownBy/storefront, abundance, market energy.
+  marketplace: [
+    "/SAM_0249.JPG",
+    "/images/SAM_0249.JPG",
+    "/00launch.png",
+    "/images/00launch.png",
+    "/SAM_0229.JPG",
+    "/images/SAM_0229.JPG",
+    ...sam(0245, 0252),
+  ],
+
+  // Marketplace produce support image = produce/table/food abundance.
+  marketplaceProduce: [
+    "/SAM_0229.JPG",
+    "/images/SAM_0229.JPG",
+    "/SAM_0225.JPG",
+    "/images/SAM_0225.JPG",
+    "/SAM_0226.JPG",
+    "/images/SAM_0226.JPG",
+    ...sam(0225, 0231),
+  ],
+
+  // Grower = growing area, field, crop production.
+  grower: [
+    "/SAM_0238.JPG",
+    "/images/SAM_0238.JPG",
+    "/GrowArea.jpg",
+    "/images/GrowArea.jpg",
+    "/GrowArea2.jpg",
+    "/images/GrowArea2.jpg",
+    ...sam(0232, 0244),
+  ],
+
+  // Value-added Producer = products, preparation, produce transformed into value.
   producer: [
-    "/images/value-added-products.jpg",
-    "/images/ValueAdded.jpg",
-    "/images/Value Added.jpg",
-    "/images/MarketTable.jpg",
-    "/images/Products.jpg",
-    "/images/customer-produce.jpg",
+    "/SAM_0226.JPG",
+    "/images/SAM_0226.JPG",
+    "/SAM_0229.JPG",
+    "/images/SAM_0229.JPG",
+    "/SAM_0225.JPG",
+    "/images/SAM_0225.JPG",
+    ...sam(0225, 0231),
+    ...sam(0245, 0252),
   ],
+
+  // Youth Workforce = youth, activity, training, hands-on learning.
   youth: [
-    "/images/youth-workforce.jpg",
-    "/images/YouthWorkforce.jpg",
-    "/images/Youth Workforce.jpg",
-    "/images/Students.jpg",
-    "/images/Training.jpg",
+    "/SAM_0222.JPG",
+    "/images/SAM_0222.JPG",
+    "/SAM_0223.JPG",
+    "/images/SAM_0223.JPG",
+    ...sam(0220, 0224),
   ],
+
+  // Partner = site visit, collaboration, community/event alignment.
   partner: [
-    "/images/partners-collaboration.jpg",
-    "/images/Partners.jpg",
-    "/images/SiteVisit.jpg",
-    "/images/Site Visit.jpg",
-    "/images/Community.jpg",
-    "/images/Event.jpg",
+    "/SAM_0223.JPG",
+    "/images/SAM_0223.JPG",
+    "/SAM_0257.JPG",
+    "/images/SAM_0257.JPG",
+    "/SAM_0255.JPG",
+    "/images/SAM_0255.JPG",
+    ...sam(0253, 0259),
+  ],
+
+  production: [
+    "/SAM_0226.JPG",
+    "/images/SAM_0226.JPG",
+    ...sam(0225, 0231),
+  ],
+  buyLocal: [
+    "/SAM_0229.JPG",
+    "/images/SAM_0229.JPG",
+    ...sam(0225, 0231),
+  ],
+  events: [
+    "/SAM_0255.JPG",
+    "/images/SAM_0255.JPG",
+    ...sam(0253, 0259),
+  ],
+  community: [
+    "/SAM_0257.JPG",
+    "/images/SAM_0257.JPG",
+    ...sam(0253, 0259),
+  ],
+  footer: [
+    "/SAM_0249.JPG",
+    "/images/SAM_0249.JPG",
+    ...sam(0245, 0252),
   ],
 };
 
