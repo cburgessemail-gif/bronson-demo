@@ -161,6 +161,7 @@ function VisualPanel({ pathway }: { pathway: Pathway }) {
         <div className="absolute left-10 top-10 h-52 w-52 rounded-full bg-white blur-3xl" />
         <div className="absolute bottom-10 right-10 h-72 w-72 rounded-full bg-black blur-3xl" />
       </div>
+
       <div className="relative flex h-full min-h-[460px] flex-col justify-between p-8 text-white">
         <div className="text-7xl">{pathway.icon}</div>
         <div>
@@ -168,7 +169,9 @@ function VisualPanel({ pathway }: { pathway: Pathway }) {
             Bronson Family Farm
           </p>
           <h3 className="mt-3 text-4xl font-semibold">{pathway.title}</h3>
-          <p className="mt-4 max-w-md text-lg leading-8 text-white/90">{pathway.soundbite}</p>
+          <p className="mt-4 max-w-md text-lg leading-8 text-white/90">
+            {pathway.soundbite}
+          </p>
         </div>
       </div>
     </div>
@@ -178,11 +181,14 @@ function VisualPanel({ pathway }: { pathway: Pathway }) {
 export default function App() {
   const [selected, setSelected] = useState<PathwayKey>("guest");
   const [language, setLanguage] = useState("English");
+
   const pathway = useMemo(() => pathways[selected], [selected]);
 
   const goPathway = (key: PathwayKey) => {
     setSelected(key);
-    setTimeout(() => document.getElementById("pathway")?.scrollIntoView({ behavior: "smooth" }), 50);
+    setTimeout(() => {
+      document.getElementById("pathway")?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
   };
 
   return (
@@ -259,7 +265,9 @@ export default function App() {
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-emerald-700">
             {language} Guided Pathway
           </p>
+
           <h2 className="mt-3 text-3xl font-semibold md:text-5xl">{pathway.title}</h2>
+
           <p className="mt-4 text-lg font-semibold text-stone-700">{pathway.mission}</p>
 
           <div className="mt-8 grid gap-5">
@@ -307,9 +315,11 @@ export default function App() {
             <p className="text-sm font-bold uppercase tracking-[0.3em] text-emerald-200">
               Marketplace Connection
             </p>
+
             <h2 className="mt-4 text-4xl font-semibold leading-tight md:text-5xl">
               GrownBy connects the farm ecosystem to real purchasing power.
             </h2>
+
             <p className="mt-5 text-lg leading-8 text-emerald-50">
               The marketplace is a working pathway for orders, pickup, grower participation,
               product visibility, customer return, and long-term sustainability.
@@ -348,6 +358,7 @@ export default function App() {
         <p className="text-sm font-bold uppercase tracking-[0.3em] text-emerald-700">
           Full Ecosystem
         </p>
+
         <h2 className="mt-3 text-4xl font-semibold leading-tight md:text-5xl">
           Six pathways, one connected experience.
         </h2>
@@ -375,13 +386,17 @@ export default function App() {
           <p className="text-sm font-bold uppercase tracking-[0.3em] text-emerald-800">
             Ecosystem Partners
           </p>
+
           <h2 className="mt-3 text-4xl font-semibold leading-tight">
             Built through aligned collaboration.
           </h2>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {partners.map((partner) => (
-              <div key={partner} className="rounded-3xl bg-white p-5 text-lg font-semibold shadow">
+              <div
+                key={partner}
+                className="rounded-3xl bg-white p-5 text-lg font-semibold shadow"
+              >
                 {partner}
               </div>
             ))}
@@ -394,9 +409,11 @@ export default function App() {
           <p className="text-sm font-bold uppercase tracking-[0.3em] text-emerald-700">
             Demonstration Outcome
           </p>
+
           <h2 className="mt-4 text-4xl font-semibold leading-tight md:text-5xl">
             People should know where they fit, what they can do, and why they should return.
           </h2>
+
           <p className="mt-5 max-w-4xl text-lg leading-8 text-stone-700">
             Guests see the story. Customers find food and resources. Growers see opportunity.
             Youth see skill-building. Partners see alignment. The marketplace turns the
