@@ -21,35 +21,31 @@ const IMAGES = {
   value: "/images/Youngstown Farmers Market_0423.png",
 };
 
-const wrap: React.CSSProperties = {
+const pageStyle = (image: string): React.CSSProperties => ({
   minHeight: "100vh",
+  backgroundImage: `linear-gradient(rgba(0,0,0,.18), rgba(0,0,0,.28)), url("${image}")`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
   display: "flex",
-  justifyContent: "center",
   alignItems: "center",
+  justifyContent: "center",
   padding: "30px",
-};
+});
 
 const panel: React.CSSProperties = {
   width: "100%",
   maxWidth: "1120px",
   background: "rgba(0,0,0,.58)",
-  color: "#fff",
+  color: "#ffffff",
   borderRadius: "22px",
   padding: "34px",
   border: "1px solid rgba(255,255,255,.14)",
-  backdropFilter: "blur(4px)",
 };
 
-const grid: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
-  gap: "14px",
-  marginTop: "24px",
-};
-
-const btn = (bg: string): React.CSSProperties => ({
-  background: bg,
-  color: "#fff",
+const button = (background: string): React.CSSProperties => ({
+  background,
+  color: "#ffffff",
   border: "none",
   borderRadius: "12px",
   padding: "14px 18px",
@@ -58,17 +54,7 @@ const btn = (bg: string): React.CSSProperties => ({
   cursor: "pointer",
 });
 
-function screen(image: string): React.CSSProperties {
-  return {
-    ...wrap,
-    backgroundImage: `linear-gradient(rgba(0,0,0,.16),rgba(0,0,0,.22)), url("${image}")`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-  };
-}
-
-function Path({
+function Pathway({
   title,
   text,
   image,
@@ -80,15 +66,11 @@ function Path({
   next: () => void;
 }) {
   return (
-    <div style={screen(image)}>
+    <div style={pageStyle(image)}>
       <div style={panel}>
         <h1 style={{ fontSize: "56px", marginBottom: "14px" }}>{title}</h1>
         <p style={{ fontSize: "26px", lineHeight: 1.6 }}>{text}</p>
-
-        <button
-          onClick={next}
-          style={{ ...btn("#e11d48"), marginTop: "20px" }}
-        >
+        <button onClick={next} style={{ ...button("#e11d48"), marginTop: "20px" }}>
           Continue
         </button>
       </div>
@@ -101,7 +83,7 @@ export default function App() {
 
   if (page === "guest") {
     return (
-      <Path
+      <Pathway
         title="Guest Experience"
         text="Experience the land, purpose, and vision of Bronson Family Farm."
         image={IMAGES.guest}
@@ -112,7 +94,7 @@ export default function App() {
 
   if (page === "customer") {
     return (
-      <Path
+      <Pathway
         title="Customer Pathway"
         text="Fresh produce, nutrition, healthier choices, and return visits."
         image={IMAGES.customer}
@@ -123,7 +105,7 @@ export default function App() {
 
   if (page === "marketplace") {
     return (
-      <Path
+      <Pathway
         title="Marketplace"
         text="Support growers. Shop local. Strengthen sustainability."
         image={IMAGES.marketplace}
@@ -134,7 +116,7 @@ export default function App() {
 
   if (page === "grower") {
     return (
-      <Path
+      <Pathway
         title="Grower Pathway"
         text="Connect producers to land, customers, and opportunity."
         image={IMAGES.grower}
@@ -145,7 +127,7 @@ export default function App() {
 
   if (page === "youth") {
     return (
-      <Path
+      <Pathway
         title="Youth Workforce"
         text="Build discipline, skills, teamwork, and future readiness."
         image={IMAGES.youth}
@@ -156,7 +138,7 @@ export default function App() {
 
   if (page === "partners") {
     return (
-      <Path
+      <Pathway
         title="Partners"
         text="Organizations align resources for community benefit."
         image={IMAGES.partners}
@@ -167,7 +149,7 @@ export default function App() {
 
   if (page === "value") {
     return (
-      <Path
+      <Pathway
         title="Value-Added Producers"
         text="Entrepreneurs create products and extend farm value."
         image={IMAGES.value}
@@ -177,7 +159,7 @@ export default function App() {
   }
 
   return (
-    <div style={screen(IMAGES.home)}>
+    <div style={pageStyle(IMAGES.home)}>
       <div style={panel}>
         <h1 style={{ fontSize: "72px", marginBottom: "8px" }}>
           Bronson Family Farm
@@ -202,32 +184,36 @@ export default function App() {
           <strong>By Invitation Only</strong>
         </p>
 
-        <div style={grid}>
-          <button style={btn("#15803d")} onClick={() => setPage("guest")}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+            gap: "14px",
+            marginTop: "24px",
+          }}
+        >
+          <button style={button("#15803d")} onClick={() => setPage("guest")}>
             Enter Experience
           </button>
 
-          <button
-            style={btn("#0f766e")}
-            onClick={() => setPage("marketplace")}
-          >
+          <button style={button("#0f766e")} onClick={() => setPage("marketplace")}>
             Marketplace
           </button>
 
-          <button style={btn("#7c3aed")} onClick={() => setPage("grower")}>
+          <button style={button("#7c3aed")} onClick={() => setPage("grower")}>
             Growers
           </button>
 
-          <button style={btn("#1d4ed8")} onClick={() => setPage("youth")}>
+          <button style={button("#1d4ed8")} onClick={() => setPage("youth")}>
             Youth Workforce
           </button>
 
-          <button style={btn("#b45309")} onClick={() => setPage("partners")}>
+          <button style={button("#b45309")} onClick={() => setPage("partners")}>
             Partners
           </button>
 
           <button
-            style={btn("#be123c")}
+            style={button("#be123c")}
             onClick={() => window.open("https://www.eventbrite.com", "_blank")}
           >
             Register at Eventbrite
@@ -235,8 +221,7 @@ export default function App() {
         </div>
 
         <p style={{ marginTop: "28px", fontSize: "18px" }}>
-          Developed by Bronson Family Farm • Farm & Family Alliance • Parker
-          Farms
+          Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
         </p>
       </div>
     </div>
