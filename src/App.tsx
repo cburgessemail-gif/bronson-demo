@@ -23,38 +23,17 @@ const imageList = [
 ];
 
 const fallbackImages: Record<PathKey, string[]> = {
-  guest: [
-    "/images/GrowArea2.jpg",
-    "/images/GrowArea.jpg",
-    "/images/SAM_0362.JPG",
-    "/images/SAM_0363.JPG",
-  ],
-  customer: [
-    "/images/SAM_0364.JPG",
-    "/images/SAM_0365.JPG",
-    "/images/GrowArea.jpg",
-  ],
+  guest: ["/images/GrowArea2.jpg", "/images/GrowArea.jpg", "/images/SAM_0362.JPG"],
+  customer: ["/images/SAM_0364.JPG", "/images/SAM_0365.JPG", "/images/GrowArea.jpg"],
   marketplace: [
     "/images/GrownByStorefront.png",
     "/images/grownby-storefront.png",
     "/images/GrownBy.png",
     "/images/SAM_0366.JPG",
   ],
-  grower: [
-    "/images/SAM_0367.JPG",
-    "/images/GrowArea.jpg",
-    "/images/GrowArea2.jpg",
-  ],
-  youth: [
-    "/images/SAM_0368.JPG",
-    "/images/SAM_0369.JPG",
-    "/images/GrowArea2.jpg",
-  ],
-  partner: [
-    "/images/SAM_0363.JPG",
-    "/images/SAM_0364.JPG",
-    "/images/GrowArea.jpg",
-  ],
+  grower: ["/images/SAM_0367.JPG", "/images/GrowArea.jpg", "/images/GrowArea2.jpg"],
+  youth: ["/images/SAM_0368.JPG", "/images/SAM_0369.JPG", "/images/GrowArea2.jpg"],
+  partner: ["/images/SAM_0363.JPG", "/images/SAM_0364.JPG", "/images/GrowArea.jpg"],
 };
 
 const pathData: Record<
@@ -89,7 +68,8 @@ const pathData: Record<
     ],
     purpose:
       "The guest pathway makes the vision visible before asking anyone to participate.",
-    next: "Continue from welcome into reservation, event check-in, tour stops, story stations, and marketplace connection.",
+    next:
+      "Continue from welcome into reservation, event check-in, tour stops, story stations, and marketplace connection.",
     button: "Enter Guest Pathway",
   },
   customer: {
@@ -109,7 +89,8 @@ const pathData: Record<
     ],
     purpose:
       "The customer pathway turns interest into food access and repeat participation.",
-    next: "Continue to produce selection, Bubble Babies™, recipes, nutrition prompts, cart, pickup, and order history.",
+    next:
+      "Continue to produce selection, Bubble Babies™, recipes, nutrition prompts, cart, pickup, and order history.",
     button: "Enter Customer Pathway",
   },
   marketplace: {
@@ -129,7 +110,8 @@ const pathData: Record<
     ],
     purpose:
       "The marketplace pathway shows how the ecosystem sustains itself through real transactions.",
-    next: "Continue to storefront preview, product cards, SNAP notes, preorder flow, grower benefit explanation, and Enter Store.",
+    next:
+      "Continue to storefront preview, product cards, SNAP notes, preorder flow, grower benefit explanation, and Enter Store.",
     button: "Enter Marketplace",
   },
   grower: {
@@ -147,9 +129,9 @@ const pathData: Record<
       "Support can include crop planning, supply education, distribution visibility, and shared events.",
       "The pathway helps growers understand how to move from growing to selling and collaborating.",
     ],
-    purpose:
-      "The grower pathway makes participation clear, fair, and useful.",
-    next: "Continue to grower registration, crop calendar, supply market, training modules, and marketplace eligibility.",
+    purpose: "The grower pathway makes participation clear, fair, and useful.",
+    next:
+      "Continue to grower registration, crop calendar, supply market, training modules, and marketplace eligibility.",
     button: "Enter Grower Pathway",
   },
   youth: {
@@ -169,7 +151,8 @@ const pathData: Record<
     ],
     purpose:
       "The youth pathway shows how the farm becomes a workforce development environment.",
-    next: "Continue to youth dashboard, supervisor view, parent portal, task cards, LSP scoring, and completion summary.",
+    next:
+      "Continue to youth dashboard, supervisor view, parent portal, task cards, LSP scoring, and completion summary.",
     button: "Enter Youth Pathway",
   },
   partner: {
@@ -187,9 +170,9 @@ const pathData: Record<
       "Partners may support demonstrations, equipment, education, storytelling, funding, or community services.",
       "Each partner role should connect to a real contribution and a visible community outcome.",
     ],
-    purpose:
-      "The partner pathway shows how collaboration becomes action.",
-    next: "Continue to partner roles, contribution options, event participation, sponsor visibility, and follow-up actions.",
+    purpose: "The partner pathway shows how collaboration becomes action.",
+    next:
+      "Continue to partner roles, contribution options, event participation, sponsor visibility, and follow-up actions.",
     button: "Enter Partner Pathway",
   },
 };
@@ -215,23 +198,13 @@ const languages: Record<Lang, string> = {
   he: "Hebrew",
 };
 
-function SmartImage({
-  images,
-  alt,
-}: {
-  images: string[];
-  alt: string;
-}) {
+function SmartImage({ images, alt }: { images: string[]; alt: string }) {
   const [index, setIndex] = useState(0);
   const src = images[index] || imageList[0];
 
   return (
     <div className="imageWrap">
-      <img
-        src={src}
-        alt={alt}
-        onError={() => setIndex((old) => old + 1)}
-      />
+      <img src={src} alt={alt} onError={() => setIndex((old) => old + 1)} />
     </div>
   );
 }
@@ -240,9 +213,7 @@ export default function App() {
   const [lang, setLang] = useState<Lang>("en");
   const [active, setActive] = useState<PathKey>("guest");
   const data = pathData[active];
-
   const dir = lang === "he" ? "rtl" : "ltr";
-
   const activeImages = useMemo(() => fallbackImages[active], [active]);
 
   function speak() {
@@ -346,9 +317,7 @@ export default function App() {
           overflow: hidden;
         }
 
-        .heroCard {
-          padding: 34px 38px;
-        }
+        .heroCard { padding: 34px 38px; }
 
         .smallCaps {
           color: var(--leaf);
@@ -396,3 +365,268 @@ export default function App() {
         .tab.active {
           background: var(--leaf);
           color: white;
+        }
+
+        .imageWrap {
+          width: 100%;
+          min-height: 270px;
+          background: var(--deep);
+          overflow: hidden;
+        }
+
+        .imageWrap img {
+          width: 100%;
+          height: 320px;
+          object-fit: cover;
+          display: block;
+        }
+
+        .pathBody { padding: 28px 34px 34px; }
+
+        h2 {
+          margin: 10px 0 16px;
+          font-size: clamp(30px, 4vw, 44px);
+          line-height: 1;
+          letter-spacing: -.05em;
+        }
+
+        .mission {
+          background: var(--forest);
+          color: white;
+          padding: 18px 20px;
+          border-radius: 15px;
+          font-size: 17px;
+          line-height: 1.5;
+          font-weight: 700;
+          margin-bottom: 22px;
+        }
+
+        .section {
+          background: var(--card);
+          border: 1px solid rgba(0,0,0,.09);
+          border-radius: 18px;
+          padding: 20px;
+          margin-top: 18px;
+        }
+
+        .sectionTitle {
+          color: #a34c00;
+          letter-spacing: .32em;
+          text-transform: uppercase;
+          font-weight: 900;
+          font-size: 13px;
+          margin-bottom: 12px;
+        }
+
+        .section p, .section li {
+          font-size: 17px;
+          line-height: 1.55;
+        }
+
+        ul { padding-left: 22px; margin-bottom: 0; }
+
+        .actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 22px;
+        }
+
+        .primary {
+          background: var(--leaf);
+          color: white;
+        }
+
+        .secondary {
+          background: var(--gold);
+          color: #111;
+        }
+
+        .partnerStrip {
+          margin-top: 34px;
+          background: rgba(255,255,255,.65);
+          border-radius: 22px;
+          padding: 22px;
+          box-shadow: 0 8px 24px rgba(0,0,0,.07);
+        }
+
+        .partnerGrid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 14px;
+        }
+
+        .pill {
+          background: white;
+          border: 1px solid rgba(0,0,0,.1);
+          border-radius: 999px;
+          padding: 10px 14px;
+          font-weight: 800;
+          font-size: 14px;
+        }
+
+        .storePreview {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin-top: 14px;
+        }
+
+        .product {
+          background: white;
+          border-radius: 14px;
+          padding: 14px;
+          border: 1px solid rgba(0,0,0,.08);
+          font-weight: 800;
+        }
+
+        .product span {
+          display: block;
+          color: var(--leaf);
+          font-size: 13px;
+          margin-top: 6px;
+        }
+
+        @media (max-width: 980px) {
+          main { padding: 22px 18px 50px; }
+          .grid { grid-template-columns: 1fr; }
+          .top { flex-direction: column; align-items: flex-start; }
+          .headline { font-size: 46px; }
+          .storePreview { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      <header className="top">
+        <div>
+          <div className="brand">Developed by Bronson Family Farm</div>
+          <h1>Bronson Family Farm Ecosystem Demo</h1>
+        </div>
+
+        <select value={lang} onChange={(e) => setLang(e.target.value as Lang)}>
+          {Object.entries(languages).map(([key, label]) => (
+            <option key={key} value={key}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </header>
+
+      <section className="grid">
+        <div className="heroCard">
+          <div className="smallCaps">Serving the Mahoning Valley Area</div>
+          <div className="headline">
+            A living farm, marketplace, and workforce ecosystem.
+          </div>
+          <p className="lead">
+            This demo shows how guests, customers, growers, youth workers, and
+            partners move through a meaningful pathway — from story, to food
+            access, to marketplace participation, to community benefit.
+          </p>
+
+          <div className="tabs">
+            {(Object.keys(pathData) as PathKey[]).map((key) => (
+              <button
+                key={key}
+                className={`tab ${active === key ? "active" : ""}`}
+                onClick={() => setActive(key)}
+              >
+                {pathData[key].label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <article className="pathCard">
+          <SmartImage images={activeImages} alt={data.title} />
+
+          <div className="pathBody">
+            <div className="smallCaps">{data.eyebrow}</div>
+            <h2>{data.title}</h2>
+
+            <div className="mission">{data.mission}</div>
+
+            <div className="section">
+              <div className="sectionTitle">Sound Bite</div>
+              <p>{data.sound}</p>
+            </div>
+
+            <div className="section">
+              <div className="sectionTitle">Intro</div>
+              <p>{data.intro}</p>
+            </div>
+
+            <div className="section">
+              <div className="sectionTitle">Knowledge</div>
+              <ul>
+                {data.knowledge.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            {active === "marketplace" && (
+              <div className="section">
+                <div className="sectionTitle">Storefront Preview</div>
+                <div className="storePreview">
+                  <div className="product">
+                    Bubble Babies™ <span>Seedling rolls</span>
+                  </div>
+                  <div className="product">
+                    Fresh Produce <span>Seasonal farm products</span>
+                  </div>
+                  <div className="product">
+                    Grower Goods <span>Marketplace participation</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="section">
+              <div className="sectionTitle">Summary of Purpose</div>
+              <p>{data.purpose}</p>
+            </div>
+
+            <div className="section">
+              <div className="sectionTitle">Next</div>
+              <p>{data.next}</p>
+            </div>
+
+            <div className="actions">
+              <button className="primary" onClick={speak}>
+                Play Voice Guide
+              </button>
+
+              {active === "marketplace" ? (
+                <button
+                  className="secondary"
+                  onClick={() =>
+                    window.open(
+                      "https://grownby.com/farms/bronson-family-farm/shop",
+                      "_blank"
+                    )
+                  }
+                >
+                  Enter Store
+                </button>
+              ) : (
+                <button className="secondary">{data.button}</button>
+              )}
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section className="partnerStrip">
+        <div className="smallCaps">Ecosystem Partners and Participants</div>
+        <div className="partnerGrid">
+          {partners.map((partner) => (
+            <div className="pill" key={partner}>
+              {partner}
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
