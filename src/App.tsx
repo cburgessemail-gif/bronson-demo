@@ -108,24 +108,26 @@ const imageBank = {
 
   // YOUTH — PEOPLE FIRST: youth / students / visible human activity
   youth: [
-    "/SAM_0222.JPG",
-    "/images/SAM_0222.JPG",
     "/SAM_0223.JPG",
     "/images/SAM_0223.JPG",
+    "/SAM_0222.JPG",
+    "/images/SAM_0222.JPG",
     "/SAM_0224.JPG",
     "/images/SAM_0224.JPG",
     "/SAM_0230.JPG",
     "/images/SAM_0230.JPG",
   ],
 
-  // PARTNER — site visit / collaboration / community presence
+  // PARTNER — collaboration / meetings / site visit / community presence
   partner: [
-    "/SAM_0223.JPG",
-    "/images/SAM_0223.JPG",
-    "/SAM_0255.JPG",
-    "/images/SAM_0255.JPG",
     "/SAM_0257.JPG",
     "/images/SAM_0257.JPG",
+    "/SAM_0255.JPG",
+    "/images/SAM_0255.JPG",
+    "/SAM_0223.JPG",
+    "/images/SAM_0223.JPG",
+    "/SAM_0249.JPG",
+    "/images/SAM_0249.JPG",
   ],
 
   production: [
