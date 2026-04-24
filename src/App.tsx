@@ -1,25 +1,12 @@
 import React, { useMemo, useState } from "react";
 
 /**
- * Bronson Family Farm Ecosystem Demo — Final Stable App.tsx
- * Single-file React demo. No external packages required.
- *
- * IMAGE RULE:
- * Place farm images in: public/images/
- * Reference them here WITHOUT "public" in the path, for example: /images/YourFile.jpg
- * This script includes multiple safe filename candidates per page and a built-in fallback
- * so the design remains intact even when an image filename is missing or different.
+ * Bronson Family Farm Ecosystem Demo — Final Integrated App.tsx
+ * Home page preserved. Marketplace upgraded with BOTH storefront + produce visuals.
+ * Place images in public/images/ and reference them as /images/filename.jpg
  */
 
-type RoleKey =
-  | "guest"
-  | "customer"
-  | "marketplace"
-  | "grower"
-  | "producer"
-  | "youth"
-  | "partner";
-
+type RoleKey = "guest" | "customer" | "marketplace" | "grower" | "producer" | "youth" | "partner";
 type LangKey = "en" | "es" | "fr" | "tl" | "it" | "he";
 
 type Step = {
@@ -40,6 +27,10 @@ type Pathway = {
   actions: string[];
 };
 
+const STORE_URL = "https://grownby.com/farms/bronson-family-farm/shop";
+const WEBSITE_URL = "https://www.bronsonfamilyfarm.com";
+const CONTACT_EMAIL = "cburgess@bronsonfamilyfarm.com";
+
 const imageBank = {
   hero: [
     "/images/entrance-farm.jpg",
@@ -48,8 +39,6 @@ const imageBank = {
     "/images/GrowArea.jpg",
     "/images/SAM_0220.JPG",
   ],
-
-  // Guest = arrival, land, forest, entrance, overall farm story
   guest: [
     "/images/entrance-farm.jpg",
     "/images/guest-forest.jpg",
@@ -57,8 +46,6 @@ const imageBank = {
     "/images/Aerial.jpg",
     "/images/SAM_0220.JPG",
   ],
-
-  // Customer = produce, seedlings, Bubble Babies™, food choices
   customer: [
     "/images/customer-produce.jpg",
     "/images/BubbleBabies.jpg",
@@ -66,8 +53,6 @@ const imageBank = {
     "/images/Seedlings.jpg",
     "/images/Produce.jpg",
   ],
-
-  // Marketplace = GrownBy, storefront, buying, preorders, Farm Stop
   marketplace: [
     "/images/marketplace-storefront.jpg",
     "/images/GrownByStorefront.jpg",
@@ -76,8 +61,13 @@ const imageBank = {
     "/images/Marketplace.jpg",
     "/images/FarmStop.jpg",
   ],
-
-  // Grower = field, growing area, crop rows, irrigation, production
+  marketplaceProduce: [
+    "/images/customer-produce.jpg",
+    "/images/Produce.jpg",
+    "/images/BubbleBabies.jpg",
+    "/images/Seedlings.jpg",
+    "/images/MarketTable.jpg",
+  ],
   grower: [
     "/images/grower-field.jpg",
     "/images/GrowArea.jpg",
@@ -85,8 +75,6 @@ const imageBank = {
     "/images/GrowingArea.jpg",
     "/images/FarmField.jpg",
   ],
-
-  // Value-added Producer = products, market table, food transformation, selling
   producer: [
     "/images/value-added-products.jpg",
     "/images/ValueAdded.jpg",
@@ -95,8 +83,6 @@ const imageBank = {
     "/images/Products.jpg",
     "/images/customer-produce.jpg",
   ],
-
-  // Youth Workforce = students, training, hands-on work, RC/youth activities
   youth: [
     "/images/youth-workforce.jpg",
     "/images/YouthWorkforce.jpg",
@@ -104,8 +90,6 @@ const imageBank = {
     "/images/Students.jpg",
     "/images/Training.jpg",
   ],
-
-  // Partner = site visits, collaboration, community, meetings, event alignment
   partner: [
     "/images/partners-collaboration.jpg",
     "/images/Partners.jpg",
@@ -116,13 +100,13 @@ const imageBank = {
   ],
 };
 
-const translations: Record<LangKey, { name: string; welcome: string; tour: string; enter: string; next: string; back: string; purpose: string; knowledge: string; summary: string }> = {
-  en: { name: "English", welcome: "Welcome to the Bronson Family Farm Ecosystem", tour: "Begin Guided Tour", enter: "Enter Pathway", next: "Next", back: "Back", purpose: "Purpose", knowledge: "Knowledge", summary: "Summary" },
-  es: { name: "Español", welcome: "Bienvenido al ecosistema de Bronson Family Farm", tour: "Comenzar recorrido", enter: "Entrar", next: "Siguiente", back: "Atrás", purpose: "Propósito", knowledge: "Conocimiento", summary: "Resumen" },
-  fr: { name: "Français", welcome: "Bienvenue dans l’écosystème de Bronson Family Farm", tour: "Commencer la visite", enter: "Entrer", next: "Suivant", back: "Retour", purpose: "Objectif", knowledge: "Connaissance", summary: "Résumé" },
-  tl: { name: "Tagalog", welcome: "Maligayang pagdating sa ecosystem ng Bronson Family Farm", tour: "Simulan ang paglilibot", enter: "Pumasok", next: "Susunod", back: "Bumalik", purpose: "Layunin", knowledge: "Kaalaman", summary: "Buod" },
-  it: { name: "Italiano", welcome: "Benvenuti nell’ecosistema Bronson Family Farm", tour: "Inizia il tour", enter: "Entra", next: "Avanti", back: "Indietro", purpose: "Scopo", knowledge: "Conoscenza", summary: "Riepilogo" },
-  he: { name: "Hebrew", welcome: "ברוכים הבאים למערכת של Bronson Family Farm", tour: "התחל סיור", enter: "כניסה", next: "הבא", back: "חזרה", purpose: "מטרה", knowledge: "ידע", summary: "סיכום" },
+const translations: Record<LangKey, { name: string; welcome: string; tour: string; enter: string; next: string; back: string; purpose: string; summary: string }> = {
+  en: { name: "English", welcome: "Welcome to the Bronson Family Farm Ecosystem", tour: "Begin Guided Tour", enter: "Enter Pathway", next: "Next", back: "Back", purpose: "Purpose", summary: "Summary" },
+  es: { name: "Español", welcome: "Bienvenido al ecosistema de Bronson Family Farm", tour: "Comenzar recorrido", enter: "Entrar", next: "Siguiente", back: "Atrás", purpose: "Propósito", summary: "Resumen" },
+  fr: { name: "Français", welcome: "Bienvenue dans l’écosystème de Bronson Family Farm", tour: "Commencer la visite", enter: "Entrer", next: "Suivant", back: "Retour", purpose: "Objectif", summary: "Résumé" },
+  tl: { name: "Tagalog", welcome: "Maligayang pagdating sa ecosystem ng Bronson Family Farm", tour: "Simulan ang paglilibot", enter: "Pumasok", next: "Susunod", back: "Bumalik", purpose: "Layunin", summary: "Buod" },
+  it: { name: "Italiano", welcome: "Benvenuti nell’ecosistema Bronson Family Farm", tour: "Inizia il tour", enter: "Entra", next: "Avanti", back: "Indietro", purpose: "Scopo", summary: "Riepilogo" },
+  he: { name: "Hebrew", welcome: "ברוכים הבאים למערכת של Bronson Family Farm", tour: "התחל סיור", enter: "כניסה", next: "הבא", back: "חזרה", purpose: "מטרה", summary: "סיכום" },
 };
 
 const pathways: Pathway[] = [
@@ -135,13 +119,13 @@ const pathways: Pathway[] = [
     accent: "#d8b56d",
     images: imageBank.guest,
     steps: [
-      { label: "Sound Bite", title: "A living entrance", text: "This is not just a farm tour. It is an invitation into a working ecosystem rooted in land, legacy, and community purpose." },
+      { label: "Sound Bite", title: "A living entrance", text: "You are entering land being reimagined for food, family, and future opportunity." },
       { label: "Intro", title: "Where the story begins", text: "The guest sees open land, growing areas, woods, and event space as one connected place for food, learning, and gathering." },
       { label: "Knowledge", title: "Why this matters", text: "Local food systems become stronger when people can see where food begins, meet growers, and understand how the land supports health and opportunity." },
       { label: "Summary", title: "The guest outcome", text: "The guest leaves knowing the farm is a destination with meaning, not a disconnected event site." },
       { label: "Next", title: "Move deeper", text: "Guests can become customers, volunteers, partners, or supporters after understanding the purpose." },
     ],
-    actions: ["View farm story", "Reserve event entry", "Meet the ecosystem"],
+    actions: ["View farm story", "Invitation policy", "Meet the ecosystem"],
   },
   {
     key: "customer",
@@ -152,13 +136,13 @@ const pathways: Pathway[] = [
     accent: "#7fa25b",
     images: imageBank.customer,
     steps: [
-      { label: "Sound Bite", title: "Food with a source", text: "Customers are not just buying items. They are choosing food connected to growers, land, and community health." },
+      { label: "Sound Bite", title: "Food with a source", text: "Every purchase supports healthier households and local growers." },
       { label: "Intro", title: "Fresh choices", text: "The pathway highlights produce, Bubble Babies™ seedlings, seasonal availability, pickup, and marketplace access." },
       { label: "Knowledge", title: "Nutrition made visible", text: "Simple education connects natural foods, cooking, gardening, diabetes awareness, and better household choices." },
       { label: "Summary", title: "The customer outcome", text: "Customers understand what to buy, why it matters, and how to return for fresh food again." },
       { label: "Next", title: "Enter the marketplace", text: "The customer moves directly into purchasing and pickup options." },
     ],
-    actions: ["Browse seasonal food", "Scan QR for shop", "View pickup options"],
+    actions: ["Browse seasonal food", "Enter store", "View pickup options"],
   },
   {
     key: "marketplace",
@@ -169,13 +153,13 @@ const pathways: Pathway[] = [
     accent: "#c88445",
     images: imageBank.marketplace,
     steps: [
-      { label: "Sound Bite", title: "The store is part of the system", text: "The marketplace is where community interest becomes revenue, repeat access, and support for local producers." },
-      { label: "Intro", title: "From story to sale", text: "Customers can move from learning to buying produce, seedlings, grower products, and event-based offerings." },
+      { label: "Sound Bite", title: "Where local effort becomes purchasing power", text: "The marketplace is where community interest becomes revenue, repeat access, and support for local producers." },
+      { label: "Intro", title: "Digital store plus real food", text: "The GrownBy storefront connects modern purchasing with the real farm products, seedlings, and seasonal produce people can pick up and use." },
       { label: "Knowledge", title: "Access and accountability", text: "The marketplace can support SNAP-aware purchasing, preorders, pickup windows, order history, and grower participation." },
       { label: "Summary", title: "The marketplace outcome", text: "Purchases support the ecosystem while making local food easier to find and easier to buy." },
       { label: "Next", title: "Enter Store", text: "The next action opens the public shopping experience or event order flow." },
     ],
-    actions: ["Enter Store", "View preorders", "See vendor opportunities"],
+    actions: ["Enter Store", "Preorder Pickup", "Support Growers"],
   },
   {
     key: "grower",
@@ -186,13 +170,13 @@ const pathways: Pathway[] = [
     accent: "#678f55",
     images: imageBank.grower,
     steps: [
-      { label: "Sound Bite", title: "Growers build the supply", text: "Growers are not separate from the ecosystem. They are one of the engines that make it real." },
+      { label: "Sound Bite", title: "Small growers no longer work alone", text: "Growers are not separate from the ecosystem. They are one of the engines that make it real." },
       { label: "Intro", title: "Register first", text: "Growers enter through the portal so the ecosystem can understand their crops, capacity, schedule, and marketplace readiness." },
       { label: "Knowledge", title: "Shared infrastructure", text: "Growers can connect to crop planning, education, market days, food safety knowledge, and coordinated sales opportunities." },
       { label: "Summary", title: "The grower outcome", text: "Growers gain a clearer path from planting to selling while contributing to regional food access." },
       { label: "Next", title: "Join marketplace benefits", text: "Registered growers can move toward marketplace participation and community distribution channels." },
     ],
-    actions: ["Register grower", "View crop planner", "Join market opportunity"],
+    actions: ["Register grower", "Crop planning", "Weather"],
   },
   {
     key: "producer",
@@ -220,13 +204,13 @@ const pathways: Pathway[] = [
     accent: "#4d8d8a",
     images: imageBank.youth,
     steps: [
-      { label: "Sound Bite", title: "Young people help operate the ecosystem", text: "Youth are not observers. They learn by helping the farm, events, marketplace, technology, and community activities work." },
+      { label: "Sound Bite", title: "Real work that matters", text: "Young people learn responsibility through real work connected to land, events, food, technology, and community." },
       { label: "Intro", title: "Role-based learning", text: "Youth can connect to growing, culinary, arts, business, public safety, logistics, media, and technology pathways." },
       { label: "Knowledge", title: "Supervisor layer", text: "Supervisors can track attendance, tasks, safety, reflections, and Life Skills Progression growth." },
       { label: "Summary", title: "The youth outcome", text: "Youth understand work, responsibility, teamwork, and future options through a real place-based system." },
       { label: "Next", title: "Begin assignment", text: "The youth pathway moves into task check-in, supervisor review, and progress tracking." },
     ],
-    actions: ["Youth check-in", "Supervisor view", "View skills progress"],
+    actions: ["Youth check-in", "Supervisor view", "Skills path"],
   },
   {
     key: "partner",
@@ -237,13 +221,13 @@ const pathways: Pathway[] = [
     accent: "#9b7653",
     images: imageBank.partner,
     steps: [
-      { label: "Sound Bite", title: "Partners make the bridge stronger", text: "Each partner adds capacity to the ecosystem instead of standing alone as a logo." },
+      { label: "Sound Bite", title: "Resources become results when aligned", text: "Each partner adds capacity to the ecosystem instead of standing alone as a logo." },
       { label: "Intro", title: "Known collaborators", text: "Farm & Family Alliance, Inc., Parker Farms, Central State University, Gates Drone Services, Home Depot, Petitti’s Garden Center, Elliott’s Garden Center, and the Youngstown Area Jewish Foundation each represent a form of capacity." },
       { label: "Knowledge", title: "Resource alignment", text: "Partnership can support education, site planning, materials, market activity, storytelling, health, youth development, and regional food access." },
       { label: "Summary", title: "The partner outcome", text: "Partners understand where their support fits and how collaboration creates a stronger community result." },
       { label: "Next", title: "Choose a contribution lane", text: "Partners can move toward sponsorship, demonstration, volunteer support, technical assistance, or shared programming." },
     ],
-    actions: ["View partner lanes", "Plan contribution", "Schedule site visit"],
+    actions: ["Schedule Visit", "Partnerships", "Contact"],
   },
 ];
 
@@ -252,15 +236,11 @@ function normalizePath(path: string) {
 }
 
 function expandImageCandidates(candidates: string[]) {
-  const prefixes = ["", "/images/", "images/", "./images/", "/public/images/", "public/images/", "./public/images/", "/assets/", "assets/", "./assets/"];
+  const prefixes = ["", "/images/", "images/", "./images/", "/public/images/", "public/images/", "./public/images/"];
   const filenames = candidates.map((item) => item.split("/").pop() || item);
   const expanded = new Set<string>();
-
   candidates.forEach((item) => expanded.add(item));
-  filenames.forEach((filename) => {
-    prefixes.forEach((prefix) => expanded.add(`${prefix}${filename}`));
-  });
-
+  filenames.forEach((filename) => prefixes.forEach((prefix) => expanded.add(`${prefix}${filename}`)));
   return Array.from(expanded);
 }
 
@@ -273,65 +253,18 @@ function SmartImage({ candidates, alt, className }: { candidates: string[]; alt:
     return <CinematicFallback alt={alt} className={className} />;
   }
 
-  return (
-    <img
-      className={className}
-      src={src}
-      alt={alt}
-      onError={() => setIndex((i) => i + 1)}
-    />
-  );
+  return <img className={className} src={src} alt={alt} onError={() => setIndex((i) => i + 1)} />;
 }
 
 function CinematicFallback({ alt, className }: { alt: string; className?: string }) {
-  const lower = alt.toLowerCase();
-  const scene = lower.includes("marketplace")
-    ? "marketplace"
-    : lower.includes("customer")
-    ? "customer"
-    : lower.includes("grower")
-    ? "grower"
-    : lower.includes("value") || lower.includes("producer")
-    ? "producer"
-    : lower.includes("youth")
-    ? "youth"
-    : lower.includes("partner")
-    ? "partner"
-    : "guest";
-
   return (
-    <div className={`cinematicFallback scene-${scene} ${className || ""}`} aria-label={alt}>
+    <div className={`cinematicFallback ${className || ""}`} aria-label={alt}>
       <div className="skyGlow" />
       <div className="sceneLayer sceneBack" />
       <div className="sceneLayer sceneMid" />
-      <div className="sceneLayer sceneFront" />
-      <div className="sceneObjects">
-        {scene === "guest" && <><i className="path" /><i className="welcomeGate" /><i className="heritageTree" /></>}
-        {scene === "customer" && <><i className="produceTable" /><i className="basket one" /><i className="basket two" /><i className="recipeCard" /></>}
-        {scene === "marketplace" && <><i className="marketTent one" /><i className="marketTent two" /><i className="storefront" /><i className="qrPost" /></>}
-        {scene === "grower" && <><i className="cropRows" /><i className="waterTank" /><i className="fenceLine" /><i className="seedTray" /></>}
-        {scene === "producer" && <><i className="kitchenTable" /><i className="jars" /><i className="labelStack" /><i className="demoBoard" /></>}
-        {scene === "youth" && <><i className="checkinBoard" /><i className="taskCards" /><i className="rcTrack" /><i className="mentorPost" /></>}
-        {scene === "partner" && <><i className="bridge" /><i className="partnerCircles" /><i className="resourceMap" /><i className="meetingTable" /></>}
-      </div>
-      <div className="fallbackBadge">
-        <strong>{alt}</strong>
-        <small>{sceneLabel(scene)}</small>
-      </div>
+      <div className="fallbackBadge"><strong>{alt}</strong><small>Bronson Family Farm Ecosystem</small></div>
     </div>
   );
-}
-
-function sceneLabel(scene: string) {
-  switch (scene) {
-    case "customer": return "Fresh food · nutrition · repeat healthy choices";
-    case "marketplace": return "Purchasing power · preorders · community access";
-    case "grower": return "Registered growers · crop planning · market participation";
-    case "producer": return "Value-added products · demonstrations · entrepreneurship";
-    case "youth": return "Youth workforce · tasks · skills progression";
-    case "partner": return "Aligned resources · collaboration · community benefit";
-    default: return "Land · story · welcome · purpose";
-  }
 }
 
 function speak(text: string) {
@@ -342,6 +275,10 @@ function speak(text: string) {
   utterance.pitch = 1;
   utterance.volume = 1;
   window.speechSynthesis.speak(utterance);
+}
+
+function openUrl(url: string) {
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
 export default function App() {
@@ -360,15 +297,19 @@ export default function App() {
     setStarted(true);
   };
 
-  const nextStep = () => {
-    setStep((current) => (current + 1) % active.steps.length);
-  };
-
-  const previousStep = () => {
-    setStep((current) => (current - 1 + active.steps.length) % active.steps.length);
-  };
-
+  const nextStep = () => setStep((current) => (current + 1) % active.steps.length);
+  const previousStep = () => setStep((current) => (current - 1 + active.steps.length) % active.steps.length);
   const narration = `${active.title}. ${activeStep.label}. ${activeStep.title}. ${activeStep.text}`;
+
+  const handleAction = (action: string) => {
+    const lower = action.toLowerCase();
+    if (lower.includes("store") || lower.includes("preorder") || lower.includes("seasonal")) return openUrl(STORE_URL);
+    if (lower.includes("weather")) return openUrl("https://www.accuweather.com/en/us/youngstown/44503/weather-forecast/330121");
+    if (lower.includes("crop")) return openUrl("https://www.almanac.com/gardening/planting-calendar");
+    if (lower.includes("contact")) return openUrl(`mailto:${CONTACT_EMAIL}`);
+    if (lower.includes("invitation")) return alert("Bronson Family Farm is a private working farm and developing ecosystem site. Access is by invitation, scheduled appointment, or approved event registration only. Unauthorized public entry is not permitted.");
+    return speak(`${action}. ${active.summary}`);
+  };
 
   return (
     <div className="appShell">
@@ -385,7 +326,9 @@ export default function App() {
 
         <nav className="topNav">
           {pathways.slice(0, 5).map((p) => (
-            <button key={p.key} onClick={() => selectPathway(p.key)} className={activeKey === p.key ? "navActive" : ""}>{p.title.replace(" Pathway", "")}</button>
+            <button key={p.key} onClick={() => selectPathway(p.key)} className={activeKey === p.key ? "navActive" : ""}>
+              {p.title.replace(" Pathway", "")}
+            </button>
           ))}
         </nav>
 
@@ -402,10 +345,12 @@ export default function App() {
             <div className="heroContent">
               <div className="eyebrow">Youngstown · Mahoning Valley · Regional Food Ecosystem</div>
               <h1>{t.welcome}</h1>
-              <p>Food, land, youth workforce, marketplace access, growers, value-added producers, partners, and community learning in one connected place.</p>
+              <p>Private working farm. Access by invitation, scheduled appointment, or approved event registration only.</p>
+              <p className="heroSmall">Food, land, youth workforce, marketplace access, growers, value-added producers, partners, and community learning in one connected place.</p>
               <div className="heroActions">
                 <button className="primaryBtn" onClick={() => setStarted(true)}>{t.tour}</button>
                 <button className="secondaryBtn" onClick={() => selectPathway("marketplace")}>Enter Marketplace</button>
+                <button className="secondaryBtn" onClick={() => openUrl(WEBSITE_URL)}>Main Website</button>
               </div>
             </div>
           </section>
@@ -421,52 +366,40 @@ export default function App() {
               ))}
             </aside>
 
-            <section className="storyPanel">
-              <div className="mediaCard">
-                <SmartImage candidates={active.images} alt={active.title} className="panelImage" />
-                <div className="mediaLabel">{active.eyebrow}</div>
-              </div>
-
-              <div className="contentCard">
-                <div className="eyebrow">{active.eyebrow}</div>
-                <h2>{active.title}</h2>
-                <p className="mission"><strong>{t.purpose}:</strong> {active.mission}</p>
-
-                <div className="stepCard">
-                  <div className="stepMeta">{step + 1} / {active.steps.length} · {activeStep.label}</div>
-                  <h3>{activeStep.title}</h3>
-                  <p>{activeStep.text}</p>
+            {activeKey === "marketplace" ? (
+              <MarketplacePanel selectPathway={selectPathway} />
+            ) : (
+              <section className="storyPanel">
+                <div className="mediaCard">
+                  <SmartImage candidates={active.images} alt={active.title} className="panelImage" />
+                  <div className="mediaLabel">{active.eyebrow}</div>
                 </div>
 
-                <div className="buttonRow">
-                  <button className="secondaryBtn dark" onClick={previousStep}>{t.back}</button>
-                  <button className="primaryBtn" onClick={nextStep}>{t.next}</button>
-                  <button className="secondaryBtn dark" onClick={() => speak(narration)}>Play Voice</button>
+                <div className="contentCard">
+                  <div className="eyebrow">{active.eyebrow}</div>
+                  <h2>{active.title}</h2>
+                  <p className="mission"><strong>{t.purpose}:</strong> {active.mission}</p>
+
+                  <div className="stepCard">
+                    <div className="stepMeta">{step + 1} / {active.steps.length} · {activeStep.label}</div>
+                    <h3>{activeStep.title}</h3>
+                    <p>{activeStep.text}</p>
+                  </div>
+
+                  <div className="buttonRow">
+                    <button className="secondaryBtn dark" onClick={previousStep}>{t.back}</button>
+                    <button className="primaryBtn" onClick={nextStep}>{t.next}</button>
+                    <button className="secondaryBtn dark" onClick={() => speak(narration)}>Play Voice</button>
+                  </div>
+
+                  <div className="actionGrid">
+                    {active.actions.map((action) => <button key={action} onClick={() => handleAction(action)}>{action}</button>)}
+                  </div>
                 </div>
 
-                <div className="actionGrid">
-                  {active.actions.map((action) => (
-                    <button key={action} onClick={() => speak(`${action}. ${active.summary}`)}>{action}</button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="summaryCard">
-                <div className="summaryTitle">{t.summary}</div>
-                <p>{active.summary}</p>
-                <div className="partnerStrip">
-                  <span>Bronson Family Farm</span>
-                  <span>Farm & Family Alliance, Inc.</span>
-                  <span>Parker Farms</span>
-                  <span>Central State University</span>
-                  <span>Gates Drone Services</span>
-                  <span>Home Depot</span>
-                  <span>Petitti’s Garden Center</span>
-                  <span>Elliott’s Garden Center</span>
-                  <span>Youngstown Area Jewish Foundation</span>
-                </div>
-              </div>
-            </section>
+                <SummaryCard active={active} label={t.summary} />
+              </section>
+            )}
           </section>
         )}
       </main>
@@ -474,38 +407,93 @@ export default function App() {
   );
 }
 
-const css = `
-:root {
-  --forest: #17251c;
-  --forest2: #223629;
-  --cream: #f6efe0;
-  --paper: rgba(255, 250, 239, 0.94);
-  --ink: #1f261f;
-  --muted: #687060;
-  --gold: #d8b56d;
-  --line: rgba(31, 38, 31, 0.14);
+function MarketplacePanel({ selectPathway }: { selectPathway: (key: RoleKey) => void }) {
+  return (
+    <section className="marketplacePanel">
+      <div className="marketHeroGrid">
+        <div className="marketVisualCard">
+          <SmartImage candidates={imageBank.marketplace} alt="Marketplace digital storefront" className="marketImage" />
+          <div className="marketOverlay">
+            <div className="eyebrow">Digital Storefront</div>
+            <h2>Enter Store</h2>
+            <p>Shop Bronson Family Farm products online through the connected marketplace.</p>
+            <button className="primaryBtn" onClick={() => openUrl(STORE_URL)}>Open GrownBy Store</button>
+          </div>
+        </div>
+
+        <div className="marketVisualCard">
+          <SmartImage candidates={imageBank.marketplaceProduce} alt="Fresh produce and farm products" className="marketImage" />
+          <div className="marketOverlay">
+            <div className="eyebrow">Fresh From The Farm</div>
+            <h2>Preorder Pickup</h2>
+            <p>Seasonal produce, Bubble Babies™, seedlings, and local grower offerings connected to real pickup and purchasing power.</p>
+            <button className="primaryBtn" onClick={() => openUrl(STORE_URL)}>View Products</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="marketMeaning">
+        <div className="eyebrow">Purchasing Power · Sustainability · Access</div>
+        <h2>Where Local Effort Becomes Purchasing Power</h2>
+        <p>The marketplace is not only a store. It is the economic engine that connects customers, growers, value-added producers, fresh food access, and the long-term sustainability of the ecosystem.</p>
+      </div>
+
+      <div className="marketGrid">
+        <article className="marketCard">
+          <h3>Support Growers</h3>
+          <p>Registered growers gain visibility, learning, and market participation inside a stronger regional food ecosystem.</p>
+          <button onClick={() => selectPathway("grower")}>Grower Opportunities</button>
+        </article>
+        <article className="marketCard">
+          <h3>Healthy Access</h3>
+          <p>Fresh produce, seedlings, and nutrition-forward choices help households make repeat healthy decisions.</p>
+          <button onClick={() => selectPathway("customer")}>Customer Pathway</button>
+        </article>
+        <article className="marketCard">
+          <h3>Community Sustainability</h3>
+          <p>Revenue supports farm operations, youth pathways, events, growers, and future community growth.</p>
+          <button onClick={() => selectPathway("partner")}>Partner Pathway</button>
+        </article>
+      </div>
+
+      <div className="buttonRow marketButtons">
+        <button className="primaryBtn" onClick={() => openUrl(STORE_URL)}>Enter Store</button>
+        <button className="secondaryBtn dark" onClick={() => openUrl(STORE_URL)}>Preorder Pickup</button>
+        <button className="secondaryBtn dark" onClick={() => alert("SNAP-aware access is part of the marketplace pathway where eligible and available through connected purchasing options.")}>Learn SNAP Access</button>
+        <button className="secondaryBtn dark" onClick={() => speak("The marketplace is where local effort becomes purchasing power. It connects the farm, growers, products, customers, and sustainability.")}>Play Marketplace Voice</button>
+      </div>
+    </section>
+  );
 }
 
+function SummaryCard({ active, label }: { active: Pathway; label: string }) {
+  return (
+    <div className="summaryCard">
+      <div className="summaryTitle">{label}</div>
+      <p>{active.summary}</p>
+      <div className="partnerStrip">
+        <span>Bronson Family Farm</span>
+        <span>Farm & Family Alliance, Inc.</span>
+        <span>Parker Farms</span>
+        <span>Central State University</span>
+        <span>Gates Drone Services</span>
+        <span>Home Depot</span>
+        <span>Petitti’s Garden Center</span>
+        <span>Elliott’s Garden Center</span>
+        <span>Youngstown Area Jewish Foundation</span>
+      </div>
+    </div>
+  );
+}
+
+const css = `
+:root { --forest: #17251c; --forest2: #223629; --cream: #f6efe0; --paper: rgba(255, 250, 239, 0.94); --ink: #1f261f; --muted: #687060; --gold: #d8b56d; --line: rgba(31, 38, 31, 0.14); }
 * { box-sizing: border-box; }
 body { margin: 0; font-family: Georgia, "Times New Roman", serif; background: radial-gradient(circle at top left, #344b35 0, #17251c 46%, #0d1510 100%); color: var(--ink); }
 button, select { font: inherit; }
 button { cursor: pointer; }
 .appShell { min-height: 100vh; }
-
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 14px 22px;
-  color: #fff8e8;
-  background: rgba(13, 21, 16, 0.86);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-}
+.topbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 22px; color: #fff8e8; background: rgba(13, 21, 16, 0.86); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.12); }
 .brandLockup { display: flex; align-items: center; gap: 12px; min-width: 280px; }
 .brandMark { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(145deg, #d8b56d, #7fa25b); color: #142016; font-weight: 800; letter-spacing: .04em; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
 .brandTitle { font-size: 1.1rem; font-weight: 800; line-height: 1.1; }
@@ -514,20 +502,19 @@ button { cursor: pointer; }
 .topNav button, .topbar select { border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.08); color: #fff8e8; border-radius: 999px; padding: 8px 12px; }
 .topbar select { background: #1d2e23; }
 .topNav .navActive { background: rgba(216,181,109,.26); border-color: rgba(216,181,109,.65); }
-
 .hero { position: relative; min-height: calc(100vh - 77px); display: grid; align-items: end; overflow: hidden; }
 .heroImage { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(1.02) contrast(1.02); }
 .heroOverlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,16,10,.88), rgba(8,16,10,.45), rgba(8,16,10,.18)), linear-gradient(0deg, rgba(8,16,10,.75), transparent 45%); }
 .heroContent { position: relative; z-index: 2; max-width: 980px; padding: 7vw; color: #fff8e8; }
 .eyebrow { text-transform: uppercase; letter-spacing: .13em; font-size: .78rem; color: var(--gold); font-weight: 800; }
 h1 { font-size: clamp(2.8rem, 6vw, 6.8rem); line-height: .9; margin: 18px 0; max-width: 980px; letter-spacing: -.05em; }
-.hero p { font-size: clamp(1.05rem, 2vw, 1.45rem); line-height: 1.5; max-width: 760px; color: rgba(255,248,232,.86); }
+.hero p { font-size: clamp(1.05rem, 2vw, 1.45rem); line-height: 1.5; max-width: 800px; color: rgba(255,248,232,.9); }
+.heroSmall { font-size: 1.05rem !important; color: rgba(255,248,232,.78) !important; }
 .heroActions, .buttonRow { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
 .primaryBtn, .secondaryBtn { border: 0; border-radius: 999px; padding: 12px 18px; font-weight: 800; box-shadow: 0 14px 32px rgba(0,0,0,.22); }
 .primaryBtn { background: var(--accent, var(--gold)); color: #152015; }
 .secondaryBtn { background: rgba(255,255,255,.14); color: #fff8e8; border: 1px solid rgba(255,255,255,.24); }
 .secondaryBtn.dark { color: var(--ink); background: #fff8e8; border: 1px solid var(--line); box-shadow: none; }
-
 .experienceGrid { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 22px; padding: 22px; min-height: calc(100vh - 77px); }
 .pathwayRail { background: rgba(13,21,16,.58); border: 1px solid rgba(255,255,255,.12); border-radius: 28px; padding: 16px; color: #fff8e8; height: fit-content; position: sticky; top: 96px; }
 .railTitle { color: var(--gold); text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; font-weight: 800; margin: 6px 8px 12px; }
@@ -535,9 +522,8 @@ h1 { font-size: clamp(2.8rem, 6vw, 6.8rem); line-height: .9; margin: 18px 0; max
 .railItem span { font-weight: 800; }
 .railItem small { color: rgba(255,248,232,.68); line-height: 1.25; }
 .railActive { background: rgba(255,255,255,.10); border-color: var(--accent); }
-
 .storyPanel { display: grid; grid-template-columns: minmax(320px, .92fr) minmax(360px, 1.08fr); gap: 22px; align-content: start; }
-.mediaCard, .contentCard, .summaryCard { border-radius: 32px; overflow: hidden; background: var(--paper); border: 1px solid rgba(255,255,255,.22); box-shadow: 0 26px 60px rgba(0,0,0,.25); }
+.mediaCard, .contentCard, .summaryCard, .marketplacePanel { border-radius: 32px; overflow: hidden; background: var(--paper); border: 1px solid rgba(255,255,255,.22); box-shadow: 0 26px 60px rgba(0,0,0,.25); }
 .mediaCard { position: relative; min-height: 600px; background: #253522; }
 .panelImage { width: 100%; height: 100%; min-height: 600px; object-fit: cover; display: block; }
 .mediaLabel { position: absolute; left: 18px; right: 18px; bottom: 18px; border-radius: 22px; padding: 14px 16px; color: #fff8e8; background: rgba(13,21,16,.72); backdrop-filter: blur(10px); font-weight: 800; }
@@ -555,89 +541,31 @@ h3 { font-size: clamp(1.55rem, 2.5vw, 2.4rem); line-height: 1; margin: 10px 0; l
 .summaryCard p { font-size: 1.05rem; line-height: 1.55; max-width: 1100px; }
 .partnerStrip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .partnerStrip span { padding: 8px 10px; border-radius: 999px; background: rgba(31,38,31,.07); border: 1px solid rgba(31,38,31,.1); font-size: .84rem; font-weight: 700; color: #394237; }
-.cinematicFallback {
-  position: relative;
-  overflow: hidden;
-  min-height: 100%;
-  width: 100%;
-  display: block;
-  background: linear-gradient(180deg, #21382a 0%, #405734 48%, #6f7f42 100%);
-}
+.marketplacePanel { padding: 24px; }
+.marketHeroGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.marketVisualCard { position: relative; min-height: 480px; overflow: hidden; border-radius: 28px; background: #17251c; box-shadow: 0 20px 44px rgba(0,0,0,.22); }
+.marketImage { width: 100%; height: 100%; min-height: 480px; object-fit: cover; display: block; }
+.marketOverlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; color: #fff8e8; background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,.12)); }
+.marketOverlay h2 { color: #fff8e8; margin: 10px 0; font-size: clamp(2rem, 3vw, 3.2rem); }
+.marketOverlay p { max-width: 520px; line-height: 1.5; color: rgba(255,248,232,.9); }
+.marketMeaning { text-align: center; padding: 36px 18px 22px; }
+.marketMeaning h2 { max-width: 900px; margin-left: auto; margin-right: auto; }
+.marketMeaning p { max-width: 920px; margin: 0 auto; font-size: 1.12rem; line-height: 1.65; color: #384337; }
+.marketGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; }
+.marketCard { padding: 24px; border-radius: 24px; background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(246,239,224,.94)); border: 1px solid var(--line); }
+.marketCard h3 { font-size: 1.45rem; }
+.marketCard p { line-height: 1.55; color: #485143; }
+.marketCard button { margin-top: 12px; border: 0; border-radius: 999px; padding: 11px 14px; background: #d8b56d; font-weight: 800; }
+.marketButtons { justify-content: center; padding: 12px 0 6px; }
+.cinematicFallback { position: relative; overflow: hidden; min-height: 100%; width: 100%; display: block; background: linear-gradient(180deg, #21382a 0%, #405734 48%, #6f7f42 100%); }
 .cinematicFallback.heroImage { position: absolute; inset: 0; height: 100%; }
 .skyGlow { position: absolute; inset: 0; background: radial-gradient(circle at 74% 16%, rgba(246,212,122,.75) 0 5%, rgba(246,212,122,.25) 6% 16%, transparent 17%); }
 .sceneLayer { position: absolute; left: -8%; right: -8%; }
 .sceneBack { top: 24%; height: 24%; opacity: .45; background: radial-gradient(circle at 8% 80%, #132418 0 3%, transparent 3.2%), radial-gradient(circle at 18% 58%, #132418 0 5%, transparent 5.2%), radial-gradient(circle at 31% 74%, #132418 0 4.8%, transparent 5%), radial-gradient(circle at 44% 62%, #132418 0 6%, transparent 6.2%), radial-gradient(circle at 60% 72%, #132418 0 4.5%, transparent 4.7%), radial-gradient(circle at 76% 60%, #132418 0 5.5%, transparent 5.7%), radial-gradient(circle at 91% 74%, #132418 0 5%, transparent 5.2%); }
 .sceneMid { bottom: 0; height: 55%; background: linear-gradient(165deg, rgba(255,255,255,.10), transparent 30%), repeating-linear-gradient(94deg, rgba(255,248,232,.16) 0 8px, transparent 8px 46px); transform: skewY(-4deg); transform-origin: bottom; }
-.sceneFront { bottom: -8%; height: 34%; background: radial-gradient(ellipse at center, rgba(9,19,12,.32), transparent 64%); }
-.sceneObjects i { position: absolute; display: block; z-index: 2; }
 .fallbackBadge { position: absolute; left: 22px; right: 22px; bottom: 22px; z-index: 4; display: grid; gap: 4px; width: fit-content; max-width: min(560px, calc(100% - 44px)); border-radius: 22px; padding: 14px 16px; color: #fff8e8; background: rgba(13,21,16,.66); border: 1px solid rgba(255,255,255,.16); backdrop-filter: blur(10px); box-shadow: 0 18px 40px rgba(0,0,0,.28); }
 .fallbackBadge strong { font-size: 1rem; line-height: 1.15; }
 .fallbackBadge small { color: rgba(255,248,232,.72); font-weight: 700; }
-
-/* Guest: land, entrance, story */
-.path { width: 30%; height: 58%; left: 36%; bottom: -8%; background: linear-gradient(180deg, rgba(232,205,139,.18), rgba(232,205,139,.72)); clip-path: polygon(42% 0, 58% 0, 88% 100%, 12% 100%); }
-.welcomeGate { width: 38%; height: 24%; left: 31%; bottom: 38%; border-top: 10px solid rgba(255,248,232,.75); border-left: 8px solid rgba(255,248,232,.65); border-right: 8px solid rgba(255,248,232,.65); border-radius: 18px 18px 0 0; }
-.heritageTree { width: 21%; height: 36%; left: 8%; bottom: 29%; background: radial-gradient(circle at 50% 18%, #243d25 0 34%, transparent 35%), linear-gradient(90deg, transparent 45%, #4b3323 46% 56%, transparent 57%); }
-
-/* Customer: produce and nutrition */
-.produceTable { width: 55%; height: 14%; left: 22%; bottom: 30%; background: #6f4426; border-radius: 18px; box-shadow: 0 12px 0 rgba(58,35,18,.7); }
-.basket { width: 16%; height: 14%; bottom: 44%; border-radius: 0 0 28px 28px; background: radial-gradient(circle at 25% 25%, #d94f35 0 13%, transparent 14%), radial-gradient(circle at 58% 30%, #f0b84d 0 12%, transparent 13%), radial-gradient(circle at 76% 48%, #6fa14e 0 14%, transparent 15%), #8d5d2f; }
-.basket.one { left: 28%; } .basket.two { left: 51%; }
-.recipeCard { width: 18%; height: 24%; right: 14%; bottom: 42%; background: #fff8e8; border-radius: 10px; box-shadow: inset 0 0 0 8px rgba(127,162,91,.18); }
-
-/* Marketplace: tents, storefront, QR */
-.marketTent { width: 26%; height: 24%; bottom: 33%; background: linear-gradient(135deg, #fff8e8 0 25%, #c88445 25% 50%, #fff8e8 50% 75%, #c88445 75%); clip-path: polygon(50% 0, 100% 45%, 92% 100%, 8% 100%, 0 45%); }
-.marketTent.one { left: 13%; } .marketTent.two { left: 43%; filter: hue-rotate(35deg); }
-.storefront { width: 34%; height: 24%; right: 8%; bottom: 23%; background: linear-gradient(#d8b56d 0 28%, #21382a 29%); border-radius: 12px; box-shadow: inset 0 -26px 0 rgba(255,248,232,.22); }
-.qrPost { width: 9%; height: 19%; right: 18%; bottom: 50%; background: repeating-linear-gradient(45deg, #fff 0 5px, #102015 5px 10px); border: 8px solid #fff8e8; border-radius: 8px; }
-
-/* Grower: rows, irrigation, fence */
-.cropRows { width: 80%; height: 45%; left: 10%; bottom: 6%; background: repeating-linear-gradient(100deg, rgba(246,239,224,.22) 0 10px, transparent 10px 48px); transform: perspective(400px) rotateX(52deg); }
-.waterTank { width: 14%; height: 24%; right: 16%; bottom: 43%; background: linear-gradient(90deg, #d9e1d6, #8aa0a0); border-radius: 18px 18px 8px 8px; box-shadow: 0 20px 0 #5a3b21; }
-.fenceLine { width: 86%; height: 16%; left: 7%; bottom: 38%; background: repeating-linear-gradient(90deg, transparent 0 36px, rgba(255,248,232,.72) 36px 42px), linear-gradient(transparent 40%, rgba(255,248,232,.6) 41% 50%, transparent 51%); }
-.seedTray { width: 22%; height: 12%; left: 14%; bottom: 28%; background: radial-gradient(circle, #6fa14e 0 18%, transparent 20%) 0 0/28px 28px, #3b2b1d; border-radius: 8px; }
-
-/* Producer: kitchen/product conversion */
-.kitchenTable { width: 62%; height: 14%; left: 18%; bottom: 28%; background: #70462a; border-radius: 18px; }
-.jars { width: 28%; height: 24%; left: 26%; bottom: 42%; background: radial-gradient(circle at 22% 70%, #c84f35 0 13%, transparent 14%), radial-gradient(circle at 50% 65%, #d8b56d 0 13%, transparent 14%), radial-gradient(circle at 78% 70%, #7fa25b 0 13%, transparent 14%); border-bottom: 24px solid rgba(255,248,232,.7); }
-.labelStack { width: 18%; height: 20%; right: 22%; bottom: 43%; background: repeating-linear-gradient(180deg, #fff8e8 0 18px, #d8b56d 18px 22px); border-radius: 8px; }
-.demoBoard { width: 22%; height: 25%; right: 7%; bottom: 49%; background: #243721; border: 8px solid #d8b56d; border-radius: 10px; }
-
-/* Youth: check-in, tasks, RC/skills */
-.checkinBoard { width: 24%; height: 32%; left: 12%; bottom: 39%; background: #fff8e8; border-radius: 12px; box-shadow: inset 0 0 0 10px rgba(77,141,138,.24); }
-.taskCards { width: 27%; height: 20%; left: 39%; bottom: 42%; background: repeating-linear-gradient(90deg, #fff8e8 0 34px, #d8b56d 34px 40px); border-radius: 12px; }
-.rcTrack { width: 48%; height: 20%; left: 27%; bottom: 14%; border: 12px solid rgba(255,248,232,.55); border-radius: 50%; }
-.mentorPost { width: 14%; height: 34%; right: 14%; bottom: 36%; background: linear-gradient(#4d8d8a 0 20%, #fff8e8 21% 100%); border-radius: 18px; }
-
-/* Partner: bridge/resources/alignment */
-.bridge { width: 74%; height: 22%; left: 13%; bottom: 30%; border-top: 14px solid rgba(255,248,232,.72); border-radius: 50% 50% 0 0; }
-.partnerCircles { width: 54%; height: 34%; left: 23%; bottom: 38%; background: radial-gradient(circle at 12% 54%, #d8b56d 0 8%, transparent 9%), radial-gradient(circle at 34% 24%, #7fa25b 0 8%, transparent 9%), radial-gradient(circle at 58% 48%, #c88445 0 8%, transparent 9%), radial-gradient(circle at 82% 28%, #4d8d8a 0 8%, transparent 9%); }
-.resourceMap { width: 23%; height: 24%; left: 18%; bottom: 51%; background: #fff8e8; border-radius: 10px; opacity: .88; }
-.meetingTable { width: 42%; height: 12%; right: 16%; bottom: 25%; background: #6f4426; border-radius: 50%; }
-
-.scene-customer { background: linear-gradient(180deg, #284530, #65783e 58%, #8c693b); }
-.scene-marketplace { background: linear-gradient(180deg, #263a30, #5c6b3c 50%, #6b4a2f); }
-.scene-grower { background: linear-gradient(180deg, #20382b, #4f6d35 48%, #365428); }
-.scene-producer { background: linear-gradient(180deg, #2d3828, #5b5130 54%, #7b5532); }
-.scene-youth { background: linear-gradient(180deg, #203c3b, #4d6a52 55%, #46572d); }
-.scene-partner { background: linear-gradient(180deg, #26362f, #545d3c 55%, #4f3d2d); }
-
-@media (max-width: 1060px) {
-  .topbar { align-items: flex-start; flex-direction: column; }
-  .experienceGrid { grid-template-columns: 1fr; }
-  .pathwayRail { position: relative; top: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .railTitle { grid-column: 1 / -1; }
-  .storyPanel { grid-template-columns: 1fr; }
-  .mediaCard, .panelImage { min-height: 420px; }
-}
-
-@media (max-width: 720px) {
-  .topNav { justify-content: flex-start; }
-  .brandLockup { min-width: 0; }
-  .heroContent { padding: 32px 20px; }
-  .experienceGrid { padding: 12px; }
-  .pathwayRail { grid-template-columns: 1fr; border-radius: 20px; }
-  .mediaCard, .contentCard, .summaryCard { border-radius: 22px; }
-  .actionGrid { grid-template-columns: 1fr; }
-}
+@media (max-width: 1060px) { .topbar { align-items: flex-start; flex-direction: column; } .experienceGrid { grid-template-columns: 1fr; } .pathwayRail { position: relative; top: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .railTitle { grid-column: 1 / -1; } .storyPanel, .marketHeroGrid, .marketGrid { grid-template-columns: 1fr; } .mediaCard, .panelImage, .marketVisualCard, .marketImage { min-height: 420px; } }
+@media (max-width: 720px) { .topNav { justify-content: flex-start; } .brandLockup { min-width: 0; } .heroContent { padding: 32px 20px; } .experienceGrid { padding: 12px; } .pathwayRail { grid-template-columns: 1fr; border-radius: 20px; } .mediaCard, .contentCard, .summaryCard, .marketplacePanel { border-radius: 22px; } .actionGrid { grid-template-columns: 1fr; } }
 `;
