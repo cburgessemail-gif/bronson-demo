@@ -41,22 +41,23 @@ const sam = (start: number, end: number) => {
 };
 
 const imageBank = {
-  // HOME PAGE — PRESERVED. Do not change unless specifically instructed.
+  // HOME PAGE (preserve exactly)
   hero: [
     "/GrowArea.jpg",
     "/images/GrowArea.jpg",
   ],
 
-  // Guest = arrival, land, farm setting, first impression.
+  // GUEST — land / entrance / first impression
   guest: [
     "/GrowArea2.jpg",
     "/images/GrowArea2.jpg",
-    "/GrowArea.jpg",
-    "/images/GrowArea.jpg",
-    ...sam(0220, 0224),
+    "/SAM_0220.JPG",
+    "/images/SAM_0220.JPG",
+    "/SAM_0221.JPG",
+    "/images/SAM_0221.JPG",
   ],
 
-  // Customer = produce, seedlings, Bubble Babies™, food choices.
+  // CUSTOMER — produce / seedlings / healthy food choices
   customer: [
     "/SAM_0225.JPG",
     "/images/SAM_0225.JPG",
@@ -64,21 +65,18 @@ const imageBank = {
     "/images/SAM_0226.JPG",
     "/SAM_0229.JPG",
     "/images/SAM_0229.JPG",
-    ...sam(0225, 0231),
   ],
 
-  // Marketplace = buying, GrownBy/storefront, abundance, market energy.
+  // MARKETPLACE — commerce / storefront / abundance
   marketplace: [
     "/SAM_0249.JPG",
     "/images/SAM_0249.JPG",
     "/00launch.png",
     "/images/00launch.png",
-    "/SAM_0229.JPG",
-    "/images/SAM_0229.JPG",
-    ...sam(0245, 0252),
+    "/SAM_0250.JPG",
+    "/images/SAM_0250.JPG",
   ],
 
-  // Marketplace produce support image = produce/table/food abundance.
   marketplaceProduce: [
     "/SAM_0229.JPG",
     "/images/SAM_0229.JPG",
@@ -86,76 +84,67 @@ const imageBank = {
     "/images/SAM_0225.JPG",
     "/SAM_0226.JPG",
     "/images/SAM_0226.JPG",
-    ...sam(0225, 0231),
   ],
 
-  // Grower = growing area, field, crop production.
+  // GROWER — field / rows / production area
   grower: [
     "/SAM_0238.JPG",
     "/images/SAM_0238.JPG",
+    "/SAM_0239.JPG",
+    "/images/SAM_0239.JPG",
     "/GrowArea.jpg",
     "/images/GrowArea.jpg",
-    "/GrowArea2.jpg",
-    "/images/GrowArea2.jpg",
-    ...sam(0232, 0244),
   ],
 
-  // Value-added Producer = products, preparation, produce transformed into value.
+  // PRODUCER — value-added / products / table-ready goods
   producer: [
     "/SAM_0226.JPG",
     "/images/SAM_0226.JPG",
+    "/SAM_0248.JPG",
+    "/images/SAM_0248.JPG",
     "/SAM_0229.JPG",
     "/images/SAM_0229.JPG",
-    "/SAM_0225.JPG",
-    "/images/SAM_0225.JPG",
-    ...sam(0225, 0231),
-    ...sam(0245, 0252),
   ],
 
-  // Youth Workforce = youth, activity, training, hands-on learning.
+  // YOUTH — people / activity / learning / movement
   youth: [
     "/SAM_0222.JPG",
     "/images/SAM_0222.JPG",
-    "/SAM_0223.JPG",
-    "/images/SAM_0223.JPG",
-    ...sam(0220, 0224),
+    "/SAM_0224.JPG",
+    "/images/SAM_0224.JPG",
+    "/SAM_0230.JPG",
+    "/images/SAM_0230.JPG",
   ],
 
-  // Partner = site visit, collaboration, community/event alignment.
+  // PARTNER — site visit / collaboration / community presence
   partner: [
     "/SAM_0223.JPG",
     "/images/SAM_0223.JPG",
-    "/SAM_0257.JPG",
-    "/images/SAM_0257.JPG",
     "/SAM_0255.JPG",
     "/images/SAM_0255.JPG",
-    ...sam(0253, 0259),
+    "/SAM_0257.JPG",
+    "/images/SAM_0257.JPG",
   ],
 
   production: [
     "/SAM_0226.JPG",
     "/images/SAM_0226.JPG",
-    ...sam(0225, 0231),
   ],
   buyLocal: [
     "/SAM_0229.JPG",
     "/images/SAM_0229.JPG",
-    ...sam(0225, 0231),
   ],
   events: [
     "/SAM_0255.JPG",
     "/images/SAM_0255.JPG",
-    ...sam(0253, 0259),
   ],
   community: [
     "/SAM_0257.JPG",
     "/images/SAM_0257.JPG",
-    ...sam(0253, 0259),
   ],
   footer: [
     "/SAM_0249.JPG",
     "/images/SAM_0249.JPG",
-    ...sam(0245, 0252),
   ],
 };
 
