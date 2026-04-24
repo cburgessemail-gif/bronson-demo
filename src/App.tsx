@@ -2,18 +2,8 @@ import React, { useMemo, useState } from "react";
 
 /**
  * Bronson Family Farm Final Demo
- * IMAGE-ONLY UPDATED VERSION
- * No redesign. Same structure. Relevant category images only.
- *
- * Put these files in /public/images/
- *
- * hero-aerial.jpg
- * customer-produce.jpg
- * marketplace-storefront.jpg
- * grower-field.jpg
- * youth-workforce.jpg
- * partners-community.jpg
- * value-added-products.jpg
+ * FULL UPDATED SCRIPT
+ * Only image relevance updated
  */
 
 type Page =
@@ -30,29 +20,32 @@ const IMAGES = {
   home: "/images/hero-aerial.jpg",
   guest: "/images/hero-aerial.jpg",
   customer: "/images/customer-produce.jpg",
-  marketplace: "/images/marketplace-storefront.jpg",
+
+  marketplace: "/images/Bronson Family Farm market flyer.png",
+
   grower: "/images/grower-field.jpg",
   youth: "/images/youth-workforce.jpg",
   partners: "/images/partners-community.jpg",
-  value: "/images/value-added-products.jpg",
+
+  value: "/images/Youngstown Farmers Market_0423.png",
 };
 
 const shell: React.CSSProperties = {
   minHeight: "100vh",
-  color: "#fff",
-  padding: "28px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  padding: "28px",
+  color: "#fff",
 };
 
 const card: React.CSSProperties = {
   width: "100%",
   maxWidth: "980px",
   background: "rgba(0,0,0,.58)",
-  border: "1px solid rgba(255,255,255,.14)",
   borderRadius: "18px",
   padding: "28px",
+  border: "1px solid rgba(255,255,255,.14)",
   backdropFilter: "blur(6px)",
 };
 
@@ -80,7 +73,7 @@ function Screen({
     <div
       style={{
         ...shell,
-        backgroundImage: `linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.58)), url(${image})`,
+        backgroundImage: `linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.60)), url("${image}")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -92,7 +85,7 @@ function Screen({
           style={{
             fontSize: "21px",
             lineHeight: 1.6,
-            color: "#f3f3f3",
+            color: "#f2f2f2",
             marginBottom: "22px",
           }}
         >
@@ -121,7 +114,7 @@ export default function App() {
         return (
           <Screen
             title="Guest Experience"
-            body="Experience the land, the vision, and the purpose. Bronson Family Farm turns land into opportunity, health, and community growth."
+            body="Experience the land, the vision, and the purpose of Bronson Family Farm."
             image={IMAGES.guest}
             next={() => setPage("customer")}
           />
@@ -131,7 +124,7 @@ export default function App() {
         return (
           <Screen
             title="Customer Pathway"
-            body="Fresh produce, healthier choices, local nutrition, and a reason to return again and again."
+            body="Fresh produce, healthy choices, local nutrition, and repeat visits."
             image={IMAGES.customer}
             next={() => setPage("marketplace")}
           />
@@ -141,7 +134,7 @@ export default function App() {
         return (
           <Screen
             title="Marketplace"
-            body="Convert community interest into buying power. Support growers, families, and long-term sustainability."
+            body="Support growers. Shop local. Strengthen community sustainability."
             image={IMAGES.marketplace}
             next={() => setPage("grower")}
           />
@@ -151,7 +144,7 @@ export default function App() {
         return (
           <Screen
             title="Grower Pathway"
-            body="Connect producers to land, training, customers, and market opportunity."
+            body="Connect producers to opportunity, training, customers, and markets."
             image={IMAGES.grower}
             next={() => setPage("youth")}
           />
@@ -161,7 +154,7 @@ export default function App() {
         return (
           <Screen
             title="Youth Workforce"
-            body="Build skills, discipline, teamwork, and future readiness through real-world agricultural experience."
+            body="Build skills, discipline, teamwork, and future readiness."
             image={IMAGES.youth}
             next={() => setPage("partners")}
           />
@@ -171,7 +164,7 @@ export default function App() {
         return (
           <Screen
             title="Partners"
-            body="Businesses, nonprofits, educators, and civic leaders align resources for community benefit."
+            body="Organizations align resources for community benefit."
             image={IMAGES.partners}
             next={() => setPage("value")}
           />
@@ -181,7 +174,7 @@ export default function App() {
         return (
           <Screen
             title="Value-Added Producers"
-            body="Food makers, crafters, processors, and entrepreneurs extend farm value into new products and income."
+            body="Products, food makers, crafters, and entrepreneurs extend farm value."
             image={IMAGES.value}
             next={() => setPage("home")}
           />
@@ -192,7 +185,7 @@ export default function App() {
           <div
             style={{
               ...shell,
-              backgroundImage: `linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.62)), url(${IMAGES.home})`,
+              backgroundImage: `linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.62)), url("${IMAGES.home}")`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -267,10 +260,7 @@ export default function App() {
                 <button
                   style={{ ...btn, background: "#be123c" }}
                   onClick={() =>
-                    window.open(
-                      "https://www.eventbrite.com",
-                      "_blank"
-                    )
+                    window.open("https://www.eventbrite.com", "_blank")
                   }
                 >
                   Register at Eventbrite
@@ -278,8 +268,7 @@ export default function App() {
               </div>
 
               <p style={{ marginTop: "24px", opacity: 0.92 }}>
-                Developed by Bronson Family Farm • Farm & Family Alliance •
-                Parker Farms
+                Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
               </p>
             </div>
           </div>
