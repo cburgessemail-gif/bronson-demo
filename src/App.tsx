@@ -251,11 +251,25 @@ function normalizePath(path: string) {
   return path.replace(/ /g, "%20");
 }
 
-function SmartImage({ candidates, alt, className }: { candidates: string[]; alt: string; className?: string }) {
-  const [index, setIndex] = useState(0);
-  const src = normalizePath(candidates[index] || "");
+function expandImageCandidates(candidates: string[]) {
+  const prefixes = ["", "/images/", "images/", "./images/", "/public/images/", "public/images/", "./public/images/", "/assets/", "assets/", "./assets/"];
+  const filenames = candidates.map((item) => item.split("/").pop() || item);
+  const expanded = new Set<string>();
 
-  if (!candidates.length || index >= candidates.length) {
+  candidates.forEach((item) => expanded.add(item));
+  filenames.forEach((filename) => {
+    prefixes.forEach((prefix) => expanded.add(`${prefix}${filename}`));
+  });
+
+  return Array.from(expanded);
+}
+
+function SmartImage({ candidates, alt, className }: { candidates: string[]; alt: string; className?: string }) {
+  const expandedCandidates = useMemo(() => expandImageCandidates(candidates), [candidates]);
+  const [index, setIndex] = useState(0);
+  const src = normalizePath(expandedCandidates[index] || "");
+
+  if (!expandedCandidates.length || index >= expandedCandidates.length) {
     return <div className={`imageFallback ${className || ""}`}><span>{alt}</span></div>;
   }
 
