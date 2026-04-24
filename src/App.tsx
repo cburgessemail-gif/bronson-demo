@@ -29,9 +29,14 @@ export default function App() {
   const goTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
+
     const headerOffset = 92;
     const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
-    window.scrollTo({ top: y, behavior: "smooth" });
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
   };
 
   const openMarketplace = () => {
@@ -43,14 +48,17 @@ export default function App() {
 
   const shareDemo = async () => {
     const url = window.location.href;
+
     if (navigator.share) {
       try {
         await navigator.share({
           title: "Bronson Family Farm",
-          text: "Explore Bronson Family Farm",
+          text: "Explore the Bronson Family Farm ecosystem demo.",
           url,
         });
-      } catch {}
+      } catch {
+        return;
+      }
     } else {
       try {
         await navigator.clipboard.writeText(url);
@@ -94,21 +102,24 @@ export default function App() {
     ES: {
       heroTitle:
         "Un entorno vivo donde la comida, el trabajo y la comunidad crecen juntos.",
-      heroText: "Un ecosistema regional de alimentos y oportunidad.",
+      heroText:
+        "Bronson Family Farm transforma tierra histórica en un ecosistema regional de alimentos, trabajo y oportunidad.",
       enter: "Comenzar Tour",
       shop: "Mercado",
     },
     TL: {
       heroTitle:
         "Isang buhay na kapaligiran kung saan sabay lumalago ang pagkain, trabaho, at komunidad.",
-      heroText: "Regional ecosystem para sa pagkain at oportunidad.",
+      heroText:
+        "Binabago ng Bronson Family Farm ang makasaysayang lupa bilang ecosystem para sa pagkain at oportunidad.",
       enter: "Simulan",
       shop: "Marketplace",
     },
     FR: {
       heroTitle:
         "Un environnement vivant où alimentation, travail et communauté grandissent ensemble.",
-      heroText: "Un écosystème régional pour l’alimentation et l’opportunité.",
+      heroText:
+        "Bronson Family Farm transforme un terrain historique en écosystème régional pour l’alimentation, le travail et l’opportunité.",
       enter: "Commencer",
       shop: "Marché",
     },
@@ -121,11 +132,11 @@ export default function App() {
       subtitle: "Everyone Starts Here",
       image: images.guest,
       story:
-        "Discover how the land is becoming a place of food, opportunity, learning, and renewal.",
+        "Discover how historic land is becoming a place of food, opportunity, learning, and renewal.",
       community:
-        "Guests spread awareness, trust, and participation in the ecosystem.",
+        "Guests help spread understanding, trust, and participation in the larger ecosystem.",
       personal:
-        "You understand the vision and where you may belong in it.",
+        "You understand the vision, the purpose, and where you may belong in it.",
       resources: [
         "Land Story",
         "Guided Tours",
@@ -141,11 +152,11 @@ export default function App() {
       subtitle: "Fresh Food & Health",
       image: images.customer,
       story:
-        "Fresh local food reconnects people to healthier choices and nearby growers.",
+        "Fresh local food reconnects people to healthier choices, seasonal abundance, and nearby growers.",
       community:
-        "Customers strengthen food access and keep dollars circulating locally.",
+        "Customers strengthen food access, keep dollars circulating locally, and support regional food sustainability.",
       personal:
-        "You gain fresh products, seasonal options, and reasons to return.",
+        "You gain fresh products, seasonal options, nutrition awareness, and reasons to return.",
       resources: [
         "Fresh Produce",
         "Bubble Babies™",
@@ -163,9 +174,9 @@ export default function App() {
       story:
         "The marketplace is where support becomes action and the ecosystem sustains itself.",
       community:
-        "Supports growers, producers, jobs, and stronger regional supply.",
+        "It supports growers, value-added producers, jobs, regional supply, and food resilience.",
       personal:
-        "Every purchase helps build a stronger local food system.",
+        "Every purchase helps build a stronger local food system while connecting you to fresh and seasonal products.",
       resources: [
         "Fresh This Week",
         "Local Growers",
@@ -181,11 +192,11 @@ export default function App() {
       subtitle: "Food Entrepreneur",
       image: images.grower,
       story:
-        "Growers are entrepreneurs contributing production to a larger ecosystem.",
+        "Growers are entrepreneurs contributing food production to a larger regional ecosystem.",
       community:
-        "More growers means more food resilience and more opportunity.",
+        "More growers means more local food, stronger supply, regional resilience, and more opportunity.",
       personal:
-        "You gain market access, visibility, and support.",
+        "You gain market access, visibility, collaboration, and support inside a larger system.",
       resources: [
         "Market Access",
         "Training",
@@ -203,9 +214,9 @@ export default function App() {
       story:
         "Value-added producers transform local ingredients into products that strengthen the ecosystem.",
       community:
-        "Creates jobs, brands, less waste, and more reasons to shop local.",
+        "This creates jobs, brands, less waste, stronger local commerce, and more reasons to shop locally.",
       personal:
-        "You turn creativity into products, income, and marketplace presence.",
+        "You turn creativity, culture, ingredients, and skill into products, income, and marketplace presence.",
       resources: [
         "Ingredient Sourcing",
         "Packaging Concepts",
@@ -221,11 +232,11 @@ export default function App() {
       subtitle: "People Grow Here Too",
       image: images.youth,
       story:
-        "The farm is a teaching environment where readiness is built through real experience.",
+        "The farm is a teaching environment where readiness is built through real outdoor experience.",
       community:
-        "Partner-sponsored youth gain habits and confidence for future work.",
+        "Partner-sponsored youth gain structured participation that supports stronger future workers and healthier transitions into adulthood.",
       personal:
-        "Participants learn preparation, teamwork, safety, and responsibility.",
+        "Participants practice preparation, safety, teamwork, confidence, responsibility, adaptability, and pride in effort.",
       resources: [
         "Outdoor Learning",
         "Preparation Skills",
@@ -241,11 +252,11 @@ export default function App() {
       subtitle: "Shared Impact",
       image: images.partner,
       story:
-        "Organizations contribute resources into one larger ecosystem.",
+        "Organizations contribute resources, expertise, visibility, and support into one larger ecosystem.",
       community:
-        "Partnership creates measurable community benefit.",
+        "Partnership aligns resources so ideas become action and impact becomes visible.",
       personal:
-        "Your organization gains a meaningful place to contribute.",
+        "Your organization gains a meaningful place to contribute, collaborate, and create measurable community benefit.",
       resources: [
         "Sponsorship",
         "Programs",
@@ -263,53 +274,92 @@ export default function App() {
   );
 
   const resourceDetails: Record<string, string> = {
-    "Land Story": "Shows how land, food, people, and opportunity connect.",
-    "Guided Tours": "Helps visitors experience the ecosystem journey.",
-    Events: "Markets, workshops, gatherings, and reasons to return.",
-    "Volunteer Path": "A pathway to support the ecosystem through service.",
-    "Photo Gallery": "Visual proof of land, crops, people, and progress.",
-    "Choose Opportunity": "Find the role where you fit best.",
+    "Land Story":
+      "Shows how land, food, people, history, and opportunity connect inside the ecosystem.",
+    "Guided Tours":
+      "Helps visitors experience the story, food purpose, opportunities, and marketplace journey.",
+    Events:
+      "Markets, workshops, tours, and gatherings create reasons for people to return.",
+    "Volunteer Path":
+      "A pathway for community members to support the ecosystem through service, events, growing, and outreach.",
+    "Photo Gallery":
+      "Visual proof of land, crops, people, progress, and participation.",
+    "Choose Opportunity":
+      "Helps each person find the role where they can benefit, contribute, or participate.",
 
-    "Fresh Produce": "Locally grown seasonal food available now.",
-    "Bubble Babies™": "Seedling products helping people grow food.",
-    Recipes: "Turns produce into practical healthy meals.",
-    "SNAP Access": "Supports dignity and affordability.",
-    "Pickup Info": "How customers receive orders.",
-    "Seasonal Updates": "What is growing or available now.",
+    "Fresh Produce":
+      "Locally grown seasonal food that connects customers to health, growers, and the marketplace.",
+    "Bubble Babies™":
+      "Seedling products that help families, customers, and growers begin growing food.",
+    Recipes:
+      "Turns produce into practical meals, nutrition education, and repeat healthy choices.",
+    "SNAP Access":
+      "Supports affordability, dignity, and access in the food purchasing experience.",
+    "Pickup Info":
+      "Helps customers understand how to receive orders and return for future purchases.",
+    "Seasonal Updates":
+      "Shows what is growing, what is fresh, and what is coming next.",
 
-    "Fresh This Week": "Current produce and products available now.",
-    "Local Growers": "Entrepreneurs supplying the ecosystem.",
-    "Seasonal Offers": "Rotating reasons to return.",
-    "Easy Checkout": "Smooth path from interest to purchase.",
-    "Support Local": "Each purchase strengthens the region.",
-    "Share Marketplace": "Invite others into the ecosystem.",
+    "Fresh This Week":
+      "Highlights available produce, seasonal products, and reasons to return to the marketplace.",
+    "Local Growers":
+      "Shows the food entrepreneurs supplying the ecosystem and strengthening the region.",
+    "Seasonal Offers":
+      "Rotating products tied to harvest cycles, local demand, and regional food availability.",
+    "Easy Checkout":
+      "Moves users from interest to purchase while keeping them connected to the ecosystem story.",
+    "Support Local":
+      "Each purchase helps sustain growers, producers, food access, and local dollars.",
+    "Share Marketplace":
+      "Allows users to invite others into the ecosystem and expand participation.",
 
-    "Market Access": "Pathway from growing to selling.",
-    Training: "Knowledge that supports grower success.",
-    "Crop Planning": "Seasonal strategy for stronger production.",
-    Distribution: "Moving food where it is needed.",
-    Visibility: "Being seen by buyers and partners.",
+    "Market Access":
+      "Helps growers move from production into sales, visibility, and customer relationships.",
+    Training:
+      "Practical support that helps growers prepare, plan, and participate more effectively.",
+    "Crop Planning":
+      "Seasonal planning that supports production, timing, supply, and marketplace readiness.",
+    Distribution:
+      "Helps move local food from growers and producers toward customers and community need.",
+    Visibility:
+      "Helps growers and producers be seen by buyers, partners, and the community.",
 
-    "Ingredient Sourcing": "Connects producers to local ingredients.",
-    "Packaging Concepts": "Shelf-ready, gift-ready presentation.",
-    "Brand Story": "Explain what you make and why it matters.",
+    "Ingredient Sourcing":
+      "Connects value-added producers to local crops, seasonal harvests, and ingredients that can become higher-value products.",
+    "Packaging Concepts":
+      "Helps producers think about shelf-ready, gift-ready, and market-ready presentation.",
+    "Brand Story":
+      "Supports producers in explaining what they make, why it matters, and how it connects to local food culture.",
     "Product Categories":
-      "Sauces, preserves, prepared foods, specialty goods.",
-    "Marketplace Shelf": "Where products meet customers.",
-    "Seasonal Specials": "Products tied to harvest cycles.",
+      "Shows examples such as sauces, preserves, baked goods, herb blends, honey products, prepared foods, and cultural food products.",
+    "Marketplace Shelf":
+      "Connects value-added products to the marketplace where customers can discover and purchase them.",
+    "Seasonal Specials":
+      "Creates return interest by featuring products tied to what is growing, harvested, or available now.",
 
-    "Outdoor Learning": "Learning through real conditions and movement.",
-    "Preparation Skills": "Dress, timing, readiness, responsibility.",
-    Safety: "Weather, tools, hydration, awareness.",
-    Teamwork: "Working together to complete tasks.",
-    Leadership: "Initiative, trust, accountability.",
-    Mentorship: "Guidance and growth.",
+    "Outdoor Learning":
+      "Uses the farm environment to teach through real tasks, movement, changing weather, and visible results.",
+    "Preparation Skills":
+      "Teaches participants to dress for conditions, arrive ready, and take responsibility before work begins.",
+    Safety:
+      "Builds awareness of weather, footwear, gloves, hydration, tools, sun, mud, and changing outdoor conditions.",
+    Teamwork:
+      "Creates opportunities to communicate, cooperate, and complete shared responsibilities.",
+    Leadership:
+      "Allows participants to practice initiative, reliability, problem-solving, and pride in effort.",
+    Mentorship:
+      "Connects participants to guidance, encouragement, expectations, and growth.",
 
-    Sponsorship: "Support equipment, programs, or events.",
-    Programs: "Mission-aligned initiatives.",
-    Collaboration: "Shared resources create greater outcomes.",
-    "Impact Metrics": "Visible results and participation.",
-    "Community Reach": "Broader audiences and stronger trust.",
+    Sponsorship:
+      "Allows partners to support equipment, events, education, marketplace development, or workforce pathways.",
+    Programs:
+      "Connects partner missions to food access, workforce readiness, wellness, and community impact.",
+    Collaboration:
+      "Turns separate organizations into a shared ecosystem of action.",
+    "Impact Metrics":
+      "Helps partners see participation, outcomes, growth, and community value.",
+    "Community Reach":
+      "Extends the work through shared audiences, services, and trusted relationships.",
   };
 
   const partners = [
@@ -362,6 +412,7 @@ export default function App() {
         style={{ backgroundImage: `url('${images.hero}')` }}
       >
         <div className="absolute inset-0 bg-black/45" />
+
         <div className="relative z-10 px-8 md:px-16 max-w-5xl text-white">
           <p className="uppercase tracking-[4px] text-sm mb-4">
             Historic Lansdowne Airport Site • Youngstown, Ohio
@@ -404,15 +455,16 @@ export default function App() {
           </h3>
 
           <p className="text-lg leading-8 text-[#5b5a4e] mb-8">
-            This ecosystem connects land, food, entrepreneurship,
-            workforce readiness, wellness, and community renewal.
+            Everyone begins with the story of the land. This ecosystem connects
+            food, work experience, local commerce, education, wellness, and
+            community resilience into one living model.
           </p>
 
           <button
             onClick={() => goTo("food")}
             className="px-6 py-3 rounded-full bg-[#5f6f52] text-white font-semibold"
           >
-            Continue
+            Continue to Food Purpose
           </button>
         </div>
       </section>
@@ -425,19 +477,25 @@ export default function App() {
             </p>
 
             <h3 className="text-3xl md:text-5xl font-semibold mb-6">
-              Food Is the Shared Foundation
+              Food Is the Shared Foundation.
             </h3>
 
+            <p className="text-lg leading-8 text-[#5b5a4e] mb-6">
+              Food connects health, land, economy, families, culture, and
+              sustainability.
+            </p>
+
             <p className="text-lg leading-8 text-[#5b5a4e] mb-8">
-              Food connects health, land, economy, families, culture,
-              and sustainability.
+              The marketplace helps local food move through the region while
+              creating repeat reasons to return, purchase, share, and support
+              what is growing.
             </p>
 
             <button
               onClick={() => goTo("paths")}
               className="px-6 py-3 rounded-full bg-[#5f6f52] text-white font-semibold"
             >
-              Continue
+              Continue to Opportunities
             </button>
           </div>
 
@@ -447,8 +505,8 @@ export default function App() {
                 <img
                   key={i}
                   src={img}
-                  alt="Produce"
-                  className="h-48 w-full rounded-3xl object-cover"
+                  alt="Fresh produce"
+                  className="h-48 w-full rounded-3xl object-cover shadow-md"
                 />
               )
             )}
@@ -466,6 +524,12 @@ export default function App() {
             <h3 className="text-3xl md:text-4xl font-semibold">
               Choose Your Opportunity in the Ecosystem
             </h3>
+
+            <p className="mx-auto mt-4 max-w-3xl text-lg leading-8 text-[#5b5a4e]">
+              Each pathway continues the same journey: understand the purpose,
+              see your role, explore useful resources, then arrive at the
+              marketplace where participation becomes action.
+            </p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -477,7 +541,7 @@ export default function App() {
                   setResource("");
                   goTo("journey");
                 }}
-                className="bg-white rounded-3xl overflow-hidden text-left shadow hover:shadow-xl"
+                className="bg-white rounded-3xl overflow-hidden text-left shadow hover:shadow-xl transition hover:-translate-y-1"
               >
                 <img
                   src={p.image}
@@ -490,13 +554,9 @@ export default function App() {
                     {p.subtitle}
                   </p>
 
-                  <h4 className="text-2xl font-semibold mb-3">
-                    {p.title}
-                  </h4>
+                  <h4 className="text-2xl font-semibold mb-3">{p.title}</h4>
 
-                  <p className="text-[#5b5a4e] leading-7">
-                    {p.story}
-                  </p>
+                  <p className="text-[#5b5a4e] leading-7">{p.story}</p>
                 </div>
               </button>
             ))}
@@ -529,13 +589,8 @@ export default function App() {
                 ["Community Value", activePath.community],
                 ["What It Means to You", activePath.personal],
               ].map(([title, text]) => (
-                <div
-                  key={title}
-                  className="bg-[#f4efe6] rounded-3xl p-6"
-                >
-                  <h4 className="text-xl font-semibold mb-2">
-                    {title}
-                  </h4>
+                <div key={title} className="bg-[#f4efe6] rounded-3xl p-6">
+                  <h4 className="text-xl font-semibold mb-2">{title}</h4>
                   <p className="leading-8 text-[#5b5a4e]">{text}</p>
                 </div>
               ))}
@@ -550,7 +605,7 @@ export default function App() {
                     <button
                       key={r}
                       onClick={() => setResource(r)}
-                      className="bg-white rounded-2xl px-4 py-3 text-left font-semibold"
+                      className="bg-white rounded-2xl px-4 py-3 text-left font-semibold hover:bg-[#efe6d7] transition"
                     >
                       {r}
                     </button>
@@ -559,12 +614,11 @@ export default function App() {
 
                 {resource && (
                   <div className="mt-5 bg-white rounded-3xl p-5 border border-[#d8c3a5]">
-                    <h5 className="font-semibold text-lg mb-2">
-                      {resource}
-                    </h5>
+                    <h5 className="font-semibold text-lg mb-2">{resource}</h5>
 
                     <p className="leading-7 text-[#5b5a4e]">
-                      {resourceDetails[resource]}
+                      {resourceDetails[resource] ||
+                        `${resource} helps this pathway move from interest into meaningful participation.`}
                     </p>
 
                     <div className="mt-4 flex flex-wrap gap-3">
@@ -595,7 +649,7 @@ export default function App() {
 
               <div className="bg-[#5f6f52] rounded-3xl p-6 text-white">
                 <h4 className="text-xl font-semibold mb-4">
-                  Final Step
+                  Final Step in This Pathway
                 </h4>
 
                 <div className="grid md:grid-cols-3 gap-3">
@@ -637,8 +691,11 @@ export default function App() {
               Marketplace
             </h3>
 
-            <p className="text-lg text-[#5b5a4e] max-w-3xl mx-auto">
-              Every journey ends where support becomes action.
+            <p className="text-lg text-[#5b5a4e] max-w-3xl mx-auto leading-8">
+              Every pathway leads here because the marketplace is where food
+              sustainability becomes participation. Every local purchase helps
+              support growers, value-added producers, regional food access, and
+              the larger ecosystem.
             </p>
           </div>
 
@@ -654,8 +711,8 @@ export default function App() {
               <img
                 key={i}
                 src={img}
-                alt="Produce"
-                className="h-60 w-full rounded-3xl object-cover"
+                alt="Fresh produce"
+                className="h-60 w-full rounded-3xl object-cover shadow-md"
               />
             ))}
           </div>
@@ -672,16 +729,88 @@ export default function App() {
               onClick={shareDemo}
               className="px-4 py-3 rounded-full bg-white border font-semibold"
             >
-              Share
+              Share With Others
             </button>
 
             <button
               onClick={() => goTo("home")}
               className="px-4 py-3 rounded-full bg-white border font-semibold"
             >
+              Return Home
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="partners"
+        className="scroll-mt-24 px-6 py-16 bg-[#f9f6ef]"
+      >
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-sm uppercase tracking-[4px] font-bold text-[#5f6f52] mb-3">
+            Partners & Participants
+          </p>
+
+          <h3 className="text-3xl md:text-4xl font-semibold">
+            Collaboration Becomes Action
+          </h3>
+
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
+            {partners.map((p) => (
+              <span
+                key={p}
+                className="px-5 py-3 rounded-full bg-[#f4efe6] border border-[#d8c3a5] font-semibold"
+              >
+                {p}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="relative px-6 py-20 bg-cover bg-center text-white"
+        style={{ backgroundImage: `url('${images.footer}')` }}
+      >
+        <div className="absolute inset-0 bg-[#243224]/85" />
+
+        <div className="relative z-10 max-w-6xl mx-auto text-center">
+          <h3 className="text-3xl md:text-5xl font-semibold mb-5">
+            Be Part of What’s Growing
+          </h3>
+
+          <p className="max-w-3xl mx-auto text-lg text-white/85 mb-10">
+            Food sustainability. Opportunity. Education. Community renewal.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            <button
+              onClick={openMarketplace}
+              className="bg-white text-[#243224] rounded-full px-4 py-3 font-semibold"
+            >
+              Marketplace
+            </button>
+
+            <button
+              onClick={shareDemo}
+              className="bg-white text-[#243224] rounded-full px-4 py-3 font-semibold"
+            >
+              Share
+            </button>
+
+            <button
+              onClick={() => goTo("home")}
+              className="bg-white text-[#243224] rounded-full px-4 py-3 font-semibold"
+            >
               Home
             </button>
           </div>
+
+          <p className="mt-10 text-white/75">
+            Historic Lansdowne Airport Site • Youngstown, Ohio
+          </p>
+
+          <p className="mt-2 text-white/75">www.bronsonfamilyfarm.com</p>
         </div>
       </section>
     </div>
