@@ -403,15 +403,31 @@ export default function App() {
               <h1>{t.welcome}</h1>
               <p>Private working farm. Access by invitation, scheduled appointment, or approved event registration only.</p>
               <p className="heroSmall">Food, land, youth workforce, marketplace access, growers, value-added producers, partners, and community learning in one connected place.</p>
-              <div className="heroActions">
-                <button className="primaryBtn" onClick={() => setStarted(true)}>{t.tour}</button>
-                <button className="secondaryBtn" onClick={() => selectPathway("marketplace")}>Enter Marketplace</button>
-                <button className="secondaryBtn" onClick={() => openUrl(WEBSITE_URL)}>Main Website</button>
+              <div className="startHereCard">
+                <div className="startLabel">Start here</div>
+                <h2>Choose the easiest way to experience the demo</h2>
+                <p>First-time visitors should begin with the guided tour. Returning visitors can go directly to the marketplace or choose a role.</p>
+                <div className="heroActions">
+                  <button className="primaryBtn" onClick={() => setStarted(true)}>Start Guided Tour</button>
+                  <button className="secondaryBtn" onClick={() => selectPathway("marketplace")}>Go to Marketplace</button>
+                  <button className="secondaryBtn" onClick={() => openUrl(WEBSITE_URL)}>Main Website</button>
+                </div>
+              </div>
+
+              <div className="quickRoleGrid" aria-label="Choose your role">
+                <button onClick={() => selectPathway("guest")}><strong>I’m visiting</strong><span>See the land and purpose</span></button>
+                <button onClick={() => selectPathway("customer")}><strong>I want food</strong><span>Find produce and seedlings</span></button>
+                <button onClick={() => selectPathway("grower")}><strong>I’m a grower</strong><span>Explore market participation</span></button>
+                <button onClick={() => selectPathway("partner")}><strong>I’m a partner</strong><span>See collaboration lanes</span></button>
               </div>
             </div>
           </section>
         ) : (
           <section className="experienceGrid" style={{ ["--accent" as string]: active.accent }}>
+            <div className="orientationBanner">
+              <strong>You are in the guided demo.</strong>
+              <span>Use the left pathway menu, press Next to move through the story, or choose Marketplace when you want to see how interest becomes purchasing power.</span>
+            </div>
             <aside className="pathwayRail">
               <div className="railTitle">Demo Pathways</div>
               {pathways.map((p) => (
@@ -567,6 +583,16 @@ h1 { font-size: clamp(2.8rem, 6vw, 6.8rem); line-height: .9; margin: 18px 0; max
 .hero p { font-size: clamp(1.05rem, 2vw, 1.45rem); line-height: 1.5; max-width: 800px; color: rgba(255,248,232,.9); }
 .heroSmall { font-size: 1.05rem !important; color: rgba(255,248,232,.78) !important; }
 .heroActions, .buttonRow { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.startHereCard { margin-top: 28px; max-width: 760px; border-radius: 28px; padding: 24px; background: rgba(13,21,16,.58); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(12px); box-shadow: 0 22px 50px rgba(0,0,0,.28); }
+.startHereCard h2 { color: #fff8e8; font-size: clamp(1.55rem, 3vw, 2.6rem); margin: 8px 0 10px; letter-spacing: -.035em; }
+.startHereCard p { font-size: 1rem; margin: 0; color: rgba(255,248,232,.82); }
+.startLabel { display: inline-flex; align-items: center; border-radius: 999px; padding: 6px 10px; background: rgba(216,181,109,.24); border: 1px solid rgba(216,181,109,.42); color: #fff8e8; font-weight: 900; text-transform: uppercase; letter-spacing: .12em; font-size: .72rem; }
+.quickRoleGrid { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; max-width: 980px; margin-top: 18px; }
+.quickRoleGrid button { min-height: 86px; text-align: left; border: 1px solid rgba(255,255,255,.16); border-radius: 20px; padding: 14px; background: rgba(255,255,255,.10); color: #fff8e8; backdrop-filter: blur(10px); }
+.quickRoleGrid strong { display: block; font-size: 1rem; margin-bottom: 5px; }
+.quickRoleGrid span { display: block; font-size: .84rem; color: rgba(255,248,232,.72); line-height: 1.25; }
+.orientationBanner { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; color: #fff8e8; background: rgba(13,21,16,.66); border: 1px solid rgba(255,255,255,.14); border-radius: 22px; padding: 14px 18px; }
+.orientationBanner span { color: rgba(255,248,232,.78); line-height: 1.35; }
 .primaryBtn, .secondaryBtn { border: 0; border-radius: 999px; padding: 12px 18px; font-weight: 800; box-shadow: 0 14px 32px rgba(0,0,0,.22); }
 .primaryBtn { background: var(--accent, var(--gold)); color: #152015; }
 .secondaryBtn { background: rgba(255,255,255,.14); color: #fff8e8; border: 1px solid rgba(255,255,255,.24); }
@@ -622,6 +648,6 @@ h3 { font-size: clamp(1.55rem, 2.5vw, 2.4rem); line-height: 1; margin: 10px 0; l
 .fallbackBadge { position: absolute; left: 22px; right: 22px; bottom: 22px; z-index: 4; display: grid; gap: 4px; width: fit-content; max-width: min(560px, calc(100% - 44px)); border-radius: 22px; padding: 14px 16px; color: #fff8e8; background: rgba(13,21,16,.66); border: 1px solid rgba(255,255,255,.16); backdrop-filter: blur(10px); box-shadow: 0 18px 40px rgba(0,0,0,.28); }
 .fallbackBadge strong { font-size: 1rem; line-height: 1.15; }
 .fallbackBadge small { color: rgba(255,248,232,.72); font-weight: 700; }
-@media (max-width: 1060px) { .topbar { align-items: flex-start; flex-direction: column; } .experienceGrid { grid-template-columns: 1fr; } .pathwayRail { position: relative; top: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .railTitle { grid-column: 1 / -1; } .storyPanel, .marketHeroGrid, .marketGrid { grid-template-columns: 1fr; } .mediaCard, .panelImage, .marketVisualCard, .marketImage { min-height: 420px; } }
-@media (max-width: 720px) { .topNav { justify-content: flex-start; } .brandLockup { min-width: 0; } .heroContent { padding: 32px 20px; } .experienceGrid { padding: 12px; } .pathwayRail { grid-template-columns: 1fr; border-radius: 20px; } .mediaCard, .contentCard, .summaryCard, .marketplacePanel { border-radius: 22px; } .actionGrid { grid-template-columns: 1fr; } }
+@media (max-width: 1060px) { .quickRoleGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .orientationBanner { align-items: flex-start; flex-direction: column; } .topbar { align-items: flex-start; flex-direction: column; } .experienceGrid { grid-template-columns: 1fr; } .pathwayRail { position: relative; top: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .railTitle { grid-column: 1 / -1; } .storyPanel, .marketHeroGrid, .marketGrid { grid-template-columns: 1fr; } .mediaCard, .panelImage, .marketVisualCard, .marketImage { min-height: 420px; } }
+@media (max-width: 720px) { .quickRoleGrid { grid-template-columns: 1fr; } .topNav { justify-content: flex-start; } .brandLockup { min-width: 0; } .heroContent { padding: 32px 20px; } .experienceGrid { padding: 12px; } .pathwayRail { grid-template-columns: 1fr; border-radius: 20px; } .mediaCard, .contentCard, .summaryCard, .marketplacePanel { border-radius: 22px; } .actionGrid { grid-template-columns: 1fr; } }
 `;
