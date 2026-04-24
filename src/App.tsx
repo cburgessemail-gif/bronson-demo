@@ -27,16 +27,16 @@ const shell: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
   padding: "28px",
-  color: "#fff",
 };
 
 const card: React.CSSProperties = {
   width: "100%",
   maxWidth: "980px",
-  background: "rgba(0,0,0,.28)",
+  background: "rgba(255,255,255,.78)",
+  color: "#111827",
   borderRadius: "18px",
   padding: "28px",
-  border: "1px solid rgba(255,255,255,.18)",
+  border: "1px solid rgba(255,255,255,.35)",
   backdropFilter: "blur(4px)",
 };
 
@@ -64,7 +64,7 @@ function Screen({
     <div
       style={{
         ...shell,
-        backgroundImage: `linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.10)), url("${image}")`,
+        backgroundImage: `url("${image}")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -77,7 +77,7 @@ function Screen({
           style={{
             fontSize: "21px",
             lineHeight: 1.6,
-            color: "#ffffff",
+            color: "#111827",
             marginBottom: "22px",
           }}
         >
@@ -177,7 +177,7 @@ export default function App() {
           <div
             style={{
               ...shell,
-              backgroundImage: `linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.10)), url("${IMAGES.home}")`,
+              backgroundImage: `url("${IMAGES.home}")`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
@@ -192,7 +192,7 @@ export default function App() {
                 style={{
                   marginTop: 0,
                   fontSize: "28px",
-                  color: "#facc15",
+                  color: "#92400e",
                 }}
               >
                 Growers Supply Market
@@ -260,7 +260,7 @@ export default function App() {
                 </button>
               </div>
 
-              <p style={{ marginTop: "24px", opacity: 0.95 }}>
+              <p style={{ marginTop: "24px" }}>
                 Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
               </p>
             </div>
