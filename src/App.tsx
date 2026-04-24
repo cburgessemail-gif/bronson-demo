@@ -11,11 +11,11 @@ type Page =
   | "value";
 
 const IMAGES = {
-  home: "/images/hero-aerial.jpg",
-  guest: "/images/hero-aerial.jpg",
+  home: "/images/GrowArea.jpg",
+  guest: "/images/GrowArea.jpg",
   customer: "/images/customer-produce.jpg",
   marketplace: "/images/Bronson Family Farm market flyer.png",
-  grower: "/images/grower-field.jpg",
+  grower: "/images/GrowArea.jpg",
   youth: "/images/youth-workforce.jpg",
   partners: "/images/partners-community.jpg",
   value: "/images/Youngstown Farmers Market_0423.png",
@@ -32,11 +32,12 @@ const shell: React.CSSProperties = {
 const card: React.CSSProperties = {
   width: "100%",
   maxWidth: "980px",
-  background: "rgba(255,255,255,.82)",
-  color: "#111827",
+  background: "rgba(0,0,0,.58)",
+  color: "#ffffff",
   borderRadius: "18px",
   padding: "28px",
-  border: "1px solid rgba(255,255,255,.35)",
+  border: "1px solid rgba(255,255,255,.16)",
+  backdropFilter: "blur(4px)",
 };
 
 const btn: React.CSSProperties = {
@@ -51,7 +52,7 @@ const btn: React.CSSProperties = {
 function bg(image: string): React.CSSProperties {
   return {
     ...shell,
-    backgroundImage: `url(${image})`,
+    backgroundImage: `linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.28)), url(${image})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
@@ -184,7 +185,7 @@ export default function App() {
                 style={{
                   marginTop: 0,
                   fontSize: "28px",
-                  color: "#92400e",
+                  color: "#facc15",
                 }}
               >
                 Growers Supply Market
@@ -252,7 +253,7 @@ export default function App() {
                 </button>
               </div>
 
-              <p style={{ marginTop: "24px" }}>
+              <p style={{ marginTop: "24px", opacity: 0.92 }}>
                 Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
               </p>
             </div>
