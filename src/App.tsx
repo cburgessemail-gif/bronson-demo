@@ -1,337 +1,398 @@
 import React, { useMemo, useState } from "react";
 
-type PathwayKey =
+type Lang = "en" | "es" | "tl" | "it" | "fr" | "he";
+type PathKey =
   | "guest"
   | "customer"
   | "marketplace"
   | "grower"
   | "youth"
-  | "partners";
+  | "partner";
 
-type LanguageKey = "en" | "es" | "tl" | "it" | "fr" | "he";
+const imageList = [
+  "/images/GrowArea.jpg",
+  "/images/GrowArea2.jpg",
+  "/images/SAM_0362.JPG",
+  "/images/SAM_0363.JPG",
+  "/images/SAM_0364.JPG",
+  "/images/SAM_0365.JPG",
+  "/images/SAM_0366.JPG",
+  "/images/SAM_0367.JPG",
+  "/images/SAM_0368.JPG",
+  "/images/SAM_0369.JPG",
+];
 
-const IMAGE_BASE = "/images/";
-
-const imageSets: Record<string, string[]> = {
-  hero: [
-    "farm-aerial-wide.jpg",
-    "aerial-wide.jpg",
-    "bronson-aerial.jpg",
-    "farm-aerial.jpg",
-    "hero.jpg",
+const fallbackImages: Record<PathKey, string[]> = {
+  guest: [
+    "/images/GrowArea2.jpg",
+    "/images/GrowArea.jpg",
+    "/images/SAM_0362.JPG",
+    "/images/SAM_0363.JPG",
   ],
-  guest: ["guest-land.jpg", "forest-path.jpg", "farm-path.jpg", "aerial-wide.jpg"],
-  customer: ["fresh-produce.jpg", "produce.jpg", "seedlings.jpg", "greens.jpg"],
+  customer: [
+    "/images/SAM_0364.JPG",
+    "/images/SAM_0365.JPG",
+    "/images/GrowArea.jpg",
+  ],
   marketplace: [
-    "grownby-storefront.jpg",
-    "marketplace-grownby.jpg",
-    "grownby.jpg",
-    "storefront.jpg",
-    "marketplace.jpg",
+    "/images/GrownByStorefront.png",
+    "/images/grownby-storefront.png",
+    "/images/GrownBy.png",
+    "/images/SAM_0366.JPG",
   ],
-  grower: ["grower-field.jpg", "grower.jpg", "farm-training.jpg", "planting.jpg"],
-  youth: ["youth-workforce.jpg", "youth.jpg", "rc-toys.jpg", "students.jpg"],
-  partners: ["partners.jpg", "community.jpg", "event.jpg", "growers-market.jpg"],
+  grower: [
+    "/images/SAM_0367.JPG",
+    "/images/GrowArea.jpg",
+    "/images/GrowArea2.jpg",
+  ],
+  youth: [
+    "/images/SAM_0368.JPG",
+    "/images/SAM_0369.JPG",
+    "/images/GrowArea2.jpg",
+  ],
+  partner: [
+    "/images/SAM_0363.JPG",
+    "/images/SAM_0364.JPG",
+    "/images/GrowArea.jpg",
+  ],
 };
 
-const languages: Record<LanguageKey, string> = {
-  en: "English",
-  es: "Español",
-  tl: "Tagalog",
-  it: "Italiano",
-  fr: "Français",
-  he: "Hebrew",
-};
-
-const mission: Record<PathwayKey, any> = {
+const pathData: Record<
+  PathKey,
+  {
+    label: string;
+    eyebrow: string;
+    title: string;
+    mission: string;
+    sound: string;
+    intro: string;
+    knowledge: string[];
+    purpose: string;
+    next: string;
+    button: string;
+  }
+> = {
   guest: {
+    label: "Guest",
+    eyebrow: "Understand the land, the story, and the purpose.",
     title: "Guest Pathway",
-    subtitle: "Understand the land, the story, and the purpose.",
-    mission: "People understand the vision of Bronson Family Farm to experience land, legacy, food, and community restoration.",
-    sound: "This is not just a farm. It is a living gateway into family legacy, land stewardship, and community renewal.",
-    intro: "Guests begin with the land: the former airport, the forest edge, the growing fields, and the story that connects agriculture to belonging.",
-    knowledge: "They learn why the farm exists, how regenerative growing supports families, and how agritourism can turn underused land into shared opportunity.",
-    summary: "The guest leaves understanding why this place matters and how one visit can become a deeper connection.",
-    next: "Continue to Customer Experience",
-    nextKey: "customer",
+    mission:
+      "People understand the vision of Bronson Family Farm to experience land, legacy, food, and community restoration.",
+    sound:
+      "This is not just a farm. It is a living gateway into family legacy, food access, and community possibility.",
+    intro:
+      "Guests enter through the story of the land, the airport history, the growing fields, and the people building something useful for the Mahoning Valley.",
+    knowledge: [
+      "Bronson Family Farm is located at the Historic Lansdowne Airport site in Youngstown.",
+      "The farm connects agritourism, education, food access, and regional collaboration.",
+      "Guests can move from curiosity into participation through events, marketplace activity, volunteering, and partner pathways.",
+    ],
+    purpose:
+      "The guest pathway makes the vision visible before asking anyone to participate.",
+    next: "Continue from welcome into reservation, event check-in, tour stops, story stations, and marketplace connection.",
+    button: "Enter Guest Pathway",
   },
   customer: {
+    label: "Customer",
+    eyebrow: "Fresh food, nutrition, and repeat healthy choices.",
     title: "Customer Pathway",
-    subtitle: "Fresh food, nutrition, and repeat healthy choices.",
-    mission: "People understand the mission of fresh food access to support nutrition, confidence, and repeat healthy buying decisions.",
-    sound: "Customers are invited to see food before they buy it, understand how it grows, and choose what supports their household.",
-    intro: "The experience connects produce, seedlings, Bubble Babies™, recipes, and pickup options.",
-    knowledge: "Customers see what is available, what is SNAP-eligible, what can be preordered, and how healthy food becomes easier to choose.",
-    summary: "The customer leaves with a clear path from interest to purchase to continued healthy choices.",
-    next: "Continue to Marketplace",
-    nextKey: "marketplace",
+    mission:
+      "Customers connect fresh food, nutrition education, and local purchasing into repeat healthy choices.",
+    sound:
+      "Customers do not just buy food. They learn where it comes from and how it supports local growers.",
+    intro:
+      "The customer pathway shows produce, Bubble Babies™, recipes, nutrition education, pickup options, and repeat purchasing.",
+    knowledge: [
+      "Customers can discover seedlings, produce, recipes, and seasonal growing information.",
+      "SNAP-aware purchasing and pickup logic can support access and dignity.",
+      "Nutrition education connects food choices to family health and community wellness.",
+    ],
+    purpose:
+      "The customer pathway turns interest into food access and repeat participation.",
+    next: "Continue to produce selection, Bubble Babies™, recipes, nutrition prompts, cart, pickup, and order history.",
+    button: "Enter Customer Pathway",
   },
   marketplace: {
+    label: "Marketplace",
+    eyebrow: "Convert interest into purchasing power.",
     title: "Marketplace Pathway",
-    subtitle: "Convert interest into purchasing power and sustainability.",
-    mission: "People understand the mission of the marketplace to turn community interest into sales, grower opportunity, and long-term sustainability.",
-    sound: "The marketplace is where the ecosystem becomes real: growers, customers, vendors, and partners meet around food and value.",
-    intro: "This pathway mirrors the GrownBy store experience, showing products, preorder options, pickup, and grower visibility.",
-    knowledge: "The marketplace supports direct sales, SNAP-aware purchasing, vendor participation, and a stronger local food economy.",
-    summary: "The marketplace turns attention into action and action into sustainability.",
-    next: "Continue to Grower Pathway",
-    nextKey: "grower",
+    mission:
+      "The marketplace converts community interest into purchasing power, local sales, and ecosystem sustainability.",
+    sound:
+      "The marketplace is where the story becomes economic activity for growers, families, and the farm ecosystem.",
+    intro:
+      "This pathway connects visitors to the GrownBy storefront, event pre-orders, grower products, and marketplace participation.",
+    knowledge: [
+      "The marketplace should feel connected to the real GrownBy store experience.",
+      "Growers in the ecosystem register first, then gain marketplace benefits.",
+      "Customers can move from education to purchase without losing the farm story.",
+    ],
+    purpose:
+      "The marketplace pathway shows how the ecosystem sustains itself through real transactions.",
+    next: "Continue to storefront preview, product cards, SNAP notes, preorder flow, grower benefit explanation, and Enter Store.",
+    button: "Enter Marketplace",
   },
   grower: {
+    label: "Grower",
+    eyebrow: "Connect producers to opportunity.",
     title: "Grower Pathway",
-    subtitle: "Connect producers to opportunity and market participation.",
-    mission: "People understand the mission of the grower pathway to help producers register, prepare, sell, learn, and participate in the local food system.",
-    sound: "Growers are not just invited to sell. They are invited into an ecosystem of preparation, visibility, and shared opportunity.",
-    intro: "Growers enter through the portal, learn the benefits, connect to marketplace opportunities, and access support.",
-    knowledge: "The pathway includes planning, product readiness, pricing, compliance awareness, event participation, and marketplace connection.",
-    summary: "The grower leaves knowing where to enter, what support exists, and how to move toward selling.",
-    next: "Continue to Youth Workforce",
-    nextKey: "youth",
+    mission:
+      "Growers connect to opportunity, market participation, training, resources, and a regional food network.",
+    sound:
+      "Growers are not outside vendors. They are part of a shared ecosystem that helps food move through the Valley.",
+    intro:
+      "The grower pathway shows registration, benefits, training, crop planning, supply needs, and marketplace access.",
+    knowledge: [
+      "Registered growers can participate in the ecosystem marketplace.",
+      "Support can include crop planning, supply education, distribution visibility, and shared events.",
+      "The pathway helps growers understand how to move from growing to selling and collaborating.",
+    ],
+    purpose:
+      "The grower pathway makes participation clear, fair, and useful.",
+    next: "Continue to grower registration, crop calendar, supply market, training modules, and marketplace eligibility.",
+    button: "Enter Grower Pathway",
   },
   youth: {
+    label: "Youth Workforce",
+    eyebrow: "Build skills, responsibility, and future readiness.",
     title: "Youth Workforce Pathway",
-    subtitle: "Build skills, responsibility, and future readiness.",
-    mission: "People understand the mission of youth workforce development to build confidence, practical skills, teamwork, and future opportunity.",
-    sound: "Young people learn by doing: planting, organizing, greeting, scanning, selling, documenting, and serving.",
-    intro: "Youth experience the farm as a real-world classroom connected to agriculture, technology, customer service, media, and entrepreneurship.",
-    knowledge: "They gain exposure to responsibility, food systems, event operations, digital tools, and career pathways.",
-    summary: "The youth pathway shows how a farm can become a training ground for future readiness.",
-    next: "Continue to Partner Pathway",
-    nextKey: "partners",
+    mission:
+      "Youth workers build skills, responsibility, confidence, and future readiness through farm-based work experiences.",
+    sound:
+      "Youth do not just complete tasks. They learn responsibility, communication, safety, and how work connects to community.",
+    intro:
+      "This pathway shows youth onboarding, supervisor oversight, life skills progression, task assignments, and parent visibility.",
+    knowledge: [
+      "Youth workforce roles can connect agriculture, technology, hospitality, logistics, and communications.",
+      "Supervisors can track progress through skills, attendance, safety, and reflection.",
+      "Parents and partners can see growth without turning the program into a classroom-only experience.",
+    ],
+    purpose:
+      "The youth pathway shows how the farm becomes a workforce development environment.",
+    next: "Continue to youth dashboard, supervisor view, parent portal, task cards, LSP scoring, and completion summary.",
+    button: "Enter Youth Pathway",
   },
-  partners: {
+  partner: {
+    label: "Partner",
+    eyebrow: "Align resources and collaboration.",
     title: "Partner Pathway",
-    subtitle: "Align resources and collaboration for community benefit.",
-    mission: "People understand the mission of partnership to align resources, education, equipment, sponsorship, and community investment.",
-    sound: "Partners help turn vision into infrastructure, outreach, training, and measurable community benefit.",
-    intro: "This pathway shows how organizations can support the Growers Supply Market and the broader farm ecosystem.",
-    knowledge: "Partners may support education, demonstrations, supplies, health education, media, sponsorship, technology, or infrastructure.",
-    summary: "The partner leaves with a clear role, a clear reason, and a clear invitation to collaborate.",
-    next: "Return to Welcome",
-    nextKey: "guest",
+    mission:
+      "Partners align resources, expertise, visibility, and collaboration for community benefit.",
+    sound:
+      "Partnership is how the ecosystem becomes stronger than one farm, one event, or one organization.",
+    intro:
+      "The partner pathway shows how organizations can support education, equipment, health, media, arts, workforce, and food access.",
+    knowledge: [
+      "Farm & Family Alliance, Inc. and Parker Farms are part of the ecosystem structure.",
+      "Partners may support demonstrations, equipment, education, storytelling, funding, or community services.",
+      "Each partner role should connect to a real contribution and a visible community outcome.",
+    ],
+    purpose:
+      "The partner pathway shows how collaboration becomes action.",
+    next: "Continue to partner roles, contribution options, event participation, sponsor visibility, and follow-up actions.",
+    button: "Enter Partner Pathway",
   },
 };
 
 const partners = [
   "Farm & Family Alliance, Inc.",
-  "Bronson Family Farm",
   "Parker Farms",
   "Central State University",
-  "The Home Depot",
-  "Elliott's Garden Center",
-  "Petitti Garden Centers",
-  "Youngstown Area Jewish Foundation",
+  "Home Depot",
   "Gates Drone Services",
+  "Petitti Garden Centers",
+  "Elliott’s Garden Center",
+  "Youngstown Area Jewish Foundation",
+  "Jewish Federation",
 ];
 
+const languages: Record<Lang, string> = {
+  en: "English",
+  es: "Spanish",
+  tl: "Tagalog",
+  it: "Italian",
+  fr: "French",
+  he: "Hebrew",
+};
+
 function SmartImage({
-  name,
-  className,
+  images,
+  alt,
 }: {
-  name: string;
-  className?: string;
+  images: string[];
+  alt: string;
 }) {
-  const candidates = imageSets[name] || imageSets.hero;
   const [index, setIndex] = useState(0);
-  const src = IMAGE_BASE + candidates[index];
+  const src = images[index] || imageList[0];
 
   return (
-    <div className={`relative overflow-hidden bg-emerald-950 ${className || ""}`}>
+    <div className="imageWrap">
       <img
         src={src}
-        alt=""
-        className="h-full w-full object-cover"
-        onError={() => {
-          if (index < candidates.length - 1) setIndex(index + 1);
-        }}
+        alt={alt}
+        onError={() => setIndex((old) => old + 1)}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/10" />
     </div>
   );
 }
 
 export default function App() {
-  const [pathway, setPathway] = useState<PathwayKey>("guest");
-  const [language, setLanguage] = useState<LanguageKey>("en");
-  const [step, setStep] = useState(0);
+  const [lang, setLang] = useState<Lang>("en");
+  const [active, setActive] = useState<PathKey>("guest");
+  const data = pathData[active];
 
-  const current = mission[pathway];
+  const dir = lang === "he" ? "rtl" : "ltr";
 
-  const steps = useMemo(
-    () => [
-      ["Sound Bite", current.sound],
-      ["Intro", current.intro],
-      ["Knowledge", current.knowledge],
-      ["Purpose Summary", current.summary],
-      ["Next Move", current.next],
-    ],
-    [current]
-  );
+  const activeImages = useMemo(() => fallbackImages[active], [active]);
 
-  const nextStep = () => {
-    if (step < steps.length - 1) setStep(step + 1);
-    else {
-      setPathway(current.nextKey);
-      setStep(0);
-    }
-  };
+  function speak() {
+    const text = `${data.title}. ${data.sound} ${data.intro} ${data.purpose}`;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.88;
+    utterance.pitch = 0.95;
+    utterance.lang =
+      lang === "es"
+        ? "es-US"
+        : lang === "tl"
+        ? "fil-PH"
+        : lang === "it"
+        ? "it-IT"
+        : lang === "fr"
+        ? "fr-FR"
+        : lang === "he"
+        ? "he-IL"
+        : "en-US";
+    window.speechSynthesis.speak(utterance);
+  }
 
   return (
-    <main className="min-h-screen bg-[#f4efe4] text-[#182313]">
-      <section className="relative min-h-screen">
-        <SmartImage name="hero" className="absolute inset-0" />
+    <main dir={dir}>
+      <style>{`
+        :root {
+          --forest: #003828;
+          --deep: #00261c;
+          --leaf: #006b4b;
+          --cream: #f5efe2;
+          --card: #fffaf0;
+          --gold: #ecd99f;
+          --ink: #111111;
+          --soft: rgba(0,0,0,.12);
+        }
 
-        <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-6">
-          <header className="flex flex-wrap items-center justify-between gap-4 rounded-3xl bg-white/85 px-5 py-4 shadow-lg backdrop-blur">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-800">
-                Developed by Bronson Family Farm
-              </p>
-              <h1 className="text-2xl font-bold text-stone-900 md:text-4xl">
-                Bronson Family Farm Ecosystem Demo
-              </h1>
-            </div>
+        * { box-sizing: border-box; }
 
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as LanguageKey)}
-              className="rounded-2xl border border-emerald-800 bg-white px-4 py-3 font-semibold"
-            >
-              {Object.entries(languages).map(([key, label]) => (
-                <option key={key} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </header>
+        body {
+          margin: 0;
+          background: var(--cream);
+          color: var(--ink);
+          font-family: Arial, Helvetica, sans-serif;
+        }
 
-          <div className="grid flex-1 items-center gap-8 py-10 lg:grid-cols-[1.05fr_0.95fr]">
-            <section className="rounded-[2rem] bg-white/88 p-6 shadow-2xl backdrop-blur md:p-8">
-              <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-emerald-800">
-                Serving the Mahoning Valley Area
-              </p>
+        main {
+          min-height: 100vh;
+          border-top: 22px solid var(--deep);
+          padding: 34px 7vw 70px;
+        }
 
-              <h2 className="text-4xl font-black leading-tight text-stone-950 md:text-6xl">
-                A living farm, marketplace, and workforce ecosystem.
-              </h2>
+        .top {
+          background: rgba(255,255,255,.88);
+          border-radius: 22px;
+          box-shadow: 0 12px 32px var(--soft);
+          padding: 22px 26px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 18px;
+          margin-bottom: 44px;
+        }
 
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-stone-700">
-                This demo shows how guests, customers, growers, youth workers,
-                and partners move through a meaningful pathway — from story, to
-                food access, to marketplace participation, to community benefit.
-              </p>
+        .brand {
+          color: var(--leaf);
+          font-size: 13px;
+          letter-spacing: .42em;
+          text-transform: uppercase;
+          font-weight: 800;
+          margin-bottom: 6px;
+        }
 
-              <div className="mt-7 flex flex-wrap gap-3">
-                {(Object.keys(mission) as PathwayKey[]).map((key) => (
-                  <button
-                    key={key}
-                    onClick={() => {
-                      setPathway(key);
-                      setStep(0);
-                    }}
-                    className={`rounded-2xl px-5 py-3 text-sm font-bold shadow ${
-                      pathway === key
-                        ? "bg-emerald-900 text-white"
-                        : "bg-[#efe1bf] text-stone-900 hover:bg-[#e3d09f]"
-                    }`}
-                  >
-                    {mission[key].title.replace(" Pathway", "")}
-                  </button>
-                ))}
-              </div>
-            </section>
+        h1 {
+          font-size: clamp(30px, 4vw, 48px);
+          margin: 0;
+          line-height: 1.02;
+          letter-spacing: -.04em;
+        }
 
-            <section className="overflow-hidden rounded-[2rem] bg-white shadow-2xl">
-              <SmartImage name={pathway} className="h-72" />
+        select {
+          padding: 14px 18px;
+          border-radius: 16px;
+          border: 1.5px solid var(--leaf);
+          background: white;
+          font-weight: 700;
+          font-size: 16px;
+        }
 
-              <div className="p-6 md:p-8">
-                <p className="text-sm font-bold uppercase tracking-[0.25em] text-emerald-800">
-                  {current.subtitle}
-                </p>
+        .grid {
+          display: grid;
+          grid-template-columns: 1fr .92fr;
+          gap: 34px;
+          align-items: start;
+        }
 
-                <h3 className="mt-2 text-3xl font-black text-stone-950 md:text-4xl">
-                  {current.title}
-                </h3>
+        .heroCard, .pathCard {
+          background: rgba(255,255,255,.55);
+          border-radius: 26px;
+          box-shadow: 0 12px 34px rgba(0,0,0,.08);
+          overflow: hidden;
+        }
 
-                <p className="mt-4 rounded-2xl bg-emerald-950 p-4 text-white">
-                  {current.mission}
-                </p>
+        .heroCard {
+          padding: 34px 38px;
+        }
 
-                <div className="mt-5 rounded-2xl border border-stone-200 bg-[#fbf8ef] p-5">
-                  <p className="text-sm font-black uppercase tracking-[0.2em] text-amber-800">
-                    {steps[step][0]}
-                  </p>
-                  <p className="mt-3 text-lg leading-8 text-stone-800">
-                    {steps[step][1]}
-                  </p>
-                </div>
+        .smallCaps {
+          color: var(--leaf);
+          font-size: 14px;
+          letter-spacing: .42em;
+          text-transform: uppercase;
+          font-weight: 900;
+        }
 
-                <button
-                  onClick={nextStep}
-                  className="mt-5 w-full rounded-2xl bg-emerald-900 px-5 py-4 text-lg font-black text-white shadow-lg hover:bg-emerald-800"
-                >
-                  Continue
-                </button>
-              </div>
-            </section>
-          </div>
-        </div>
-      </section>
+        .headline {
+          font-size: clamp(42px, 6vw, 76px);
+          line-height: .97;
+          letter-spacing: -.065em;
+          margin: 22px 0;
+          font-weight: 900;
+        }
 
-      <section className="mx-auto max-w-7xl px-6 py-12">
-        <div className="rounded-[2rem] bg-white p-6 shadow-xl md:p-8">
-          <h2 className="text-3xl font-black text-stone-950">
-            Growers Supply Market
-          </h2>
-          <p className="mt-3 text-lg text-stone-700">
-            May 16, 2026 · 9:00 AM–2:00 PM · Bronson Family Farm
-          </p>
+        .lead {
+          font-size: 20px;
+          line-height: 1.65;
+          color: #4a4a4a;
+        }
 
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            <div className="rounded-3xl bg-[#f4efe4] p-5">
-              <h3 className="text-xl font-black">Marketplace</h3>
-              <p className="mt-2 text-stone-700">
-                Fresh produce, seedlings, Bubble Babies™, grower products, and
-                preorder pickup.
-              </p>
-            </div>
+        .tabs {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 28px;
+        }
 
-            <div className="rounded-3xl bg-[#f4efe4] p-5">
-              <h3 className="text-xl font-black">Demonstrations</h3>
-              <p className="mt-2 text-stone-700">
-                Outdoor learning, regenerative ideas, food education, arts,
-                restoration, and practical growing support.
-              </p>
-            </div>
+        button {
+          border: none;
+          border-radius: 15px;
+          padding: 14px 22px;
+          font-weight: 900;
+          cursor: pointer;
+          box-shadow: 0 6px 16px rgba(0,0,0,.12);
+        }
 
-            <div className="rounded-3xl bg-[#f4efe4] p-5">
-              <h3 className="text-xl font-black">QR Check-In</h3>
-              <p className="mt-2 text-stone-700">
-                Reservation-based entry, role-based pathways, vendor support,
-                and community engagement.
-              </p>
-            </div>
-          </div>
-        </div>
+        .tab {
+          background: var(--gold);
+          color: #141414;
+        }
 
-        <div className="mt-8 rounded-[2rem] bg-emerald-950 p-6 text-white shadow-xl md:p-8">
-          <h2 className="text-3xl font-black">Partner Alignment</h2>
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            {partners.map((partner) => (
-              <div
-                key={partner}
-                className="rounded-2xl bg-white/10 px-4 py-3 font-semibold"
-              >
-                {partner}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <footer className="px-6 pb-10 text-center text-sm font-semibold text-stone-600">
-        Bronson Family Farm · Farm & Family Alliance, Inc. · Parker Farms
-      </footer>
-    </main>
-  );
-}
+        .tab.active {
+          background: var(--leaf);
+          color: white;
