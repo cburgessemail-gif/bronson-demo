@@ -52,37 +52,34 @@ export default function App() {
   };
 
   const copy = useMemo(() => {
-    const set = {
-      EN: {
-        heroTag: "Historic Lansdowne Airport Site | Est. 1926",
-        heroTitle:
-          "From Youngstown’s first airport to a new future of food, learning, and community renewal.",
-        heroDesc:
-          "Bronson Family Farm is transforming historic land into a regenerative farm, agritourism destination, youth workforce pathway, and living ecosystem for the Mahoning Valley.",
-        enter: "Enter the Ecosystem",
-        explore: "Explore Pathways",
-        trust:
-          "Regenerative Agriculture • Youth Workforce • Local Food Access • Grower Opportunity • Community Legacy",
-        pathways: "Choose Your Pathway Into the Ecosystem",
-        pathwaysDesc:
-          "Every pathway is designed to create value, belonging, practical engagement, and a reason to return.",
-        journey: "Every pathway leads somewhere meaningful",
-        journeyDesc:
-          "This is not a static website. It is a living invitation into purpose, participation, and possibility.",
-        happening: "Happening Now at Bronson Family Farm",
-        happeningDesc:
-          "Real momentum is already taking place through growing activity, marketplace access, partnerships, events, and community participation.",
-        history: "A Historic Place With a Living Future",
-        connect: "Be Part of What’s Growing",
-        connectDesc:
-          "Fresh food. Opportunity. Renewal. A place where people, land, and purpose meet again.",
-      },
+    return {
+      heroTag: "Historic Lansdowne Airport Site | Est. 1926",
+      heroTitle:
+        "From Youngstown’s first airport to a new future of food, learning, and community renewal.",
+      heroDesc:
+        "Bronson Family Farm is transforming historic land into a regenerative farm, agritourism destination, youth workforce pathway, and living ecosystem for the Mahoning Valley.",
+      enter: "Enter the Ecosystem",
+      explore: "Explore Pathways",
+      trust:
+        "Regenerative Agriculture • Youth Workforce • Local Food Access • Grower Opportunity • Community Legacy",
+      pathways: "Choose Your Pathway Into the Ecosystem",
+      pathwaysDesc:
+        "Every pathway is designed to create value, belonging, practical engagement, and a reason to return.",
+      journey: "Every pathway leads somewhere meaningful",
+      journeyDesc:
+        "This is not a static website. It is a living invitation into purpose, participation, and possibility.",
+      happening: "Happening Now at Bronson Family Farm",
+      happeningDesc:
+        "Real momentum is already taking place through growing activity, marketplace access, partnerships, events, and community participation.",
+      history: "A Historic Place With a Living Future",
+      connect: "Be Part of What’s Growing",
+      connectDesc:
+        "Fresh food. Opportunity. Renewal. A place where people, land, and purpose meet again.",
     };
-    return set.EN;
   }, [lang]);
 
   const images = {
-    hero: "/images/GrowArea.jpg",
+    hero: "/images/SAM_0249.JPG", // far aerial view restored
     guest: "/images/GrowArea2.jpg",
     customer: "/images/SAM_0225.JPG",
     marketplace: "/images/SAM_0249.JPG",
@@ -207,8 +204,7 @@ export default function App() {
       kicker: "Opportunity through participation",
       summary:
         "Growers connect to markets, shared learning, visibility, and future opportunity.",
-      why:
-        "Local growers are stronger when connected than when isolated.",
+      why: "Local growers are stronger when connected than when isolated.",
       points: ["Market access", "Shared ecosystem value", "Collaboration"],
       cta: "Connect",
       image: images.grower,
@@ -313,7 +309,7 @@ export default function App() {
         className="relative flex min-h-[92vh] items-center bg-cover bg-center"
         style={{ backgroundImage: `url('${images.hero}')` }}
       >
-        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-24">
           <div className="max-w-4xl">
@@ -359,9 +355,7 @@ export default function App() {
       <section id="pathways" className="mx-auto max-w-7xl px-6 py-20">
         <div className="mx-auto mb-12 max-w-3xl text-center">
           <h3 className="text-4xl font-semibold">{copy.pathways}</h3>
-          <p className="mt-4 text-lg text-[#556255]">
-            {copy.pathwaysDesc}
-          </p>
+          <p className="mt-4 text-lg text-[#556255]">{copy.pathwaysDesc}</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
