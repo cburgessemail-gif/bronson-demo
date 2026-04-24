@@ -1,601 +1,383 @@
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
 
-type Lang = "en" | "es" | "tl" | "it" | "fr" | "he";
-type PathKey = "guest" | "customer" | "marketplace" | "grower" | "youth" | "partner";
-
-const languages: Record<Lang, string> = {
-  en: "English",
-  es: "Spanish",
-  tl: "Tagalog",
-  it: "Italian",
-  fr: "French",
-  he: "Hebrew",
-};
-
-const partners = [
-  "Farm & Family Alliance, Inc.",
-  "Parker Farms",
-  "Central State University",
-  "Home Depot",
-  "Gates Drone Services",
-  "Petitti Garden Centers",
-  "Elliott’s Garden Center",
-  "Youngstown Area Jewish Foundation",
-  "Jewish Federation",
-];
-
-const imageBank: Record<PathKey, string[]> = {
-  guest: ["/images/GrowArea2.jpg", "/images/GrowArea.jpg", "/images/SAM_0362.JPG", "/images/SAM_0363.JPG"],
-  customer: ["/images/SAM_0364.JPG", "/images/SAM_0365.JPG", "/images/GrowArea.jpg", "/images/GrowArea2.jpg"],
-  marketplace: ["/images/GrownByStorefront.png", "/images/grownby-storefront.png", "/images/GrownBy.png", "/images/SAM_0366.JPG"],
-  grower: ["/images/SAM_0367.JPG", "/images/GrowArea.jpg", "/images/GrowArea2.jpg", "/images/SAM_0368.JPG"],
-  youth: ["/images/SAM_0368.JPG", "/images/SAM_0369.JPG", "/images/GrowArea2.jpg", "/images/SAM_0362.JPG"],
-  partner: ["/images/SAM_0363.JPG", "/images/SAM_0364.JPG", "/images/GrowArea.jpg", "/images/GrowArea2.jpg"],
-};
-
-const pathData: Record<PathKey, {
-  label: string;
-  eyebrow: string;
+type Pathway = {
   title: string;
-  mission: string;
-  sound: string;
-  intro: string;
-  knowledge: string[];
-  purpose: string;
-  next: string[];
-  action: string;
-}> = {
-  guest: {
-    label: "Guest",
-    eyebrow: "Understand the land, the story, and the purpose.",
-    title: "Guest Pathway",
-    mission: "People understand the vision of Bronson Family Farm through land, legacy, food, and community restoration.",
-    sound: "This is not just a farm. It is a living gateway into family legacy, food access, and community possibility.",
-    intro: "Guests enter through the story of the land, the airport history, the growing fields, and the people building something useful for the Mahoning Valley.",
-    knowledge: [
-      "Historic Lansdowne Airport becomes a place for growing, learning, gathering, and regional connection.",
-      "Guests move from curiosity into tours, event check-in, marketplace activity, volunteering, and partner pathways.",
-      "The farm story makes the purpose visible before asking anyone to participate.",
-    ],
-    purpose: "The guest pathway turns a first visit into understanding, belonging, and action.",
-    next: ["Reserve / check in", "Tour the land", "Visit marketplace", "Choose a pathway"],
-    action: "Enter Guest Pathway",
-  },
-  customer: {
-    label: "Customer",
-    eyebrow: "Fresh food, nutrition, and repeat healthy choices.",
-    title: "Customer Pathway",
-    mission: "Customers connect fresh food, nutrition education, local purchasing, and repeat healthy choices.",
-    sound: "Customers do not just buy food. They learn where it comes from and how it supports local growers.",
-    intro: "The customer pathway shows produce, Bubble Babies™, recipes, nutrition education, pickup options, and repeat purchasing.",
-    knowledge: [
-      "Customers discover seedlings, produce, recipes, and seasonal growing information.",
-      "SNAP-aware purchasing and pickup logic supports access and dignity.",
-      "Nutrition education connects food choices to family health and community wellness.",
-    ],
-    purpose: "The customer pathway turns interest into food access and repeat participation.",
-    next: ["Shop produce", "View Bubble Babies™", "See recipes", "Pickup / order history"],
-    action: "Enter Customer Pathway",
-  },
-  marketplace: {
-    label: "Marketplace",
-    eyebrow: "Convert interest into purchasing power.",
-    title: "Marketplace Pathway",
-    mission: "The marketplace converts community interest into purchasing power, local sales, and ecosystem sustainability.",
-    sound: "The marketplace is where the story becomes economic activity for growers, families, and the farm ecosystem.",
-    intro: "This pathway connects visitors to the GrownBy storefront, event pre-orders, grower products, and marketplace participation.",
-    knowledge: [
-      "The marketplace connects to the real Bronson Family Farm GrownBy store.",
-      "Growers register through the ecosystem before receiving marketplace benefits.",
-      "Customers move from education to purchase without losing the farm story.",
-    ],
-    purpose: "The marketplace pathway shows how the ecosystem sustains itself through real transactions.",
-    next: ["Preview storefront", "Select products", "SNAP-aware checkout", "Enter GrownBy store"],
-    action: "Enter Store",
-  },
-  grower: {
-    label: "Grower",
-    eyebrow: "Connect producers to opportunity.",
-    title: "Grower Pathway",
-    mission: "Growers connect to opportunity, market participation, training, resources, and a regional food network.",
-    sound: "Growers are not outside vendors. They are part of a shared ecosystem that helps food move through the Valley.",
-    intro: "The grower pathway shows registration, benefits, training, crop planning, supply needs, and marketplace access.",
-    knowledge: [
-      "Registered growers can participate in the ecosystem marketplace.",
-      "Support includes crop planning, supply education, distribution visibility, and shared events.",
-      "The pathway helps growers move from growing to selling and collaborating.",
-    ],
-    purpose: "The grower pathway makes participation clear, fair, and useful.",
-    next: ["Register grower", "Plan crops", "Access training", "Earn marketplace eligibility"],
-    action: "Enter Grower Pathway",
-  },
-  youth: {
-    label: "Youth Workforce",
-    eyebrow: "Build skills, responsibility, and future readiness.",
-    title: "Youth Workforce Pathway",
-    mission: "Youth workers build skills, responsibility, confidence, and future readiness through farm-based work experiences.",
-    sound: "Youth do not just complete tasks. They learn responsibility, communication, safety, and how work connects to community.",
-    intro: "This pathway shows youth onboarding, supervisor oversight, life skills progression, task assignments, and parent visibility.",
-    knowledge: [
-      "Youth roles connect agriculture, technology, hospitality, logistics, and communications.",
-      "Supervisors track progress through skills, attendance, safety, and reflection.",
-      "Parents and partners see growth without turning the experience into a classroom-only program.",
-    ],
-    purpose: "The youth pathway shows how the farm becomes a workforce development environment.",
-    next: ["Youth dashboard", "Supervisor view", "Parent portal", "LSP progress"],
-    action: "Enter Youth Pathway",
-  },
-  partner: {
-    label: "Partner",
-    eyebrow: "Align resources and collaboration.",
-    title: "Partner Pathway",
-    mission: "Partners align resources, expertise, visibility, and collaboration for community benefit.",
-    sound: "Partnership is how the ecosystem becomes stronger than one farm, one event, or one organization.",
-    intro: "The partner pathway shows how organizations support education, equipment, health, media, arts, workforce, and food access.",
-    knowledge: [
-      "Farm & Family Alliance, Inc. and Parker Farms are part of the ecosystem structure.",
-      "Partners support demonstrations, equipment, education, storytelling, funding, or community services.",
-      "Each partner role connects to a real contribution and a visible community outcome.",
-    ],
-    purpose: "The partner pathway shows how collaboration becomes action.",
-    next: ["Choose role", "Support event", "Sponsor / contribute", "Schedule follow-up"],
-    action: "Enter Partner Pathway",
-  },
+  subtitle: string;
+  desc: string;
+  img: string;
+  btn: string;
 };
 
-function SmartImage({ images, alt }: { images: string[]; alt: string }) {
-  const [index, setIndex] = useState(0);
-  const src = images[index];
-
-  if (!src) {
-    return (
-      <div className="imageFallback">
-        <div>Bronson Family Farm</div>
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      onError={() => setIndex((old) => old + 1)}
-    />
-  );
-}
+type ProofCard = {
+  title: string;
+  desc: string;
+  img: string;
+  btn: string;
+};
 
 export default function App() {
-  const [lang, setLang] = useState<Lang>("en");
-  const [active, setActive] = useState<PathKey>("guest");
-  const data = pathData[active];
-  const dir = lang === "he" ? "rtl" : "ltr";
-  const activeImages = useMemo(() => imageBank[active], [active]);
+  const [lang, setLang] = useState("EN");
 
-  function speak() {
-    const text = `${data.title}. ${data.sound} ${data.intro} ${data.purpose}`;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.88;
-    utterance.pitch = 0.95;
-    utterance.lang =
-      lang === "es" ? "es-US" :
-      lang === "tl" ? "fil-PH" :
-      lang === "it" ? "it-IT" :
-      lang === "fr" ? "fr-FR" :
-      lang === "he" ? "he-IL" : "en-US";
-    window.speechSynthesis.speak(utterance);
-  }
+  const goTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
-  function handleAction() {
-    if (active === "marketplace") {
-      window.open("https://grownby.com/farms/bronson-family-farm/shop", "_blank");
-    }
-  }
+  const openMarketplace = () => {
+    window.open("https://grownby.com/farms/bronson-family-farm/shop", "_blank");
+  };
+
+  const images = {
+    hero: "/GrowArea.jpg",
+    guest: "/GrowArea2.jpg",
+    customer: "/SAM_0225.JPG",
+    marketplace: "/SAM_0249.JPG",
+    grower: "/SAM_0238.JPG",
+    youth: "/SAM_0222.JPG",
+    partners: "/SAM_0223.JPG",
+    production: "/SAM_0226.JPG",
+    buyLocal: "/SAM_0229.JPG",
+    events: "/SAM_0255.JPG",
+    community: "/SAM_0257.JPG",
+    footer: "/SAM_0249.JPG",
+  };
+
+  const pathways: Pathway[] = [
+    {
+      title: "Guest",
+      subtitle: "Discover the Story",
+      desc: "Explore the land, history, purpose, and future of Bronson Family Farm.",
+      img: images.guest,
+      btn: "Enter as Guest",
+    },
+    {
+      title: "Customer",
+      subtitle: "Eat Fresh. Live Better.",
+      desc: "Access seasonal produce, Bubble Babies™, healthy choices, and repeat buying opportunities.",
+      img: images.customer,
+      btn: "Shop Fresh",
+    },
+    {
+      title: "Marketplace",
+      subtitle: "Support Local Commerce",
+      desc: "Buy from Bronson Family Farm and regional growers through a modern marketplace.",
+      img: images.marketplace,
+      btn: "Enter Marketplace",
+    },
+    {
+      title: "Grower",
+      subtitle: "Grow With Us",
+      desc: "Connect producers to market access, collaboration, training, and opportunity.",
+      img: images.grower,
+      btn: "Become a Grower",
+    },
+    {
+      title: "Youth Workforce",
+      subtitle: "Build Skills for the Future",
+      desc: "Hands-on learning in agriculture, logistics, leadership, technology, and entrepreneurship.",
+      img: images.youth,
+      btn: "Join Program",
+    },
+    {
+      title: "Partners",
+      subtitle: "Create Community Impact",
+      desc: "Align sponsorship, education, food access, health, workforce, and mission-driven collaboration.",
+      img: images.partners,
+      btn: "Partner With Us",
+    },
+  ];
+
+  const proof: ProofCard[] = [
+    {
+      title: "In Production",
+      desc: "Seedlings, produce, regenerative growing systems, and seasonal expansion.",
+      img: images.production,
+      btn: "View What’s Growing",
+    },
+    {
+      title: "Buy Local",
+      desc: "Shop fresh food and support local growers through the marketplace.",
+      img: images.buyLocal,
+      btn: "Enter Marketplace",
+    },
+    {
+      title: "Upcoming Events",
+      desc: "Tours, workshops, Growers Supply Market, and family experiences on the land.",
+      img: images.events,
+      btn: "View Events",
+    },
+    {
+      title: "Growing Together",
+      desc: "Education, sponsors, civic collaboration, workforce pathways, and partnerships.",
+      img: images.community,
+      btn: "See Partners",
+    },
+  ];
+
+  const partners = [
+    "Farm & Family Alliance, Inc.",
+    "Parker Farms",
+    "Central State University",
+    "Home Depot",
+    "Gates Drone Services",
+    "Petitti Garden Centers",
+    "Elliott’s Garden Center",
+    "Youngstown Area Jewish Foundation",
+    "Jewish Federation",
+  ];
+
+  const actions = [
+    "Visit the Farm",
+    "Shop Fresh",
+    "Grow With Us",
+    "Partner With Us",
+    "Apply Today",
+  ];
 
   return (
-    <main dir={dir}>
-      <style>{`
-        :root {
-          --deep:#00261c;
-          --forest:#003828;
-          --leaf:#006b4b;
-          --cream:#f5efe2;
-          --card:#fffaf0;
-          --gold:#ecd99f;
-          --ink:#101010;
-          --muted:#4b4b4b;
-          --shadow:rgba(0,0,0,.12);
-        }
-
-        * { box-sizing:border-box; }
-
-        body {
-          margin:0;
-          background:var(--cream);
-          color:var(--ink);
-          font-family:Arial, Helvetica, sans-serif;
-        }
-
-        main {
-          min-height:100vh;
-          border-top:22px solid var(--deep);
-          padding:34px 7vw 70px;
-          background:
-            linear-gradient(90deg, rgba(245,239,226,.98), rgba(245,239,226,.88)),
-            url("/images/GrowArea2.jpg");
-          background-size:cover;
-          background-position:center;
-        }
-
-        .top {
-          background:rgba(255,255,255,.92);
-          border-radius:22px;
-          box-shadow:0 12px 32px var(--shadow);
-          padding:22px 26px;
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          gap:18px;
-          margin-bottom:34px;
-        }
-
-        .brand,.smallCaps {
-          color:var(--leaf);
-          font-size:13px;
-          letter-spacing:.42em;
-          text-transform:uppercase;
-          font-weight:900;
-        }
-
-        h1 {
-          font-size:clamp(30px,4vw,48px);
-          margin:6px 0 0;
-          line-height:1.02;
-          letter-spacing:-.04em;
-          font-weight:700;
-        }
-
-        select {
-          padding:14px 18px;
-          border-radius:16px;
-          border:1.5px solid var(--leaf);
-          background:white;
-          font-weight:800;
-          font-size:16px;
-        }
-
-        .grid {
-          display:grid;
-          grid-template-columns:1fr .92fr;
-          gap:34px;
-          align-items:start;
-        }
-
-        .heroCard,.pathCard,.partnerStrip {
-          background:rgba(255,255,255,.72);
-          backdrop-filter:blur(5px);
-          border-radius:26px;
-          box-shadow:0 12px 34px rgba(0,0,0,.09);
-          overflow:hidden;
-        }
-
-        .heroImage {
-          height:300px;
-          background:var(--deep);
-          overflow:hidden;
-        }
-
-        .heroImage img,
-        .pathImage img {
-          width:100%;
-          height:100%;
-          object-fit:cover;
-          display:block;
-        }
-
-        .heroBody {
-          padding:30px 38px 36px;
-        }
-
-        .headline {
-          font-size:clamp(42px,5.3vw,70px);
-          line-height:.97;
-          letter-spacing:-.065em;
-          margin:20px 0;
-          font-weight:900;
-        }
-
-        .lead {
-          font-size:20px;
-          line-height:1.6;
-          color:var(--muted);
-          margin:0;
-        }
-
-        .tabs {
-          display:flex;
-          flex-wrap:wrap;
-          gap:12px;
-          margin-top:28px;
-        }
-
-        button {
-          border:none;
-          border-radius:15px;
-          padding:14px 22px;
-          font-weight:900;
-          cursor:pointer;
-          box-shadow:0 6px 16px rgba(0,0,0,.12);
-        }
-
-        .tab {
-          background:var(--gold);
-          color:#141414;
-        }
-
-        .tab.active {
-          background:var(--leaf);
-          color:white;
-        }
-
-        .pathImage {
-          height:300px;
-          background:var(--deep);
-          overflow:hidden;
-        }
-
-        .imageFallback {
-          height:100%;
-          width:100%;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background:linear-gradient(135deg, var(--deep), var(--leaf));
-          color:white;
-          font-weight:900;
-          letter-spacing:.22em;
-          text-transform:uppercase;
-        }
-
-        .pathBody {
-          padding:28px 34px 34px;
-          background:rgba(255,255,255,.9);
-        }
-
-        h2 {
-          margin:10px 0 16px;
-          font-size:clamp(30px,4vw,44px);
-          line-height:1;
-          letter-spacing:-.05em;
-          font-weight:700;
-        }
-
-        .mission {
-          background:var(--forest);
-          color:white;
-          padding:18px 20px;
-          border-radius:15px;
-          font-size:17px;
-          line-height:1.5;
-          font-weight:800;
-          margin-bottom:20px;
-        }
-
-        .section {
-          background:var(--card);
-          border:1px solid rgba(0,0,0,.09);
-          border-radius:18px;
-          padding:18px 20px;
-          margin-top:16px;
-        }
-
-        .sectionTitle {
-          color:#a34c00;
-          letter-spacing:.32em;
-          text-transform:uppercase;
-          font-weight:900;
-          font-size:13px;
-          margin-bottom:10px;
-        }
-
-        .section p,.section li {
-          font-size:17px;
-          line-height:1.55;
-        }
-
-        ul {
-          padding-left:22px;
-          margin-bottom:0;
-        }
-
-        .nextGrid {
-          display:grid;
-          grid-template-columns:repeat(2,1fr);
-          gap:10px;
-          margin-top:10px;
-        }
-
-        .nextItem {
-          background:white;
-          border-radius:12px;
-          padding:12px;
-          font-weight:800;
-          border:1px solid rgba(0,0,0,.08);
-        }
-
-        .actions {
-          display:flex;
-          flex-wrap:wrap;
-          gap:12px;
-          margin-top:22px;
-        }
-
-        .primary {
-          background:var(--leaf);
-          color:white;
-        }
-
-        .secondary {
-          background:var(--gold);
-          color:#111;
-        }
-
-        .storePreview {
-          display:grid;
-          grid-template-columns:repeat(3,1fr);
-          gap:12px;
-          margin-top:14px;
-        }
-
-        .product {
-          background:white;
-          border-radius:14px;
-          padding:14px;
-          border:1px solid rgba(0,0,0,.08);
-          font-weight:900;
-        }
-
-        .product span {
-          display:block;
-          color:var(--leaf);
-          font-size:13px;
-          margin-top:6px;
-        }
-
-        .partnerStrip {
-          margin-top:34px;
-          padding:22px;
-        }
-
-        .partnerGrid {
-          display:flex;
-          flex-wrap:wrap;
-          gap:10px;
-          margin-top:14px;
-        }
-
-        .pill {
-          background:white;
-          border:1px solid rgba(0,0,0,.1);
-          border-radius:999px;
-          padding:10px 14px;
-          font-weight:900;
-          font-size:14px;
-        }
-
-        @media (max-width:980px) {
-          main { padding:22px 18px 50px; }
-          .grid { grid-template-columns:1fr; }
-          .top { flex-direction:column; align-items:flex-start; }
-          .heroImage,.pathImage { height:250px; }
-          .headline { font-size:46px; }
-          .storePreview,.nextGrid { grid-template-columns:1fr; }
-        }
-      `}</style>
-
-      <header className="top">
+    <div className="min-h-screen bg-[#f7f4ec] text-[#1f2d1f] font-sans">
+      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-200 bg-white/95 px-6 py-4 shadow-sm backdrop-blur">
         <div>
-          <div className="brand">Developed by Bronson Family Farm</div>
-          <h1>Bronson Family Farm Ecosystem Demo</h1>
+          <p className="text-xs font-bold uppercase tracking-[4px] text-green-800">
+            Developed by Bronson Family Farm
+          </p>
+          <h1 className="text-2xl font-semibold tracking-wide md:text-3xl">
+            Bronson Family Farm
+          </h1>
         </div>
 
-        <select value={lang} onChange={(e) => setLang(e.target.value as Lang)}>
-          {Object.entries(languages).map(([key, label]) => (
-            <option key={key} value={key}>{label}</option>
+        <div className="flex gap-2">
+          {["EN", "ES", "TL", "FR"].map((l) => (
+            <button
+              key={l}
+              onClick={() => setLang(l)}
+              className={`rounded-full border px-3 py-1 text-sm transition ${
+                lang === l
+                  ? "border-green-800 bg-green-800 text-white"
+                  : "border-gray-300 bg-white text-green-800 hover:border-green-700"
+              }`}
+            >
+              {l}
+            </button>
           ))}
-        </select>
+        </div>
       </header>
 
-      <section className="grid">
-        <div className="heroCard">
-          <div className="heroImage">
-            <SmartImage images={["/images/GrowArea2.jpg", "/images/GrowArea.jpg", "/images/SAM_0362.JPG"]} alt="Bronson Family Farm aerial view" />
-          </div>
+      <section
+        id="hero"
+        className="relative flex min-h-[88vh] items-center bg-cover bg-center"
+        style={{ backgroundImage: `url('${images.hero}')` }}
+      >
+        <div className="absolute inset-0 bg-black/45" />
 
-          <div className="heroBody">
-            <div className="smallCaps">Serving the Mahoning Valley Area</div>
-            <div className="headline">A living farm, marketplace, and workforce ecosystem.</div>
-            <p className="lead">
-              This demo shows how guests, customers, growers, youth workers, and partners move through a meaningful pathway — from story, to food access, to marketplace participation, to community benefit.
-            </p>
+        <div className="relative z-10 max-w-5xl px-8 text-white md:px-16">
+          <p className="mb-4 text-sm uppercase tracking-[4px] md:text-base">
+            Historic Lansdowne Airport Site | Youngstown, Ohio
+          </p>
 
-            <div className="tabs">
-              {(Object.keys(pathData) as PathKey[]).map((key) => (
-                <button
-                  key={key}
-                  className={`tab ${active === key ? "active" : ""}`}
-                  onClick={() => setActive(key)}
-                >
-                  {pathData[key].label}
-                </button>
-              ))}
-            </div>
+          <h2 className="mb-6 text-4xl font-semibold leading-tight md:text-6xl">
+            From Youngstown’s first airport to a new future of food, learning,
+            and community renewal.
+          </h2>
+
+          <p className="mb-8 max-w-3xl text-lg leading-relaxed text-white/90 md:text-2xl">
+            Bronson Family Farm is a regenerative farm, agritourism destination,
+            youth workforce pathway, marketplace, and living ecosystem for the
+            Mahoning Valley.
+          </p>
+
+          <div className="flex flex-wrap gap-4">
+            <button
+              onClick={() => goTo("pathways")}
+              className="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-800"
+            >
+              Enter the Ecosystem
+            </button>
+
+            <button
+              onClick={openMarketplace}
+              className="rounded-xl border border-white px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-[#1f2d1f]"
+            >
+              Shop the Marketplace
+            </button>
           </div>
         </div>
+      </section>
 
-        <article className="pathCard">
-          <div className="pathImage">
-            <SmartImage images={activeImages} alt={data.title} />
+      <section id="pathways" className="mx-auto max-w-7xl px-6 py-20 md:px-12">
+        <div className="mb-14 text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
+            Pathways
+          </p>
+          <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
+            Choose Your Pathway Into the Ecosystem
+          </h3>
+          <p className="mx-auto max-w-3xl text-lg text-gray-700">
+            A place where land, food, learning, business, and community come
+            together.
+          </p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          {pathways.map((item) => (
+            <div
+              key={item.title}
+              className="overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl"
+            >
+              <img
+                src={item.img}
+                alt={item.title}
+                className="h-56 w-full object-cover"
+              />
+
+              <div className="p-6">
+                <p className="mb-2 text-sm font-bold uppercase tracking-wide text-green-700">
+                  {item.title}
+                </p>
+
+                <h4 className="mb-3 text-2xl font-semibold">{item.subtitle}</h4>
+
+                <p className="mb-6 leading-7 text-gray-700">{item.desc}</p>
+
+                <button
+                  onClick={() => {
+                    if (item.title === "Marketplace") openMarketplace();
+                    else if (item.title === "Guest") goTo("history");
+                    else if (item.title === "Customer") goTo("happening-now");
+                    else goTo("connect");
+                  }}
+                  className="w-full rounded-xl bg-green-700 py-3 font-semibold text-white transition hover:bg-green-800"
+                >
+                  {item.btn}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="happening-now" className="bg-[#e7efe4] px-6 py-20 md:px-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 text-center">
+            <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
+              Happening Now
+            </p>
+            <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
+              Real Activity. Real Opportunity.
+            </h3>
+            <p className="mx-auto max-w-3xl text-lg text-gray-700">
+              The demo shows more than an idea. It shows production, commerce,
+              events, workforce development, and community momentum.
+            </p>
           </div>
 
-          <div className="pathBody">
-            <div className="smallCaps">{data.eyebrow}</div>
-            <h2>{data.title}</h2>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {proof.map((item) => (
+              <div
+                key={item.title}
+                className="overflow-hidden rounded-2xl bg-white shadow transition hover:shadow-lg"
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="h-48 w-full object-cover"
+                />
 
-            <div className="mission">{data.mission}</div>
+                <div className="p-5">
+                  <h4 className="mb-2 text-xl font-semibold">{item.title}</h4>
+                  <p className="mb-5 leading-7 text-gray-700">{item.desc}</p>
 
-            <div className="section">
-              <div className="sectionTitle">Sound Bite</div>
-              <p>{data.sound}</p>
-            </div>
-
-            <div className="section">
-              <div className="sectionTitle">Intro</div>
-              <p>{data.intro}</p>
-            </div>
-
-            <div className="section">
-              <div className="sectionTitle">Knowledge</div>
-              <ul>{data.knowledge.map((item) => <li key={item}>{item}</li>)}</ul>
-            </div>
-
-            {active === "marketplace" && (
-              <div className="section">
-                <div className="sectionTitle">Storefront Preview</div>
-                <div className="storePreview">
-                  <div className="product">Bubble Babies™ <span>Seedling rolls</span></div>
-                  <div className="product">Fresh Produce <span>Seasonal farm products</span></div>
-                  <div className="product">Grower Goods <span>Marketplace participation</span></div>
+                  <button
+                    onClick={() => {
+                      if (item.title === "Buy Local") openMarketplace();
+                      else if (item.title === "Upcoming Events") goTo("connect");
+                      else if (item.title === "Growing Together") goTo("connect");
+                      else goTo("happening-now");
+                    }}
+                    className="w-full rounded-xl border border-green-700 py-3 font-semibold text-green-800 transition hover:bg-green-700 hover:text-white"
+                  >
+                    {item.btn}
+                  </button>
                 </div>
               </div>
-            )}
-
-            <div className="section">
-              <div className="sectionTitle">Summary of Purpose</div>
-              <p>{data.purpose}</p>
-            </div>
-
-            <div className="section">
-              <div className="sectionTitle">Next</div>
-              <div className="nextGrid">
-                {data.next.map((item) => <div className="nextItem" key={item}>{item}</div>)}
-              </div>
-            </div>
-
-            <div className="actions">
-              <button className="primary" onClick={speak}>Play Voice Guide</button>
-              <button className="secondary" onClick={handleAction}>{data.action}</button>
-            </div>
+            ))}
           </div>
-        </article>
-      </section>
-
-      <section className="partnerStrip">
-        <div className="smallCaps">Ecosystem Partners and Participants</div>
-        <div className="partnerGrid">
-          {partners.map((partner) => <div className="pill" key={partner}>{partner}</div>)}
         </div>
       </section>
-    </main>
+
+      <section id="history" className="mx-auto max-w-5xl px-6 py-20 text-center md:px-12">
+        <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
+          Legacy
+        </p>
+        <h3 className="mb-6 text-3xl font-semibold md:text-4xl">
+          A Historic Place With a Living Future
+        </h3>
+
+        <p className="text-lg leading-8 text-gray-700">
+          Lansdowne Airport was dedicated in 1926 as Youngstown’s first airport.
+          Today, Bronson Family Farm is helping reconnect land, food, families,
+          growers, education, workforce pathways, and opportunity on the same
+          historic ground.
+        </p>
+      </section>
+
+      <section className="bg-white px-6 py-16 md:px-12">
+        <div className="mx-auto max-w-7xl text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
+            Ecosystem Partners and Participants
+          </p>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            {partners.map((partner) => (
+              <span
+                key={partner}
+                className="rounded-full border border-green-900/15 bg-[#f7f4ec] px-5 py-3 text-sm font-semibold text-[#1f2d1f]"
+              >
+                {partner}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="connect"
+        className="relative bg-cover bg-center px-6 py-20 text-white md:px-12"
+        style={{ backgroundImage: `url('${images.footer}')` }}
+      >
+        <div className="absolute inset-0 bg-[#18311d]/85" />
+
+        <div className="relative z-10 mx-auto max-w-6xl text-center">
+          <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
+            Be Part of What’s Growing
+          </h3>
+
+          <p className="mx-auto mb-10 max-w-3xl text-lg text-white/85">
+            Fresh food. Opportunity. Community renewal. Legacy in motion.
+          </p>
+
+          <div className="mb-12 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {actions.map((btn) => (
+              <button
+                key={btn}
+                onClick={() => {
+                  if (btn === "Shop Fresh") openMarketplace();
+                  else if (btn === "Visit the Farm") goTo("history");
+                  else goTo("connect");
+                }}
+                className="rounded-xl bg-white px-4 py-3 font-semibold text-[#18311d] transition hover:bg-gray-200"
+              >
+                {btn}
+              </button>
+            ))}
+          </div>
+
+          <p className="text-white/75">
+            Historic Lansdowne Airport Site • Youngstown, Ohio
+          </p>
+          <p className="mt-2 text-white/75">www.bronsonfamilyfarm.com</p>
+        </div>
+      </section>
+    </div>
   );
 }
