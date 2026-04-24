@@ -106,10 +106,12 @@ const imageBank = {
     "/images/SAM_0229.JPG",
   ],
 
-  // YOUTH — people / activity / learning / movement
+  // YOUTH — PEOPLE FIRST: youth / students / visible human activity
   youth: [
     "/SAM_0222.JPG",
     "/images/SAM_0222.JPG",
+    "/SAM_0223.JPG",
+    "/images/SAM_0223.JPG",
     "/SAM_0224.JPG",
     "/images/SAM_0224.JPG",
     "/SAM_0230.JPG",
