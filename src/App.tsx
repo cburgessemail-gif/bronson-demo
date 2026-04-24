@@ -284,24 +284,54 @@ function SmartImage({ candidates, alt, className }: { candidates: string[]; alt:
 }
 
 function CinematicFallback({ alt, className }: { alt: string; className?: string }) {
+  const lower = alt.toLowerCase();
+  const scene = lower.includes("marketplace")
+    ? "marketplace"
+    : lower.includes("customer")
+    ? "customer"
+    : lower.includes("grower")
+    ? "grower"
+    : lower.includes("value") || lower.includes("producer")
+    ? "producer"
+    : lower.includes("youth")
+    ? "youth"
+    : lower.includes("partner")
+    ? "partner"
+    : "guest";
+
   return (
-    <div className={`cinematicFallback ${className || ""}`} aria-label={alt}>
-      <div className="sunGlow" />
-      <div className="treeLine treeLineBack" />
-      <div className="treeLine treeLineFront" />
-      <div className="fieldRows">
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
+    <div className={`cinematicFallback scene-${scene} ${className || ""}`} aria-label={alt}>
+      <div className="skyGlow" />
+      <div className="sceneLayer sceneBack" />
+      <div className="sceneLayer sceneMid" />
+      <div className="sceneLayer sceneFront" />
+      <div className="sceneObjects">
+        {scene === "guest" && <><i className="path" /><i className="welcomeGate" /><i className="heritageTree" /></>}
+        {scene === "customer" && <><i className="produceTable" /><i className="basket one" /><i className="basket two" /><i className="recipeCard" /></>}
+        {scene === "marketplace" && <><i className="marketTent one" /><i className="marketTent two" /><i className="storefront" /><i className="qrPost" /></>}
+        {scene === "grower" && <><i className="cropRows" /><i className="waterTank" /><i className="fenceLine" /><i className="seedTray" /></>}
+        {scene === "producer" && <><i className="kitchenTable" /><i className="jars" /><i className="labelStack" /><i className="demoBoard" /></>}
+        {scene === "youth" && <><i className="checkinBoard" /><i className="taskCards" /><i className="rcTrack" /><i className="mentorPost" /></>}
+        {scene === "partner" && <><i className="bridge" /><i className="partnerCircles" /><i className="resourceMap" /><i className="meetingTable" /></>}
       </div>
       <div className="fallbackBadge">
         <strong>{alt}</strong>
-        <small>Bronson Family Farm Ecosystem</small>
+        <small>{sceneLabel(scene)}</small>
       </div>
     </div>
   );
+}
+
+function sceneLabel(scene: string) {
+  switch (scene) {
+    case "customer": return "Fresh food · nutrition · repeat healthy choices";
+    case "marketplace": return "Purchasing power · preorders · community access";
+    case "grower": return "Registered growers · crop planning · market participation";
+    case "producer": return "Value-added products · demonstrations · entrepreneurship";
+    case "youth": return "Youth workforce · tasks · skills progression";
+    case "partner": return "Aligned resources · collaboration · community benefit";
+    default: return "Land · story · welcome · purpose";
+  }
 }
 
 function speak(text: string) {
@@ -531,84 +561,66 @@ h3 { font-size: clamp(1.55rem, 2.5vw, 2.4rem); line-height: 1; margin: 10px 0; l
   min-height: 100%;
   width: 100%;
   display: block;
-  background:
-    radial-gradient(circle at 72% 18%, rgba(246, 212, 122, .95) 0 5%, rgba(246, 212, 122, .25) 6% 14%, transparent 15%),
-    linear-gradient(180deg, #203b2c 0%, #314d31 38%, #6f7f42 60%, #3e5b2d 100%);
+  background: linear-gradient(180deg, #21382a 0%, #405734 48%, #6f7f42 100%);
 }
-.cinematicFallback.heroImage {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-}
-.sunGlow {
-  position: absolute;
-  width: 42vw;
-  height: 42vw;
-  right: 3vw;
-  top: -13vw;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,224,139,.42), transparent 64%);
-}
-.treeLine {
-  position: absolute;
-  left: -5%;
-  right: -5%;
-  height: 35%;
-  bottom: 32%;
-  opacity: .78;
-  background:
-    radial-gradient(circle at 4% 80%, #132418 0 3%, transparent 3.2%),
-    radial-gradient(circle at 9% 64%, #132418 0 5%, transparent 5.2%),
-    radial-gradient(circle at 16% 76%, #132418 0 4.8%, transparent 5%),
-    radial-gradient(circle at 24% 62%, #132418 0 6%, transparent 6.2%),
-    radial-gradient(circle at 33% 72%, #132418 0 4.5%, transparent 4.7%),
-    radial-gradient(circle at 43% 60%, #132418 0 5.5%, transparent 5.7%),
-    radial-gradient(circle at 54% 74%, #132418 0 5%, transparent 5.2%),
-    radial-gradient(circle at 65% 64%, #132418 0 6.5%, transparent 6.7%),
-    radial-gradient(circle at 78% 72%, #132418 0 5%, transparent 5.2%),
-    radial-gradient(circle at 89% 62%, #132418 0 6%, transparent 6.2%),
-    radial-gradient(circle at 97% 78%, #132418 0 4.5%, transparent 4.7%);
-}
-.treeLineBack { bottom: 39%; opacity: .42; transform: scale(1.08); filter: blur(1px); }
-.treeLineFront { bottom: 32%; }
-.fieldRows {
-  position: absolute;
-  left: -12%;
-  right: -12%;
-  bottom: -7%;
-  height: 52%;
-  perspective: 700px;
-  transform: rotateX(58deg);
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5vw;
-  padding: 0 7vw;
-}
-.fieldRows span {
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(246,239,224,.06), rgba(246,239,224,.28), rgba(246,239,224,.06));
-  box-shadow: 0 0 24px rgba(0,0,0,.18) inset;
-}
-.fallbackBadge {
-  position: absolute;
-  left: 22px;
-  right: 22px;
-  bottom: 22px;
-  z-index: 3;
-  display: grid;
-  gap: 4px;
-  width: fit-content;
-  max-width: min(520px, calc(100% - 44px));
-  border-radius: 22px;
-  padding: 14px 16px;
-  color: #fff8e8;
-  background: rgba(13,21,16,.62);
-  border: 1px solid rgba(255,255,255,.16);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 18px 40px rgba(0,0,0,.28);
-}
+.cinematicFallback.heroImage { position: absolute; inset: 0; height: 100%; }
+.skyGlow { position: absolute; inset: 0; background: radial-gradient(circle at 74% 16%, rgba(246,212,122,.75) 0 5%, rgba(246,212,122,.25) 6% 16%, transparent 17%); }
+.sceneLayer { position: absolute; left: -8%; right: -8%; }
+.sceneBack { top: 24%; height: 24%; opacity: .45; background: radial-gradient(circle at 8% 80%, #132418 0 3%, transparent 3.2%), radial-gradient(circle at 18% 58%, #132418 0 5%, transparent 5.2%), radial-gradient(circle at 31% 74%, #132418 0 4.8%, transparent 5%), radial-gradient(circle at 44% 62%, #132418 0 6%, transparent 6.2%), radial-gradient(circle at 60% 72%, #132418 0 4.5%, transparent 4.7%), radial-gradient(circle at 76% 60%, #132418 0 5.5%, transparent 5.7%), radial-gradient(circle at 91% 74%, #132418 0 5%, transparent 5.2%); }
+.sceneMid { bottom: 0; height: 55%; background: linear-gradient(165deg, rgba(255,255,255,.10), transparent 30%), repeating-linear-gradient(94deg, rgba(255,248,232,.16) 0 8px, transparent 8px 46px); transform: skewY(-4deg); transform-origin: bottom; }
+.sceneFront { bottom: -8%; height: 34%; background: radial-gradient(ellipse at center, rgba(9,19,12,.32), transparent 64%); }
+.sceneObjects i { position: absolute; display: block; z-index: 2; }
+.fallbackBadge { position: absolute; left: 22px; right: 22px; bottom: 22px; z-index: 4; display: grid; gap: 4px; width: fit-content; max-width: min(560px, calc(100% - 44px)); border-radius: 22px; padding: 14px 16px; color: #fff8e8; background: rgba(13,21,16,.66); border: 1px solid rgba(255,255,255,.16); backdrop-filter: blur(10px); box-shadow: 0 18px 40px rgba(0,0,0,.28); }
 .fallbackBadge strong { font-size: 1rem; line-height: 1.15; }
 .fallbackBadge small { color: rgba(255,248,232,.72); font-weight: 700; }
+
+/* Guest: land, entrance, story */
+.path { width: 30%; height: 58%; left: 36%; bottom: -8%; background: linear-gradient(180deg, rgba(232,205,139,.18), rgba(232,205,139,.72)); clip-path: polygon(42% 0, 58% 0, 88% 100%, 12% 100%); }
+.welcomeGate { width: 38%; height: 24%; left: 31%; bottom: 38%; border-top: 10px solid rgba(255,248,232,.75); border-left: 8px solid rgba(255,248,232,.65); border-right: 8px solid rgba(255,248,232,.65); border-radius: 18px 18px 0 0; }
+.heritageTree { width: 21%; height: 36%; left: 8%; bottom: 29%; background: radial-gradient(circle at 50% 18%, #243d25 0 34%, transparent 35%), linear-gradient(90deg, transparent 45%, #4b3323 46% 56%, transparent 57%); }
+
+/* Customer: produce and nutrition */
+.produceTable { width: 55%; height: 14%; left: 22%; bottom: 30%; background: #6f4426; border-radius: 18px; box-shadow: 0 12px 0 rgba(58,35,18,.7); }
+.basket { width: 16%; height: 14%; bottom: 44%; border-radius: 0 0 28px 28px; background: radial-gradient(circle at 25% 25%, #d94f35 0 13%, transparent 14%), radial-gradient(circle at 58% 30%, #f0b84d 0 12%, transparent 13%), radial-gradient(circle at 76% 48%, #6fa14e 0 14%, transparent 15%), #8d5d2f; }
+.basket.one { left: 28%; } .basket.two { left: 51%; }
+.recipeCard { width: 18%; height: 24%; right: 14%; bottom: 42%; background: #fff8e8; border-radius: 10px; box-shadow: inset 0 0 0 8px rgba(127,162,91,.18); }
+
+/* Marketplace: tents, storefront, QR */
+.marketTent { width: 26%; height: 24%; bottom: 33%; background: linear-gradient(135deg, #fff8e8 0 25%, #c88445 25% 50%, #fff8e8 50% 75%, #c88445 75%); clip-path: polygon(50% 0, 100% 45%, 92% 100%, 8% 100%, 0 45%); }
+.marketTent.one { left: 13%; } .marketTent.two { left: 43%; filter: hue-rotate(35deg); }
+.storefront { width: 34%; height: 24%; right: 8%; bottom: 23%; background: linear-gradient(#d8b56d 0 28%, #21382a 29%); border-radius: 12px; box-shadow: inset 0 -26px 0 rgba(255,248,232,.22); }
+.qrPost { width: 9%; height: 19%; right: 18%; bottom: 50%; background: repeating-linear-gradient(45deg, #fff 0 5px, #102015 5px 10px); border: 8px solid #fff8e8; border-radius: 8px; }
+
+/* Grower: rows, irrigation, fence */
+.cropRows { width: 80%; height: 45%; left: 10%; bottom: 6%; background: repeating-linear-gradient(100deg, rgba(246,239,224,.22) 0 10px, transparent 10px 48px); transform: perspective(400px) rotateX(52deg); }
+.waterTank { width: 14%; height: 24%; right: 16%; bottom: 43%; background: linear-gradient(90deg, #d9e1d6, #8aa0a0); border-radius: 18px 18px 8px 8px; box-shadow: 0 20px 0 #5a3b21; }
+.fenceLine { width: 86%; height: 16%; left: 7%; bottom: 38%; background: repeating-linear-gradient(90deg, transparent 0 36px, rgba(255,248,232,.72) 36px 42px), linear-gradient(transparent 40%, rgba(255,248,232,.6) 41% 50%, transparent 51%); }
+.seedTray { width: 22%; height: 12%; left: 14%; bottom: 28%; background: radial-gradient(circle, #6fa14e 0 18%, transparent 20%) 0 0/28px 28px, #3b2b1d; border-radius: 8px; }
+
+/* Producer: kitchen/product conversion */
+.kitchenTable { width: 62%; height: 14%; left: 18%; bottom: 28%; background: #70462a; border-radius: 18px; }
+.jars { width: 28%; height: 24%; left: 26%; bottom: 42%; background: radial-gradient(circle at 22% 70%, #c84f35 0 13%, transparent 14%), radial-gradient(circle at 50% 65%, #d8b56d 0 13%, transparent 14%), radial-gradient(circle at 78% 70%, #7fa25b 0 13%, transparent 14%); border-bottom: 24px solid rgba(255,248,232,.7); }
+.labelStack { width: 18%; height: 20%; right: 22%; bottom: 43%; background: repeating-linear-gradient(180deg, #fff8e8 0 18px, #d8b56d 18px 22px); border-radius: 8px; }
+.demoBoard { width: 22%; height: 25%; right: 7%; bottom: 49%; background: #243721; border: 8px solid #d8b56d; border-radius: 10px; }
+
+/* Youth: check-in, tasks, RC/skills */
+.checkinBoard { width: 24%; height: 32%; left: 12%; bottom: 39%; background: #fff8e8; border-radius: 12px; box-shadow: inset 0 0 0 10px rgba(77,141,138,.24); }
+.taskCards { width: 27%; height: 20%; left: 39%; bottom: 42%; background: repeating-linear-gradient(90deg, #fff8e8 0 34px, #d8b56d 34px 40px); border-radius: 12px; }
+.rcTrack { width: 48%; height: 20%; left: 27%; bottom: 14%; border: 12px solid rgba(255,248,232,.55); border-radius: 50%; }
+.mentorPost { width: 14%; height: 34%; right: 14%; bottom: 36%; background: linear-gradient(#4d8d8a 0 20%, #fff8e8 21% 100%); border-radius: 18px; }
+
+/* Partner: bridge/resources/alignment */
+.bridge { width: 74%; height: 22%; left: 13%; bottom: 30%; border-top: 14px solid rgba(255,248,232,.72); border-radius: 50% 50% 0 0; }
+.partnerCircles { width: 54%; height: 34%; left: 23%; bottom: 38%; background: radial-gradient(circle at 12% 54%, #d8b56d 0 8%, transparent 9%), radial-gradient(circle at 34% 24%, #7fa25b 0 8%, transparent 9%), radial-gradient(circle at 58% 48%, #c88445 0 8%, transparent 9%), radial-gradient(circle at 82% 28%, #4d8d8a 0 8%, transparent 9%); }
+.resourceMap { width: 23%; height: 24%; left: 18%; bottom: 51%; background: #fff8e8; border-radius: 10px; opacity: .88; }
+.meetingTable { width: 42%; height: 12%; right: 16%; bottom: 25%; background: #6f4426; border-radius: 50%; }
+
+.scene-customer { background: linear-gradient(180deg, #284530, #65783e 58%, #8c693b); }
+.scene-marketplace { background: linear-gradient(180deg, #263a30, #5c6b3c 50%, #6b4a2f); }
+.scene-grower { background: linear-gradient(180deg, #20382b, #4f6d35 48%, #365428); }
+.scene-producer { background: linear-gradient(180deg, #2d3828, #5b5130 54%, #7b5532); }
+.scene-youth { background: linear-gradient(180deg, #203c3b, #4d6a52 55%, #46572d); }
+.scene-partner { background: linear-gradient(180deg, #26362f, #545d3c 55%, #4f3d2d); }
 
 @media (max-width: 1060px) {
   .topbar { align-items: flex-start; flex-direction: column; }
