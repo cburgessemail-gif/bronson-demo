@@ -37,7 +37,6 @@ const card: React.CSSProperties = {
   borderRadius: "18px",
   padding: "28px",
   border: "1px solid rgba(255,255,255,.35)",
-  backdropFilter: "blur(4px)",
 };
 
 const btn: React.CSSProperties = {
@@ -48,6 +47,16 @@ const btn: React.CSSProperties = {
   cursor: "pointer",
   color: "#fff",
 };
+
+function bg(image: string): React.CSSProperties {
+  return {
+    ...shell,
+    backgroundImage: `url(${image})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  };
+}
 
 function Screen({
   title,
@@ -61,29 +70,10 @@ function Screen({
   next?: () => void;
 }) {
   return (
-    <div
-      style={{
-        ...shell,
-        backgroundImage: `url("${image}")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
+    <div style={bg(image)}>
       <div style={card}>
-        <h1 style={{ fontSize: "42px", marginBottom: "10px" }}>{title}</h1>
-
-        <p
-          style={{
-            fontSize: "21px",
-            lineHeight: 1.6,
-            color: "#111827",
-            marginBottom: "22px",
-          }}
-        >
-          {body}
-        </p>
-
+        <h1 style={{ fontSize: 42 }}>{title}</h1>
+        <p style={{ fontSize: 21, lineHeight: 1.6 }}>{body}</p>
         {next && (
           <button
             onClick={next}
@@ -106,7 +96,7 @@ export default function App() {
         return (
           <Screen
             title="Guest Experience"
-            body="Experience the land, purpose, and vision of Bronson Family Farm."
+            body="Experience the land, purpose, and vision."
             image={IMAGES.guest}
             next={() => setPage("customer")}
           />
@@ -116,7 +106,7 @@ export default function App() {
         return (
           <Screen
             title="Customer Pathway"
-            body="Fresh produce, healthier choices, nutrition, and repeat visits."
+            body="Fresh produce, healthier choices, and nutrition."
             image={IMAGES.customer}
             next={() => setPage("marketplace")}
           />
@@ -126,7 +116,7 @@ export default function App() {
         return (
           <Screen
             title="Marketplace"
-            body="Support growers. Shop local. Strengthen sustainability."
+            body="Support growers. Shop local."
             image={IMAGES.marketplace}
             next={() => setPage("grower")}
           />
@@ -136,7 +126,7 @@ export default function App() {
         return (
           <Screen
             title="Grower Pathway"
-            body="Connect producers to land, customers, and opportunity."
+            body="Connect producers to opportunity."
             image={IMAGES.grower}
             next={() => setPage("youth")}
           />
@@ -146,7 +136,7 @@ export default function App() {
         return (
           <Screen
             title="Youth Workforce"
-            body="Build skills, discipline, teamwork, and future readiness."
+            body="Build skills and future readiness."
             image={IMAGES.youth}
             next={() => setPage("partners")}
           />
@@ -156,7 +146,7 @@ export default function App() {
         return (
           <Screen
             title="Partners"
-            body="Organizations align resources for community benefit."
+            body="Organizations align resources."
             image={IMAGES.partners}
             next={() => setPage("value")}
           />
@@ -166,7 +156,7 @@ export default function App() {
         return (
           <Screen
             title="Value-Added Producers"
-            body="Food makers, crafters, processors, and entrepreneurs create value."
+            body="Entrepreneurs create value."
             image={IMAGES.value}
             next={() => setPage("home")}
           />
@@ -174,31 +164,15 @@ export default function App() {
 
       default:
         return (
-          <div
-            style={{
-              ...shell,
-              backgroundImage: `url("${IMAGES.home}")`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
+          <div style={bg(IMAGES.home)}>
             <div style={card}>
-              <h1 style={{ fontSize: "56px", marginBottom: "8px" }}>
-                Bronson Family Farm
-              </h1>
+              <h1 style={{ fontSize: 56 }}>Bronson Family Farm</h1>
 
-              <h2
-                style={{
-                  marginTop: 0,
-                  fontSize: "28px",
-                  color: "#92400e",
-                }}
-              >
+              <h2 style={{ color: "#92400e" }}>
                 Growers Supply Market
               </h2>
 
-              <p style={{ fontSize: "22px", lineHeight: 1.6 }}>
+              <p style={{ fontSize: 22, lineHeight: 1.6 }}>
                 May 16, 2026 • 9:00 AM – 2:00 PM
                 <br />
                 Youngstown, Ohio
@@ -212,7 +186,6 @@ export default function App() {
                   gridTemplateColumns:
                     "repeat(auto-fit,minmax(220px,1fr))",
                   gap: "14px",
-                  marginTop: "24px",
                 }}
               >
                 <button
@@ -260,7 +233,7 @@ export default function App() {
                 </button>
               </div>
 
-              <p style={{ marginTop: "24px" }}>
+              <p style={{ marginTop: 24 }}>
                 Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
               </p>
             </div>
