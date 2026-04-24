@@ -177,7 +177,7 @@ function ImageBlock({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-950 via-stone-700 to-amber-800 shadow-xl ${className}`}
+      className={`relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-950 via-stone-800 to-amber-900 shadow-xl ${className}`}
     >
       {!failed && (
         <img
@@ -187,7 +187,7 @@ function ImageBlock({
           onError={() => setFailed(true)}
         />
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
         <p className="text-xs uppercase tracking-[0.25em] text-emerald-100">
           Bronson Family Farm
@@ -213,7 +213,7 @@ export default function App() {
 
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-stone-900">
-      <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-stone-950 via-emerald-950 to-stone-700">
+      <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-black via-emerald-950 to-stone-900">
         <img
           src={images.hero}
           alt="Bronson Family Farm aerial view"
@@ -222,7 +222,7 @@ export default function App() {
             e.currentTarget.style.display = "none";
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/45 to-emerald-950/60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/55 to-emerald-950/75" />
 
         <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-8">
           <header className="flex flex-wrap items-center justify-between gap-4">
@@ -256,8 +256,9 @@ export default function App() {
             </h2>
 
             <p className="mt-6 max-w-3xl text-lg leading-8 text-stone-100 md:text-xl">
-              This demo shows how people enter the Bronson Family Farm ecosystem, understand
-              the mission, find resources, and return through meaningful role-based pathways.
+              This demo shows how people enter the Bronson Family Farm ecosystem,
+              understand the mission, find resources, and return through meaningful
+              role-based pathways.
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
