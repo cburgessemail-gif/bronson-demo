@@ -1,84 +1,35 @@
-import { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type Lang = "EN" | "ES" | "TL" | "FR";
-type SectionId =
-  | "pathways"
-  | "journey"
-  | "happening-now"
-  | "history"
-  | "partners"
-  | "connect";
-
 type PathKey =
   | "guest"
   | "customer"
   | "marketplace"
   | "grower"
+  | "value"
   | "youth"
-  | "partners";
+  | "partner";
 
-type Card = {
+type Path = {
   key: PathKey;
   title: string;
   subtitle: string;
-  desc: string;
-  img: string;
-  btn: string;
-  target: SectionId | "marketplace";
-  why: string;
+  image: string;
+  story: string;
   community: string;
   personal: string;
-  next: string[];
+  resources: string[];
 };
-
-type ProofCard = {
-  title: string;
-  subtitle: string;
-  desc: string;
-  img: string;
-  btn: string;
-  target: SectionId | "marketplace";
-};
-
-function ImageWithFallback({
-  src,
-  alt,
-  className,
-}: {
-  src: string;
-  alt: string;
-  className: string;
-}) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <div
-        className={`${className} flex items-center justify-center bg-gradient-to-br from-green-950 to-green-700 text-center text-sm font-bold uppercase tracking-[3px] text-white`}
-      >
-        Bronson Family Farm
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      onError={() => setFailed(true)}
-      className={className}
-    />
-  );
-}
 
 export default function App() {
   const [lang, setLang] = useState<Lang>("EN");
-  const [activePath, setActivePath] = useState<PathKey>("guest");
+  const [active, setActive] = useState<PathKey>("guest");
 
-  const goTo = (id: SectionId) => {
-    document
-      .getElementById(id)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const goTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   const openMarketplace = () => {
@@ -94,213 +45,197 @@ export default function App() {
     customer: "/SAM_0225.JPG",
     marketplace: "/SAM_0249.JPG",
     grower: "/SAM_0238.JPG",
+    value: "/SAM_0226.JPG",
     youth: "/SAM_0222.JPG",
-    partners: "/SAM_0223.JPG",
-    production: "/SAM_0226.JPG",
-    buyLocal: "/SAM_0229.JPG",
-    events: "/SAM_0255.JPG",
-    community: "/SAM_0257.JPG",
+    partner: "/SAM_0223.JPG",
+    proof1: "/SAM_0229.JPG",
+    proof2: "/SAM_0255.JPG",
+    proof3: "/SAM_0257.JPG",
     footer: "/SAM_0249.JPG",
   };
 
-  const text = {
+  const copy = {
     EN: {
       heroTitle:
-        "From Youngstown’s first airport to a new future of food, learning, and community renewal.",
+        "A Living Teaching Environment Where Food, Work, and Community Grow Together.",
       heroText:
-        "Bronson Family Farm is a regenerative farm, agritourism destination, youth workforce pathway, marketplace, and living ecosystem for the Mahoning Valley.",
-      enter: "Enter the Ecosystem",
-      shop: "Shop the Marketplace",
+        "Bronson Family Farm transforms historic land into a regional ecosystem for food sustainability, workforce development, marketplace opportunity, and community renewal.",
+      enter: "Enter the Experience",
+      shop: "Enter Marketplace",
     },
     ES: {
       heroTitle:
-        "Del primer aeropuerto de Youngstown a un nuevo futuro de alimentos, aprendizaje y renovación comunitaria.",
+        "Un entorno vivo de enseñanza donde la comida, el trabajo y la comunidad crecen juntos.",
       heroText:
-        "Bronson Family Farm es una granja regenerativa, destino de agroturismo, programa juvenil, mercado y ecosistema vivo para el Valle de Mahoning.",
-      enter: "Entrar al Ecosistema",
-      shop: "Comprar en el Mercado",
+        "Bronson Family Farm transforma tierra histórica en un ecosistema regional para alimentos, trabajo y renovación comunitaria.",
+      enter: "Entrar",
+      shop: "Mercado",
     },
     TL: {
       heroTitle:
-        "Mula sa unang paliparan ng Youngstown tungo sa bagong kinabukasan ng pagkain, pagkatuto, at komunidad.",
+        "Isang buhay na kapaligiran ng pagkatuto kung saan sabay lumalago ang pagkain, trabaho, at komunidad.",
       heroText:
-        "Ang Bronson Family Farm ay isang regenerative farm, agritourism destination, youth workforce pathway, marketplace, at buhay na ecosystem para sa Mahoning Valley.",
-      enter: "Pumasok sa Ecosystem",
-      shop: "Mamili sa Marketplace",
+        "Binabago ng Bronson Family Farm ang makasaysayang lupa bilang ecosystem para sa pagkain at oportunidad.",
+      enter: "Pumasok",
+      shop: "Marketplace",
     },
     FR: {
       heroTitle:
-        "Du premier aéroport de Youngstown vers un nouvel avenir d’alimentation, d’apprentissage et de renouveau communautaire.",
+        "Un environnement vivant d’apprentissage où alimentation, travail et communauté grandissent ensemble.",
       heroText:
-        "Bronson Family Farm est une ferme régénératrice, une destination d’agritourisme, un parcours jeunesse, un marché et un écosystème vivant pour la vallée de Mahoning.",
-      enter: "Entrer dans l’écosystème",
-      shop: "Acheter au marché",
+        "Bronson Family Farm transforme un terrain historique en écosystème régional.",
+      enter: "Entrer",
+      shop: "Marché",
     },
   }[lang];
 
-  const pathways: Card[] = [
+  const paths: Path[] = [
     {
       key: "guest",
-      title: "Guest",
-      subtitle: "Discover the Story",
-      desc: "Explore the land, history, purpose, and future of Bronson Family Farm.",
-      img: images.guest,
-      btn: "Enter as Guest",
-      target: "journey",
-      why:
-        "The ecosystem is important because it turns historic land into a place where people can see food, education, enterprise, and community renewal working together.",
+      title: "Guest Experience",
+      subtitle: "Start Here",
+      image: images.guest,
+      story:
+        "Everyone begins here. Discover the story of historic land becoming a place of food, opportunity, and renewal.",
       community:
-        "For the community, this creates a visible gathering place where families, growers, youth, and partners can reconnect with land and opportunity.",
+        "Creates a shared understanding of why this ecosystem matters.",
       personal:
-        "For you as a guest, it gives you a clear way to understand the mission, experience the farm, and decide how you want to participate.",
-      next: [
-        "Learn the story of the land",
-        "Visit the growing areas",
-        "Explore events and tours",
-        "Choose your next role in the ecosystem",
+        "You understand the vision and where you belong in it.",
+      resources: [
+        "Land Story",
+        "Tours",
+        "Events",
+        "Volunteer Opportunities",
+        "Photo Gallery",
+        "Choose Role",
       ],
     },
     {
       key: "customer",
-      title: "Customer",
-      subtitle: "Eat Fresh. Live Better.",
-      desc: "Access seasonal produce, Bubble Babies™, healthy choices, and repeat buying opportunities.",
-      img: images.customer,
-      btn: "Shop Fresh",
-      target: "journey",
-      why:
-        "The ecosystem is important because food access improves when local growing, education, purchasing, and distribution are connected.",
+      title: "Customer Opportunity",
+      subtitle: "Fresh Food & Health",
+      image: images.customer,
+      story:
+        "Fresh local food improves quality of life and strengthens local agriculture.",
       community:
-        "For the community, customer participation keeps dollars local, supports growers, and helps families make healthier choices.",
+        "Supports growers, food access, and healthier families.",
       personal:
-        "For you as a customer, it means fresh food, trusted local products, nutrition learning, and a direct connection to the people growing your food.",
-      next: [
-        "View what is growing",
-        "Shop seasonal produce",
-        "Learn simple healthy food uses",
-        "Return for repeat purchases",
+        "You gain trusted fresh products and reasons to return.",
+      resources: [
+        "Fresh Produce",
+        "Bubble Babies™",
+        "Recipes",
+        "SNAP Access",
+        "Seasonal Updates",
+        "Pickup Options",
       ],
     },
     {
       key: "marketplace",
-      title: "Marketplace",
-      subtitle: "Support Local Commerce",
-      desc: "Buy from Bronson Family Farm and regional growers through a modern marketplace.",
-      img: images.marketplace,
-      btn: "Enter Marketplace",
-      target: "marketplace",
-      why:
-        "The ecosystem is important because community food systems need a way to move from interest into real purchasing power.",
+      title: "Marketplace Opportunity",
+      subtitle: "Regional Food Sustainability",
+      image: images.marketplace,
+      story:
+        "The marketplace turns support into action and helps keep food dollars local.",
       community:
-        "For the community, the marketplace creates economic activity, supports local growers, and helps sustain the farm ecosystem.",
+        "Strengthens growers, supply chains, and regional resilience.",
       personal:
-        "For you as a buyer, it gives you a simple way to support local food, purchase products, and participate in something larger than a transaction.",
-      next: [
-        "Preview available products",
-        "Shop the GrownBy storefront",
-        "Support local growers",
-        "Return for seasonal updates",
+        "You directly help build a stronger local food system.",
+      resources: [
+        "GrownBy Store",
+        "Local Products",
+        "Seasonal Offers",
+        "Grower Goods",
+        "Fresh This Week",
+        "Easy Checkout",
       ],
     },
     {
       key: "grower",
-      title: "Grower",
-      subtitle: "Grow With Us",
-      desc: "Connect producers to market access, collaboration, training, and opportunity.",
-      img: images.grower,
-      btn: "Become a Grower",
-      target: "journey",
-      why:
-        "The ecosystem is important because growers need more than land; they need market access, training, visibility, and shared infrastructure.",
+      title: "Grower Opportunity",
+      subtitle: "Produce & Prosper",
+      image: images.grower,
+      story:
+        "Growers need visibility, markets, and collaboration—not just land.",
       community:
-        "For the community, stronger growers mean more local food, more entrepreneurship, and a more resilient regional food network.",
+        "More growers means more local food and stronger neighborhoods.",
       personal:
-        "For you as a grower, it creates a pathway to sell, learn, collaborate, and become part of a larger marketplace and support system.",
-      next: [
-        "Register interest",
-        "Share what you grow",
-        "Access training and supply opportunities",
-        "Prepare for marketplace participation",
+        "You gain opportunity, buyers, and ecosystem support.",
+      resources: [
+        "Market Access",
+        "Training",
+        "Crop Planning",
+        "Events",
+        "Distribution",
+        "Visibility",
+      ],
+    },
+    {
+      key: "value",
+      title: "Value-Added Producer",
+      subtitle: "Create More Value",
+      image: images.value,
+      story:
+        "Raw ingredients can become higher-value products that grow local enterprise.",
+      community:
+        "Creates jobs, brands, and reduces waste.",
+      personal:
+        "You turn creativity into products and income.",
+      resources: [
+        "Product Ideas",
+        "Brand Visibility",
+        "Marketplace Access",
+        "Packaging Concepts",
+        "Seasonal Ingredients",
+        "Growth Potential",
       ],
     },
     {
       key: "youth",
-      title: "Youth Workforce",
-      subtitle: "Build Skills for the Future",
-      desc: "Hands-on learning in agriculture, logistics, leadership, technology, and entrepreneurship.",
-      img: images.youth,
-      btn: "Join Program",
-      target: "journey",
-      why:
-        "The ecosystem is important because young people need real places to build responsibility, confidence, work habits, and future-ready skills.",
+      title: "Youth Workforce Development",
+      subtitle: "People Grow Here Too",
+      image: images.youth,
+      story:
+        "The farm is a teaching environment where young people build readiness through real experience.",
       community:
-        "For the community, youth workforce development strengthens families, builds local talent, and prepares the next generation for leadership.",
+        "Builds stronger future workers and healthier transitions to adulthood.",
       personal:
-        "For you as a youth participant or parent, it means practical learning, mentorship, skill-building, and a visible pathway from effort to opportunity.",
-      next: [
-        "Explore youth roles",
-        "Learn safety and responsibility",
-        "Build work and leadership skills",
-        "Track growth and progress",
+        "Participants gain confidence, habits, responsibility, and skills.",
+      resources: [
+        "Outdoor Learning",
+        "Preparation Skills",
+        "Teamwork",
+        "Safety Habits",
+        "Leadership Tasks",
+        "Mentorship",
       ],
     },
     {
-      key: "partners",
-      title: "Partners",
-      subtitle: "Create Community Impact",
-      desc: "Align sponsorship, education, food access, health, workforce, and mission-driven collaboration.",
-      img: images.partners,
-      btn: "Partner With Us",
-      target: "partners",
-      why:
-        "The ecosystem is important because no single farm, organization, or funder can solve food access, workforce, health, and community renewal alone.",
+      key: "partner",
+      title: "Partner Opportunity",
+      subtitle: "Shared Impact",
+      image: images.partner,
+      story:
+        "No single organization solves community challenges alone.",
       community:
-        "For the community, partnerships align resources so ideas become action, services become visible, and impact becomes shared.",
+        "Partnership turns resources into measurable impact.",
       personal:
-        "For you as a partner, it gives your organization a meaningful way to contribute expertise, resources, visibility, and measurable community benefit.",
-      next: [
-        "Choose your contribution area",
-        "Support events or education",
-        "Sponsor equipment or programming",
-        "Build long-term collaboration",
+        "Your organization gains a meaningful place to contribute.",
+      resources: [
+        "Sponsorship",
+        "Programs",
+        "Visibility",
+        "Collaboration",
+        "Impact Metrics",
+        "Community Reach",
       ],
     },
   ];
 
-  const proof: ProofCard[] = [
-    {
-      title: "In Production",
-      subtitle: "What’s Growing",
-      desc: "Seedlings, produce, regenerative growing systems, and seasonal expansion.",
-      img: images.production,
-      btn: "View What’s Growing",
-      target: "happening-now",
-    },
-    {
-      title: "Buy Local",
-      subtitle: "Marketplace",
-      desc: "Shop fresh food and support local growers through the marketplace.",
-      img: images.buyLocal,
-      btn: "Enter Marketplace",
-      target: "marketplace",
-    },
-    {
-      title: "Upcoming Events",
-      subtitle: "Gather on the Land",
-      desc: "Tours, workshops, Growers Supply Market, and family experiences on the land.",
-      img: images.events,
-      btn: "View Events",
-      target: "connect",
-    },
-    {
-      title: "Growing Together",
-      subtitle: "Partners",
-      desc: "Education, sponsors, civic collaboration, workforce pathways, and partnerships.",
-      img: images.community,
-      btn: "See Partners",
-      target: "partners",
-    },
-  ];
+  const activePath = useMemo(
+    () => paths.find((p) => p.key === active)!,
+    [active]
+  );
 
   const partners = [
     "Farm & Family Alliance, Inc.",
@@ -315,30 +250,41 @@ export default function App() {
     "Youngstown Area Jewish Foundation",
   ];
 
-  const active = pathways.find((p) => p.key === activePath) || pathways[0];
-
-  const handlePathway = (item: Card) => {
-    setActivePath(item.key);
-    if (item.target === "marketplace") {
-      goTo("journey");
-    } else {
-      goTo(item.target);
-    }
-  };
-
-  const handleDestination = (target: SectionId | "marketplace") => {
-    if (target === "marketplace") openMarketplace();
-    else goTo(target);
-  };
+  const endButtons = [
+    {
+      label: "Enter Marketplace",
+      action: () => openMarketplace(),
+    },
+    {
+      label: "Share With Others",
+      action: () => {
+        if (navigator.share) {
+          navigator.share({
+            title: "Bronson Family Farm",
+            text: "Explore Bronson Family Farm",
+            url: window.location.href,
+          });
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          alert("Link copied to clipboard");
+        }
+      },
+    },
+    {
+      label: "Return Home",
+      action: () => goTo("hero"),
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#f7f4ec] text-[#1f2d1f] font-sans">
-      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-200 bg-white/95 px-6 py-4 shadow-sm backdrop-blur">
+    <div className="min-h-screen bg-[#f7f4ec] text-[#17301c] font-sans">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200 px-6 py-4 flex justify-between items-center">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[4px] text-green-800">
+          <p className="text-xs font-bold tracking-[4px] uppercase text-green-800">
             Developed by Bronson Family Farm
           </p>
-          <h1 className="text-2xl font-semibold tracking-wide md:text-3xl">
+          <h1 className="text-2xl md:text-3xl font-semibold">
             Bronson Family Farm
           </h1>
         </div>
@@ -348,10 +294,10 @@ export default function App() {
             <button
               key={l}
               onClick={() => setLang(l)}
-              className={`rounded-full border px-3 py-1 text-sm transition ${
+              className={`px-3 py-1 rounded-full border text-sm ${
                 lang === l
-                  ? "border-green-800 bg-green-800 text-white"
-                  : "border-gray-300 bg-white text-green-800 hover:border-green-700"
+                  ? "bg-green-800 text-white border-green-800"
+                  : "bg-white text-green-800 border-gray-300"
               }`}
             >
               {l}
@@ -360,226 +306,234 @@ export default function App() {
         </div>
       </header>
 
+      {/* Hero */}
       <section
-        className="relative flex min-h-[88vh] items-center bg-cover bg-center"
+        id="hero"
+        className="relative min-h-[88vh] flex items-center bg-cover bg-center"
         style={{ backgroundImage: `url('${images.hero}')` }}
       >
-        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-black/50" />
 
-        <div className="relative z-10 max-w-5xl px-8 text-white md:px-16">
-          <p className="mb-4 text-sm uppercase tracking-[4px] md:text-base">
+        <div className="relative z-10 px-8 md:px-16 max-w-5xl text-white">
+          <p className="uppercase tracking-[4px] text-sm mb-4">
             Historic Lansdowne Airport Site | Youngstown, Ohio
           </p>
 
-          <h2 className="mb-6 text-4xl font-semibold leading-tight md:text-6xl">
-            {text.heroTitle}
+          <h2 className="text-4xl md:text-6xl font-semibold leading-tight mb-6">
+            {copy.heroTitle}
           </h2>
 
-          <p className="mb-8 max-w-3xl text-lg leading-relaxed text-white/90 md:text-2xl">
-            {text.heroText}
+          <p className="text-lg md:text-2xl text-white/90 leading-relaxed mb-8">
+            {copy.heroText}
           </p>
 
           <div className="flex flex-wrap gap-4">
             <button
-              onClick={() => goTo("pathways")}
-              className="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-800"
+              onClick={() => goTo("paths")}
+              className="px-6 py-3 rounded-xl bg-green-700 hover:bg-green-800 font-semibold"
             >
-              {text.enter}
+              {copy.enter}
             </button>
 
             <button
               onClick={openMarketplace}
-              className="rounded-xl border border-white px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-[#1f2d1f]"
+              className="px-6 py-3 rounded-xl border border-white hover:bg-white hover:text-[#17301c] font-semibold"
             >
-              {text.shop}
+              {copy.shop}
             </button>
           </div>
         </div>
       </section>
 
-      <section id="pathways" className="mx-auto max-w-7xl px-6 py-20 md:px-12">
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
-            Pathways
+      {/* Shared Story */}
+      <section className="px-6 py-20 bg-white">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
+            Shared Purpose
           </p>
-          <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
-            Choose Your Pathway Into the Ecosystem
+          <h3 className="text-3xl md:text-5xl font-semibold mb-6">
+            Crops Grow Here. People Grow Here Too.
           </h3>
-          <p className="mx-auto max-w-3xl text-lg text-gray-700">
-            Each pathway shows why the ecosystem matters, what it means to the
-            community, what it means to you, and how to take the next step.
+          <p className="text-lg leading-8 text-gray-700">
+            This ecosystem connects land, food, work experience, local commerce,
+            education, and community resilience into one living model for the
+            Mahoning Valley.
           </p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-          {pathways.map((item) => (
-            <div
-              key={item.key}
-              className="overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl"
-            >
-              <ImageWithFallback
-                src={item.img}
-                alt={item.title}
-                className="h-56 w-full object-cover"
-              />
-
-              <div className="p-6">
-                <p className="mb-2 text-sm font-bold uppercase tracking-wide text-green-700">
-                  {item.title}
-                </p>
-
-                <h4 className="mb-3 text-2xl font-semibold">
-                  {item.subtitle}
-                </h4>
-
-                <p className="mb-6 leading-7 text-gray-700">{item.desc}</p>
-
-                <button
-                  onClick={() => handlePathway(item)}
-                  className="w-full rounded-xl bg-green-700 py-3 font-semibold text-white transition hover:bg-green-800"
-                >
-                  {item.btn}
-                </button>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
-      <section id="journey" className="bg-white px-6 py-20 md:px-12">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="overflow-hidden rounded-3xl bg-[#e7efe4] shadow-lg">
-            <ImageWithFallback
-              src={active.img}
-              alt={active.title}
-              className="h-80 w-full object-cover"
+      {/* Opportunities */}
+      <section id="paths" className="px-6 py-20 bg-[#e7efe4]">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center mb-14">
+            <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
+              Opportunities
+            </p>
+            <h3 className="text-3xl md:text-4xl font-semibold">
+              Choose Your Opportunity in the Ecosystem
+            </h3>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {paths.map((p) => (
+              <button
+                key={p.key}
+                onClick={() => {
+                  setActive(p.key);
+                  goTo("journey");
+                }}
+                className="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden text-left"
+              >
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="h-56 w-full object-cover"
+                />
+                <div className="p-6">
+                  <p className="text-sm uppercase font-bold text-green-700 mb-2">
+                    {p.subtitle}
+                  </p>
+                  <h4 className="text-2xl font-semibold mb-3">{p.title}</h4>
+                  <p className="text-gray-700 leading-7">{p.story}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Journey */}
+      <section id="journey" className="px-6 py-20 bg-white">
+        <div className="mx-auto max-w-7xl grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="overflow-hidden rounded-3xl shadow-lg">
+            <img
+              src={activePath.image}
+              alt={activePath.title}
+              className="h-full min-h-[420px] w-full object-cover"
             />
-            <div className="p-8">
-              <p className="mb-2 text-sm font-bold uppercase tracking-[4px] text-green-800">
-                Selected Pathway
-              </p>
-              <h3 className="mb-3 text-3xl font-semibold md:text-4xl">
-                {active.title}: {active.subtitle}
-              </h3>
-              <p className="text-lg leading-8 text-gray-700">{active.desc}</p>
-            </div>
           </div>
 
           <div>
-            <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
-              Why This Matters
+            <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
+              Your Journey
             </p>
 
-            <h3 className="mb-6 text-3xl font-semibold md:text-4xl">
-              Why the ecosystem is important — and why you should be part of it.
+            <h3 className="text-3xl md:text-5xl font-semibold mb-6">
+              {activePath.title}
             </h3>
 
             <div className="space-y-5">
-              <div className="rounded-2xl border border-green-900/10 bg-[#f7f4ec] p-6">
-                <h4 className="mb-2 text-xl font-semibold">
-                  What the Ecosystem Is
+              <div className="p-6 rounded-2xl bg-[#f7f4ec]">
+                <h4 className="text-xl font-semibold mb-2">
+                  Why This Matters
                 </h4>
-                <p className="leading-8 text-gray-700">{active.why}</p>
+                <p className="leading-8 text-gray-700">
+                  {activePath.story}
+                </p>
               </div>
 
-              <div className="rounded-2xl border border-green-900/10 bg-[#f7f4ec] p-6">
-                <h4 className="mb-2 text-xl font-semibold">
-                  What It Means to the Community
+              <div className="p-6 rounded-2xl bg-[#f7f4ec]">
+                <h4 className="text-xl font-semibold mb-2">
+                  Community Value
                 </h4>
-                <p className="leading-8 text-gray-700">{active.community}</p>
+                <p className="leading-8 text-gray-700">
+                  {activePath.community}
+                </p>
               </div>
 
-              <div className="rounded-2xl border border-green-900/10 bg-[#f7f4ec] p-6">
-                <h4 className="mb-2 text-xl font-semibold">
+              <div className="p-6 rounded-2xl bg-[#f7f4ec]">
+                <h4 className="text-xl font-semibold mb-2">
                   What It Means to You
                 </h4>
-                <p className="leading-8 text-gray-700">{active.personal}</p>
+                <p className="leading-8 text-gray-700">
+                  {activePath.personal}
+                </p>
               </div>
 
-              <div className="rounded-2xl border border-green-900/10 bg-[#f7f4ec] p-6">
-                <h4 className="mb-4 text-xl font-semibold">
-                  Your Next Steps
+              <div className="p-6 rounded-2xl bg-[#f7f4ec]">
+                <h4 className="text-xl font-semibold mb-4">
+                  Tools & Resources Available
                 </h4>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {active.next.map((step) => (
+
+                <div className="grid md:grid-cols-2 gap-3">
+                  {activePath.resources.map((r) => (
                     <div
-                      key={step}
-                      className="rounded-xl bg-white px-4 py-3 font-semibold text-green-900 shadow-sm"
+                      key={r}
+                      className="bg-white rounded-xl px-4 py-3 font-semibold shadow-sm"
                     >
-                      {step}
+                      {r}
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-4">
-                <button
-                  onClick={() =>
-                    active.key === "marketplace"
-                      ? openMarketplace()
-                      : goTo("connect")
-                  }
-                  className="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-800"
-                >
-                  {active.key === "marketplace"
-                    ? "Enter the Marketplace"
-                    : "Take the Next Step"}
-                </button>
+              {/* Final destination */}
+              <div className="p-6 rounded-2xl bg-green-900 text-white">
+                <h4 className="text-xl font-semibold mb-4">
+                  Your Next Decision
+                </h4>
 
-                <button
-                  onClick={() => goTo("pathways")}
-                  className="rounded-xl border border-green-800 px-6 py-3 font-semibold text-green-900 transition hover:bg-green-800 hover:text-white"
-                >
-                  Explore Another Pathway
-                </button>
+                <div className="grid md:grid-cols-3 gap-3">
+                  {endButtons.map((b) => (
+                    <button
+                      key={b.label}
+                      onClick={b.action}
+                      className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
+                    >
+                      {b.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="happening-now" className="bg-[#e7efe4] px-6 py-20 md:px-12">
+      {/* Proof */}
+      <section className="px-6 py-20 bg-[#e7efe4]">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-14 text-center">
-            <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
-              Happening Now
+          <div className="text-center mb-14">
+            <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
+              Reasons to Return
             </p>
-            <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
-              Real Activity. Real Opportunity.
+            <h3 className="text-3xl md:text-4xl font-semibold">
+              This Ecosystem Is Active and Growing
             </h3>
-            <p className="mx-auto max-w-3xl text-lg text-gray-700">
-              The demo shows production, commerce, events, workforce
-              development, and community momentum.
-            </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {proof.map((item) => (
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              {
+                img: images.proof1,
+                title: "Fresh This Week",
+                text: "New produce, seedlings, and seasonal products.",
+              },
+              {
+                img: images.proof2,
+                title: "Upcoming Events",
+                text: "Markets, workshops, tours, and community gatherings.",
+              },
+              {
+                img: images.proof3,
+                title: "Growing Impact",
+                text: "More partners, more participation, more opportunity.",
+              },
+            ].map((x) => (
               <div
-                key={item.title}
-                className="overflow-hidden rounded-2xl bg-white shadow transition hover:shadow-lg"
+                key={x.title}
+                className="bg-white rounded-2xl shadow overflow-hidden"
               >
-                <ImageWithFallback
-                  src={item.img}
-                  alt={item.title}
-                  className="h-48 w-full object-cover"
+                <img
+                  src={x.img}
+                  alt={x.title}
+                  className="h-52 w-full object-cover"
                 />
-
-                <div className="p-5">
-                  <p className="mb-2 text-sm font-bold uppercase tracking-wide text-green-700">
-                    {item.subtitle}
-                  </p>
-
-                  <h4 className="mb-2 text-xl font-semibold">{item.title}</h4>
-
-                  <p className="mb-5 leading-7 text-gray-700">{item.desc}</p>
-
-                  <button
-                    onClick={() => handleDestination(item.target)}
-                    className="w-full rounded-xl border border-green-700 py-3 font-semibold text-green-800 transition hover:bg-green-700 hover:text-white"
-                  >
-                    {item.btn}
-                  </button>
+                <div className="p-6">
+                  <h4 className="text-2xl font-semibold mb-3">
+                    {x.title}
+                  </h4>
+                  <p className="text-gray-700 leading-7">{x.text}</p>
                 </div>
               </div>
             ))}
@@ -587,89 +541,60 @@ export default function App() {
         </div>
       </section>
 
-      <section id="history" className="mx-auto max-w-5xl px-6 py-20 text-center md:px-12">
-        <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
-          Legacy
-        </p>
-        <h3 className="mb-6 text-3xl font-semibold md:text-4xl">
-          A Historic Place With a Living Future
-        </h3>
-        <p className="text-lg leading-8 text-gray-700">
-          Lansdowne Airport was dedicated in 1926 as Youngstown’s first airport.
-          Today, Bronson Family Farm reconnects land, food, families, growers,
-          education, workforce pathways, and opportunity on the same historic
-          ground.
-        </p>
-      </section>
-
-      <section id="partners" className="bg-white px-6 py-16 md:px-12">
+      {/* Partners */}
+      <section className="px-6 py-16 bg-white">
         <div className="mx-auto max-w-7xl text-center">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
-            Ecosystem Partners and Participants
+          <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
+            Partners & Participants
           </p>
-          <h3 className="text-3xl font-semibold md:text-4xl">
-            Collaboration Becomes Action
-          </h3>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {partners.map((partner) => (
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
+            {partners.map((p) => (
               <span
-                key={partner}
-                className="rounded-full border border-green-900/15 bg-[#f7f4ec] px-5 py-3 text-sm font-semibold text-[#1f2d1f]"
+                key={p}
+                className="rounded-full bg-[#f7f4ec] border px-5 py-3 font-semibold"
               >
-                {partner}
+                {p}
               </span>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Footer */}
       <section
-        id="connect"
-        className="relative bg-cover bg-center px-6 py-20 text-white md:px-12"
+        className="relative px-6 py-20 bg-cover bg-center text-white"
         style={{ backgroundImage: `url('${images.footer}')` }}
       >
-        <div className="absolute inset-0 bg-[#18311d]/85" />
+        <div className="absolute inset-0 bg-[#17301c]/85" />
 
         <div className="relative z-10 mx-auto max-w-6xl text-center">
-          <h3 className="mb-4 text-3xl font-semibold md:text-4xl">
+          <h3 className="text-3xl md:text-5xl font-semibold mb-5">
             Be Part of What’s Growing
           </h3>
 
-          <p className="mx-auto mb-10 max-w-3xl text-lg text-white/85">
-            Fresh food. Opportunity. Community renewal. Legacy in motion.
+          <p className="max-w-3xl mx-auto text-lg text-white/85 mb-10">
+            Food sustainability. Opportunity. Education. Community renewal.
           </p>
 
-          <div className="mb-12 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            {[
-              "Visit the Farm",
-              "Shop Fresh",
-              "Grow With Us",
-              "Partner With Us",
-              "Apply Today",
-            ].map((btn) => (
+          <div className="grid gap-4 md:grid-cols-3">
+            {endButtons.map((b) => (
               <button
-                key={btn}
-                onClick={() => {
-                  if (btn === "Shop Fresh") openMarketplace();
-                  else if (btn === "Visit the Farm") goTo("history");
-                  else if (btn === "Grow With Us") {
-                    setActivePath("grower");
-                    goTo("journey");
-                  } else if (btn === "Partner With Us") goTo("partners");
-                  else goTo("connect");
-                }}
-                className="rounded-xl bg-white px-4 py-3 font-semibold text-[#18311d] transition hover:bg-gray-200"
+                key={b.label}
+                onClick={b.action}
+                className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
               >
-                {btn}
+                {b.label}
               </button>
             ))}
           </div>
 
-          <p className="text-white/75">
+          <p className="mt-10 text-white/75">
             Historic Lansdowne Airport Site • Youngstown, Ohio
           </p>
-          <p className="mt-2 text-white/75">www.bronsonfamilyfarm.com</p>
+          <p className="mt-2 text-white/75">
+            www.bronsonfamilyfarm.com
+          </p>
         </div>
       </section>
     </div>
