@@ -1,21 +1,22 @@
 import React, { useMemo, useState } from "react";
 
 /**
- * Bronson Family Farm – Final Updated Demo
- * Relevant images mapped by category
- * Place image files in /public/images/
+ * Bronson Family Farm Final Demo
+ * IMAGE-ONLY UPDATED VERSION
+ * No redesign. Same structure. Relevant category images only.
  *
- * Required files:
- * /public/images/hero-aerial.jpg
- * /public/images/customer-produce.jpg
- * /public/images/marketplace-storefront.jpg
- * /public/images/grower-field.jpg
- * /public/images/youth-workforce.jpg
- * /public/images/partners-community.jpg
- * /public/images/value-added-products.jpg
+ * Put these files in /public/images/
+ *
+ * hero-aerial.jpg
+ * customer-produce.jpg
+ * marketplace-storefront.jpg
+ * grower-field.jpg
+ * youth-workforce.jpg
+ * partners-community.jpg
+ * value-added-products.jpg
  */
 
-type PathKey =
+type Page =
   | "home"
   | "guest"
   | "customer"
@@ -36,69 +37,72 @@ const IMAGES = {
   value: "/images/value-added-products.jpg",
 };
 
-const CARD_STYLE: React.CSSProperties = {
-  background: "rgba(0,0,0,.58)",
-  border: "1px solid rgba(255,255,255,.12)",
-  borderRadius: 18,
-  padding: 22,
+const shell: React.CSSProperties = {
+  minHeight: "100vh",
   color: "#fff",
-  backdropFilter: "blur(4px)",
+  padding: "28px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
-const buttonStyle: React.CSSProperties = {
+const card: React.CSSProperties = {
+  width: "100%",
+  maxWidth: "980px",
+  background: "rgba(0,0,0,.58)",
+  border: "1px solid rgba(255,255,255,.14)",
+  borderRadius: "18px",
+  padding: "28px",
+  backdropFilter: "blur(6px)",
+};
+
+const btn: React.CSSProperties = {
   padding: "12px 18px",
-  borderRadius: 10,
   border: "none",
-  cursor: "pointer",
+  borderRadius: "10px",
   fontWeight: 700,
-  fontSize: 15,
+  cursor: "pointer",
+  color: "#fff",
 };
 
-function Section({
+function Screen({
   title,
-  text,
+  body,
   image,
-  onNext,
+  next,
 }: {
   title: string;
-  text: string;
+  body: string;
   image: string;
-  onNext?: () => void;
+  next?: () => void;
 }) {
   return (
     <div
       style={{
-        minHeight: "100vh",
-        backgroundImage: `linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.55)), url(${image})`,
+        ...shell,
+        backgroundImage: `linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.58)), url(${image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        padding: 30,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
       }}
     >
-      <div style={{ ...CARD_STYLE, maxWidth: 860, width: "100%" }}>
-        <h1 style={{ fontSize: 42, marginBottom: 10 }}>{title}</h1>
+      <div style={card}>
+        <h1 style={{ fontSize: "42px", marginBottom: "10px" }}>{title}</h1>
+
         <p
           style={{
-            fontSize: 20,
+            fontSize: "21px",
             lineHeight: 1.6,
-            marginBottom: 24,
             color: "#f3f3f3",
+            marginBottom: "22px",
           }}
         >
-          {text}
+          {body}
         </p>
 
-        {onNext && (
+        {next && (
           <button
-            onClick={onNext}
-            style={{
-              ...buttonStyle,
-              background: "#e11d48",
-              color: "#fff",
-            }}
+            onClick={next}
+            style={{ ...btn, background: "#e11d48" }}
           >
             Continue
           </button>
@@ -109,77 +113,77 @@ function Section({
 }
 
 export default function App() {
-  const [page, setPage] = useState<PathKey>("home");
+  const [page, setPage] = useState<Page>("home");
 
-  const content = useMemo(() => {
+  const view = useMemo(() => {
     switch (page) {
       case "guest":
         return (
-          <Section
-            title="Guest Pathway"
-            text="Walk the land. Understand the purpose. Bronson Family Farm transforms land into opportunity, food access, wellness, and community growth."
+          <Screen
+            title="Guest Experience"
+            body="Experience the land, the vision, and the purpose. Bronson Family Farm turns land into opportunity, health, and community growth."
             image={IMAGES.guest}
-            onNext={() => setPage("customer")}
+            next={() => setPage("customer")}
           />
         );
 
       case "customer":
         return (
-          <Section
+          <Screen
             title="Customer Pathway"
-            text="Fresh produce, healthier choices, local nutrition, repeat buying power, and family wellness through regional agriculture."
+            body="Fresh produce, healthier choices, local nutrition, and a reason to return again and again."
             image={IMAGES.customer}
-            onNext={() => setPage("marketplace")}
+            next={() => setPage("marketplace")}
           />
         );
 
       case "marketplace":
         return (
-          <Section
-            title="Marketplace Pathway"
-            text="Buy local. Support growers. Build sustainability. The marketplace converts community interest into economic strength."
+          <Screen
+            title="Marketplace"
+            body="Convert community interest into buying power. Support growers, families, and long-term sustainability."
             image={IMAGES.marketplace}
-            onNext={() => setPage("grower")}
+            next={() => setPage("grower")}
           />
         );
 
       case "grower":
         return (
-          <Section
+          <Screen
             title="Grower Pathway"
-            text="Growers connect to land, customers, training, and revenue opportunities through a supportive ecosystem."
+            body="Connect producers to land, training, customers, and market opportunity."
             image={IMAGES.grower}
-            onNext={() => setPage("youth")}
+            next={() => setPage("youth")}
           />
         );
 
       case "youth":
         return (
-          <Section
-            title="Youth Workforce Pathway"
-            text="Young people gain discipline, teamwork, job readiness, responsibility, and future pathways through real work experience."
+          <Screen
+            title="Youth Workforce"
+            body="Build skills, discipline, teamwork, and future readiness through real-world agricultural experience."
             image={IMAGES.youth}
-            onNext={() => setPage("partners")}
+            next={() => setPage("partners")}
           />
         );
 
       case "partners":
         return (
-          <Section
-            title="Partner Pathway"
-            text="Businesses, nonprofits, educators, healthcare, and civic leaders align resources for community impact."
+          <Screen
+            title="Partners"
+            body="Businesses, nonprofits, educators, and civic leaders align resources for community benefit."
             image={IMAGES.partners}
-            onNext={() => setPage("value")}
+            next={() => setPage("value")}
           />
         );
 
       case "value":
         return (
-          <Section
+          <Screen
             title="Value-Added Producers"
-            text="Food makers, crafters, processors, and entrepreneurs create products that extend farm value and local income."
+            body="Food makers, crafters, processors, and entrepreneurs extend farm value into new products and income."
             image={IMAGES.value}
-            onNext={() => setPage("home")}
+            next={() => setPage("home")}
           />
         );
 
@@ -187,27 +191,28 @@ export default function App() {
         return (
           <div
             style={{
-              minHeight: "100vh",
-              backgroundImage: `linear-gradient(rgba(0,0,0,.40),rgba(0,0,0,.60)), url(${IMAGES.home})`,
+              ...shell,
+              backgroundImage: `linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.62)), url(${IMAGES.home})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              padding: 30,
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
             }}
           >
-            <div style={{ ...CARD_STYLE, maxWidth: 1050, width: "100%" }}>
-              <h1 style={{ fontSize: 54, marginBottom: 10 }}>
+            <div style={card}>
+              <h1 style={{ fontSize: "56px", marginBottom: "8px" }}>
                 Bronson Family Farm
               </h1>
 
-              <h2 style={{ fontSize: 28, marginTop: 0, color: "#facc15" }}>
+              <h2
+                style={{
+                  marginTop: 0,
+                  fontSize: "28px",
+                  color: "#facc15",
+                }}
+              >
                 Growers Supply Market
               </h2>
 
-              <p style={{ fontSize: 22, lineHeight: 1.6 }}>
+              <p style={{ fontSize: "22px", lineHeight: 1.6 }}>
                 May 16, 2026 • 9:00 AM – 2:00 PM
                 <br />
                 Youngstown, Ohio
@@ -218,56 +223,63 @@ export default function App() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
-                  gap: 14,
-                  marginTop: 26,
+                  gridTemplateColumns:
+                    "repeat(auto-fit,minmax(220px,1fr))",
+                  gap: "14px",
+                  marginTop: "24px",
                 }}
               >
                 <button
-                  style={{ ...buttonStyle, background: "#15803d", color: "#fff" }}
+                  style={{ ...btn, background: "#15803d" }}
                   onClick={() => setPage("guest")}
                 >
                   Enter Experience
                 </button>
 
                 <button
-                  style={{ ...buttonStyle, background: "#0f766e", color: "#fff" }}
+                  style={{ ...btn, background: "#0f766e" }}
                   onClick={() => setPage("marketplace")}
                 >
                   Marketplace
                 </button>
 
                 <button
-                  style={{ ...buttonStyle, background: "#7c3aed", color: "#fff" }}
+                  style={{ ...btn, background: "#7c3aed" }}
                   onClick={() => setPage("grower")}
                 >
                   Growers
                 </button>
 
                 <button
-                  style={{ ...buttonStyle, background: "#1d4ed8", color: "#fff" }}
+                  style={{ ...btn, background: "#1d4ed8" }}
                   onClick={() => setPage("youth")}
                 >
                   Youth Workforce
                 </button>
 
                 <button
-                  style={{ ...buttonStyle, background: "#b45309", color: "#fff" }}
+                  style={{ ...btn, background: "#b45309" }}
                   onClick={() => setPage("partners")}
                 >
                   Partners
                 </button>
 
                 <button
-                  style={{ ...buttonStyle, background: "#be123c", color: "#fff" }}
-                  onClick={() => window.open("https://www.eventbrite.com", "_blank")}
+                  style={{ ...btn, background: "#be123c" }}
+                  onClick={() =>
+                    window.open(
+                      "https://www.eventbrite.com",
+                      "_blank"
+                    )
+                  }
                 >
                   Register at Eventbrite
                 </button>
               </div>
 
-              <p style={{ marginTop: 24, opacity: 0.9 }}>
-                Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
+              <p style={{ marginTop: "24px", opacity: 0.92 }}>
+                Developed by Bronson Family Farm • Farm & Family Alliance •
+                Parker Farms
               </p>
             </div>
           </div>
@@ -275,5 +287,5 @@ export default function App() {
     }
   }, [page]);
 
-  return content;
+  return view;
 }
