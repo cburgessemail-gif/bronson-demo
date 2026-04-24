@@ -270,7 +270,7 @@ function SmartImage({ candidates, alt, className }: { candidates: string[]; alt:
   const src = normalizePath(expandedCandidates[index] || "");
 
   if (!expandedCandidates.length || index >= expandedCandidates.length) {
-    return <div className={`imageFallback ${className || ""}`}><span>{alt}</span></div>;
+    return <CinematicFallback alt={alt} className={className} />;
   }
 
   return (
@@ -280,6 +280,27 @@ function SmartImage({ candidates, alt, className }: { candidates: string[]; alt:
       alt={alt}
       onError={() => setIndex((i) => i + 1)}
     />
+  );
+}
+
+function CinematicFallback({ alt, className }: { alt: string; className?: string }) {
+  return (
+    <div className={`cinematicFallback ${className || ""}`} aria-label={alt}>
+      <div className="sunGlow" />
+      <div className="treeLine treeLineBack" />
+      <div className="treeLine treeLineFront" />
+      <div className="fieldRows">
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
+      <div className="fallbackBadge">
+        <strong>{alt}</strong>
+        <small>Bronson Family Farm Ecosystem</small>
+      </div>
+    </div>
   );
 }
 
@@ -504,8 +525,90 @@ h3 { font-size: clamp(1.55rem, 2.5vw, 2.4rem); line-height: 1; margin: 10px 0; l
 .summaryCard p { font-size: 1.05rem; line-height: 1.55; max-width: 1100px; }
 .partnerStrip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .partnerStrip span { padding: 8px 10px; border-radius: 999px; background: rgba(31,38,31,.07); border: 1px solid rgba(31,38,31,.1); font-size: .84rem; font-weight: 700; color: #394237; }
-.imageFallback { min-height: 100%; width: 100%; display: grid; place-items: center; background: radial-gradient(circle at 20% 10%, rgba(216,181,109,.38), transparent 26%), radial-gradient(circle at 80% 20%, rgba(127,162,91,.36), transparent 24%), linear-gradient(135deg, #243721, #102015 70%); color: #fff8e8; text-align: center; padding: 28px; }
-.imageFallback span { display: inline-block; max-width: 320px; padding: 18px 22px; border-radius: 22px; background: rgba(0,0,0,.28); backdrop-filter: blur(8px); font-weight: 800; }
+.cinematicFallback {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+  width: 100%;
+  display: block;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(246, 212, 122, .95) 0 5%, rgba(246, 212, 122, .25) 6% 14%, transparent 15%),
+    linear-gradient(180deg, #203b2c 0%, #314d31 38%, #6f7f42 60%, #3e5b2d 100%);
+}
+.cinematicFallback.heroImage {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+.sunGlow {
+  position: absolute;
+  width: 42vw;
+  height: 42vw;
+  right: 3vw;
+  top: -13vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,224,139,.42), transparent 64%);
+}
+.treeLine {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  height: 35%;
+  bottom: 32%;
+  opacity: .78;
+  background:
+    radial-gradient(circle at 4% 80%, #132418 0 3%, transparent 3.2%),
+    radial-gradient(circle at 9% 64%, #132418 0 5%, transparent 5.2%),
+    radial-gradient(circle at 16% 76%, #132418 0 4.8%, transparent 5%),
+    radial-gradient(circle at 24% 62%, #132418 0 6%, transparent 6.2%),
+    radial-gradient(circle at 33% 72%, #132418 0 4.5%, transparent 4.7%),
+    radial-gradient(circle at 43% 60%, #132418 0 5.5%, transparent 5.7%),
+    radial-gradient(circle at 54% 74%, #132418 0 5%, transparent 5.2%),
+    radial-gradient(circle at 65% 64%, #132418 0 6.5%, transparent 6.7%),
+    radial-gradient(circle at 78% 72%, #132418 0 5%, transparent 5.2%),
+    radial-gradient(circle at 89% 62%, #132418 0 6%, transparent 6.2%),
+    radial-gradient(circle at 97% 78%, #132418 0 4.5%, transparent 4.7%);
+}
+.treeLineBack { bottom: 39%; opacity: .42; transform: scale(1.08); filter: blur(1px); }
+.treeLineFront { bottom: 32%; }
+.fieldRows {
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  bottom: -7%;
+  height: 52%;
+  perspective: 700px;
+  transform: rotateX(58deg);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5vw;
+  padding: 0 7vw;
+}
+.fieldRows span {
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(246,239,224,.06), rgba(246,239,224,.28), rgba(246,239,224,.06));
+  box-shadow: 0 0 24px rgba(0,0,0,.18) inset;
+}
+.fallbackBadge {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  z-index: 3;
+  display: grid;
+  gap: 4px;
+  width: fit-content;
+  max-width: min(520px, calc(100% - 44px));
+  border-radius: 22px;
+  padding: 14px 16px;
+  color: #fff8e8;
+  background: rgba(13,21,16,.62);
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 40px rgba(0,0,0,.28);
+}
+.fallbackBadge strong { font-size: 1rem; line-height: 1.15; }
+.fallbackBadge small { color: rgba(255,248,232,.72); font-weight: 700; }
 
 @media (max-width: 1060px) {
   .topbar { align-items: flex-start; flex-direction: column; }
