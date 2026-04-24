@@ -177,7 +177,7 @@ function ImageBlock({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-900 via-stone-700 to-amber-700 shadow-xl ${className}`}
+      className={`relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-950 via-stone-700 to-amber-800 shadow-xl ${className}`}
     >
       {!failed && (
         <img
@@ -203,6 +203,13 @@ export default function App() {
   const [language, setLanguage] = useState("English");
 
   const pathway = useMemo(() => pathways[selected], [selected]);
+
+  const goPathway = (key: PathwayKey) => {
+    setSelected(key);
+    setTimeout(() => {
+      document.getElementById("pathway")?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
+  };
 
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-stone-900">
@@ -257,12 +264,7 @@ export default function App() {
               {(Object.keys(pathways) as PathwayKey[]).map((key) => (
                 <button
                   key={key}
-                  onClick={() => {
-                    setSelected(key);
-                    document
-                      .getElementById("pathway")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                  }}
+                  onClick={() => goPathway(key)}
                   className={`rounded-full px-5 py-3 text-sm font-bold transition ${
                     selected === key
                       ? "bg-emerald-300 text-emerald-950"
@@ -277,7 +279,10 @@ export default function App() {
         </div>
       </section>
 
-      <section id="pathway" className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[0.95fr_1.05fr]">
+      <section
+        id="pathway"
+        className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[0.95fr_1.05fr]"
+      >
         <ImageBlock src={pathway.image} title={pathway.title} className="min-h-[460px]" />
 
         <div className="rounded-[2rem] bg-white p-6 shadow-xl md:p-10">
@@ -354,12 +359,7 @@ export default function App() {
               </a>
 
               <button
-                onClick={() => {
-                  setSelected("marketplace");
-                  document
-                    .getElementById("pathway")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
+                onClick={() => goPathway("marketplace")}
                 className="rounded-full border border-white/30 px-6 py-3 font-bold text-white"
               >
                 View Marketplace Pathway
@@ -387,12 +387,7 @@ export default function App() {
           {(Object.keys(pathways) as PathwayKey[]).map((key) => (
             <button
               key={key}
-              onClick={() => {
-                setSelected(key);
-                document
-                  .getElementById("pathway")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
+              onClick={() => goPathway(key)}
               className="rounded-3xl bg-white p-6 text-left shadow transition hover:-translate-y-1 hover:shadow-xl"
             >
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-700">
