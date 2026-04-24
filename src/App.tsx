@@ -25,6 +25,7 @@ type JourneyCard = {
   points: string[];
   cta: string;
   image: string;
+  action: "marketplace" | "history" | "connect" | "happening";
 };
 
 export default function App() {
@@ -36,22 +37,10 @@ export default function App() {
   };
 
   const openMarketplace = () => {
-    window.open("https://grownby.com/farms/bronson-family-farm/shop", "_blank");
-  };
-
-  const images = {
-    hero: "/GrowArea.jpg",
-    guest: "/GrowArea2.jpg",
-    customer: "/SAM_0225.JPG",
-    marketplace: "/SAM_0249.JPG",
-    grower: "/SAM_0238.JPG",
-    youth: "/SAM_0222.JPG",
-    partners: "/SAM_0223.JPG",
-    production: "/SAM_0226.JPG",
-    buyLocal: "/SAM_0229.JPG",
-    events: "/SAM_0255.JPG",
-    community: "/SAM_0257.JPG",
-    footer: "/SAM_0249.JPG",
+    window.open(
+      "https://grownby.com/farms/bronson-family-farm/shop",
+      "_blank"
+    );
   };
 
   const languageNames: Record<string, string> = {
@@ -62,36 +51,50 @@ export default function App() {
     HE: "עברית",
   };
 
-  const copy = useMemo(
-    () => ({
-      heroTag: "Historic Lansdowne Airport Site | Est. 1926",
-      heroTitle:
-        "From Youngstown’s first airport to a new future of food, learning, and community renewal.",
-      heroDesc:
-        "Bronson Family Farm is transforming historic land into a regenerative farm, agritourism destination, youth workforce pathway, and living ecosystem for the Mahoning Valley.",
-      heroBtn1: "Enter the Ecosystem",
-      heroBtn2: "Explore Pathways",
-      trust:
-        "Regenerative Agriculture • Youth Workforce • Local Food Access • Grower Opportunity • Community Legacy",
-      alignmentTitle: "A vision strengthened through collaboration",
-      alignmentDesc:
-        "Bronson Family Farm connects land, food, workforce development, education, growers, families, and partnership through a living ecosystem rooted in opportunity and renewal.",
-      pathwayTitle: "Choose Your Pathway Into the Ecosystem",
-      pathwayDesc:
-        "Every pathway is designed to create value, belonging, and a reason to return.",
-      journeyTitle: "Every pathway leads somewhere meaningful",
-      journeyDesc:
-        "This is not a static website. It is a living invitation into purpose, participation, and possibility.",
-      happeningTitle: "Happening Now at Bronson Family Farm",
-      happeningDesc:
-        "Real momentum is already taking place through growing activity, market access, partnerships, and community participation.",
-      historyTitle: "A Historic Place With a Living Future",
-      connectTitle: "Be Part of What’s Growing",
-      connectDesc:
-        "Fresh food. Opportunity. Renewal. A place where people, land, and purpose meet again.",
-    }),
-    [lang]
-  );
+  const copy = useMemo(() => {
+    const set = {
+      EN: {
+        heroTag: "Historic Lansdowne Airport Site | Est. 1926",
+        heroTitle:
+          "From Youngstown’s first airport to a new future of food, learning, and community renewal.",
+        heroDesc:
+          "Bronson Family Farm is transforming historic land into a regenerative farm, agritourism destination, youth workforce pathway, and living ecosystem for the Mahoning Valley.",
+        enter: "Enter the Ecosystem",
+        explore: "Explore Pathways",
+        trust:
+          "Regenerative Agriculture • Youth Workforce • Local Food Access • Grower Opportunity • Community Legacy",
+        pathways: "Choose Your Pathway Into the Ecosystem",
+        pathwaysDesc:
+          "Every pathway is designed to create value, belonging, practical engagement, and a reason to return.",
+        journey: "Every pathway leads somewhere meaningful",
+        journeyDesc:
+          "This is not a static website. It is a living invitation into purpose, participation, and possibility.",
+        happening: "Happening Now at Bronson Family Farm",
+        happeningDesc:
+          "Real momentum is already taking place through growing activity, marketplace access, partnerships, events, and community participation.",
+        history: "A Historic Place With a Living Future",
+        connect: "Be Part of What’s Growing",
+        connectDesc:
+          "Fresh food. Opportunity. Renewal. A place where people, land, and purpose meet again.",
+      },
+    };
+    return set.EN;
+  }, [lang]);
+
+  const images = {
+    hero: "/images/GrowArea.jpg",
+    guest: "/images/GrowArea2.jpg",
+    customer: "/images/SAM_0225.JPG",
+    marketplace: "/images/SAM_0249.JPG",
+    grower: "/images/SAM_0238.JPG",
+    youth: "/images/SAM_0222.JPG",
+    partners: "/images/SAM_0223.JPG",
+    production: "/images/SAM_0226.JPG",
+    buyLocal: "/images/SAM_0229.JPG",
+    events: "/images/SAM_0255.JPG",
+    community: "/images/SAM_0257.JPG",
+    footer: "/images/SAM_0249.JPG",
+  };
 
   const pathways: Pathway[] = [
     {
@@ -156,16 +159,17 @@ export default function App() {
       title: "Guest Pathway",
       kicker: "Experience the vision",
       summary:
-        "Visitors are invited to understand the story of the land, the purpose of the farm, and the possibility of renewal.",
+        "Visitors understand the story of the land, the purpose of the farm, and the possibility of renewal.",
       why:
         "When people understand the mission, they become advocates, customers, volunteers, and supporters.",
       points: [
         "Historic site significance",
-        "The meaning behind regenerative farming",
+        "Regenerative farming mission",
         "A place people want to revisit",
       ],
       cta: "See History",
       image: images.guest,
+      action: "history",
     },
     {
       id: "journey-customer",
@@ -174,14 +178,11 @@ export default function App() {
       summary:
         "Customers gain access to fresh food, seasonal offerings, and a more personal connection to where food comes from.",
       why:
-        "Repeat customers create sustainability and strengthen community food access.",
-      points: [
-        "Fresh produce",
-        "Healthy choices",
-        "Farm-to-community connection",
-      ],
+        "Repeat customers create sustainability while strengthening community food access.",
+      points: ["Fresh produce", "Healthy choices", "Farm-to-community value"],
       cta: "See What’s Growing",
       image: images.customer,
+      action: "happening",
     },
     {
       id: "journey-marketplace",
@@ -190,14 +191,15 @@ export default function App() {
       summary:
         "The marketplace creates real economic movement through direct sales, visibility, and digital access.",
       why:
-        "Strong marketplaces help farms survive and communities thrive.",
+        "Strong marketplaces help farms survive and communities keep value local.",
       points: [
-        "Direct purchasing",
+        "Direct shopping through GrownBy",
         "Digital convenience",
         "Regional grower opportunity",
       ],
       cta: "Open Marketplace",
       image: images.marketplace,
+      action: "marketplace",
     },
     {
       id: "journey-grower",
@@ -207,29 +209,23 @@ export default function App() {
         "Growers connect to markets, shared learning, visibility, and future opportunity.",
       why:
         "Local growers are stronger when connected than when isolated.",
-      points: [
-        "Market access",
-        "Shared ecosystem value",
-        "Regional collaboration",
-      ],
+      points: ["Market access", "Shared ecosystem value", "Collaboration"],
       cta: "Connect",
       image: images.grower,
+      action: "connect",
     },
     {
       id: "journey-youth",
       title: "Youth Workforce Pathway",
       kicker: "Future readiness",
       summary:
-        "Young people learn discipline, agriculture, logistics, responsibility, and confidence.",
+        "Young people learn discipline, agriculture, logistics, teamwork, and confidence.",
       why:
-        "A stronger city begins with prepared young people and real pathways.",
-      points: [
-        "Hands-on learning",
-        "Leadership habits",
-        "Career exposure",
-      ],
+        "A stronger city begins with prepared young people and practical pathways.",
+      points: ["Hands-on learning", "Leadership habits", "Career exposure"],
       cta: "Get Involved",
       image: images.youth,
+      action: "connect",
     },
     {
       id: "journey-partners",
@@ -238,14 +234,11 @@ export default function App() {
       summary:
         "Partners help scale food access, workforce development, land use, education, and community outcomes.",
       why:
-        "The vision grows faster when resources align around common good.",
-      points: [
-        "Schools and institutions",
-        "Sponsors and donors",
-        "Civic collaboration",
-      ],
+        "The vision grows faster when schools, sponsors, and institutions align.",
+      points: ["Schools", "Sponsors", "Civic collaboration"],
       cta: "Partner With Us",
       image: images.partners,
+      action: "connect",
     },
   ];
 
@@ -267,27 +260,25 @@ export default function App() {
     {
       title: "Upcoming Events",
       desc:
-        "Tours, workshops, markets, and experiences help people engage with the land.",
+        "Tours, workshops, markets, and farm experiences help people engage with the land.",
       img: images.events,
       btn: "View Events",
     },
     {
       title: "Growing Together",
       desc:
-        "Partnerships, education, volunteers, and shared opportunity continue to expand.",
+        "Partnerships, education, volunteers, and shared opportunities continue to expand.",
       img: images.community,
       btn: "See Partners",
     },
   ];
 
-  const partnerCards = [
-    "City of Youngstown",
-    "OSU Extension",
-    "Flying High Inc.",
-    "Julilee Gardens Inc.",
-    "United Way",
-    "Regional Partners",
-  ];
+  const handleJourney = (action: JourneyCard["action"]) => {
+    if (action === "marketplace") openMarketplace();
+    if (action === "history") goTo("history");
+    if (action === "connect") goTo("connect");
+    if (action === "happening") goTo("happening");
+  };
 
   return (
     <div className="min-h-screen bg-[#f7f4ec] text-[#1f2d1f]">
@@ -319,7 +310,7 @@ export default function App() {
       </header>
 
       <section
-        className="relative flex min-h-[90vh] items-center bg-cover bg-center"
+        className="relative flex min-h-[92vh] items-center bg-cover bg-center"
         style={{ backgroundImage: `url('${images.hero}')` }}
       >
         <div className="absolute inset-0 bg-black/55" />
@@ -343,14 +334,14 @@ export default function App() {
                 onClick={() => goTo("pathways")}
                 className="rounded-2xl bg-[#2e6a3b] px-7 py-3 text-white"
               >
-                {copy.heroBtn1}
+                {copy.enter}
               </button>
 
               <button
                 onClick={() => goTo("pathways")}
                 className="rounded-2xl border border-white px-7 py-3 text-white"
               >
-                {copy.heroBtn2}
+                {copy.explore}
               </button>
             </div>
 
@@ -365,22 +356,232 @@ export default function App() {
         {copy.trust}
       </section>
 
-      <section className="bg-[#f8f7f1] px-6 py-14">
-        <div className="mx-auto max-w-7xl text-center">
-          <h3 className="text-3xl font-semibold">{copy.alignmentTitle}</h3>
-          <p className="mx-auto mt-5 max-w-4xl text-lg leading-8 text-[#556255]">
-            {copy.alignmentDesc}
+      <section id="pathways" className="mx-auto max-w-7xl px-6 py-20">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <h3 className="text-4xl font-semibold">{copy.pathways}</h3>
+          <p className="mt-4 text-lg text-[#556255]">
+            {copy.pathwaysDesc}
           </p>
+        </div>
 
-          <div className="mt-10 grid gap-4 md:grid-cols-3 xl:grid-cols-6">
-            {partnerCards.map((item) => (
-              <div
-                key={item}
-                className="rounded-2xl border border-[#dde4d8] bg-white px-4 py-6 text-sm font-semibold uppercase tracking-[0.08em] text-[#244b2d]"
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          {pathways.map((item) => (
+            <div
+              key={item.title}
+              className="overflow-hidden rounded-3xl border border-[#e2e6d9] bg-white shadow"
+            >
+              <img
+                src={item.img}
+                alt={item.title}
+                className="h-60 w-full object-cover"
+              />
+
+              <div className="p-6">
+                <p className="text-xs uppercase tracking-[0.22em] text-[#6b8b67]">
+                  {item.title}
+                </p>
+                <h4 className="mt-2 text-2xl font-semibold">
+                  {item.subtitle}
+                </h4>
+                <p className="mt-3 min-h-[88px] text-[#5a6457]">
+                  {item.desc}
+                </p>
+
+                <button
+                  onClick={() => goTo(item.target)}
+                  className="mt-4 w-full rounded-2xl bg-[#245730] py-3 text-white"
+                >
+                  {item.btn}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-[#f3f1e8] px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <h3 className="text-4xl font-semibold">{copy.journey}</h3>
+            <p className="mt-4 text-lg text-[#556255]">
+              {copy.journeyDesc}
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            {journeys.map((card) => (
+              <section
+                id={card.id}
+                key={card.id}
+                className="grid overflow-hidden rounded-3xl border border-[#e2e3d7] bg-white shadow lg:grid-cols-2"
               >
-                {item}
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="h-full min-h-[320px] w-full object-cover"
+                />
+
+                <div className="p-8">
+                  <p className="text-xs uppercase tracking-[0.22em] text-[#688465]">
+                    {card.kicker}
+                  </p>
+                  <h4 className="mt-2 text-3xl font-semibold">
+                    {card.title}
+                  </h4>
+
+                  <p className="mt-4 text-[#556255]">{card.summary}</p>
+
+                  <div className="mt-5 rounded-2xl bg-[#eef2e7] p-4 text-[#466146]">
+                    <strong>Why it matters:</strong> {card.why}
+                  </div>
+
+                  <ul className="mt-5 space-y-2 text-[#556255]">
+                    {card.points.map((p) => (
+                      <li key={p}>• {p}</li>
+                    ))}
+                  </ul>
+
+                  <button
+                    onClick={() => handleJourney(card.action)}
+                    className="mt-6 rounded-2xl bg-[#245730] px-6 py-3 text-white"
+                  >
+                    {card.cta}
+                  </button>
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="happening" className="bg-[#e7efe4] px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <h3 className="text-4xl font-semibold">{copy.happening}</h3>
+            <p className="mt-4 text-lg text-[#556255]">
+              {copy.happeningDesc}
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {proof.map((item) => (
+              <div
+                key={item.title}
+                className="overflow-hidden rounded-3xl border border-[#dfe7da] bg-white shadow"
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="h-52 w-full object-cover"
+                />
+
+                <div className="p-5">
+                  <h4 className="text-xl font-semibold">{item.title}</h4>
+                  <p className="mt-3 min-h-[100px] text-[#5a6457]">
+                    {item.desc}
+                  </p>
+
+                  <button
+                    onClick={() =>
+                      item.title === "Buy Local"
+                        ? openMarketplace()
+                        : goTo("connect")
+                    }
+                    className="mt-4 w-full rounded-2xl border border-[#245730] py-3 text-[#245730]"
+                  >
+                    {item.btn}
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      <section id="history" className="mx-auto max-w-6xl px-6 py-20">
+        <div className="text-center">
+          <h3 className="text-4xl font-semibold">{copy.history}</h3>
+
+          <p className="mx-auto mt-6 max-w-4xl text-lg leading-9 text-[#556255]">
+            Bronson Family Farm is rooted in a place that already carries meaning.
+            Lansdowne Airport was dedicated in 1926 as Youngstown’s first airport,
+            making this land part of the city’s early story of movement,
+            ambition, connection, and possibility.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-8 lg:grid-cols-3">
+          <div className="rounded-3xl border bg-white p-7 shadow">
+            <h4 className="text-2xl font-semibold">Historic Foundation</h4>
+            <p className="mt-4 text-[#5a6457]">
+              This is not random land. It is historic ground tied to the
+              identity of Youngstown.
+            </p>
+          </div>
+
+          <div className="rounded-3xl border bg-white p-7 shadow">
+            <h4 className="text-2xl font-semibold">Present Transformation</h4>
+            <p className="mt-4 text-[#5a6457]">
+              The site is being reimagined as a regenerative farm,
+              agritourism destination, and ecosystem for opportunity.
+            </p>
+          </div>
+
+          <div className="rounded-3xl border bg-white p-7 shadow">
+            <h4 className="text-2xl font-semibold">Future Meaning</h4>
+            <p className="mt-4 text-[#5a6457]">
+              A place people can return to for nourishment, learning,
+              partnership, and possibility across generations.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="connect"
+        className="relative bg-cover bg-center px-6 py-20 text-white"
+        style={{ backgroundImage: `url('${images.footer}')` }}
+      >
+        <div className="absolute inset-0 bg-[rgba(17,41,22,0.88)]" />
+
+        <div className="relative z-10 mx-auto max-w-6xl text-center">
+          <h3 className="text-4xl font-semibold">{copy.connect}</h3>
+
+          <p className="mx-auto mt-5 max-w-3xl text-lg text-white/85">
+            {copy.connectDesc}
+          </p>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {[
+              "Visit the Farm",
+              "Shop Fresh",
+              "Grow With Us",
+              "Partner With Us",
+              "Apply Today",
+            ].map((btn) => (
+              <button
+                key={btn}
+                onClick={() =>
+                  btn === "Shop Fresh"
+                    ? openMarketplace()
+                    : goTo("history")
+                }
+                className="rounded-2xl bg-white px-4 py-3 text-[#18311d]"
+              >
+                {btn}
+              </button>
+            ))}
+          </div>
+
+          <p className="mt-12 text-sm uppercase tracking-[0.18em] text-white/70">
+            Historic Lansdowne Airport Site • Youngstown, Ohio
+          </p>
+
+          <p className="mt-2 text-white/80">
+            www.bronsonfamilyfarm.com
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+}
