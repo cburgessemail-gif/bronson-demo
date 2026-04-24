@@ -51,8 +51,8 @@ export default function App() {
     HE: "עברית",
   };
 
-  const copy = useMemo(() => {
-    return {
+  const copy = useMemo(
+    () => ({
       heroTag: "Historic Lansdowne Airport Site | Est. 1926",
       heroTitle:
         "From Youngstown’s first airport to a new future of food, learning, and community renewal.",
@@ -75,11 +75,12 @@ export default function App() {
       connect: "Be Part of What’s Growing",
       connectDesc:
         "Fresh food. Opportunity. Renewal. A place where people, land, and purpose meet again.",
-    };
-  }, [lang]);
+    }),
+    [lang]
+  );
 
   const images = {
-    hero: "/images/SAM_0249.JPG", // far aerial view restored
+    hero: "/images/SAM_0249.JPG",
     guest: "/images/GrowArea2.jpg",
     customer: "/images/SAM_0225.JPG",
     marketplace: "/images/SAM_0249.JPG",
@@ -305,11 +306,14 @@ export default function App() {
         </div>
       </header>
 
-      <section
-        className="relative flex min-h-[92vh] items-center bg-cover bg-center"
-        style={{ backgroundImage: `url('${images.hero}')` }}
-      >
-        <div className="absolute inset-0 bg-black/50" />
+      <section className="relative flex min-h-[92vh] items-center overflow-hidden">
+        <img
+          src="/images/SAM_0249.JPG"
+          alt="Aerial view of Bronson Family Farm"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+
+        <div className="absolute inset-0 bg-black/45" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-24">
           <div className="max-w-4xl">
@@ -345,235 +349,6 @@ export default function App() {
               Live language view: {languageNames[lang]}
             </p>
           </div>
-        </div>
-      </section>
-
-      <section className="bg-[#eef2e7] px-6 py-5 text-center text-sm font-semibold uppercase tracking-[0.16em] text-[#466146]">
-        {copy.trust}
-      </section>
-
-      <section id="pathways" className="mx-auto max-w-7xl px-6 py-20">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
-          <h3 className="text-4xl font-semibold">{copy.pathways}</h3>
-          <p className="mt-4 text-lg text-[#556255]">{copy.pathwaysDesc}</p>
-        </div>
-
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-          {pathways.map((item) => (
-            <div
-              key={item.title}
-              className="overflow-hidden rounded-3xl border border-[#e2e6d9] bg-white shadow"
-            >
-              <img
-                src={item.img}
-                alt={item.title}
-                className="h-60 w-full object-cover"
-              />
-
-              <div className="p-6">
-                <p className="text-xs uppercase tracking-[0.22em] text-[#6b8b67]">
-                  {item.title}
-                </p>
-                <h4 className="mt-2 text-2xl font-semibold">
-                  {item.subtitle}
-                </h4>
-                <p className="mt-3 min-h-[88px] text-[#5a6457]">
-                  {item.desc}
-                </p>
-
-                <button
-                  onClick={() => goTo(item.target)}
-                  className="mt-4 w-full rounded-2xl bg-[#245730] py-3 text-white"
-                >
-                  {item.btn}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-[#f3f1e8] px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-12 max-w-3xl text-center">
-            <h3 className="text-4xl font-semibold">{copy.journey}</h3>
-            <p className="mt-4 text-lg text-[#556255]">
-              {copy.journeyDesc}
-            </p>
-          </div>
-
-          <div className="space-y-8">
-            {journeys.map((card) => (
-              <section
-                id={card.id}
-                key={card.id}
-                className="grid overflow-hidden rounded-3xl border border-[#e2e3d7] bg-white shadow lg:grid-cols-2"
-              >
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="h-full min-h-[320px] w-full object-cover"
-                />
-
-                <div className="p-8">
-                  <p className="text-xs uppercase tracking-[0.22em] text-[#688465]">
-                    {card.kicker}
-                  </p>
-                  <h4 className="mt-2 text-3xl font-semibold">
-                    {card.title}
-                  </h4>
-
-                  <p className="mt-4 text-[#556255]">{card.summary}</p>
-
-                  <div className="mt-5 rounded-2xl bg-[#eef2e7] p-4 text-[#466146]">
-                    <strong>Why it matters:</strong> {card.why}
-                  </div>
-
-                  <ul className="mt-5 space-y-2 text-[#556255]">
-                    {card.points.map((p) => (
-                      <li key={p}>• {p}</li>
-                    ))}
-                  </ul>
-
-                  <button
-                    onClick={() => handleJourney(card.action)}
-                    className="mt-6 rounded-2xl bg-[#245730] px-6 py-3 text-white"
-                  >
-                    {card.cta}
-                  </button>
-                </div>
-              </section>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="happening" className="bg-[#e7efe4] px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-12 max-w-3xl text-center">
-            <h3 className="text-4xl font-semibold">{copy.happening}</h3>
-            <p className="mt-4 text-lg text-[#556255]">
-              {copy.happeningDesc}
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {proof.map((item) => (
-              <div
-                key={item.title}
-                className="overflow-hidden rounded-3xl border border-[#dfe7da] bg-white shadow"
-              >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="h-52 w-full object-cover"
-                />
-
-                <div className="p-5">
-                  <h4 className="text-xl font-semibold">{item.title}</h4>
-                  <p className="mt-3 min-h-[100px] text-[#5a6457]">
-                    {item.desc}
-                  </p>
-
-                  <button
-                    onClick={() =>
-                      item.title === "Buy Local"
-                        ? openMarketplace()
-                        : goTo("connect")
-                    }
-                    className="mt-4 w-full rounded-2xl border border-[#245730] py-3 text-[#245730]"
-                  >
-                    {item.btn}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="history" className="mx-auto max-w-6xl px-6 py-20">
-        <div className="text-center">
-          <h3 className="text-4xl font-semibold">{copy.history}</h3>
-
-          <p className="mx-auto mt-6 max-w-4xl text-lg leading-9 text-[#556255]">
-            Bronson Family Farm is rooted in a place that already carries meaning.
-            Lansdowne Airport was dedicated in 1926 as Youngstown’s first airport,
-            making this land part of the city’s early story of movement,
-            ambition, connection, and possibility.
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-8 lg:grid-cols-3">
-          <div className="rounded-3xl border bg-white p-7 shadow">
-            <h4 className="text-2xl font-semibold">Historic Foundation</h4>
-            <p className="mt-4 text-[#5a6457]">
-              This is not random land. It is historic ground tied to the
-              identity of Youngstown.
-            </p>
-          </div>
-
-          <div className="rounded-3xl border bg-white p-7 shadow">
-            <h4 className="text-2xl font-semibold">Present Transformation</h4>
-            <p className="mt-4 text-[#5a6457]">
-              The site is being reimagined as a regenerative farm,
-              agritourism destination, and ecosystem for opportunity.
-            </p>
-          </div>
-
-          <div className="rounded-3xl border bg-white p-7 shadow">
-            <h4 className="text-2xl font-semibold">Future Meaning</h4>
-            <p className="mt-4 text-[#5a6457]">
-              A place people can return to for nourishment, learning,
-              partnership, and possibility across generations.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        id="connect"
-        className="relative bg-cover bg-center px-6 py-20 text-white"
-        style={{ backgroundImage: `url('${images.footer}')` }}
-      >
-        <div className="absolute inset-0 bg-[rgba(17,41,22,0.88)]" />
-
-        <div className="relative z-10 mx-auto max-w-6xl text-center">
-          <h3 className="text-4xl font-semibold">{copy.connect}</h3>
-
-          <p className="mx-auto mt-5 max-w-3xl text-lg text-white/85">
-            {copy.connectDesc}
-          </p>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            {[
-              "Visit the Farm",
-              "Shop Fresh",
-              "Grow With Us",
-              "Partner With Us",
-              "Apply Today",
-            ].map((btn) => (
-              <button
-                key={btn}
-                onClick={() =>
-                  btn === "Shop Fresh"
-                    ? openMarketplace()
-                    : goTo("history")
-                }
-                className="rounded-2xl bg-white px-4 py-3 text-[#18311d]"
-              >
-                {btn}
-              </button>
-            ))}
-          </div>
-
-          <p className="mt-12 text-sm uppercase tracking-[0.18em] text-white/70">
-            Historic Lansdowne Airport Site • Youngstown, Ohio
-          </p>
-
-          <p className="mt-2 text-white/80">
-            www.bronsonfamilyfarm.com
-          </p>
         </div>
       </section>
     </div>
