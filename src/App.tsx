@@ -1,26 +1,22 @@
 import { useState } from "react";
 
-type Pathway = {
+type Lang = "EN" | "ES" | "TL" | "FR";
+type SectionId = "pathways" | "happening-now" | "history" | "partners" | "connect";
+
+type Card = {
   title: string;
   subtitle: string;
   desc: string;
   img: string;
   btn: string;
-};
-
-type ProofCard = {
-  title: string;
-  desc: string;
-  img: string;
-  btn: string;
+  target: SectionId | "marketplace";
 };
 
 export default function App() {
-  const [lang, setLang] = useState("EN");
+  const [lang, setLang] = useState<Lang>("EN");
 
-  const goTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  const goTo = (id: SectionId) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const openMarketplace = () => {
@@ -42,13 +38,49 @@ export default function App() {
     footer: "/SAM_0249.JPG",
   };
 
-  const pathways: Pathway[] = [
+  const t = {
+    EN: {
+      heroTitle:
+        "From Youngstown’s first airport to a new future of food, learning, and community renewal.",
+      heroText:
+        "Bronson Family Farm is a regenerative farm, agritourism destination, youth workforce pathway, marketplace, and living ecosystem for the Mahoning Valley.",
+      enter: "Enter the Ecosystem",
+      shop: "Shop the Marketplace",
+    },
+    ES: {
+      heroTitle:
+        "Del primer aeropuerto de Youngstown a un nuevo futuro de alimentos, aprendizaje y renovación comunitaria.",
+      heroText:
+        "Bronson Family Farm es una granja regenerativa, destino de agroturismo, programa juvenil, mercado y ecosistema vivo para el Valle de Mahoning.",
+      enter: "Entrar al Ecosistema",
+      shop: "Comprar en el Mercado",
+    },
+    TL: {
+      heroTitle:
+        "Mula sa unang paliparan ng Youngstown tungo sa bagong kinabukasan ng pagkain, pagkatuto, at komunidad.",
+      heroText:
+        "Ang Bronson Family Farm ay isang regenerative farm, agritourism destination, youth workforce pathway, marketplace, at buhay na ecosystem para sa Mahoning Valley.",
+      enter: "Pumasok sa Ecosystem",
+      shop: "Mamili sa Marketplace",
+    },
+    FR: {
+      heroTitle:
+        "Du premier aéroport de Youngstown vers un nouvel avenir d’alimentation, d’apprentissage et de renouveau communautaire.",
+      heroText:
+        "Bronson Family Farm est une ferme régénératrice, une destination d’agritourisme, un parcours jeunesse, un marché et un écosystème vivant pour la vallée de Mahoning.",
+      enter: "Entrer dans l’écosystème",
+      shop: "Acheter au marché",
+    },
+  }[lang];
+
+  const pathways: Card[] = [
     {
       title: "Guest",
       subtitle: "Discover the Story",
       desc: "Explore the land, history, purpose, and future of Bronson Family Farm.",
       img: images.guest,
       btn: "Enter as Guest",
+      target: "history",
     },
     {
       title: "Customer",
@@ -56,6 +88,7 @@ export default function App() {
       desc: "Access seasonal produce, Bubble Babies™, healthy choices, and repeat buying opportunities.",
       img: images.customer,
       btn: "Shop Fresh",
+      target: "happening-now",
     },
     {
       title: "Marketplace",
@@ -63,6 +96,7 @@ export default function App() {
       desc: "Buy from Bronson Family Farm and regional growers through a modern marketplace.",
       img: images.marketplace,
       btn: "Enter Marketplace",
+      target: "marketplace",
     },
     {
       title: "Grower",
@@ -70,6 +104,7 @@ export default function App() {
       desc: "Connect producers to market access, collaboration, training, and opportunity.",
       img: images.grower,
       btn: "Become a Grower",
+      target: "connect",
     },
     {
       title: "Youth Workforce",
@@ -77,6 +112,7 @@ export default function App() {
       desc: "Hands-on learning in agriculture, logistics, leadership, technology, and entrepreneurship.",
       img: images.youth,
       btn: "Join Program",
+      target: "connect",
     },
     {
       title: "Partners",
@@ -84,33 +120,42 @@ export default function App() {
       desc: "Align sponsorship, education, food access, health, workforce, and mission-driven collaboration.",
       img: images.partners,
       btn: "Partner With Us",
+      target: "partners",
     },
   ];
 
-  const proof: ProofCard[] = [
+  const proof: Card[] = [
     {
       title: "In Production",
+      subtitle: "What’s Growing",
       desc: "Seedlings, produce, regenerative growing systems, and seasonal expansion.",
       img: images.production,
       btn: "View What’s Growing",
+      target: "happening-now",
     },
     {
       title: "Buy Local",
+      subtitle: "Marketplace",
       desc: "Shop fresh food and support local growers through the marketplace.",
       img: images.buyLocal,
       btn: "Enter Marketplace",
+      target: "marketplace",
     },
     {
       title: "Upcoming Events",
+      subtitle: "Gather on the Land",
       desc: "Tours, workshops, Growers Supply Market, and family experiences on the land.",
       img: images.events,
       btn: "View Events",
+      target: "connect",
     },
     {
       title: "Growing Together",
+      subtitle: "Partners",
       desc: "Education, sponsors, civic collaboration, workforce pathways, and partnerships.",
       img: images.community,
       btn: "See Partners",
+      target: "partners",
     },
   ];
 
@@ -126,13 +171,10 @@ export default function App() {
     "Jewish Federation",
   ];
 
-  const actions = [
-    "Visit the Farm",
-    "Shop Fresh",
-    "Grow With Us",
-    "Partner With Us",
-    "Apply Today",
-  ];
+  const handleCard = (target: Card["target"]) => {
+    if (target === "marketplace") openMarketplace();
+    else goTo(target);
+  };
 
   return (
     <div className="min-h-screen bg-[#f7f4ec] text-[#1f2d1f] font-sans">
@@ -147,7 +189,7 @@ export default function App() {
         </div>
 
         <div className="flex gap-2">
-          {["EN", "ES", "TL", "FR"].map((l) => (
+          {(["EN", "ES", "TL", "FR"] as Lang[]).map((l) => (
             <button
               key={l}
               onClick={() => setLang(l)}
@@ -164,26 +206,21 @@ export default function App() {
       </header>
 
       <section
-        id="hero"
         className="relative flex min-h-[88vh] items-center bg-cover bg-center"
         style={{ backgroundImage: `url('${images.hero}')` }}
       >
         <div className="absolute inset-0 bg-black/45" />
-
         <div className="relative z-10 max-w-5xl px-8 text-white md:px-16">
           <p className="mb-4 text-sm uppercase tracking-[4px] md:text-base">
             Historic Lansdowne Airport Site | Youngstown, Ohio
           </p>
 
           <h2 className="mb-6 text-4xl font-semibold leading-tight md:text-6xl">
-            From Youngstown’s first airport to a new future of food, learning,
-            and community renewal.
+            {t.heroTitle}
           </h2>
 
           <p className="mb-8 max-w-3xl text-lg leading-relaxed text-white/90 md:text-2xl">
-            Bronson Family Farm is a regenerative farm, agritourism destination,
-            youth workforce pathway, marketplace, and living ecosystem for the
-            Mahoning Valley.
+            {t.heroText}
           </p>
 
           <div className="flex flex-wrap gap-4">
@@ -191,14 +228,13 @@ export default function App() {
               onClick={() => goTo("pathways")}
               className="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-800"
             >
-              Enter the Ecosystem
+              {t.enter}
             </button>
-
             <button
               onClick={openMarketplace}
               className="rounded-xl border border-white px-6 py-3 font-semibold text-white transition hover:bg-white hover:text-[#1f2d1f]"
             >
-              Shop the Marketplace
+              {t.shop}
             </button>
           </div>
         </div>
@@ -213,39 +249,22 @@ export default function App() {
             Choose Your Pathway Into the Ecosystem
           </h3>
           <p className="mx-auto max-w-3xl text-lg text-gray-700">
-            A place where land, food, learning, business, and community come
-            together.
+            A place where land, food, learning, business, and community come together.
           </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {pathways.map((item) => (
-            <div
-              key={item.title}
-              className="overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl"
-            >
-              <img
-                src={item.img}
-                alt={item.title}
-                className="h-56 w-full object-cover"
-              />
-
+            <div key={item.title} className="overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl">
+              <img src={item.img} alt={item.title} className="h-56 w-full object-cover" />
               <div className="p-6">
                 <p className="mb-2 text-sm font-bold uppercase tracking-wide text-green-700">
                   {item.title}
                 </p>
-
                 <h4 className="mb-3 text-2xl font-semibold">{item.subtitle}</h4>
-
                 <p className="mb-6 leading-7 text-gray-700">{item.desc}</p>
-
                 <button
-                  onClick={() => {
-                    if (item.title === "Marketplace") openMarketplace();
-                    else if (item.title === "Guest") goTo("history");
-                    else if (item.title === "Customer") goTo("happening-now");
-                    else goTo("connect");
-                  }}
+                  onClick={() => handleCard(item.target)}
                   className="w-full rounded-xl bg-green-700 py-3 font-semibold text-white transition hover:bg-green-800"
                 >
                   {item.btn}
@@ -266,34 +285,22 @@ export default function App() {
               Real Activity. Real Opportunity.
             </h3>
             <p className="mx-auto max-w-3xl text-lg text-gray-700">
-              The demo shows more than an idea. It shows production, commerce,
-              events, workforce development, and community momentum.
+              The demo shows production, commerce, events, workforce development, and community momentum.
             </p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {proof.map((item) => (
-              <div
-                key={item.title}
-                className="overflow-hidden rounded-2xl bg-white shadow transition hover:shadow-lg"
-              >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="h-48 w-full object-cover"
-                />
-
+              <div key={item.title} className="overflow-hidden rounded-2xl bg-white shadow transition hover:shadow-lg">
+                <img src={item.img} alt={item.title} className="h-48 w-full object-cover" />
                 <div className="p-5">
+                  <p className="mb-2 text-sm font-bold uppercase tracking-wide text-green-700">
+                    {item.subtitle}
+                  </p>
                   <h4 className="mb-2 text-xl font-semibold">{item.title}</h4>
                   <p className="mb-5 leading-7 text-gray-700">{item.desc}</p>
-
                   <button
-                    onClick={() => {
-                      if (item.title === "Buy Local") openMarketplace();
-                      else if (item.title === "Upcoming Events") goTo("connect");
-                      else if (item.title === "Growing Together") goTo("connect");
-                      else goTo("happening-now");
-                    }}
+                    onClick={() => handleCard(item.target)}
                     className="w-full rounded-xl border border-green-700 py-3 font-semibold text-green-800 transition hover:bg-green-700 hover:text-white"
                   >
                     {item.btn}
@@ -312,20 +319,21 @@ export default function App() {
         <h3 className="mb-6 text-3xl font-semibold md:text-4xl">
           A Historic Place With a Living Future
         </h3>
-
         <p className="text-lg leading-8 text-gray-700">
           Lansdowne Airport was dedicated in 1926 as Youngstown’s first airport.
-          Today, Bronson Family Farm is helping reconnect land, food, families,
-          growers, education, workforce pathways, and opportunity on the same
-          historic ground.
+          Today, Bronson Family Farm reconnects land, food, families, growers,
+          education, workforce pathways, and opportunity on the same historic ground.
         </p>
       </section>
 
-      <section className="bg-white px-6 py-16 md:px-12">
+      <section id="partners" className="bg-white px-6 py-16 md:px-12">
         <div className="mx-auto max-w-7xl text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[4px] text-green-800">
             Ecosystem Partners and Participants
           </p>
+          <h3 className="text-3xl font-semibold md:text-4xl">
+            Collaboration Becomes Action
+          </h3>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {partners.map((partner) => (
@@ -357,7 +365,7 @@ export default function App() {
           </p>
 
           <div className="mb-12 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            {actions.map((btn) => (
+            {["Visit the Farm", "Shop Fresh", "Grow With Us", "Partner With Us", "Apply Today"].map((btn) => (
               <button
                 key={btn}
                 onClick={() => {
