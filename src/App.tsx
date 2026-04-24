@@ -1,11 +1,5 @@
 import React, { useMemo, useState } from "react";
 
-/**
- * Bronson Family Farm Final Demo
- * FULL UPDATED SCRIPT
- * Only image relevance updated
- */
-
 type Page =
   | "home"
   | "guest"
@@ -20,13 +14,10 @@ const IMAGES = {
   home: "/images/hero-aerial.jpg",
   guest: "/images/hero-aerial.jpg",
   customer: "/images/customer-produce.jpg",
-
   marketplace: "/images/Bronson Family Farm market flyer.png",
-
   grower: "/images/grower-field.jpg",
   youth: "/images/youth-workforce.jpg",
   partners: "/images/partners-community.jpg",
-
   value: "/images/Youngstown Farmers Market_0423.png",
 };
 
@@ -42,11 +33,11 @@ const shell: React.CSSProperties = {
 const card: React.CSSProperties = {
   width: "100%",
   maxWidth: "980px",
-  background: "rgba(0,0,0,.58)",
+  background: "rgba(0,0,0,.28)",
   borderRadius: "18px",
   padding: "28px",
-  border: "1px solid rgba(255,255,255,.14)",
-  backdropFilter: "blur(6px)",
+  border: "1px solid rgba(255,255,255,.18)",
+  backdropFilter: "blur(4px)",
 };
 
 const btn: React.CSSProperties = {
@@ -73,9 +64,10 @@ function Screen({
     <div
       style={{
         ...shell,
-        backgroundImage: `linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.60)), url("${image}")`,
+        backgroundImage: `linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.10)), url("${image}")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div style={card}>
@@ -85,7 +77,7 @@ function Screen({
           style={{
             fontSize: "21px",
             lineHeight: 1.6,
-            color: "#f2f2f2",
+            color: "#ffffff",
             marginBottom: "22px",
           }}
         >
@@ -114,7 +106,7 @@ export default function App() {
         return (
           <Screen
             title="Guest Experience"
-            body="Experience the land, the vision, and the purpose of Bronson Family Farm."
+            body="Experience the land, purpose, and vision of Bronson Family Farm."
             image={IMAGES.guest}
             next={() => setPage("customer")}
           />
@@ -124,7 +116,7 @@ export default function App() {
         return (
           <Screen
             title="Customer Pathway"
-            body="Fresh produce, healthy choices, local nutrition, and repeat visits."
+            body="Fresh produce, healthier choices, nutrition, and repeat visits."
             image={IMAGES.customer}
             next={() => setPage("marketplace")}
           />
@@ -134,7 +126,7 @@ export default function App() {
         return (
           <Screen
             title="Marketplace"
-            body="Support growers. Shop local. Strengthen community sustainability."
+            body="Support growers. Shop local. Strengthen sustainability."
             image={IMAGES.marketplace}
             next={() => setPage("grower")}
           />
@@ -144,7 +136,7 @@ export default function App() {
         return (
           <Screen
             title="Grower Pathway"
-            body="Connect producers to opportunity, training, customers, and markets."
+            body="Connect producers to land, customers, and opportunity."
             image={IMAGES.grower}
             next={() => setPage("youth")}
           />
@@ -174,7 +166,7 @@ export default function App() {
         return (
           <Screen
             title="Value-Added Producers"
-            body="Products, food makers, crafters, and entrepreneurs extend farm value."
+            body="Food makers, crafters, processors, and entrepreneurs create value."
             image={IMAGES.value}
             next={() => setPage("home")}
           />
@@ -185,9 +177,10 @@ export default function App() {
           <div
             style={{
               ...shell,
-              backgroundImage: `linear-gradient(rgba(0,0,0,.38),rgba(0,0,0,.62)), url("${IMAGES.home}")`,
+              backgroundImage: `linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.10)), url("${IMAGES.home}")`,
               backgroundSize: "cover",
               backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
             }}
           >
             <div style={card}>
@@ -267,7 +260,7 @@ export default function App() {
                 </button>
               </div>
 
-              <p style={{ marginTop: "24px", opacity: 0.92 }}>
+              <p style={{ marginTop: "24px", opacity: 0.95 }}>
                 Developed by Bronson Family Farm • Farm & Family Alliance • Parker Farms
               </p>
             </div>
