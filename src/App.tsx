@@ -10,26 +10,77 @@ type Page =
   | "partners"
   | "value";
 
-const IMAGES = {
-  home: ["/images/GrowArea.jpg", "/images/GrowArea.JPG", "/images/SAM_0249.JPG"],
-  guest: ["/images/GrowArea.jpg", "/images/GrowArea.JPG", "/images/SAM_0249.JPG"],
-  customer: ["/images/SAM_0249.JPG", "/images/customer-produce.jpg"],
-  marketplace: ["/images/Bronson Family Farm market flyer.png"],
-  grower: ["/images/GrowArea.jpg", "/images/GrowArea.JPG"],
-  youth: ["/images/SAM_0249.JPG", "/images/youth-workforce.jpg"],
-  partners: ["/images/SAM_0252.JPG", "/images/partners-community.jpg"],
-  value: ["/images/Youngstown Farmers Market_0423.png"],
+const IMAGES: Record<Page, string[]> = {
+  home: [
+    "/images/GrowArea.jpg",
+    "/images/GrowArea.JPG",
+    "/images/GrowArea.png",
+    "/images/GrowArea.PNG",
+    "/images/hero-aerial.jpg",
+    "/images/hero-aerial.JPG",
+    "/images/SAM_0249.JPG",
+    "/images/SAM_0252.JPG",
+  ],
+  guest: [
+    "/images/GrowArea.jpg",
+    "/images/GrowArea.JPG",
+    "/images/hero-aerial.jpg",
+    "/images/SAM_0249.JPG",
+  ],
+  customer: [
+    "/images/Youngstown%20Farmers%20Market_0423.png",
+    "/images/customer-produce.jpg",
+    "/images/SAM_0249.JPG",
+  ],
+  marketplace: [
+    "/images/Bronson%20Family%20Farm%20market%20flyer.png",
+    "/images/Youngstown%20Farmers%20Market_0423.png",
+    "/images/marketplace-storefront.jpg",
+  ],
+  grower: [
+    "/images/GrowArea.jpg",
+    "/images/GrowArea.JPG",
+    "/images/grower-field.jpg",
+    "/images/SAM_0252.JPG",
+  ],
+  youth: [
+    "/images/SAM_0249.JPG",
+    "/images/youth-workforce.jpg",
+    "/images/SAM_0252.JPG",
+  ],
+  partners: [
+    "/images/SAM_0252.JPG",
+    "/images/partners-community.jpg",
+    "/images/GrowArea.jpg",
+  ],
+  value: [
+    "/images/Youngstown%20Farmers%20Market_0423.png",
+    "/images/Bronson%20Family%20Farm%20market%20flyer.png",
+  ],
 };
 
+const button = (background: string): React.CSSProperties => ({
+  background,
+  color: "#ffffff",
+  border: "none",
+  borderRadius: "12px",
+  padding: "14px 18px",
+  fontWeight: 700,
+  fontSize: "18px",
+  cursor: "pointer",
+});
+
 function Background({
-  images,
+  page,
   children,
 }: {
-  images: string[];
+  page: Page;
   children: React.ReactNode;
 }) {
-  const [i, setI] = useState(0);
-  const src = images[i] || images[0];
+  const [index, setIndex] = useState(0);
+  const [hideImage, setHideImage] = useState(false);
+  const sources = IMAGES[page];
+  const src = sources[index];
 
   return (
     <div
@@ -44,25 +95,34 @@ function Background({
         background: "#07170d",
       }}
     >
-      <img
-        src={src}
-        onError={() => setI((n) => Math.min(n + 1, images.length - 1))}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center",
-          zIndex: 0,
-        }}
-      />
+      {!hideImage && (
+        <img
+          src={src}
+          alt=""
+          onError={() => {
+            if (index < sources.length - 1) {
+              setIndex(index + 1);
+            } else {
+              setHideImage(true);
+            }
+          }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            zIndex: 0,
+          }}
+        />
+      )}
 
       <div
         style={{
           position: "absolute",
           inset: 0,
-          background: "rgba(0,0,0,.22)",
+          background: "rgba(0,0,0,.18)",
           zIndex: 1,
         }}
       />
@@ -74,7 +134,7 @@ function Background({
           width: "100%",
           maxWidth: "1120px",
           background: "rgba(0,0,0,.58)",
-          color: "#fff",
+          color: "#ffffff",
           borderRadius: "22px",
           padding: "34px",
           border: "1px solid rgba(255,255,255,.14)",
@@ -87,33 +147,25 @@ function Background({
   );
 }
 
-const button = (background: string): React.CSSProperties => ({
-  background,
-  color: "#ffffff",
-  border: "none",
-  borderRadius: "12px",
-  padding: "14px 18px",
-  fontWeight: 700,
-  fontSize: "18px",
-  cursor: "pointer",
-});
-
 function Pathway({
+  page,
   title,
   text,
-  images,
   next,
 }: {
+  page: Page;
   title: string;
   text: string;
-  images: string[];
   next: () => void;
 }) {
   return (
-    <Background images={images}>
+    <Background page={page}>
       <h1 style={{ fontSize: "56px", marginBottom: "14px" }}>{title}</h1>
       <p style={{ fontSize: "26px", lineHeight: 1.6 }}>{text}</p>
-      <button onClick={next} style={{ ...button("#e11d48"), marginTop: "20px" }}>
+      <button
+        onClick={next}
+        style={{ ...button("#e11d48"), marginTop: "20px" }}
+      >
         Continue
       </button>
     </Background>
@@ -123,78 +175,85 @@ function Pathway({
 export default function App() {
   const [page, setPage] = useState<Page>("home");
 
-  if (page === "guest")
+  if (page === "guest") {
     return (
       <Pathway
+        page="guest"
         title="Guest Experience"
         text="Experience the land, purpose, and vision of Bronson Family Farm."
-        images={IMAGES.guest}
         next={() => setPage("customer")}
       />
     );
+  }
 
-  if (page === "customer")
+  if (page === "customer") {
     return (
       <Pathway
+        page="customer"
         title="Customer Pathway"
         text="Fresh produce, nutrition, healthier choices, and return visits."
-        images={IMAGES.customer}
         next={() => setPage("marketplace")}
       />
     );
+  }
 
-  if (page === "marketplace")
+  if (page === "marketplace") {
     return (
       <Pathway
+        page="marketplace"
         title="Marketplace"
         text="Support growers. Shop local. Strengthen sustainability."
-        images={IMAGES.marketplace}
         next={() => setPage("grower")}
       />
     );
+  }
 
-  if (page === "grower")
+  if (page === "grower") {
     return (
       <Pathway
+        page="grower"
         title="Grower Pathway"
         text="Connect producers to land, customers, and opportunity."
-        images={IMAGES.grower}
         next={() => setPage("youth")}
       />
     );
+  }
 
-  if (page === "youth")
+  if (page === "youth") {
     return (
       <Pathway
+        page="youth"
         title="Youth Workforce"
         text="Build discipline, skills, teamwork, and future readiness."
-        images={IMAGES.youth}
         next={() => setPage("partners")}
       />
     );
+  }
 
-  if (page === "partners")
+  if (page === "partners") {
     return (
       <Pathway
+        page="partners"
         title="Partners"
         text="Organizations align resources for community benefit."
-        images={IMAGES.partners}
         next={() => setPage("value")}
       />
     );
+  }
 
-  if (page === "value")
+  if (page === "value") {
     return (
       <Pathway
+        page="value"
         title="Value-Added Producers"
         text="Entrepreneurs create products and extend farm value."
-        images={IMAGES.value}
         next={() => setPage("home")}
       />
     );
+  }
 
   return (
-    <Background images={IMAGES.home}>
+    <Background page="home">
       <h1 style={{ fontSize: "72px", marginBottom: "8px" }}>
         Bronson Family Farm
       </h1>
@@ -230,7 +289,10 @@ export default function App() {
           Enter Experience
         </button>
 
-        <button style={button("#0f766e")} onClick={() => setPage("marketplace")}>
+        <button
+          style={button("#0f766e")}
+          onClick={() => setPage("marketplace")}
+        >
           Marketplace
         </button>
 
