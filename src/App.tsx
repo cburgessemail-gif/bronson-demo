@@ -4,7 +4,7 @@ type Pathway = {
   title: string;
   subtitle: string;
   desc: string;
-  img: string;
+  img: string[];
   btn: string;
   target: string;
 };
@@ -12,7 +12,7 @@ type Pathway = {
 type ProofCard = {
   title: string;
   desc: string;
-  img: string;
+  img: string[];
   btn: string;
 };
 
@@ -24,9 +24,33 @@ type JourneyCard = {
   why: string;
   points: string[];
   cta: string;
-  image: string;
+  image: string[];
   action: "marketplace" | "history" | "connect" | "happening";
 };
+
+function SmartImage({
+  sources,
+  alt,
+  className,
+}: {
+  sources: string[];
+  alt: string;
+  className: string;
+}) {
+  const [index, setIndex] = useState(0);
+  const src = sources[index];
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      onError={() => {
+        if (index < sources.length - 1) setIndex(index + 1);
+      }}
+    />
+  );
+}
 
 export default function App() {
   const [lang, setLang] = useState("EN");
@@ -37,10 +61,7 @@ export default function App() {
   };
 
   const openMarketplace = () => {
-    window.open(
-      "https://grownby.com/farms/bronson-family-farm/shop",
-      "_blank"
-    );
+    window.open("https://grownby.com/farms/bronson-family-farm/shop", "_blank");
   };
 
   const languageNames: Record<string, string> = {
@@ -79,19 +100,25 @@ export default function App() {
     [lang]
   );
 
+  const imageSet = (file: string) => [
+    `/images/${file}`,
+    `/${file}`,
+    `/public/images/${file}`,
+  ];
+
   const images = {
-    hero: "/images/SAM_0249.JPG",
-    guest: "/images/GrowArea2.jpg",
-    customer: "/images/SAM_0225.JPG",
-    marketplace: "/images/SAM_0249.JPG",
-    grower: "/images/SAM_0238.JPG",
-    youth: "/images/SAM_0222.JPG",
-    partners: "/images/SAM_0223.JPG",
-    production: "/images/SAM_0226.JPG",
-    buyLocal: "/images/SAM_0229.JPG",
-    events: "/images/SAM_0255.JPG",
-    community: "/images/SAM_0257.JPG",
-    footer: "/images/SAM_0249.JPG",
+    hero: imageSet("SAM_0249.JPG"),
+    guest: imageSet("GrowArea2.jpg"),
+    customer: imageSet("SAM_0225.JPG"),
+    marketplace: imageSet("SAM_0249.JPG"),
+    grower: imageSet("SAM_0238.JPG"),
+    youth: imageSet("SAM_0222.JPG"),
+    partners: imageSet("SAM_0223.JPG"),
+    production: imageSet("SAM_0226.JPG"),
+    buyLocal: imageSet("SAM_0229.JPG"),
+    events: imageSet("SAM_0255.JPG"),
+    community: imageSet("SAM_0257.JPG"),
+    footer: imageSet("SAM_0249.JPG"),
   };
 
   const pathways: Pathway[] = [
@@ -307,8 +334,8 @@ export default function App() {
       </header>
 
       <section className="relative flex min-h-[92vh] items-center overflow-hidden">
-        <img
-          src="/images/SAM_0249.JPG"
+        <SmartImage
+          sources={images.hero}
           alt="Aerial view of Bronson Family Farm"
           className="absolute inset-0 h-full w-full object-cover"
         />
@@ -349,6 +376,224 @@ export default function App() {
               Live language view: {languageNames[lang]}
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-[#eef2e7] px-6 py-5 text-center text-sm font-semibold uppercase tracking-[0.16em] text-[#466146]">
+        {copy.trust}
+      </section>
+
+      <section id="pathways" className="mx-auto max-w-7xl px-6 py-20">
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <h3 className="text-4xl font-semibold">{copy.pathways}</h3>
+          <p className="mt-4 text-lg text-[#556255]">{copy.pathwaysDesc}</p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          {pathways.map((item) => (
+            <div
+              key={item.title}
+              className="overflow-hidden rounded-3xl border border-[#e2e6d9] bg-white shadow"
+            >
+              <SmartImage
+                sources={item.img}
+                alt={item.title}
+                className="h-60 w-full object-cover"
+              />
+
+              <div className="p-6">
+                <p className="text-xs uppercase tracking-[0.22em] text-[#6b8b67]">
+                  {item.title}
+                </p>
+                <h4 className="mt-2 text-2xl font-semibold">{item.subtitle}</h4>
+                <p className="mt-3 min-h-[88px] text-[#5a6457]">{item.desc}</p>
+
+                <button
+                  onClick={() => goTo(item.target)}
+                  className="mt-4 w-full rounded-2xl bg-[#245730] py-3 text-white"
+                >
+                  {item.btn}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-[#f3f1e8] px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <h3 className="text-4xl font-semibold">{copy.journey}</h3>
+            <p className="mt-4 text-lg text-[#556255]">{copy.journeyDesc}</p>
+          </div>
+
+          <div className="space-y-8">
+            {journeys.map((card) => (
+              <section
+                id={card.id}
+                key={card.id}
+                className="grid overflow-hidden rounded-3xl border border-[#e2e3d7] bg-white shadow lg:grid-cols-2"
+              >
+                <SmartImage
+                  sources={card.image}
+                  alt={card.title}
+                  className="h-full min-h-[320px] w-full object-cover"
+                />
+
+                <div className="p-8">
+                  <p className="text-xs uppercase tracking-[0.22em] text-[#688465]">
+                    {card.kicker}
+                  </p>
+                  <h4 className="mt-2 text-3xl font-semibold">{card.title}</h4>
+
+                  <p className="mt-4 text-[#556255]">{card.summary}</p>
+
+                  <div className="mt-5 rounded-2xl bg-[#eef2e7] p-4 text-[#466146]">
+                    <strong>Why it matters:</strong> {card.why}
+                  </div>
+
+                  <ul className="mt-5 space-y-2 text-[#556255]">
+                    {card.points.map((p) => (
+                      <li key={p}>• {p}</li>
+                    ))}
+                  </ul>
+
+                  <button
+                    onClick={() => handleJourney(card.action)}
+                    className="mt-6 rounded-2xl bg-[#245730] px-6 py-3 text-white"
+                  >
+                    {card.cta}
+                  </button>
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="happening" className="bg-[#e7efe4] px-6 py-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <h3 className="text-4xl font-semibold">{copy.happening}</h3>
+            <p className="mt-4 text-lg text-[#556255]">{copy.happeningDesc}</p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {proof.map((item) => (
+              <div
+                key={item.title}
+                className="overflow-hidden rounded-3xl border border-[#dfe7da] bg-white shadow"
+              >
+                <SmartImage
+                  sources={item.img}
+                  alt={item.title}
+                  className="h-52 w-full object-cover"
+                />
+
+                <div className="p-5">
+                  <h4 className="text-xl font-semibold">{item.title}</h4>
+                  <p className="mt-3 min-h-[100px] text-[#5a6457]">
+                    {item.desc}
+                  </p>
+
+                  <button
+                    onClick={() =>
+                      item.title === "Buy Local" ? openMarketplace() : goTo("connect")
+                    }
+                    className="mt-4 w-full rounded-2xl border border-[#245730] py-3 text-[#245730]"
+                  >
+                    {item.btn}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="history" className="mx-auto max-w-6xl px-6 py-20">
+        <div className="text-center">
+          <h3 className="text-4xl font-semibold">{copy.history}</h3>
+
+          <p className="mx-auto mt-6 max-w-4xl text-lg leading-9 text-[#556255]">
+            Bronson Family Farm is rooted in a place that already carries meaning.
+            Lansdowne Airport was dedicated in 1926 as Youngstown’s first airport,
+            making this land part of the city’s early story of movement, ambition,
+            connection, and possibility.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-8 lg:grid-cols-3">
+          <div className="rounded-3xl border bg-white p-7 shadow">
+            <h4 className="text-2xl font-semibold">Historic Foundation</h4>
+            <p className="mt-4 text-[#5a6457]">
+              This is not random land. It is historic ground tied to the identity
+              of Youngstown.
+            </p>
+          </div>
+
+          <div className="rounded-3xl border bg-white p-7 shadow">
+            <h4 className="text-2xl font-semibold">Present Transformation</h4>
+            <p className="mt-4 text-[#5a6457]">
+              The site is being reimagined as a regenerative farm, agritourism
+              destination, and ecosystem for opportunity.
+            </p>
+          </div>
+
+          <div className="rounded-3xl border bg-white p-7 shadow">
+            <h4 className="text-2xl font-semibold">Future Meaning</h4>
+            <p className="mt-4 text-[#5a6457]">
+              A place people can return to for nourishment, learning, partnership,
+              and possibility across generations.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="connect"
+        className="relative overflow-hidden px-6 py-20 text-white"
+      >
+        <SmartImage
+          sources={images.footer}
+          alt="Bronson Family Farm"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+
+        <div className="absolute inset-0 bg-[rgba(17,41,22,0.88)]" />
+
+        <div className="relative z-10 mx-auto max-w-6xl text-center">
+          <h3 className="text-4xl font-semibold">{copy.connect}</h3>
+
+          <p className="mx-auto mt-5 max-w-3xl text-lg text-white/85">
+            {copy.connectDesc}
+          </p>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {[
+              "Visit the Farm",
+              "Shop Fresh",
+              "Grow With Us",
+              "Partner With Us",
+              "Apply Today",
+            ].map((btn) => (
+              <button
+                key={btn}
+                onClick={() =>
+                  btn === "Shop Fresh" ? openMarketplace() : goTo("history")
+                }
+                className="rounded-2xl bg-white px-4 py-3 text-[#18311d]"
+              >
+                {btn}
+              </button>
+            ))}
+          </div>
+
+          <p className="mt-12 text-sm uppercase tracking-[0.18em] text-white/70">
+            Historic Lansdowne Airport Site • Youngstown, Ohio
+          </p>
+
+          <p className="mt-2 text-white/80">www.bronsonfamilyfarm.com</p>
         </div>
       </section>
     </div>
