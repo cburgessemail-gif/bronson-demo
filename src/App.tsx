@@ -24,6 +24,7 @@ type Path = {
 export default function App() {
   const [lang, setLang] = useState<Lang>("EN");
   const [active, setActive] = useState<PathKey>("guest");
+  const [resource, setResource] = useState<string>("");
 
   const goTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({
@@ -39,6 +40,26 @@ export default function App() {
     );
   };
 
+  const shareDemo = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Bronson Family Farm",
+          text: "Explore Bronson Family Farm",
+          url,
+        });
+      } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        alert("Link copied to clipboard.");
+      } catch {
+        alert(url);
+      }
+    }
+  };
+
   const images = {
     hero: "/GrowArea.jpg",
     guest: "/GrowArea2.jpg",
@@ -48,9 +69,14 @@ export default function App() {
     value: "/SAM_0226.JPG",
     youth: "/SAM_0222.JPG",
     partner: "/SAM_0223.JPG",
-    proof1: "/SAM_0229.JPG",
-    proof2: "/SAM_0255.JPG",
-    proof3: "/SAM_0257.JPG",
+
+    produce1: "/SAM_0229.JPG",
+    produce2: "/SAM_0255.JPG",
+    produce3: "/SAM_0257.JPG",
+    produce4: "/SAM_0249.JPG",
+    produce5: "/SAM_0225.JPG",
+    produce6: "/SAM_0238.JPG",
+
     footer: "/SAM_0249.JPG",
   };
 
@@ -60,31 +86,28 @@ export default function App() {
         "A Living Teaching Environment Where Food, Work, and Community Grow Together.",
       heroText:
         "Bronson Family Farm transforms historic land into a regional ecosystem for food sustainability, workforce development, marketplace opportunity, and community renewal.",
-      enter: "Enter the Experience",
+      enter: "Start Guided Tour",
       shop: "Enter Marketplace",
     },
     ES: {
       heroTitle:
-        "Un entorno vivo de enseñanza donde la comida, el trabajo y la comunidad crecen juntos.",
-      heroText:
-        "Bronson Family Farm transforma tierra histórica en un ecosistema regional para alimentos, trabajo y renovación comunitaria.",
-      enter: "Entrar",
+        "Un entorno vivo donde la comida, el trabajo y la comunidad crecen juntos.",
+      heroText: "Un ecosistema regional de alimentos y oportunidad.",
+      enter: "Comenzar",
       shop: "Mercado",
     },
     TL: {
       heroTitle:
-        "Isang buhay na kapaligiran ng pagkatuto kung saan sabay lumalago ang pagkain, trabaho, at komunidad.",
-      heroText:
-        "Binabago ng Bronson Family Farm ang makasaysayang lupa bilang ecosystem para sa pagkain at oportunidad.",
-      enter: "Pumasok",
+        "Isang buhay na kapaligiran kung saan sabay lumalago ang pagkain, trabaho, at komunidad.",
+      heroText: "Isang regional ecosystem para sa pagkain at oportunidad.",
+      enter: "Simulan",
       shop: "Marketplace",
     },
     FR: {
       heroTitle:
-        "Un environnement vivant d’apprentissage où alimentation, travail et communauté grandissent ensemble.",
-      heroText:
-        "Bronson Family Farm transforme un terrain historique en écosystème régional.",
-      enter: "Entrer",
+        "Un environnement vivant où alimentation, travail et communauté grandissent ensemble.",
+      heroText: "Un écosystème régional pour l’alimentation et l’opportunité.",
+      enter: "Commencer",
       shop: "Marché",
     },
   }[lang];
@@ -93,21 +116,21 @@ export default function App() {
     {
       key: "guest",
       title: "Guest Experience",
-      subtitle: "Start Here",
+      subtitle: "Everyone Starts Here",
       image: images.guest,
       story:
-        "Everyone begins here. Discover the story of historic land becoming a place of food, opportunity, and renewal.",
+        "Discover the story of historic land becoming a place of food, opportunity, and renewal.",
       community:
-        "Creates a shared understanding of why this ecosystem matters.",
+        "Creates shared understanding and pride in what is being built here.",
       personal:
         "You understand the vision and where you belong in it.",
       resources: [
         "Land Story",
         "Tours",
         "Events",
-        "Volunteer Opportunities",
+        "Volunteer",
         "Photo Gallery",
-        "Choose Role",
+        "Choose Opportunity",
       ],
     },
     {
@@ -116,9 +139,9 @@ export default function App() {
       subtitle: "Fresh Food & Health",
       image: images.customer,
       story:
-        "Fresh local food improves quality of life and strengthens local agriculture.",
+        "Fresh local food improves quality of life and supports growers.",
       community:
-        "Supports growers, food access, and healthier families.",
+        "Keeps food dollars local and helps healthier families.",
       personal:
         "You gain trusted fresh products and reasons to return.",
       resources: [
@@ -126,28 +149,28 @@ export default function App() {
         "Bubble Babies™",
         "Recipes",
         "SNAP Access",
+        "Pickup Info",
         "Seasonal Updates",
-        "Pickup Options",
       ],
     },
     {
       key: "marketplace",
       title: "Marketplace Opportunity",
-      subtitle: "Regional Food Sustainability",
+      subtitle: "Regional Sustainability",
       image: images.marketplace,
       story:
-        "The marketplace turns support into action and helps keep food dollars local.",
+        "The marketplace turns support into action.",
       community:
-        "Strengthens growers, supply chains, and regional resilience.",
+        "Strengthens growers, local supply chains, and resilience.",
       personal:
-        "You directly help build a stronger local food system.",
+        "You directly help build a stronger food system.",
       resources: [
-        "GrownBy Store",
-        "Local Products",
-        "Seasonal Offers",
-        "Grower Goods",
         "Fresh This Week",
+        "Local Growers",
+        "Seasonal Offers",
         "Easy Checkout",
+        "Support Local",
+        "Share Marketplace",
       ],
     },
     {
@@ -156,18 +179,18 @@ export default function App() {
       subtitle: "Produce & Prosper",
       image: images.grower,
       story:
-        "Growers need visibility, markets, and collaboration—not just land.",
+        "Growers need visibility, markets, and collaboration.",
       community:
-        "More growers means more local food and stronger neighborhoods.",
+        "More growers means more local food.",
       personal:
         "You gain opportunity, buyers, and ecosystem support.",
       resources: [
         "Market Access",
         "Training",
         "Crop Planning",
-        "Events",
         "Distribution",
         "Visibility",
+        "Events",
       ],
     },
     {
@@ -176,17 +199,17 @@ export default function App() {
       subtitle: "Create More Value",
       image: images.value,
       story:
-        "Raw ingredients can become higher-value products that grow local enterprise.",
+        "Turn local ingredients into higher-value products.",
       community:
         "Creates jobs, brands, and reduces waste.",
       personal:
         "You turn creativity into products and income.",
       resources: [
-        "Product Ideas",
-        "Brand Visibility",
-        "Marketplace Access",
-        "Packaging Concepts",
-        "Seasonal Ingredients",
+        "Packaging",
+        "Branding",
+        "Ingredients",
+        "Marketplace Shelf",
+        "Seasonal Ideas",
         "Growth Potential",
       ],
     },
@@ -196,17 +219,17 @@ export default function App() {
       subtitle: "People Grow Here Too",
       image: images.youth,
       story:
-        "The farm is a teaching environment where young people build readiness through real experience.",
+        "The farm is a teaching environment where readiness is built through real experience.",
       community:
-        "Builds stronger future workers and healthier transitions to adulthood.",
+        "Builds stronger future workers.",
       personal:
         "Participants gain confidence, habits, responsibility, and skills.",
       resources: [
         "Outdoor Learning",
         "Preparation Skills",
+        "Safety",
         "Teamwork",
-        "Safety Habits",
-        "Leadership Tasks",
+        "Leadership",
         "Mentorship",
       ],
     },
@@ -216,7 +239,7 @@ export default function App() {
       subtitle: "Shared Impact",
       image: images.partner,
       story:
-        "No single organization solves community challenges alone.",
+        "No single organization solves challenges alone.",
       community:
         "Partnership turns resources into measurable impact.",
       personal:
@@ -248,32 +271,6 @@ export default function App() {
     "Petitti Garden Centers",
     "Elliott’s Garden Center",
     "Youngstown Area Jewish Foundation",
-  ];
-
-  const endButtons = [
-    {
-      label: "Enter Marketplace",
-      action: () => openMarketplace(),
-    },
-    {
-      label: "Share With Others",
-      action: () => {
-        if (navigator.share) {
-          navigator.share({
-            title: "Bronson Family Farm",
-            text: "Explore Bronson Family Farm",
-            url: window.location.href,
-          });
-        } else {
-          navigator.clipboard.writeText(window.location.href);
-          alert("Link copied to clipboard");
-        }
-      },
-    },
-    {
-      label: "Return Home",
-      action: () => goTo("hero"),
-    },
   ];
 
   return (
@@ -308,7 +305,7 @@ export default function App() {
 
       {/* Hero */}
       <section
-        id="hero"
+        id="home"
         className="relative min-h-[88vh] flex items-center bg-cover bg-center"
         style={{ backgroundImage: `url('${images.hero}')` }}
       >
@@ -329,14 +326,14 @@ export default function App() {
 
           <div className="flex flex-wrap gap-4">
             <button
-              onClick={() => goTo("paths")}
+              onClick={() => goTo("story")}
               className="px-6 py-3 rounded-xl bg-green-700 hover:bg-green-800 font-semibold"
             >
               {copy.enter}
             </button>
 
             <button
-              onClick={openMarketplace}
+              onClick={() => goTo("market")}
               className="px-6 py-3 rounded-xl border border-white hover:bg-white hover:text-[#17301c] font-semibold"
             >
               {copy.shop}
@@ -345,20 +342,28 @@ export default function App() {
         </div>
       </section>
 
-      {/* Shared Story */}
-      <section className="px-6 py-20 bg-white">
+      {/* Story */}
+      <section id="story" className="px-6 py-20 bg-white">
         <div className="mx-auto max-w-5xl text-center">
           <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
-            Shared Purpose
+            Guided Tour · Step 1
           </p>
+
           <h3 className="text-3xl md:text-5xl font-semibold mb-6">
             Crops Grow Here. People Grow Here Too.
           </h3>
-          <p className="text-lg leading-8 text-gray-700">
-            This ecosystem connects land, food, work experience, local commerce,
-            education, and community resilience into one living model for the
-            Mahoning Valley.
+
+          <p className="text-lg leading-8 text-gray-700 mb-8">
+            This ecosystem connects land, food, work experience, commerce,
+            education, and community resilience into one living model.
           </p>
+
+          <button
+            onClick={() => goTo("paths")}
+            className="px-6 py-3 rounded-xl bg-green-700 text-white font-semibold hover:bg-green-800"
+          >
+            Continue Tour
+          </button>
         </div>
       </section>
 
@@ -367,8 +372,9 @@ export default function App() {
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-14">
             <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
-              Opportunities
+              Guided Tour · Step 2
             </p>
+
             <h3 className="text-3xl md:text-4xl font-semibold">
               Choose Your Opportunity in the Ecosystem
             </h3>
@@ -380,6 +386,7 @@ export default function App() {
                 key={p.key}
                 onClick={() => {
                   setActive(p.key);
+                  setResource("");
                   goTo("journey");
                 }}
                 className="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden text-left"
@@ -389,12 +396,19 @@ export default function App() {
                   alt={p.title}
                   className="h-56 w-full object-cover"
                 />
+
                 <div className="p-6">
                   <p className="text-sm uppercase font-bold text-green-700 mb-2">
                     {p.subtitle}
                   </p>
-                  <h4 className="text-2xl font-semibold mb-3">{p.title}</h4>
-                  <p className="text-gray-700 leading-7">{p.story}</p>
+
+                  <h4 className="text-2xl font-semibold mb-3">
+                    {p.title}
+                  </h4>
+
+                  <p className="text-gray-700 leading-7">
+                    {p.story}
+                  </p>
                 </div>
               </button>
             ))}
@@ -415,7 +429,7 @@ export default function App() {
 
           <div>
             <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
-              Your Journey
+              Guided Tour · Step 3
             </p>
 
             <h3 className="text-3xl md:text-5xl font-semibold mb-6">
@@ -450,39 +464,65 @@ export default function App() {
                 </p>
               </div>
 
+              {/* Resources */}
               <div className="p-6 rounded-2xl bg-[#f7f4ec]">
                 <h4 className="text-xl font-semibold mb-4">
-                  Tools & Resources Available
+                  Clickable Tools & Resources
                 </h4>
 
                 <div className="grid md:grid-cols-2 gap-3">
                   {activePath.resources.map((r) => (
-                    <div
+                    <button
                       key={r}
-                      className="bg-white rounded-xl px-4 py-3 font-semibold shadow-sm"
+                      onClick={() => setResource(r)}
+                      className="bg-white rounded-xl px-4 py-3 font-semibold shadow-sm text-left hover:bg-green-50"
                     >
                       {r}
-                    </div>
+                    </button>
                   ))}
                 </div>
+
+                {resource && (
+                  <div className="mt-5 rounded-xl bg-white p-5 border">
+                    <h5 className="font-semibold text-lg mb-2">
+                      {resource}
+                    </h5>
+                    <p className="text-gray-700 leading-7">
+                      {resource} is part of the {activePath.title} pathway and
+                      helps users move forward with real opportunity, support,
+                      and participation.
+                    </p>
+                  </div>
+                )}
               </div>
 
-              {/* Final destination */}
+              {/* Final CTA */}
               <div className="p-6 rounded-2xl bg-green-900 text-white">
                 <h4 className="text-xl font-semibold mb-4">
-                  Your Next Decision
+                  Final Step
                 </h4>
 
                 <div className="grid md:grid-cols-3 gap-3">
-                  {endButtons.map((b) => (
-                    <button
-                      key={b.label}
-                      onClick={b.action}
-                      className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
-                    >
-                      {b.label}
-                    </button>
-                  ))}
+                  <button
+                    onClick={() => goTo("market")}
+                    className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
+                  >
+                    Enter Marketplace
+                  </button>
+
+                  <button
+                    onClick={shareDemo}
+                    className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
+                  >
+                    Share With Others
+                  </button>
+
+                  <button
+                    onClick={() => goTo("home")}
+                    className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
+                  >
+                    Return Home
+                  </button>
                 </div>
               </div>
             </div>
@@ -490,53 +530,66 @@ export default function App() {
         </div>
       </section>
 
-      {/* Proof */}
-      <section className="px-6 py-20 bg-[#e7efe4]">
+      {/* Marketplace */}
+      <section id="market" className="px-6 py-20 bg-[#e7efe4]">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-14">
             <p className="text-sm uppercase tracking-[4px] font-bold text-green-800 mb-3">
-              Reasons to Return
+              Guided Tour · Final Destination
             </p>
-            <h3 className="text-3xl md:text-4xl font-semibold">
-              This Ecosystem Is Active and Growing
+
+            <h3 className="text-3xl md:text-5xl font-semibold mb-4">
+              Marketplace
             </h3>
+
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+              Every local purchase helps strengthen regional food sustainability.
+            </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {[
-              {
-                img: images.proof1,
-                title: "Fresh This Week",
-                text: "New produce, seedlings, and seasonal products.",
-              },
-              {
-                img: images.proof2,
-                title: "Upcoming Events",
-                text: "Markets, workshops, tours, and community gatherings.",
-              },
-              {
-                img: images.proof3,
-                title: "Growing Impact",
-                text: "More partners, more participation, more opportunity.",
-              },
-            ].map((x) => (
+              images.produce1,
+              images.produce2,
+              images.produce3,
+              images.produce4,
+              images.produce5,
+              images.produce6,
+            ].map((img, i) => (
               <div
-                key={x.title}
-                className="bg-white rounded-2xl shadow overflow-hidden"
+                key={i}
+                className="overflow-hidden rounded-2xl bg-white shadow"
               >
                 <img
-                  src={x.img}
-                  alt={x.title}
-                  className="h-52 w-full object-cover"
+                  src={img}
+                  alt="Produce"
+                  className="h-60 w-full object-cover"
                 />
-                <div className="p-6">
-                  <h4 className="text-2xl font-semibold mb-3">
-                    {x.title}
-                  </h4>
-                  <p className="text-gray-700 leading-7">{x.text}</p>
-                </div>
               </div>
             ))}
+          </div>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <button
+              onClick={openMarketplace}
+              className="rounded-xl bg-green-700 text-white px-4 py-3 font-semibold hover:bg-green-800"
+            >
+              Shop Marketplace
+            </button>
+
+            <button
+              onClick={shareDemo}
+              className="rounded-xl bg-white px-4 py-3 font-semibold border hover:bg-gray-100"
+            >
+              Share With Others
+            </button>
+
+            <button
+              onClick={() => goTo("home")}
+              className="rounded-xl bg-white px-4 py-3 font-semibold border hover:bg-gray-100"
+            >
+              Return Home
+            </button>
           </div>
         </div>
       </section>
@@ -578,15 +631,26 @@ export default function App() {
           </p>
 
           <div className="grid gap-4 md:grid-cols-3">
-            {endButtons.map((b) => (
-              <button
-                key={b.label}
-                onClick={b.action}
-                className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
-              >
-                {b.label}
-              </button>
-            ))}
+            <button
+              onClick={openMarketplace}
+              className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
+            >
+              Marketplace
+            </button>
+
+            <button
+              onClick={shareDemo}
+              className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
+            >
+              Share
+            </button>
+
+            <button
+              onClick={() => goTo("home")}
+              className="rounded-xl bg-white text-[#17301c] px-4 py-3 font-semibold hover:bg-gray-200"
+            >
+              Home
+            </button>
           </div>
 
           <p className="mt-10 text-white/75">
