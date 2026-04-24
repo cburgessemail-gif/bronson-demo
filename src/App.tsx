@@ -67,17 +67,21 @@ const imageBank = {
     "/images/SAM_0229.JPG",
   ],
 
-  // MARKETPLACE — commerce / storefront / abundance
+  // MARKETPLACE — TRUE marketplace / buying / storefront / commercial energy
   marketplace: [
-    "/SAM_0249.JPG",
-    "/images/SAM_0249.JPG",
     "/00launch.png",
     "/images/00launch.png",
+    "/SAM_0249.JPG",
+    "/images/SAM_0249.JPG",
     "/SAM_0250.JPG",
     "/images/SAM_0250.JPG",
+    "/SAM_0248.JPG",
+    "/images/SAM_0248.JPG",
   ],
 
   marketplaceProduce: [
+    "/SAM_0248.JPG",
+    "/images/SAM_0248.JPG",
     "/SAM_0229.JPG",
     "/images/SAM_0229.JPG",
     "/SAM_0225.JPG",
