@@ -59,33 +59,31 @@ const imageBank = {
 
   // CUSTOMER — produce / seedlings / healthy food choices
   customer: [
-    "/SAM_0225.JPG",
-    "/images/SAM_0225.JPG",
     "/SAM_0226.JPG",
     "/images/SAM_0226.JPG",
     "/SAM_0229.JPG",
     "/images/SAM_0229.JPG",
+    "/SAM_0225.JPG",
+    "/images/SAM_0225.JPG",
   ],
 
-  // MARKETPLACE — TRUE marketplace / buying / storefront / commercial energy
+  // MARKETPLACE — produce visible first, then storefront / commerce
   marketplace: [
-    "/00launch.png",
-    "/images/00launch.png",
-    "/SAM_0249.JPG",
-    "/images/SAM_0249.JPG",
-    "/SAM_0250.JPG",
-    "/images/SAM_0250.JPG",
-    "/SAM_0248.JPG",
-    "/images/SAM_0248.JPG",
-  ],
-
-  marketplaceProduce: [
-    "/SAM_0248.JPG",
-    "/images/SAM_0248.JPG",
     "/SAM_0229.JPG",
     "/images/SAM_0229.JPG",
     "/SAM_0225.JPG",
     "/images/SAM_0225.JPG",
+    "/00launch.png",
+    "/images/00launch.png",
+    "/SAM_0249.JPG",
+    "/images/SAM_0249.JPG",
+  ],
+
+  marketplaceProduce: [
+    "/SAM_0225.JPG",
+    "/images/SAM_0225.JPG",
+    "/SAM_0229.JPG",
+    "/images/SAM_0229.JPG",
     "/SAM_0226.JPG",
     "/images/SAM_0226.JPG",
   ],
@@ -110,16 +108,16 @@ const imageBank = {
     "/images/SAM_0229.JPG",
   ],
 
-  // YOUTH — PEOPLE FIRST: youth / students / visible human activity
+  // YOUTH — use strongest people/customer image first
   youth: [
+    "/SAM_0225.JPG",
+    "/images/SAM_0225.JPG",
     "/SAM_0223.JPG",
     "/images/SAM_0223.JPG",
     "/SAM_0222.JPG",
     "/images/SAM_0222.JPG",
     "/SAM_0224.JPG",
     "/images/SAM_0224.JPG",
-    "/SAM_0230.JPG",
-    "/images/SAM_0230.JPG",
   ],
 
   // PARTNER — collaboration / meetings / site visit / community presence
