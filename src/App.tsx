@@ -5,24 +5,21 @@ type Pathway = {
   title: string;
   subtitle: string;
   mission: string;
-  image: string;
-  fallback: string;
+  images: string[];
   details: string[];
 };
 
 function FarmImage({
-  src,
-  fallback,
+  sources,
   alt,
   className = "",
 }: {
-  src: string;
-  fallback: string;
+  sources: string[];
   alt: string;
   className?: string;
 }) {
-  const [current, setCurrent] = useState(src);
-  const [triedFallback, setTriedFallback] = useState(false);
+  const [index, setIndex] = useState(0);
+  const current = sources[index] || sources[0];
 
   return (
     <img
@@ -30,9 +27,8 @@ function FarmImage({
       alt={alt}
       className={className}
       onError={() => {
-        if (!triedFallback) {
-          setCurrent(fallback);
-          setTriedFallback(true);
+        if (index < sources.length - 1) {
+          setIndex(index + 1);
         }
       }}
     />
@@ -42,6 +38,13 @@ function FarmImage({
 export default function App() {
   const [selected, setSelected] = useState("guest");
 
+  const heroImages = [
+    "/images/GrowArea2.jpg",
+    "/images/GrowArea.jpg",
+    "/images/GrowArea.JPG",
+    "/images/GrowArea2.JPG",
+  ];
+
   const pathways: Pathway[] = useMemo(
     () => [
       {
@@ -50,8 +53,7 @@ export default function App() {
         subtitle: "Vision • Story • Purpose",
         mission:
           "Guests understand why Bronson Family Farm exists: land, food, family legacy, and community transformation working together.",
-        image: "/images/GrowArea.JPG",
-        fallback: "/images/GrowArea.jpg",
+        images: heroImages,
         details: [
           "Historic Lansdowne Airport land activated for community benefit",
           "A living farm experience, not a static presentation",
@@ -65,8 +67,11 @@ export default function App() {
         subtitle: "Fresh Food • Nutrition • Repeat Healthy Choices",
         mission:
           "Customers connect with fresh produce, nutrition, and local purchasing choices that support a healthier Mahoning Valley.",
-        image: "/images/SAM_0106.JPG",
-        fallback: "/images/SAM_0106.jpg",
+        images: [
+          "/images/SAM_0106.JPG",
+          "/images/SAM_0106.jpg",
+          "/images/GrowArea.jpg",
+        ],
         details: [
           "Fresh local food and seasonal offerings",
           "Nutrition-forward customer education",
@@ -80,8 +85,11 @@ export default function App() {
         subtitle: "Sales • Sustainability • Grower Opportunity",
         mission:
           "The marketplace converts interest into purchasing power so growers, vendors, and the ecosystem can become sustainable.",
-        image: "/images/SAM_0110.JPG",
-        fallback: "/images/SAM_0110.jpg",
+        images: [
+          "/images/SAM_0110.JPG",
+          "/images/SAM_0110.jpg",
+          "/images/GrowArea2.jpg",
+        ],
         details: [
           "Growers Supply Market event experience",
           "Bubble Babies™ seedlings and farm products",
@@ -95,8 +103,11 @@ export default function App() {
         subtitle: "Producers • Access • Market Participation",
         mission:
           "Growers enter the ecosystem through the portal and gain access to visibility, resources, sales pathways, and shared opportunity.",
-        image: "/images/SAM_0107.JPG",
-        fallback: "/images/SAM_0107.jpg",
+        images: [
+          "/images/SAM_0107.JPG",
+          "/images/SAM_0107.jpg",
+          "/images/GrowArea.jpg",
+        ],
         details: [
           "Registered growers gain marketplace participation benefits",
           "Urban and rural growers are connected",
@@ -110,8 +121,11 @@ export default function App() {
         subtitle: "Skills • Responsibility • Future Readiness",
         mission:
           "Youth build responsibility, confidence, and career readiness through real farm, event, marketplace, and logistics experiences.",
-        image: "/images/SAM_0108.JPG",
-        fallback: "/images/SAM_0108.jpg",
+        images: [
+          "/images/SAM_0108.JPG",
+          "/images/SAM_0108.jpg",
+          "/images/GrowArea2.jpg",
+        ],
         details: [
           "Hands-on learning in agriculture and outdoor work",
           "Teamwork, responsibility, and leadership development",
@@ -125,8 +139,11 @@ export default function App() {
         subtitle: "Resources • Alignment • Community Benefit",
         mission:
           "Partners align resources, credibility, education, and support so the farm ecosystem can serve the broader community.",
-        image: "/images/SAM_0109.JPG",
-        fallback: "/images/SAM_0109.jpg",
+        images: [
+          "/images/SAM_0109.JPG",
+          "/images/SAM_0109.jpg",
+          "/images/GrowArea.jpg",
+        ],
         details: [
           "Farm & Family Alliance, Inc.",
           "Parker Farms",
@@ -148,8 +165,7 @@ export default function App() {
       <main className="app">
         <section className="hero">
           <FarmImage
-            src="/images/GrowArea.JPG"
-            fallback="/images/GrowArea.jpg"
+            sources={heroImages}
             alt="Bronson Family Farm growing area"
             className="heroImage"
           />
@@ -198,8 +214,7 @@ export default function App() {
               onClick={() => setSelected(path.id)}
             >
               <FarmImage
-                src={path.image}
-                fallback={path.fallback}
+                sources={path.images}
                 alt={path.title}
                 className="cardImage"
               />
@@ -215,8 +230,7 @@ export default function App() {
         <section className="detail">
           <div className="detailImageBox">
             <FarmImage
-              src={active.image}
-              fallback={active.fallback}
+              sources={active.images}
               alt={active.title}
               className="detailImage"
             />
