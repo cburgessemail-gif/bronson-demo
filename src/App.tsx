@@ -6,498 +6,600 @@ type Pathway = {
   subtitle: string;
   mission: string;
   image: string;
-  summary: string;
+  fallback: string;
   details: string[];
 };
 
+function FarmImage({
+  src,
+  fallback,
+  alt,
+  className = "",
+}: {
+  src: string;
+  fallback: string;
+  alt: string;
+  className?: string;
+}) {
+  const [current, setCurrent] = useState(src);
+  const [triedFallback, setTriedFallback] = useState(false);
+
+  return (
+    <img
+      src={current}
+      alt={alt}
+      className={className}
+      onError={() => {
+        if (!triedFallback) {
+          setCurrent(fallback);
+          setTriedFallback(true);
+        }
+      }}
+    />
+  );
+}
+
 export default function App() {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState("guest");
 
   const pathways: Pathway[] = useMemo(
     () => [
       {
         id: "guest",
         title: "Guest Experience",
-        subtitle: "Understand the land, story, and purpose",
+        subtitle: "Vision • Story • Purpose",
         mission:
-          "Help first-time visitors quickly understand Bronson Family Farm and why it matters to Youngstown and the Mahoning Valley.",
-        image: "/images/GrowArea.jpg",
-        summary:
-          "Guests enter a living farm ecosystem where food, land stewardship, education, and family legacy come together.",
+          "Guests understand why Bronson Family Farm exists: land, food, family legacy, and community transformation working together.",
+        image: "/images/GrowArea.JPG",
+        fallback: "/images/GrowArea.jpg",
         details: [
-          "Historic Lansdowne Airport land transformed into productive use",
-          "Agriculture, agritourism, and community wellness combined",
-          "Family-centered mission focused on future generations",
-          "Invitation-only events create a curated visitor experience",
+          "Historic Lansdowne Airport land activated for community benefit",
+          "A living farm experience, not a static presentation",
+          "Food, stewardship, education, and legacy connected in one place",
+          "Invitation-only access supports a guided and intentional experience",
         ],
       },
       {
         id: "customer",
         title: "Customer Pathway",
-        subtitle: "Fresh food • nutrition • repeat healthy choices",
+        subtitle: "Fresh Food • Nutrition • Repeat Healthy Choices",
         mission:
-          "Connect families to fresh produce and healthy lifestyle choices.",
+          "Customers connect with fresh produce, nutrition, and local purchasing choices that support a healthier Mahoning Valley.",
         image: "/images/SAM_0106.JPG",
-        summary:
-          "Customers discover local produce, seasonal items, and direct support of a regional farm ecosystem.",
+        fallback: "/images/SAM_0106.jpg",
         details: [
-          "Fresh produce grown locally",
-          "Nutrition-forward buying experience",
-          "Supports community growers",
-          "Healthy repeat purchasing habits",
+          "Fresh local food and seasonal offerings",
+          "Nutrition-forward customer education",
+          "Produce, seedlings, and farm-based products",
+          "Repeat healthy choices connected to the local food system",
         ],
       },
       {
-        id: "market",
+        id: "marketplace",
         title: "Marketplace",
-        subtitle: "Convert interest into purchasing power",
+        subtitle: "Sales • Sustainability • Grower Opportunity",
         mission:
-          "Create revenue streams that sustain growers, farmers, and the ecosystem.",
+          "The marketplace converts interest into purchasing power so growers, vendors, and the ecosystem can become sustainable.",
         image: "/images/SAM_0110.JPG",
-        summary:
-          "The marketplace turns curiosity into real transactions through produce, seedlings, supplies, and value-added products.",
+        fallback: "/images/SAM_0110.jpg",
         details: [
-          "Growers Supply Market events",
-          "Bubble Babies™ seedling products",
-          "Vendor booths and partnerships",
-          "Digital ordering and event check-in",
+          "Growers Supply Market event experience",
+          "Bubble Babies™ seedlings and farm products",
+          "Vendor tables, demonstrations, and direct sales",
+          "Supports both in-person and digital marketplace growth",
         ],
       },
       {
         id: "grower",
         title: "Grower Network",
-        subtitle: "Connect producers to opportunity",
+        subtitle: "Producers • Access • Market Participation",
         mission:
-          "Bring growers into one supportive ecosystem with access to customers and resources.",
+          "Growers enter the ecosystem through the portal and gain access to visibility, resources, sales pathways, and shared opportunity.",
         image: "/images/SAM_0107.JPG",
-        summary:
-          "Growers can participate in events, marketplace opportunities, and shared regional momentum.",
+        fallback: "/images/SAM_0107.jpg",
         details: [
-          "Small growers welcomed",
-          "Urban + rural collaboration",
-          "Sales opportunities",
-          "Shared visibility and support",
+          "Registered growers gain marketplace participation benefits",
+          "Urban and rural growers are connected",
+          "Training, visibility, and shared infrastructure are supported",
+          "Growers are entrepreneurs contributing to the larger ecosystem",
         ],
       },
       {
         id: "youth",
         title: "Youth Workforce",
-        subtitle: "Skills • responsibility • future readiness",
+        subtitle: "Skills • Responsibility • Future Readiness",
         mission:
-          "Build the next generation through practical experience and leadership.",
+          "Youth build responsibility, confidence, and career readiness through real farm, event, marketplace, and logistics experiences.",
         image: "/images/SAM_0108.JPG",
-        summary:
-          "Youth gain real-world responsibility through agriculture, logistics, sales, teamwork, and stewardship.",
+        fallback: "/images/SAM_0108.jpg",
         details: [
-          "Hands-on outdoor learning",
-          "Work ethic development",
-          "Leadership pathways",
-          "Career exposure",
+          "Hands-on learning in agriculture and outdoor work",
+          "Teamwork, responsibility, and leadership development",
+          "Exposure to business, logistics, safety, and customer service",
+          "Supervisor-guided growth connected to real outcomes",
         ],
       },
       {
         id: "partners",
         title: "Partners",
-        subtitle: "Align resources for community benefit",
+        subtitle: "Resources • Alignment • Community Benefit",
         mission:
-          "Unite institutions, businesses, nonprofits, and civic leaders for stronger outcomes.",
+          "Partners align resources, credibility, education, and support so the farm ecosystem can serve the broader community.",
         image: "/images/SAM_0109.JPG",
-        summary:
-          "Strategic partnerships expand reach, credibility, and impact.",
+        fallback: "/images/SAM_0109.jpg",
         details: [
           "Farm & Family Alliance, Inc.",
           "Parker Farms",
           "Central State University",
-          "Home Depot, Petitti’s, Elliott’s, Gates Drone Services",
+          "Home Depot, Petitti’s Garden Center, Elliott’s Garden Center",
+          "Gates Drone Services and Youngstown Area Jewish Foundation",
         ],
       },
     ],
     []
   );
 
-  const active =
-    pathways.find((p) => p.id === selected) || pathways[0];
+  const active = pathways.find((p) => p.id === selected) || pathways[0];
 
   return (
     <>
       <style>{styles}</style>
 
-      <div className="appShell">
-        <section
-          className="hero"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.55)), url('/images/GrowArea.jpg')",
-          }}
-        >
-          <div className="heroInner">
-            <div className="badge">BRONSON FAMILY FARM</div>
-            <h1 className="heroTitle">Growers Supply Market</h1>
-            <p className="heroSub">
+      <main className="app">
+        <section className="hero">
+          <FarmImage
+            src="/images/GrowArea.JPG"
+            fallback="/images/GrowArea.jpg"
+            alt="Bronson Family Farm growing area"
+            className="heroImage"
+          />
+
+          <div className="heroOverlay" />
+
+          <div className="heroContent">
+            <div className="pill">BRONSON FAMILY FARM</div>
+
+            <h1>Growers Supply Market</h1>
+
+            <p className="eventLine">
               May 16, 2026 • 9:00 AM – 2:00 PM • Youngstown, Ohio
             </p>
-            <p className="heroSub small">
+
+            <p className="inviteLine">
               By Invitation Only • Register on Eventbrite
             </p>
 
-            <div className="heroActions">
-              <button
-                className="primaryBtn"
-                onClick={() => setSelected("market")}
-              >
+            <div className="buttonRow">
+              <button onClick={() => setSelected("marketplace")}>
                 Enter Marketplace
               </button>
 
-              <button
-                className="secondaryBtn"
-                onClick={() => setSelected("guest")}
-              >
+              <button className="light" onClick={() => setSelected("guest")}>
                 Start Tour
               </button>
             </div>
           </div>
         </section>
 
-        <section className="section">
-          <div className="sectionHeader">
-            <h2>Explore the Ecosystem</h2>
-            <p>
-              Choose a pathway below to understand the mission, purpose, and
-              opportunity.
-            </p>
-          </div>
-
-          <div className="pathGrid">
-            {pathways.map((item) => (
-              <button
-                key={item.id}
-                className={`pathCard ${
-                  active.id === item.id ? "activeCard" : ""
-                }`}
-                onClick={() => setSelected(item.id)}
-              >
-                <img src={item.image} alt={item.title} />
-                <div className="cardBody">
-                  <h3>{item.title}</h3>
-                  <p>{item.subtitle}</p>
-                </div>
-              </button>
-            ))}
-          </div>
+        <section className="intro">
+          <h2>Choose Your Pathway</h2>
+          <p>
+            Each pathway shows how Bronson Family Farm, Farm & Family Alliance,
+            Inc., Parker Farms, growers, youth, customers, vendors, and partners
+            work together as one living ecosystem.
+          </p>
         </section>
 
-        <section className="detailWrap">
-          <div className="detailImageWrap">
-            <img src={active.image} alt={active.title} className="detailImage" />
+        <section className="pathGrid">
+          {pathways.map((path) => (
+            <button
+              key={path.id}
+              className={`pathCard ${selected === path.id ? "active" : ""}`}
+              onClick={() => setSelected(path.id)}
+            >
+              <FarmImage
+                src={path.image}
+                fallback={path.fallback}
+                alt={path.title}
+                className="cardImage"
+              />
+
+              <div className="cardText">
+                <h3>{path.title}</h3>
+                <p>{path.subtitle}</p>
+              </div>
+            </button>
+          ))}
+        </section>
+
+        <section className="detail">
+          <div className="detailImageBox">
+            <FarmImage
+              src={active.image}
+              fallback={active.fallback}
+              alt={active.title}
+              className="detailImage"
+            />
           </div>
 
-          <div className="detailText">
-            <div className="miniLabel">MISSION PATHWAY</div>
+          <div className="detailPanel">
+            <span>MISSION PATHWAY</span>
             <h2>{active.title}</h2>
             <p className="mission">{active.mission}</p>
-            <p className="summary">{active.summary}</p>
 
-            <ul className="bulletList">
-              {active.details.map((line, i) => (
-                <li key={i}>{line}</li>
-              ))}
-            </ul>
+            <div className="layerBox">
+              <h4>Sound Bite</h4>
+              <p>{active.subtitle}</p>
+            </div>
+
+            <div className="layerBox">
+              <h4>Knowledge</h4>
+              <ul>
+                {active.details.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="layerBox">
+              <h4>Next Step</h4>
+              <p>
+                Continue through the ecosystem to see how this pathway connects
+                to the full farm, marketplace, workforce, and partner model.
+              </p>
+            </div>
           </div>
         </section>
 
-        <section className="marketStrip">
+        <section className="market">
           <h2>Growers Supply Market Includes</h2>
 
           <div className="marketGrid">
-            <div className="miniCard">Garden Supplies</div>
-            <div className="miniCard">Fresh Produce</div>
-            <div className="miniCard">Bubble Babies™</div>
-            <div className="miniCard">Workshops</div>
-            <div className="miniCard">Arts & Crafts</div>
-            <div className="miniCard">Family Experience</div>
+            <div>Garden Supplies</div>
+            <div>Fresh Produce</div>
+            <div>Bubble Babies™</div>
+            <div>Workshops</div>
+            <div>Arts & Crafts</div>
+            <div>Outdoor Demonstrations</div>
           </div>
         </section>
 
-        <footer className="footer">
+        <footer>
           Developed by Bronson Family Farm • Co-owned with Farm & Family
-          Alliance
+          Alliance, Inc.
         </footer>
-      </div>
+      </main>
     </>
   );
 }
 
 const styles = `
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-html,body,#root{
-  margin:0;
-  padding:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#f5f3eb;
-  color:#182014;
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f1e8;
+  color: #1d2418;
 }
 
-button{
-  font-family:inherit;
+button {
+  font-family: inherit;
 }
 
-.appShell{
-  width:100%;
+.app {
+  width: 100%;
+  overflow-x: hidden;
 }
 
-.hero{
-  min-height:720px;
-  background-size:cover;
-  background-position:center;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:40px;
+.hero {
+  position: relative;
+  min-height: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  overflow: hidden;
+  background: #77786f;
 }
 
-.heroInner{
-  max-width:900px;
-  text-align:center;
-  color:#fff;
+.heroImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.badge{
-  display:inline-block;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.25);
-  margin-bottom:18px;
-  font-size:13px;
-  letter-spacing:1px;
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.42),
+    rgba(0, 0, 0, 0.56)
+  );
 }
 
-.heroTitle{
-  font-size:72px;
-  line-height:1;
-  margin:0 0 16px 0;
-  font-weight:800;
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  text-align: center;
+  color: white;
 }
 
-.heroSub{
-  font-size:24px;
-  margin:0 0 10px 0;
+.pill {
+  display: inline-block;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  margin-bottom: 18px;
 }
 
-.heroSub.small{
-  font-size:18px;
+.hero h1 {
+  margin: 0 0 18px;
+  font-size: clamp(46px, 7vw, 88px);
+  line-height: 0.95;
+  font-weight: 800;
+  letter-spacing: -2px;
 }
 
-.heroActions{
-  margin-top:28px;
-  display:flex;
-  gap:14px;
-  justify-content:center;
-  flex-wrap:wrap;
+.eventLine {
+  margin: 0 0 12px;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 500;
 }
 
-.primaryBtn,
-.secondaryBtn{
-  border:none;
-  padding:14px 24px;
-  border-radius:12px;
-  cursor:pointer;
-  font-size:16px;
-  font-weight:700;
+.inviteLine {
+  margin: 0;
+  font-size: clamp(17px, 2vw, 22px);
 }
 
-.primaryBtn{
-  background:#2d6a2d;
-  color:#fff;
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 30px;
 }
 
-.secondaryBtn{
-  background:#fff;
-  color:#182014;
+.buttonRow button {
+  border: 0;
+  border-radius: 12px;
+  padding: 15px 25px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  background: #28742d;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
 }
 
-.section{
-  padding:54px 28px;
-  max-width:1280px;
-  margin:0 auto;
+.buttonRow button.light {
+  background: white;
+  color: #172011;
 }
 
-.sectionHeader{
-  text-align:center;
-  margin-bottom:28px;
+.intro {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 56px 24px 22px;
+  text-align: center;
 }
 
-.sectionHeader h2{
-  margin:0 0 10px 0;
-  font-size:38px;
+.intro h2 {
+  margin: 0 0 12px;
+  font-size: clamp(34px, 5vw, 52px);
+  letter-spacing: -1px;
 }
 
-.sectionHeader p{
-  margin:0;
-  color:#546050;
+.intro p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #4d5848;
 }
 
-.pathGrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
+.pathGrid {
+  width: min(1280px, calc(100% - 48px));
+  margin: 24px auto 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
 }
 
-.pathCard{
-  border:none;
-  padding:0;
-  background:#fff;
-  border-radius:18px;
-  overflow:hidden;
-  cursor:pointer;
-  box-shadow:0 8px 22px rgba(0,0,0,.08);
-  text-align:left;
+.pathCard {
+  border: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: white;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.09);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.pathCard img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  display:block;
+.pathCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.12);
 }
 
-.cardBody{
-  padding:16px;
+.pathCard.active {
+  outline: 4px solid #28742d;
 }
 
-.cardBody h3{
-  margin:0 0 8px 0;
-  font-size:22px;
+.cardImage {
+  width: 100%;
+  height: 180px;
+  display: block;
+  object-fit: cover;
+  background: #77786f;
 }
 
-.cardBody p{
-  margin:0;
-  color:#5c6659;
+.cardText {
+  padding: 18px;
 }
 
-.activeCard{
-  outline:3px solid #2d6a2d;
+.cardText h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
 }
 
-.detailWrap{
-  display:grid;
-  grid-template-columns:1.1fr 1fr;
-  gap:28px;
-  padding:0 28px 60px;
-  max-width:1280px;
-  margin:0 auto;
+.cardText p {
+  margin: 0;
+  color: #5a6654;
+  line-height: 1.4;
 }
 
-.detailImageWrap{
-  min-height:460px;
+.detail {
+  width: min(1280px, calc(100% - 48px));
+  margin: 0 auto 70px;
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 28px;
+  align-items: stretch;
 }
 
-.detailImage{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:22px;
+.detailImageBox {
+  min-height: 560px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #77786f;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.12);
 }
 
-.detailText{
-  background:#fff;
-  border-radius:22px;
-  padding:28px;
-  box-shadow:0 8px 24px rgba(0,0,0,.08);
+.detailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.miniLabel{
-  font-size:12px;
-  letter-spacing:1px;
-  color:#2d6a2d;
-  font-weight:700;
+.detailPanel {
+  background: white;
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.1);
 }
 
-.detailText h2{
-  margin:10px 0;
-  font-size:42px;
+.detailPanel span {
+  display: inline-block;
+  color: #28742d;
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  font-weight: 900;
+  margin-bottom: 10px;
 }
 
-.mission{
-  font-size:20px;
-  font-weight:700;
-  margin:0 0 14px;
+.detailPanel h2 {
+  margin: 0 0 12px;
+  font-size: clamp(34px, 4vw, 52px);
+  letter-spacing: -1px;
 }
 
-.summary{
-  color:#556255;
+.mission {
+  margin: 0 0 20px;
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: 700;
 }
 
-.bulletList{
-  margin:18px 0 0;
-  padding-left:20px;
+.layerBox {
+  border: 1px solid #e2dfd5;
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 14px;
+  background: #faf8f0;
 }
 
-.bulletList li{
-  margin-bottom:10px;
+.layerBox h4 {
+  margin: 0 0 8px;
+  color: #28742d;
+  font-size: 17px;
 }
 
-.marketStrip{
-  padding:60px 28px;
-  background:#e8e3d4;
+.layerBox p {
+  margin: 0;
+  line-height: 1.5;
+  color: #3f4b3a;
 }
 
-.marketStrip h2{
-  text-align:center;
-  margin:0 0 24px 0;
-  font-size:38px;
+.layerBox ul {
+  margin: 0;
+  padding-left: 20px;
 }
 
-.marketGrid{
-  max-width:1180px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:16px;
+.layerBox li {
+  margin-bottom: 8px;
+  line-height: 1.45;
 }
 
-.miniCard{
-  background:#fff;
-  padding:20px;
-  border-radius:16px;
-  text-align:center;
-  font-weight:700;
-  box-shadow:0 6px 18px rgba(0,0,0,.06);
+.market {
+  padding: 64px 24px;
+  background: #e6dfcf;
 }
 
-.footer{
-  text-align:center;
-  padding:24px;
-  font-size:14px;
-  color:#566055;
+.market h2 {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: clamp(34px, 5vw, 52px);
 }
 
-@media (max-width: 980px){
-  .detailWrap{
-    grid-template-columns:1fr;
+.marketGrid {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+
+.marketGrid div {
+  background: white;
+  border-radius: 18px;
+  padding: 24px 18px;
+  text-align: center;
+  font-weight: 900;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+footer {
+  padding: 28px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #596352;
+}
+
+@media (max-width: 900px) {
+  .detail {
+    grid-template-columns: 1fr;
   }
 
-  .heroTitle{
-    font-size:58px;
+  .detailImageBox {
+    min-height: 380px;
   }
 }
 
-@media (max-width: 760px){
-  .hero{
-    min-height:560px;
-    padding:24px;
-  }
-
-  .heroTitle{
-    font-size:42px;
+@media (max-width: 680px) {
+  .hero {
+    min-height: 600px;
   }
 
   .pathGrid,
-  .marketGrid{
-    grid-template-columns:1fr;
+  .detail {
+    width: calc(100% - 28px);
+  }
+
+  .detailPanel {
+    padding: 22px;
   }
 }
 `;
