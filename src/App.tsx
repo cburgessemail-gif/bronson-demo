@@ -135,53 +135,65 @@ const copy: Record<Lang, Record<string, string>> = {
 
 const imageCandidates: Record<ImageKey, string[]> = {
   hero: [
-    "/images/GrowArea.jpg",
-    "/images/GrowArea.JPG",
-    "/images/growarea.jpg"
+    "/GrowArea.jpg",
+    "/GrowArea2.jpg",
+    "/SAM_0220.JPG",
+    "/SAM_0221.JPG",
+    "/SAM_0222.JPG",
+    "/SAM_0223.JPG"
   ],
   guest: [
-    "/images/GrowArea.jpg",
-    "/images/GrowArea.JPG",
-    "/images/growarea.jpg"
+    "/GrowArea.jpg",
+    "/GrowArea2.jpg",
+    "/SAM_0220.JPG",
+    "/SAM_0221.JPG"
   ],
   customer: [
-    "/images/SAM_0249.JPG",
-    "/images/SAM_0249.jpg",
-    "/images/Youngstown Farmers Market_0423.png",
-    "/images/Youngstown Farmers Market_0423.PNG"
+    "/SAM_0238.JPG",
+    "/SAM_0229.JPG",
+    "/SAM_0226.JPG",
+    "/SAM_0225.JPG"
   ],
   marketplace: [
-    "/images/Bronson Family Farm market flyer.png",
-    "/images/Bronson Family Farm market flyer.PNG",
-    "/images/Youngstown Farmers Market_0423.png",
-    "/images/Youngstown Farmers Market_0423.PNG"
+    "/SAM_0238.JPG",
+    "/SAM_0229.JPG",
+    "/SAM_0226.JPG",
+    "/SAM_0225.JPG",
+    "/GrowArea.jpg"
   ],
   grower: [
-    "/images/GrowArea.jpg",
-    "/images/GrowArea.JPG",
-    "/images/growarea.jpg"
+    "/GrowArea.jpg",
+    "/GrowArea2.jpg",
+    "/SAM_0220.JPG",
+    "/SAM_0221.JPG"
   ],
   youth: [
-    "/images/SAM_0249.JPG",
-    "/images/SAM_0249.jpg"
+    "/SAM_0229.JPG",
+    "/SAM_0238.JPG",
+    "/SAM_0226.JPG",
+    "/SAM_0225.JPG"
   ],
   partner: [
-    "/images/SAM_0252.JPG",
-    "/images/SAM_0252.jpg"
+    "/SAM_0225.JPG",
+    "/SAM_0226.JPG",
+    "/SAM_0229.JPG",
+    "/GrowArea.jpg"
   ],
   volunteer: [
-    "/images/SAM_0252.JPG",
-    "/images/SAM_0252.jpg",
-    "/images/GrowArea.jpg"
+    "/SAM_0226.JPG",
+    "/SAM_0225.JPG",
+    "/SAM_0229.JPG",
+    "/GrowArea.jpg"
   ],
   produce: [
-    "/images/Youngstown Farmers Market_0423.png",
-    "/images/Youngstown Farmers Market_0423.PNG",
-    "/images/SAM_0249.JPG"
+    "/SAM_0238.JPG",
+    "/SAM_0229.JPG",
+    "/SAM_0226.JPG"
   ],
   seedlings: [
-    "/images/SAM_0249.JPG",
-    "/images/SAM_0249.jpg"
+    "/SAM_0225.JPG",
+    "/SAM_0226.JPG",
+    "/SAM_0238.JPG"
   ],
 };
 
