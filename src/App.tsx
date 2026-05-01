@@ -272,15 +272,25 @@ const marketItems = [
 
 function SmartImage({ imageKey, alt, className = "" }: { imageKey: ImageKey; alt: string; className?: string }) {
   const [idx, setIdx] = useState(0);
+  const [failed, setFailed] = useState(false);
   const candidates = imageCandidates[imageKey] || imageCandidates.hero;
+
+  if (failed) {
+    return (
+      <div className={`${className} imageFallback`} aria-label={alt} role="img">
+        <div className="fallbackOverlay" />
+      </div>
+    );
+  }
+
   return (
     <img
       className={className}
       src={candidates[idx]}
       alt={alt}
-      onError={(e) => {
+      onError={() => {
         if (idx < candidates.length - 1) setIdx(idx + 1);
-        else (e.currentTarget.style.display = "none");
+        else setFailed(true);
       }}
     />
   );
