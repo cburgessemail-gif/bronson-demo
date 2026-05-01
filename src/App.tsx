@@ -134,16 +134,42 @@ const copy: Record<Lang, Record<string, string>> = {
 };
 
 const imageCandidates: Record<ImageKey, string[]> = {
-  hero: ["/images/GatesDrone.jpg", "/images/GatesDrones.jpg", "/images/Aerial.jpg", "/images/FarmAerial.jpg", "/images/SAM_0001.JPG", "/images/GrowArea.jpg"],
-  guest: ["/images/GrowArea.jpg", "/images/GrowArea2.jpg", "/images/SAM_0002.JPG"],
-  customer: ["/images/Produce.jpg", "/images/Vegetables.jpg", "/images/MarketProduce.jpg", "/images/SAM_0003.JPG"],
-  marketplace: ["/images/Marketplace.jpg", "/images/GrownByStorefront.jpg", "/images/MarketTable.jpg", "/images/ProduceTable.jpg", "/images/SAM_0004.JPG"],
-  grower: ["/images/Growers.jpg", "/images/Rows.jpg", "/images/GrowArea.jpg", "/images/SAM_0005.JPG"],
-  youth: ["/images/YouthWorkforce.jpg", "/images/People.jpg", "/images/HandsOn.jpg", "/images/SAM_0006.JPG"],
-  partner: ["/images/Partners.jpg", "/images/Community.jpg", "/images/SiteVisit.jpg", "/images/SAM_0007.JPG"],
-  volunteer: ["/images/Volunteer.jpg", "/images/CommunityGrowDay.jpg", "/images/SAM_0008.JPG"],
-  produce: ["/images/Produce.jpg", "/images/Tomatoes.jpg", "/images/Vegetables.jpg", "/images/SAM_0009.JPG"],
-  seedlings: ["/images/BubbleBabies.jpg", "/images/Seedlings.jpg", "/images/SeedStarts.jpg", "/images/SAM_0010.JPG"],
+  hero: [
+    "/images/GrowArea.jpg", "/images/GrowArea.JPG", "/images/growarea.jpg",
+    "/images/Aerial.jpg", "/images/Aerial.JPG", "/images/FarmAerial.jpg", "/images/farm-aerial.jpg",
+    "/images/GatesDrone.jpg", "/images/GatesDrones.jpg", "/images/SAM_0001.JPG", "/images/SAM_0001.jpg"
+  ],
+  guest: [
+    "/images/GrowArea.jpg", "/images/GrowArea.JPG", "/images/growarea.jpg",
+    "/images/GrowArea2.jpg", "/images/GrowArea2.JPG", "/images/SAM_0002.JPG", "/images/SAM_0002.jpg"
+  ],
+  customer: [
+    "/images/Produce.jpg", "/images/Produce.JPG", "/images/produce.jpg",
+    "/images/Vegetables.jpg", "/images/MarketProduce.jpg", "/images/SAM_0003.JPG", "/images/SAM_0003.jpg"
+  ],
+  marketplace: [
+    "/images/Marketplace.jpg", "/images/Marketplace.JPG", "/images/marketplace.jpg",
+    "/images/GrownByStorefront.jpg", "/images/MarketTable.jpg", "/images/ProduceTable.jpg", "/images/SAM_0004.JPG", "/images/SAM_0004.jpg"
+  ],
+  grower: [
+    "/images/Growers.jpg", "/images/Growers.JPG", "/images/Rows.jpg", "/images/Rows.JPG",
+    "/images/GrowArea.jpg", "/images/GrowArea.JPG", "/images/SAM_0005.JPG", "/images/SAM_0005.jpg"
+  ],
+  youth: [
+    "/images/YouthWorkforce.jpg", "/images/YouthWorkforce.JPG", "/images/People.jpg", "/images/HandsOn.jpg", "/images/SAM_0006.JPG", "/images/SAM_0006.jpg"
+  ],
+  partner: [
+    "/images/Partners.jpg", "/images/Partners.JPG", "/images/Community.jpg", "/images/SiteVisit.jpg", "/images/SAM_0007.JPG", "/images/SAM_0007.jpg"
+  ],
+  volunteer: [
+    "/images/Volunteer.jpg", "/images/Volunteer.JPG", "/images/CommunityGrowDay.jpg", "/images/SAM_0008.JPG", "/images/SAM_0008.jpg"
+  ],
+  produce: [
+    "/images/Produce.jpg", "/images/Produce.JPG", "/images/produce.jpg", "/images/Tomatoes.jpg", "/images/Vegetables.jpg", "/images/SAM_0009.JPG", "/images/SAM_0009.jpg"
+  ],
+  seedlings: [
+    "/images/BubbleBabies.jpg", "/images/BubbleBabies.JPG", "/images/Seedlings.jpg", "/images/SeedStarts.jpg", "/images/SAM_0010.JPG", "/images/SAM_0010.jpg"
+  ],
 };
 
 const tourOrder: View[] = ["guest", "customer", "marketplace", "grower", "youth", "partner", "volunteer", "summary"];
@@ -479,8 +505,12 @@ button, select { font: inherit; }
 .brand { border: 0; background: transparent; color: var(--forest); font-weight: 800; font-size: 18px; cursor: pointer; }
 .nav { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .nav button, .topbar select { border: 1px solid rgba(23,61,42,.22); background: var(--white); border-radius: 999px; padding: 9px 13px; color: var(--forest); cursor: pointer; }
-.hero { position: relative; min-height: 82vh; display: grid; align-items: center; overflow: hidden; background: linear-gradient(135deg, var(--forest), var(--soil)); }
+.hero { position: relative; min-height: 82vh; display: grid; align-items: center; overflow: hidden; background: radial-gradient(circle at 15% 20%, rgba(243,217,139,.32), transparent 26%), linear-gradient(135deg, #0f2d1e, #304234 45%, #5a3d2b); }
 .heroImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.95) contrast(1.02); }
+.imageFallback { position: relative; overflow: hidden; display: block; background: linear-gradient(135deg, #183d2b 0%, #345439 45%, #6d5735 100%); }
+.imageFallback::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 18% 24%, rgba(244,219,139,.42), transparent 16%), radial-gradient(circle at 78% 18%, rgba(132,166,82,.35), transparent 20%), repeating-linear-gradient(115deg, rgba(255,255,255,.08) 0 2px, transparent 2px 34px), linear-gradient(180deg, transparent 0 45%, rgba(0,0,0,.20) 100%); }
+.imageFallback::after { content: ''; position: absolute; left: -10%; right: -10%; bottom: -18%; height: 45%; background: repeating-linear-gradient(12deg, rgba(246,240,223,.32) 0 8px, rgba(23,61,42,.16) 8px 22px), linear-gradient(180deg, rgba(111,143,63,.46), rgba(90,61,43,.52)); transform: rotate(-1deg); border-radius: 55% 55% 0 0; }
+.fallbackOverlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14,35,24,.22), rgba(14,35,24,.04)); }
 .heroOverlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14,35,24,.82), rgba(14,35,24,.42), rgba(14,35,24,.18)); }
 .heroContent { position: relative; max-width: 820px; padding: 72px 7vw; color: white; }
 .eyebrow { letter-spacing: .08em; text-transform: uppercase; font-size: 13px; font-weight: 800; color: #f3d98b; }
