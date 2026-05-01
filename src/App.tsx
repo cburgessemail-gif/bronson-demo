@@ -157,9 +157,7 @@ const imageCandidates: Record<ImageKey, string[]> = {
   marketplace: [
     "/SAM_0238.JPG",
     "/SAM_0229.JPG",
-    "/SAM_0226.JPG",
-    "/SAM_0225.JPG",
-    "/GrowArea.jpg"
+    "/SAM_0226.JPG"
   ],
   grower: [
     "/GrowArea.jpg",
