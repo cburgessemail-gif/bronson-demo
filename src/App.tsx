@@ -135,63 +135,98 @@ const copy: Record<Lang, Record<string, string>> = {
 
 const imageCandidates: Record<ImageKey, string[]> = {
   hero: [
+    "/images/GrowArea.jpg",
     "/GrowArea.jpg",
-    "/GrowArea2.jpg",
+    "/images/SAM_0220.JPG",
     "/SAM_0220.JPG",
+    "/images/SAM_0221.JPG",
     "/SAM_0221.JPG",
+    "/images/SAM_0222.JPG",
     "/SAM_0222.JPG",
+    "/images/SAM_0223.JPG",
     "/SAM_0223.JPG"
   ],
   guest: [
+    "/images/GrowArea.jpg",
     "/GrowArea.jpg",
-    "/GrowArea2.jpg",
+    "/images/SAM_0220.JPG",
     "/SAM_0220.JPG",
+    "/images/SAM_0221.JPG",
     "/SAM_0221.JPG"
   ],
   customer: [
-    "/SAM_0238.JPG",
-    "/SAM_0229.JPG",
-    "/SAM_0226.JPG",
-    "/SAM_0225.JPG"
+    "/images/produce.jpg",
+    "/produce.jpg",
+    "/images/marketplace.jpg",
+    "/marketplace.jpg",
+    "/images/SAM_0238.JPG",
+    "/SAM_0238.JPG"
   ],
   marketplace: [
+    "/images/marketplace.jpg",
+    "/marketplace.jpg",
+    "/images/produce.jpg",
+    "/produce.jpg",
+    "/images/SAM_0238.JPG",
     "/SAM_0238.JPG",
-    "/SAM_0229.JPG",
-    "/SAM_0226.JPG"
+    "/images/SAM_0229.JPG",
+    "/SAM_0229.JPG"
   ],
   grower: [
+    "/images/GrowArea.jpg",
     "/GrowArea.jpg",
-    "/GrowArea2.jpg",
+    "/images/SAM_0220.JPG",
     "/SAM_0220.JPG",
+    "/images/SAM_0221.JPG",
     "/SAM_0221.JPG"
   ],
   youth: [
+    "/images/youth-workforce.jpg",
+    "/youth-workforce.jpg",
+    "/images/SAM_0229.JPG",
     "/SAM_0229.JPG",
+    "/images/SAM_0238.JPG",
     "/SAM_0238.JPG",
-    "/SAM_0226.JPG",
-    "/SAM_0225.JPG"
+    "/images/SAM_0226.JPG",
+    "/SAM_0226.JPG"
   ],
   partner: [
+    "/images/partners.jpg",
+    "/partners.jpg",
+    "/images/SAM_0225.JPG",
     "/SAM_0225.JPG",
+    "/images/SAM_0226.JPG",
     "/SAM_0226.JPG",
-    "/SAM_0229.JPG",
+    "/images/GrowArea.jpg",
     "/GrowArea.jpg"
   ],
   volunteer: [
+    "/images/volunteers.jpg",
+    "/volunteers.jpg",
+    "/images/SAM_0226.JPG",
     "/SAM_0226.JPG",
+    "/images/SAM_0225.JPG",
     "/SAM_0225.JPG",
-    "/SAM_0229.JPG",
+    "/images/GrowArea.jpg",
     "/GrowArea.jpg"
   ],
   produce: [
+    "/images/produce.jpg",
+    "/produce.jpg",
+    "/images/SAM_0238.JPG",
     "/SAM_0238.JPG",
-    "/SAM_0229.JPG",
-    "/SAM_0226.JPG"
+    "/images/SAM_0229.JPG",
+    "/SAM_0229.JPG"
   ],
   seedlings: [
+    "/images/seedlings.jpg",
+    "/seedlings.jpg",
+    "/images/bubble-babies.jpg",
+    "/bubble-babies.jpg",
+    "/images/SAM_0225.JPG",
     "/SAM_0225.JPG",
-    "/SAM_0226.JPG",
-    "/SAM_0238.JPG"
+    "/images/SAM_0226.JPG",
+    "/SAM_0226.JPG"
   ],
 };
 
@@ -416,7 +451,7 @@ function App() {
           <section className="pathGridSection">
             <div className="sectionHeader">
               <h2>{t.choosePath}</h2>
-              <p>Each pathway has a clear beginning, purpose, knowledge layer, and next action.</p>
+              <p>Start with the guided experience or enter the pathway that matches your role.</p>
             </div>
             <div className="pathGrid">
               {(["guest", "customer", "marketplace", "grower", "youth", "partner", "volunteer"] as const).map((key) => (
@@ -469,7 +504,19 @@ function App() {
                       <small>{item.type}</small>
                       <h3>{item.title}</h3>
                       <p>{item.price}</p>
-                      <button onClick={() => go(item.type.includes("Seed") ? "customer" : "grower")}>Learn More</button>
+                      <button
+                        onClick={() =>
+                          go(
+                            item.title.includes("Seed") ||
+                            item.title.includes("Produce") ||
+                            item.title.includes("Tomato")
+                              ? "customer"
+                              : "grower"
+                          )
+                        }
+                      >
+                        Learn More
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -480,7 +527,7 @@ function App() {
           <section className="actionBand">
             <div>
               <h2>{t.action}</h2>
-              <p>Every button leads to a meaningful next step in the ecosystem.</p>
+              <p>Select the next step that matches how this person would naturally move through the ecosystem.</p>
             </div>
             <div className="actionButtons">
               {current.actions.map((a) => <button key={a.label} onClick={() => go(a.to)}>{a.label}</button>)}
@@ -540,7 +587,7 @@ h1 { font-size: clamp(42px, 6vw, 76px); line-height: .98; margin: 12px 0 18px; l
 .heroActions, .actionButtons, .tourControls, .bottomNav { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 button { transition: transform .18s ease, box-shadow .18s ease, background .18s ease; }
 button:hover { transform: translateY(-1px); }
-.primary, .secondary, .actionButtons button, .tourControls button, .bottomNav button, .marketBody button { border: 0; border-radius: 999px; padding: 13px 18px; cursor: pointer; box-shadow: var(--shadow); font-weight: 900; text-decoration: none; }
+.primary, .secondary, .actionButtons button, .tourControls button, .bottomNav button, .marketBody button { border: 0; border-radius: 999px; padding: 13px 18px; cursor: pointer; box-shadow: var(--shadow); font-weight: 900; text-decoration: none; margin-top: 6px; }
 .primary { background: var(--gold); color: #1b2d1d; }
 .secondary, .actionButtons button, .tourControls button, .bottomNav button, .marketBody button { background: var(--forest); color: white; }
 .pathGridSection, .marketSection, .contentGrid, .tourControls, .bottomNav { padding: 38px 7vw; }
@@ -566,7 +613,7 @@ button:hover { transform: translateY(-1px); }
 .marketGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(235px, 1fr)); gap: 18px; }
 .marketCard { background: var(--white); border-radius: 28px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid rgba(90,61,43,.14); }
 .marketImg { width: 100%; height: 180px; min-height: 180px; object-fit: cover; background: linear-gradient(135deg, var(--forest2), var(--sand)); display: block; }
-.marketBody { padding: 20px; }
+.marketBody { padding: 20px 20px 24px; }
 .marketBody small { color: var(--leaf); font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
 .marketBody h3 { color: var(--forest); font-size: 23px; margin: 8px 0; }
 .marketBody p { line-height: 1.45; }
