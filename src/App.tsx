@@ -135,40 +135,53 @@ const copy: Record<Lang, Record<string, string>> = {
 
 const imageCandidates: Record<ImageKey, string[]> = {
   hero: [
-    "/images/GrowArea.jpg", "/images/GrowArea.JPG", "/images/growarea.jpg",
-    "/images/Aerial.jpg", "/images/Aerial.JPG", "/images/FarmAerial.jpg", "/images/farm-aerial.jpg",
-    "/images/GatesDrone.jpg", "/images/GatesDrones.jpg", "/images/SAM_0001.JPG", "/images/SAM_0001.jpg"
+    "/images/GrowArea.jpg",
+    "/images/GrowArea.JPG",
+    "/images/growarea.jpg"
   ],
   guest: [
-    "/images/GrowArea.jpg", "/images/GrowArea.JPG", "/images/growarea.jpg",
-    "/images/GrowArea2.jpg", "/images/GrowArea2.JPG", "/images/SAM_0002.JPG", "/images/SAM_0002.jpg"
+    "/images/GrowArea.jpg",
+    "/images/GrowArea.JPG",
+    "/images/growarea.jpg"
   ],
   customer: [
-    "/images/Produce.jpg", "/images/Produce.JPG", "/images/produce.jpg",
-    "/images/Vegetables.jpg", "/images/MarketProduce.jpg", "/images/SAM_0003.JPG", "/images/SAM_0003.jpg"
+    "/images/SAM_0249.JPG",
+    "/images/SAM_0249.jpg",
+    "/images/Youngstown Farmers Market_0423.png",
+    "/images/Youngstown Farmers Market_0423.PNG"
   ],
   marketplace: [
-    "/images/Marketplace.jpg", "/images/Marketplace.JPG", "/images/marketplace.jpg",
-    "/images/GrownByStorefront.jpg", "/images/MarketTable.jpg", "/images/ProduceTable.jpg", "/images/SAM_0004.JPG", "/images/SAM_0004.jpg"
+    "/images/Bronson Family Farm market flyer.png",
+    "/images/Bronson Family Farm market flyer.PNG",
+    "/images/Youngstown Farmers Market_0423.png",
+    "/images/Youngstown Farmers Market_0423.PNG"
   ],
   grower: [
-    "/images/Growers.jpg", "/images/Growers.JPG", "/images/Rows.jpg", "/images/Rows.JPG",
-    "/images/GrowArea.jpg", "/images/GrowArea.JPG", "/images/SAM_0005.JPG", "/images/SAM_0005.jpg"
+    "/images/GrowArea.jpg",
+    "/images/GrowArea.JPG",
+    "/images/growarea.jpg"
   ],
   youth: [
-    "/images/YouthWorkforce.jpg", "/images/YouthWorkforce.JPG", "/images/People.jpg", "/images/HandsOn.jpg", "/images/SAM_0006.JPG", "/images/SAM_0006.jpg"
+    "/images/SAM_0249.JPG",
+    "/images/SAM_0249.jpg"
   ],
   partner: [
-    "/images/Partners.jpg", "/images/Partners.JPG", "/images/Community.jpg", "/images/SiteVisit.jpg", "/images/SAM_0007.JPG", "/images/SAM_0007.jpg"
+    "/images/SAM_0252.JPG",
+    "/images/SAM_0252.jpg"
   ],
   volunteer: [
-    "/images/Volunteer.jpg", "/images/Volunteer.JPG", "/images/CommunityGrowDay.jpg", "/images/SAM_0008.JPG", "/images/SAM_0008.jpg"
+    "/images/SAM_0252.JPG",
+    "/images/SAM_0252.jpg",
+    "/images/GrowArea.jpg"
   ],
   produce: [
-    "/images/Produce.jpg", "/images/Produce.JPG", "/images/produce.jpg", "/images/Tomatoes.jpg", "/images/Vegetables.jpg", "/images/SAM_0009.JPG", "/images/SAM_0009.jpg"
+    "/images/Youngstown Farmers Market_0423.png",
+    "/images/Youngstown Farmers Market_0423.PNG",
+    "/images/SAM_0249.JPG"
   ],
   seedlings: [
-    "/images/BubbleBabies.jpg", "/images/BubbleBabies.JPG", "/images/Seedlings.jpg", "/images/SeedStarts.jpg", "/images/SAM_0010.JPG", "/images/SAM_0010.jpg"
+    "/images/SAM_0249.JPG",
+    "/images/SAM_0249.jpg"
   ],
 };
 
