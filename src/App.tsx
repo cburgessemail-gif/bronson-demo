@@ -444,19 +444,15 @@ function App() {
 
           <section className="contentGrid">
             <article className="panel large">
-              <h2>Sound Bite</h2>
               <p>{current.sound}</p>
             </article>
             <article className="panel">
-              <h2>Intro</h2>
               <p>{current.intro}</p>
             </article>
             <article className="panel">
-              <h2>Knowledge</h2>
               <p>{current.knowledge}</p>
             </article>
             <article className="panel large">
-              <h2>{t.purpose}</h2>
               <p>{current.purpose}</p>
             </article>
           </section>
