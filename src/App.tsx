@@ -155,20 +155,22 @@ const imageCandidates: Record<ImageKey, string[]> = {
     "/SAM_0221.JPG"
   ],
   customer: [
-    "/images/SAM_0226.JPG",
-    "/SAM_0226.JPG",
-    "/images/SAM_0229.JPG",
-    "/SAM_0229.JPG",
+    "/images/produce.jpg",
+    "/produce.jpg",
+    "/images/marketplace.jpg",
+    "/marketplace.jpg",
     "/images/SAM_0238.JPG",
     "/SAM_0238.JPG"
   ],
   marketplace: [
-    "/images/SAM_0226.JPG",
-    "/SAM_0226.JPG",
-    "/images/SAM_0229.JPG",
-    "/SAM_0229.JPG",
+    "/images/marketplace.jpg",
+    "/marketplace.jpg",
+    "/images/produce.jpg",
+    "/produce.jpg",
     "/images/SAM_0238.JPG",
-    "/SAM_0238.JPG"
+    "/SAM_0238.JPG",
+    "/images/SAM_0229.JPG",
+    "/SAM_0229.JPG"
   ],
   grower: [
     "/images/GrowArea.jpg",
