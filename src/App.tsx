@@ -11,164 +11,131 @@ type PathwayKey =
 
 type LanguageKey = "English" | "Spanish" | "Tagalog" | "Italian" | "Hebrew" | "French";
 
-const samImages = Array.from({ length: 200 }, (_, i) => {
-  const n = String(800 + i).padStart(4, "0");
-  return [`/images/SAM_${n}.JPG`, `/images/SAM_${n}.jpg`];
-}).flat();
+const roots = ["", "/images"];
 
-const IMAGE_LOCK: Record<PathwayKey | "hero", string[]> = {
-  hero: [
-    "/images/GrowArea.jpg",
-    "/images/GrowArea.JPG",
-    "/images/GrowArea2.jpg",
-    "/images/GrowArea2.JPG",
-    ...samImages,
-  ],
+const makePaths = (names: string[]) =>
+  roots.flatMap((root) => names.map((name) => `${root}/${name}`));
 
-  guest: [
-    "/images/guest.jpg",
-    "/images/Guest.jpg",
-    "/images/farm.jpg",
-    "/images/Farm.jpg",
-    "/images/farm-road.jpg",
-    "/images/FarmRoad.jpg",
-    "/images/GrowArea2.jpg",
-    "/images/GrowArea2.JPG",
-    ...samImages,
-  ],
+const IMAGE_LOCK: Record<PathwayKey, string[]> = {
+  guest: makePaths([
+    "guest.jpg",
+    "Guest.jpg",
+    "GrowArea2.jpg",
+    "GrowArea2.JPG",
+    "GrowArea.jpg",
+    "GrowArea.JPG",
+  ]),
 
-  customer: [
-    "/images/produce.jpg",
-    "/images/Produce.jpg",
-    "/images/customer.jpg",
-    "/images/Customer.jpg",
-    "/images/seedlings.jpg",
-    "/images/Seedlings.jpg",
-    "/images/vegetables.jpg",
-    "/images/Vegetables.jpg",
-    ...samImages,
-  ],
+  customer: makePaths([
+    "produce.jpg",
+    "Produce.jpg",
+    "customer.jpg",
+    "Customer.jpg",
+    "seedlings.jpg",
+    "Seedlings.jpg",
+    "vegetables.jpg",
+    "Vegetables.jpg",
+    "GrownBy.jpg",
+    "grownby.jpg",
+  ]),
 
-  marketplace: [
-    "/images/marketplace.jpg",
-    "/images/Marketplace.jpg",
-    "/images/market.jpg",
-    "/images/Market.jpg",
-    "/images/storefront.jpg",
-    "/images/Storefront.jpg",
-    "/images/vendor.jpg",
-    "/images/Vendor.jpg",
-    "/images/table.jpg",
-    "/images/Table.jpg",
-    ...samImages,
-  ],
+  marketplace: makePaths([
+    "marketplace.jpg",
+    "Marketplace.jpg",
+    "market.jpg",
+    "Market.jpg",
+    "storefront.jpg",
+    "Storefront.jpg",
+    "vendor.jpg",
+    "Vendor.jpg",
+    "table.jpg",
+    "Table.jpg",
+    "GrownBy.jpg",
+    "grownby.jpg",
+  ]),
 
-  grower: [
-    "/images/grower.jpg",
-    "/images/Grower.jpg",
-    "/images/growing.jpg",
-    "/images/Growing.jpg",
-    "/images/crops.jpg",
-    "/images/Crops.jpg",
-    "/images/GrowArea.jpg",
-    "/images/GrowArea.JPG",
-    ...samImages,
-  ],
+  grower: makePaths([
+    "grower.jpg",
+    "Grower.jpg",
+    "growing.jpg",
+    "Growing.jpg",
+    "GrowArea.jpg",
+    "GrowArea.JPG",
+    "GrowArea2.jpg",
+    "GrowArea2.JPG",
+  ]),
 
-  youth: [
-    "/images/youth-workforce.jpg",
-    "/images/YouthWorkforce.jpg",
-    "/images/youth.jpg",
-    "/images/Youth.jpg",
-    "/images/workforce.jpg",
-    "/images/Workforce.jpg",
-    "/images/people.jpg",
-    "/images/People.jpg",
-    ...samImages,
-  ],
+  youth: makePaths([
+    "youth-workforce.jpg",
+    "YouthWorkforce.jpg",
+    "youth.jpg",
+    "Youth.jpg",
+    "workforce.jpg",
+    "Workforce.jpg",
+    "people.jpg",
+    "People.jpg",
+  ]),
 
-  partner: [
-    "/images/partner.jpg",
-    "/images/Partner.jpg",
-    "/images/community.jpg",
-    "/images/Community.jpg",
-    "/images/group.jpg",
-    "/images/Group.jpg",
-    ...samImages,
-  ],
+  partner: makePaths([
+    "partner.jpg",
+    "Partner.jpg",
+    "community.jpg",
+    "Community.jpg",
+    "group.jpg",
+    "Group.jpg",
+  ]),
 
-  volunteer: [
-    "/images/volunteer.jpg",
-    "/images/Volunteer.jpg",
-    "/images/volunteers.jpg",
-    "/images/Volunteers.jpg",
-    "/images/people.jpg",
-    "/images/People.jpg",
-    ...samImages,
-  ],
+  volunteer: makePaths([
+    "volunteer.jpg",
+    "Volunteer.jpg",
+    "volunteers.jpg",
+    "Volunteers.jpg",
+    "people.jpg",
+    "People.jpg",
+  ]),
 };
 
-const pathways: Record<
-  PathwayKey,
-  {
-    title: string;
-    subtitle: string;
-    imageKey: PathwayKey;
-  }
-> = {
+const pathways: Record<PathwayKey, { title: string; subtitle: string }> = {
   guest: {
     title: "Guest Pathway",
     subtitle: "Walk in as a visitor. Leave understanding the vision.",
-    imageKey: "guest",
   },
   customer: {
     title: "Customer Pathway",
     subtitle: "Fresh food becomes a repeat healthy choice.",
-    imageKey: "customer",
   },
   marketplace: {
     title: "Marketplace",
     subtitle: "Interest becomes purchasing power.",
-    imageKey: "marketplace",
   },
   grower: {
     title: "Grower Pathway",
     subtitle: "Grow more than food. Grow opportunity.",
-    imageKey: "grower",
   },
   youth: {
     title: "Youth Workforce Pathway",
     subtitle: "Young people build skills by doing real work in a real ecosystem.",
-    imageKey: "youth",
   },
   partner: {
     title: "Partner Pathway",
     subtitle: "Organizations align resources for community impact.",
-    imageKey: "partner",
   },
   volunteer: {
     title: "Volunteer Pathway",
     subtitle: "Community members support the work that helps the farm grow.",
-    imageKey: "volunteer",
   },
 };
 
 const languages: LanguageKey[] = ["English", "Spanish", "Tagalog", "Italian", "Hebrew", "French"];
 
-function SmartImage({
-  imageKey,
-  alt,
-}: {
-  imageKey: keyof typeof IMAGE_LOCK;
-  alt: string;
-}) {
+function SmartImage({ imageKey, alt }: { imageKey: PathwayKey; alt: string }) {
   const candidates = useMemo(() => IMAGE_LOCK[imageKey], [imageKey]);
-  const [src, setSrc] = useState<string>("");
+  const [src, setSrc] = useState("");
 
   useEffect(() => {
     let cancelled = false;
 
-    async function findImage() {
+    const tryImage = async () => {
       for (const path of candidates) {
         const works = await new Promise<boolean>((resolve) => {
           const img = new Image();
@@ -184,9 +151,9 @@ function SmartImage({
       }
 
       if (!cancelled) setSrc("");
-    }
+    };
 
-    findImage();
+    tryImage();
 
     return () => {
       cancelled = true;
@@ -235,19 +202,15 @@ export default function App() {
       </section>
 
       <section className="cards">
-        {(Object.keys(pathways) as PathwayKey[]).map((key) => {
-          const item = pathways[key];
-
-          return (
-            <article className="card" id={key} key={key}>
-              <SmartImage imageKey={item.imageKey} alt={item.title} />
-              <div className="cardBody">
-                <h2>{item.title}</h2>
-                <p>{item.subtitle}</p>
-              </div>
-            </article>
-          );
-        })}
+        {(Object.keys(pathways) as PathwayKey[]).map((key) => (
+          <article className="card" id={key} key={key}>
+            <SmartImage imageKey={key} alt={pathways[key].title} />
+            <div className="cardBody">
+              <h2>{pathways[key].title}</h2>
+              <p>{pathways[key].subtitle}</p>
+            </div>
+          </article>
+        ))}
       </section>
 
       <footer>
@@ -255,9 +218,7 @@ export default function App() {
       </footer>
 
       <style>{`
-        * {
-          box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
           margin: 0;
@@ -266,10 +227,7 @@ export default function App() {
           font-family: Georgia, "Times New Roman", serif;
         }
 
-        button,
-        select {
-          font-family: inherit;
-        }
+        button, select { font-family: inherit; }
 
         .app {
           min-height: 100vh;
@@ -302,8 +260,7 @@ export default function App() {
           justify-content: center;
         }
 
-        nav button,
-        select {
+        nav button, select {
           border: 1px solid rgba(18, 63, 42, 0.18);
           background: rgba(255, 255, 255, 0.75);
           color: #123f2a;
@@ -311,7 +268,7 @@ export default function App() {
           padding: 12px 18px;
           font-weight: 700;
           cursor: pointer;
-          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 3px 10px rgba(0,0,0,0.04);
         }
 
         .intro {
@@ -344,12 +301,12 @@ export default function App() {
         }
 
         .card {
-          background: rgba(255, 255, 255, 0.76);
+          background: rgba(255,255,255,0.76);
           border-radius: 26px;
           overflow: hidden;
           min-height: 336px;
-          box-shadow: 0 20px 36px rgba(60, 45, 20, 0.12);
-          border: 1px solid rgba(18, 63, 42, 0.08);
+          box-shadow: 0 20px 36px rgba(60,45,20,0.12);
+          border: 1px solid rgba(18,63,42,0.08);
         }
 
         .card img,
@@ -396,24 +353,13 @@ export default function App() {
         }
 
         @media (max-width: 1150px) {
-          .cards {
-            grid-template-columns: repeat(3, minmax(190px, 1fr));
-          }
-
-          .topbar {
-            grid-template-columns: 1fr;
-          }
+          .cards { grid-template-columns: repeat(3, minmax(190px, 1fr)); }
+          .topbar { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 720px) {
-          .cards {
-            grid-template-columns: 1fr;
-          }
-
-          .card img,
-          .imageFallback {
-            height: 220px;
-          }
+          .cards { grid-template-columns: 1fr; }
+          .card img, .imageFallback { height: 220px; }
         }
       `}</style>
     </main>
