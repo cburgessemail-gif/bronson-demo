@@ -134,98 +134,16 @@ const copy: Record<Lang, Record<string, string>> = {
 };
 
 const imageCandidates: Record<ImageKey, string[]> = {
-  hero: [
-    "/images/GrowArea.jpg",
-    "/GrowArea.jpg",
-    "/images/SAM_0220.JPG",
-    "/SAM_0220.JPG",
-    "/images/SAM_0221.JPG",
-    "/SAM_0221.JPG",
-    "/images/SAM_0222.JPG",
-    "/SAM_0222.JPG",
-    "/images/SAM_0223.JPG",
-    "/SAM_0223.JPG"
-  ],
-  guest: [
-    "/images/GrowArea.jpg",
-    "/GrowArea.jpg",
-    "/images/SAM_0220.JPG",
-    "/SAM_0220.JPG",
-    "/images/SAM_0221.JPG",
-    "/SAM_0221.JPG"
-  ],
-  customer: [
-    "/images/SAM_0226.JPG",
-    "/SAM_0226.JPG",
-    "/images/SAM_0229.JPG",
-    "/SAM_0229.JPG",
-    "/images/SAM_0238.JPG",
-    "/SAM_0238.JPG"
-  ],
-  marketplace: [
-    "/images/SAM_0226.JPG",
-    "/SAM_0226.JPG",
-    "/images/SAM_0229.JPG",
-    "/SAM_0229.JPG",
-    "/images/SAM_0238.JPG",
-    "/SAM_0238.JPG"
-  ],
-  grower: [
-    "/images/GrowArea.jpg",
-    "/GrowArea.jpg",
-    "/images/SAM_0220.JPG",
-    "/SAM_0220.JPG",
-    "/images/SAM_0221.JPG",
-    "/SAM_0221.JPG"
-  ],
-  youth: [
-    "/images/youth-workforce.jpg",
-    "/youth-workforce.jpg",
-    "/images/SAM_0229.JPG",
-    "/SAM_0229.JPG",
-    "/images/SAM_0238.JPG",
-    "/SAM_0238.JPG",
-    "/images/SAM_0226.JPG",
-    "/SAM_0226.JPG"
-  ],
-  partner: [
-    "/images/partners.jpg",
-    "/partners.jpg",
-    "/images/SAM_0225.JPG",
-    "/SAM_0225.JPG",
-    "/images/SAM_0226.JPG",
-    "/SAM_0226.JPG",
-    "/images/GrowArea.jpg",
-    "/GrowArea.jpg"
-  ],
-  volunteer: [
-    "/images/volunteers.jpg",
-    "/volunteers.jpg",
-    "/images/SAM_0226.JPG",
-    "/SAM_0226.JPG",
-    "/images/SAM_0225.JPG",
-    "/SAM_0225.JPG",
-    "/images/GrowArea.jpg",
-    "/GrowArea.jpg"
-  ],
-  produce: [
-    "/images/produce.jpg",
-    "/produce.jpg",
-    "/images/SAM_0238.JPG",
-    "/SAM_0238.JPG",
-    "/images/SAM_0229.JPG",
-    "/SAM_0229.JPG"
-  ],
-  seedlings: [
-    "/images/seedlings.jpg",
-    "/seedlings.jpg",
-    "/images/bubble-babies.jpg",
-    "/bubble-babies.jpg",
-    "/images/SAM_0225.JPG",
-    "/SAM_0225.JPG",
-    "/images/SAM_0226.JPG",
-    "/SAM_0226.JPG"
-  ],
+  hero: ["/images/GrowArea.jpg"],
+  guest: ["/images/SAM_0221.JPG"],
+  customer: ["/images/SAM_0238.JPG"],
+  marketplace: ["/images/SAM_0229.JPG"],
+  grower: ["/images/SAM_0220.JPG"],
+  youth: ["/images/SAM_0226.JPG"],
+  partner: ["/images/SAM_0225.JPG"],
+  volunteer: ["/images/SAM_0222.JPG"],
+  produce: ["/images/SAM_0238.JPG"],
+  seedlings: ["/images/SAM_0225.JPG"],
 };
 
 const tourOrder: View[] = ["guest", "customer", "marketplace", "grower", "youth", "partner", "volunteer", "summary"];
