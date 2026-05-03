@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 type PathwayKey =
   | "guest"
@@ -9,74 +9,23 @@ type PathwayKey =
   | "partner"
   | "volunteer";
 
-const tryPaths = (names: string[]) =>
-  names.flatMap((n) => [`/images/${n}`, `/${n}`]);
+/**
+ * ONLY USE IMAGES THAT CURRENTLY WORK
+ * We KNOW GrowArea.jpg works — everything else was breaking
+ */
+const IMAGE_LOCK: Record<PathwayKey, string> = {
+  guest: "/images/GrowArea.jpg",
 
-const IMAGE_LOCK: Record<PathwayKey, string[]> = {
-  guest: tryPaths(["GrowArea2.jpg", "GrowArea.jpg"]),
+  // TEMP: use working image until we map real ones
+  customer: "/images/GrowArea.jpg",
+  marketplace: "/images/GrowArea.jpg",
 
-  customer: tryPaths([
-    "GrownBy.jpg",
-    "grownby.jpg",
-    "seedlings.jpg",
-    "Seedlings.jpg",
-    "produce.jpg",
-  ]),
+  grower: "/images/GrowArea.jpg",
 
-  marketplace: tryPaths([
-    "Marketplace.jpg",
-    "marketplace.jpg",
-    "storefront.jpg",
-    "GrownBy.jpg",
-  ]),
-
-  grower: tryPaths(["GrowArea.jpg", "GrowArea2.jpg"]),
-
-  youth: tryPaths([
-    "YouthWorkforce.jpg",
-    "youth-workforce.jpg",
-    "People.jpg",
-    "people.jpg",
-  ]),
-
-  partner: tryPaths(["Partner.jpg", "Community.jpg"]),
-
-  volunteer: tryPaths(["Volunteer.jpg", "People.jpg"]),
+  youth: "/images/GrowArea.jpg",
+  partner: "/images/GrowArea.jpg",
+  volunteer: "/images/GrowArea.jpg",
 };
-
-function SmartImage({ imageKey }: { imageKey: PathwayKey }) {
-  const [src, setSrc] = useState("");
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function findImage() {
-      for (const path of IMAGE_LOCK[imageKey]) {
-        const works = await new Promise<boolean>((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-          img.src = path;
-        });
-
-        if (works && !cancelled) {
-          setSrc(path);
-          return;
-        }
-      }
-
-      // FINAL FALLBACK (guaranteed working image)
-      if (!cancelled) setSrc("/images/GrowArea.jpg");
-    }
-
-    findImage();
-    return () => {
-      cancelled = true;
-    };
-  }, [imageKey]);
-
-  return <img src={src} style={{ width: "100%", height: 160, objectFit: "cover" }} />;
-}
 
 const pathways = {
   guest: {
@@ -148,7 +97,10 @@ export default function App() {
                 boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
               }}
             >
-              <SmartImage imageKey={key} />
+              <img
+                src={IMAGE_LOCK[key]}
+                style={{ width: "100%", height: 160, objectFit: "cover" }}
+              />
 
               <div style={{ padding: 15 }}>
                 <h3>{item.title}</h3>
