@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const IMAGE = {
+  hero: "/GrowArea.jpg",
   guest: "/GrowArea.jpg",
   marketplace: "/SAM_0220.JPG",
   grower: "/SAM_0221.JPG",
@@ -10,290 +11,162 @@ const IMAGE = {
   community: "/SAM_0226.JPG",
 };
 
-type PathwayKey =
-  | "guest"
-  | "marketplace"
-  | "grower"
-  | "youth"
-  | "partner"
-  | "valueAdded"
-  | "community";
-
-const order: PathwayKey[] = [
-  "guest",
-  "marketplace",
-  "grower",
-  "youth",
-  "partner",
-  "valueAdded",
-  "community",
+const PATHWAYS = [
+  {
+    key: "guest",
+    title: "Guest Pathway",
+    subtitle: "Walk in as a visitor. Leave understanding the vision.",
+    content:
+      "Guests experience Bronson Family Farm as a living place where land, food, family, history, and community renewal come together.",
+  },
+  {
+    key: "marketplace",
+    title: "Marketplace",
+    subtitle: "Turn interest into participation.",
+    content:
+      "Explore fresh produce, tools, and value-added goods while supporting local growers.",
+  },
+  {
+    key: "grower",
+    title: "Grower Pathway",
+    subtitle: "From knowledge to production.",
+    content:
+      "Growers access land, tools, and shared knowledge to participate in a thriving ecosystem.",
+  },
+  {
+    key: "youth",
+    title: "Youth Workforce",
+    subtitle: "Learning by doing.",
+    content:
+      "Youth gain real-world skills through hands-on farming, teamwork, and responsibility.",
+  },
+  {
+    key: "partner",
+    title: "Partner Pathway",
+    subtitle: "Organizations amplify impact.",
+    content:
+      "Partners provide resources, services, and support that strengthen the ecosystem.",
+  },
+  {
+    key: "valueAdded",
+    title: "Value-Added Producer",
+    subtitle: "Extend the value of what is grown.",
+    content:
+      "Producers transform raw goods into finished products, increasing economic opportunity.",
+  },
+  {
+    key: "community",
+    title: "Community Impact",
+    subtitle: "One system. Shared benefit.",
+    content:
+      "The farm strengthens food access, workforce readiness, and community health.",
+  },
 ];
 
-const pathways: Record<
-  PathwayKey,
-  {
-    title: string;
-    eyebrow: string;
-    subtitle: string;
-    image: string;
-    meaning: string;
-    experience: string;
-    action: string;
-  }
-> = {
-  guest: {
-    title: "Guest Pathway",
-    eyebrow: "Guided Tour · 1 of 7",
-    subtitle: "Walk in as a visitor. Leave understanding the vision.",
-    image: IMAGE.guest,
-    meaning:
-      "Guests begin by experiencing Bronson Family Farm as a living place — where land, food, family, history, and community renewal come together.",
-    experience:
-      "This pathway helps visitors understand why the farm exists and how they can move from curiosity into participation.",
-    action: "Explore the marketplace, meet growers, or discover how to support the ecosystem.",
-  },
-  marketplace: {
-    title: "Marketplace",
-    eyebrow: "Guided Tour · 2 of 7",
-    subtitle: "Fresh food, seedlings, tools, and local purchasing power.",
-    image: IMAGE.marketplace,
-    meaning:
-      "The Marketplace turns interest into action by connecting people to produce, seedlings, supplies, and local products.",
-    experience:
-      "Customers can support growers, purchase healthy food, and participate in a local food economy rooted in community benefit.",
-    action: "Shop, preorder, scan QR codes, or return for seasonal farm offerings.",
-  },
-  grower: {
-    title: "Grower Pathway",
-    eyebrow: "Guided Tour · 3 of 7",
-    subtitle: "Growers are entrepreneurs in a larger ecosystem.",
-    image: IMAGE.grower,
-    meaning:
-      "Growers are not isolated producers. They are contributors to a shared food system with tools, knowledge, markets, and support.",
-    experience:
-      "This pathway connects growers to education, seasonal support, supplies, demonstrations, and marketplace participation.",
-    action: "Learn, grow, sell, teach, and strengthen local food access.",
-  },
-  youth: {
-    title: "Youth Workforce",
-    eyebrow: "Guided Tour · 4 of 7",
-    subtitle: "Building skills, responsibility, and future readiness.",
-    image: IMAGE.youth,
-    meaning:
-      "Youth Workforce gives young people meaningful outdoor work connected to food, land, responsibility, and leadership.",
-    experience:
-      "Youth learn safety, attendance, teamwork, task completion, communication, and entrepreneurship through real farm-based activity.",
-    action: "Build confidence, document progress, and prepare for future opportunities.",
-  },
-  partner: {
-    title: "Partner Pathway",
-    eyebrow: "Guided Tour · 5 of 7",
-    subtitle: "Aligning resources around community benefit.",
-    image: IMAGE.partner,
-    meaning:
-      "Partners help build the infrastructure around the farm — health, education, workforce, food access, and sustainability.",
-    experience:
-      "Each partner contributes something meaningful: tools, education, demonstrations, screenings, services, funding, or expertise.",
-    action: "Support the event, strengthen programming, and help build a replicable model.",
-  },
-  valueAdded: {
-    title: "Value-Added Producer",
-    eyebrow: "Guided Tour · 6 of 7",
-    subtitle: "Turning local growing into products and enterprise.",
-    image: IMAGE.valueAdded,
-    meaning:
-      "Value-added producers transform food, culture, creativity, and skill into products that strengthen the marketplace.",
-    experience:
-      "This pathway supports entrepreneurship, small business growth, local production, and sustainability.",
-    action: "Create, package, sell, teach, and expand local economic opportunity.",
-  },
-  community: {
-    title: "Community Impact",
-    eyebrow: "Guided Tour · 7 of 7",
-    subtitle: "A place-based destination for food, health, learning, and legacy.",
-    image: IMAGE.community,
-    meaning:
-      "Bronson Family Farm is more than acreage. It is a community asset designed to improve food access and create generational opportunity.",
-    experience:
-      "The ecosystem connects guests, customers, growers, youth, partners, and producers into one shared place-based model.",
-    action: "Carry the story forward, invest in the vision, and help grow what comes next.",
-  },
-};
+const styles = `
+body {
+  margin: 0;
+  background: #f6f0df;
+  font-family: Arial, sans-serif;
+  color: #1f261f;
+}
 
-export default function App() {
-  const [active, setActive] = useState<PathwayKey>("guest");
-  const current = pathways[active];
-  const currentIndex = order.indexOf(active);
-  const nextKey = order[(currentIndex + 1) % order.length];
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #efe6cf;
+}
 
-  const goTo = (key: PathwayKey) => {
-    setActive(key);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+.nav button {
+  margin-right: 10px;
+  padding: 8px 14px;
+  background: #2f5233;
+  color: white;
+  border: none;
+  border-radius: 6px;
+}
+
+.hero {
+  padding: 60px 24px;
+  color: white;
+  background-size: cover;
+  background-position: center;
+}
+
+.container {
+  padding: 24px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.button-row button {
+  margin: 5px;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+`;
+
+const App = () => {
+  const [step, setStep] = useState(0);
+
+  const current = PATHWAYS[step];
 
   return (
-    <main
-      className="min-h-screen bg-[#f4eddd] text-[#123d2a]"
-      style={{
-        fontFamily:
-          'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      }}
-    >
-      <header className="sticky top-0 z-50 flex items-center justify-between gap-4 border-b border-[#d8ceb7] bg-[#f4eddd]/95 px-6 py-4 backdrop-blur">
-        <button
-          onClick={() => goTo("guest")}
-          className="text-2xl font-semibold tracking-tight"
-          style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-        >
-          Bronson Family Farm
-        </button>
+    <>
+      <style>{styles}</style>
 
-        <nav className="hidden items-center gap-3 md:flex">
-          <button
-            onClick={() => goTo("marketplace")}
-            className="rounded-full border border-[#cfc5ad] bg-white/75 px-5 py-2 text-sm font-medium shadow-sm"
-          >
-            Enter Marketplace
-          </button>
-          <button
-            onClick={() => goTo("grower")}
-            className="rounded-full border border-[#cfc5ad] bg-white/75 px-5 py-2 text-sm font-medium shadow-sm"
-          >
-            Meet the Grower Pathway
-          </button>
-          <button
-            onClick={() => goTo("youth")}
-            className="rounded-full border border-[#cfc5ad] bg-white/75 px-5 py-2 text-sm font-medium shadow-sm"
-          >
-            Youth Workforce
-          </button>
-        </nav>
+      <div className="header">
+        <div>Bronson Family Farm</div>
+        <div className="nav">
+          <button onClick={() => setStep(1)}>Enter Marketplace</button>
+          <button onClick={() => setStep(2)}>Meet the Grower Pathway</button>
+          <button onClick={() => setStep(3)}>Youth Workforce</button>
+        </div>
+      </div>
 
-        <select className="rounded-full border border-[#cfc5ad] bg-white/75 px-5 py-2 text-sm shadow-sm">
-          <option>English</option>
-          <option>Spanish</option>
-          <option>Tagalog</option>
-          <option>Italian</option>
-          <option>Hebrew</option>
-          <option>French</option>
-        </select>
-      </header>
-
-      <section
-        className="relative min-h-[78vh] overflow-hidden bg-cover bg-center"
-        style={{ backgroundImage: `url("${current.image}")` }}
+      <div
+        className="hero"
+        style={{
+          backgroundImage: `url(${IMAGE[current.key]})`,
+        }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-[#173d27]/70 to-[#0e3a28]/90" />
+        <div>Guided Tour · {step + 1} of {PATHWAYS.length}</div>
+        <h1>{current.title}</h1>
+        <p>{current.subtitle}</p>
+        <button onClick={() => setStep((s) => (s + 1) % PATHWAYS.length)}>
+          Continue Guided Tour
+        </button>
+      </div>
 
-        <div className="relative z-10 grid min-h-[78vh] items-center px-6 py-20 md:grid-cols-2">
-          <div />
-          <div className="max-w-3xl">
-            <p className="mb-4 text-sm font-bold uppercase tracking-[0.22em] text-[#f4d85d]">
-              {current.eyebrow}
-            </p>
+      <div className="container">
+        <h3>What this pathway means</h3>
+        <p>{current.content}</p>
 
-            <h1
-              className="mb-6 text-5xl font-semibold leading-tight text-white md:text-7xl"
-              style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-            >
-              {current.title}
-            </h1>
-
-            <p
-              className="max-w-2xl text-2xl font-semibold leading-snug text-[#fff3c4] md:text-3xl"
-              style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-            >
-              {current.subtitle}
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-3">
-              <button
-                onClick={() => goTo(nextKey)}
-                className="rounded-full bg-[#f4d85d] px-6 py-3 font-bold text-[#123d2a] shadow-lg"
-              >
-                Continue Guided Tour
-              </button>
-
-              <button
-                onClick={() => goTo("marketplace")}
-                className="rounded-full border border-white/40 bg-white/15 px-6 py-3 font-semibold text-white backdrop-blur"
-              >
-                Enter Marketplace
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-12">
-        <div className="mb-8 rounded-[2rem] bg-white/90 p-8 shadow-xl">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#8a6f21]">
-            What this pathway means
-          </p>
-          <p
-            className="text-2xl leading-relaxed text-[#123d2a]"
-            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-          >
-            {current.meaning}
-          </p>
+        <h4>Choose a pathway</h4>
+        <div className="button-row">
+          {PATHWAYS.map((p, i) => (
+            <button key={p.key} onClick={() => setStep(i)}>
+              {p.title}
+            </button>
+          ))}
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-[2rem] bg-white/90 p-8 shadow-lg">
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#8a6f21]">
-              Experience
-            </p>
-            <p className="text-lg leading-relaxed">{current.experience}</p>
-          </div>
-
-          <div className="rounded-[2rem] bg-white/90 p-8 shadow-lg">
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#8a6f21]">
-              Next step
-            </p>
-            <p className="text-lg leading-relaxed">{current.action}</p>
-          </div>
-        </div>
-
-        <div className="mt-10 rounded-[2rem] bg-[#123d2a] p-6 text-white shadow-xl">
-          <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-[#f4d85d]">
-            Choose a pathway
-          </p>
-
-          <div className="grid gap-3 md:grid-cols-4">
-            {order.map((key) => (
-              <button
-                key={key}
-                onClick={() => goTo(key)}
-                className={`rounded-2xl px-5 py-4 text-sm font-semibold transition ${
-                  active === key
-                    ? "bg-[#f4d85d] text-[#123d2a]"
-                    : "bg-white/10 text-white hover:bg-white/20"
-                }`}
-              >
-                {pathways[key].title}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-10 flex justify-between gap-4">
-          <button
-            onClick={() =>
-              goTo(order[(currentIndex - 1 + order.length) % order.length])
-            }
-            className="rounded-full border border-[#cfc5ad] bg-white/80 px-6 py-3 font-semibold shadow-sm"
-          >
+        <div style={{ marginTop: 20 }}>
+          <button onClick={() => setStep((s) => Math.max(s - 1, 0))}>
             Previous
           </button>
-
           <button
-            onClick={() => goTo(nextKey)}
-            className="rounded-full bg-[#123d2a] px-6 py-3 font-semibold text-white shadow-sm"
+            onClick={() =>
+              setStep((s) => Math.min(s + 1, PATHWAYS.length - 1))
+            }
           >
-            Next: {pathways[nextKey].title}
+            Next
           </button>
         </div>
-      </section>
-    </main>
+      </div>
+    </>
   );
-}
+};
+
+export default App;
