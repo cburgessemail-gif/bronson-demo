@@ -137,12 +137,12 @@ const imageCandidates: Record<ImageKey, string[]> = {
   hero: ["/GrowArea.jpg"],
   guest: ["/GrowArea.jpg"],
   customer: ["/SAM_0223.JPG"],
-  marketplace: ["/culinary_edibleflowers.jpeg"],
+  marketplace: ["/SAM_0238.JPG"],
   grower: ["/SAM_0249.JPG"],
   youth: ["/SAM_0220.JPG"],
   partner: ["/SAM_0225.JPG"],
-  volunteer: ["/SAM_0238.JPG"],
-  produce: ["/culinary_edibleflowers.jpeg"],
+  volunteer: ["/SAM_0229.JPG"],
+  produce: ["/SAM_0238.JPG"],
   seedlings: ["/SAM_0226.JPG"],
 };
 
