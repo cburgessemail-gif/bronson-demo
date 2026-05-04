@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 
-/** IMAGE MAP — FIXED TO MATCH SUBJECTS **/
 const IMAGE = {
   hero: "/GrowArea.jpg",
-
   guest: "/GrowArea.jpg",
-  customer: "/SAM_0238.JPG",
+  customer: "/SAM_0223.JPG",
   marketplace: "/SAM_0229.JPG",
-  grower: "/SAM_0220.JPG",
-  youth: "/SAM_0223.JPG",
+  grower: "/SAM_0249.JPG",
+  youth: "/SAM_0220.JPG",
   partner: "/SAM_0225.JPG",
-  volunteer: "/SAM_0249.JPG",
+  volunteer: "/SAM_0238.JPG",
 };
 
-/** PATHWAYS **/
 type PathKey =
   | "guest"
   | "customer"
@@ -23,7 +20,11 @@ type PathKey =
   | "partner"
   | "volunteer";
 
-const pathways = [
+const pathways: {
+  key: PathKey;
+  title: string;
+  desc: string;
+}[] = [
   {
     key: "guest",
     title: "Guest Pathway",
@@ -61,46 +62,48 @@ const pathways = [
   },
 ];
 
-/** APP **/
 export default function App() {
   const [active, setActive] = useState<PathKey | null>(null);
 
   return (
     <div style={styles.page}>
-      {/* HEADER */}
-      <div style={styles.header}>
+      <header style={styles.header}>
         <div style={styles.logo}>Bronson Family Farm</div>
 
-        <div style={styles.nav}>
-          <button style={styles.button}>Enter Marketplace</button>
-          <button style={styles.button}>Meet the Grower Pathway</button>
-          <button style={styles.button}>Youth Workforce</button>
-        </div>
-      </div>
+        <nav style={styles.nav}>
+          <button style={styles.button} onClick={() => setActive("marketplace")}>
+            Enter Marketplace
+          </button>
+          <button style={styles.button} onClick={() => setActive("grower")}>
+            Meet the Grower Pathway
+          </button>
+          <button style={styles.button} onClick={() => setActive("youth")}>
+            Youth Workforce
+          </button>
+        </nav>
+      </header>
 
-      {/* HERO IMAGE */}
-      <div
+      <section
         style={{
           ...styles.hero,
           backgroundImage: `url(${IMAGE.hero})`,
         }}
       />
 
-      {/* TITLE */}
-      <div style={styles.section}>
+      <section style={styles.section}>
         <h1 style={styles.title}>tour</h1>
         <p style={styles.subtitle}>
-          Start with the guided experience or enter the pathway that matches your role.
+          Start with the guided experience or enter the pathway that matches your
+          role.
         </p>
-      </div>
+      </section>
 
-      {/* PATHWAY GRID */}
-      <div style={styles.grid}>
+      <section style={styles.grid}>
         {pathways.map((p) => (
-          <div
+          <article
             key={p.key}
             style={styles.card}
-            onClick={() => setActive(p.key as PathKey)}
+            onClick={() => setActive(p.key)}
           >
             <div
               style={{
@@ -109,16 +112,15 @@ export default function App() {
               }}
             />
             <div style={styles.cardBody}>
-              <h3 style={styles.cardTitle}>{p.title}</h3>
+              <h2 style={styles.cardTitle}>{p.title}</h2>
               <p style={styles.cardDesc}>{p.desc}</p>
             </div>
-          </div>
+          </article>
         ))}
-      </div>
+      </section>
 
-      {/* DETAIL VIEW */}
       {active && (
-        <div style={styles.detail}>
+        <section style={styles.detail}>
           <h2 style={styles.detailTitle}>
             {pathways.find((p) => p.key === active)?.title}
           </h2>
@@ -134,20 +136,26 @@ export default function App() {
             {pathways.find((p) => p.key === active)?.desc}
           </p>
 
-          <button style={styles.back} onClick={() => setActive(null)}>
-            Back
-          </button>
-        </div>
+          <div style={styles.detailButtons}>
+            <button style={styles.button} onClick={() => setActive(null)}>
+              Back
+            </button>
+            <button style={styles.button} onClick={() => setActive("marketplace")}>
+              Enter Marketplace
+            </button>
+          </div>
+        </section>
       )}
     </div>
   );
 }
 
-/** STYLES — NO TAILWIND (fixes your build error) **/
 const styles: Record<string, React.CSSProperties> = {
   page: {
-    fontFamily: "Georgia, serif",
+    minHeight: "100vh",
     background: "#f4eddc",
+    color: "#183927",
+    fontFamily: "Georgia, 'Times New Roman', serif",
   },
 
   header: {
@@ -156,97 +164,121 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: "center",
     padding: "18px 40px",
     background: "#e8decc",
+    position: "sticky",
+    top: 0,
+    zIndex: 10,
   },
 
   logo: {
     fontSize: "22px",
-    fontWeight: 600,
+    fontWeight: 700,
   },
 
   nav: {
     display: "flex",
     gap: "12px",
+    flexWrap: "wrap",
   },
 
   button: {
-    padding: "10px 14px",
-    border: "1px solid #333",
-    background: "#fff",
+    padding: "10px 16px",
+    border: "1px solid #b7ad99",
+    borderRadius: "999px",
+    background: "#fffdf7",
+    color: "#183927",
     cursor: "pointer",
+    fontFamily: "inherit",
+    fontWeight: 600,
   },
 
   hero: {
-    height: "260px",
+    height: "300px",
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
 
   section: {
-    padding: "40px",
+    padding: "48px 40px 24px",
   },
 
   title: {
-    fontSize: "42px",
-    marginBottom: "10px",
+    fontSize: "48px",
+    margin: 0,
+    lineHeight: 1,
   },
 
   subtitle: {
-    fontSize: "18px",
+    fontSize: "19px",
+    marginTop: "18px",
   },
 
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-    gap: "20px",
-    padding: "0 40px 40px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+    gap: "24px",
+    padding: "24px 40px 48px",
   },
 
   card: {
-    background: "#fff",
+    background: "#fffdf7",
     borderRadius: "16px",
     overflow: "hidden",
     cursor: "pointer",
+    boxShadow: "0 14px 32px rgba(30, 45, 30, 0.12)",
   },
 
   cardImage: {
-    height: "160px",
+    height: "165px",
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
 
   cardBody: {
-    padding: "16px",
+    padding: "18px",
   },
 
   cardTitle: {
-    margin: "0 0 8px",
+    margin: "0 0 10px",
+    fontSize: "24px",
+    lineHeight: 1.05,
+    color: "#123d2a",
   },
 
   cardDesc: {
-    fontSize: "14px",
+    margin: 0,
+    fontSize: "16px",
+    lineHeight: 1.35,
   },
 
   detail: {
     padding: "40px",
+    background: "#fffdf7",
+    margin: "0 40px 60px",
+    borderRadius: "20px",
+    boxShadow: "0 14px 32px rgba(30, 45, 30, 0.12)",
   },
 
   detailTitle: {
-    fontSize: "28px",
+    fontSize: "32px",
+    marginTop: 0,
   },
 
   detailImage: {
-    height: "300px",
+    height: "320px",
     backgroundSize: "cover",
+    backgroundPosition: "center",
+    borderRadius: "16px",
     margin: "20px 0",
   },
 
   detailText: {
     fontSize: "18px",
+    lineHeight: 1.5,
   },
 
-  back: {
+  detailButtons: {
+    display: "flex",
+    gap: "12px",
     marginTop: "20px",
-    padding: "10px 16px",
-    cursor: "pointer",
   },
 };
