@@ -1,284 +1,195 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
-const IMAGE = {
-  hero: "/GrowArea.jpg",
-  guest: "/GrowArea.jpg",
-  customer: "/SAM_0223.JPG",
-  marketplace: "/SAM_0229.JPG",
-  grower: "/SAM_0249.JPG",
-  youth: "/SAM_0220.JPG",
-  partner: "/SAM_0225.JPG",
-  volunteer: "/SAM_0238.JPG",
-};
-
-type PathKey =
+type Lang = "en" | "es" | "fr" | "tl" | "it" | "he";
+type View =
+  | "home"
+  | "tour"
   | "guest"
   | "customer"
   | "marketplace"
   | "grower"
   | "youth"
   | "partner"
-  | "volunteer";
+  | "volunteer"
+  | "summary";
 
-const pathways: {
-  key: PathKey;
-  title: string;
-  desc: string;
-}[] = [
-  {
-    key: "guest",
-    title: "Guest Pathway",
-    desc: "Walk in as a visitor. Leave understanding the vision.",
-  },
-  {
-    key: "customer",
-    title: "Customer Pathway",
-    desc: "Fresh food becomes a repeat healthy choice.",
-  },
-  {
-    key: "marketplace",
-    title: "Marketplace",
-    desc: "Interest becomes purchasing power.",
-  },
-  {
-    key: "grower",
-    title: "Grower Pathway",
-    desc: "Grow more than food. Grow opportunity.",
-  },
-  {
-    key: "youth",
-    title: "Youth Workforce Pathway",
-    desc: "Young people build skills by doing real work in a real ecosystem.",
-  },
-  {
-    key: "partner",
-    title: "Partner Pathway",
-    desc: "Partners align resources so the ecosystem can serve more people.",
-  },
-  {
-    key: "volunteer",
-    title: "Volunteer Pathway",
-    desc: "Volunteers help turn vision into visible progress.",
-  },
+type ImageKey =
+  | "hero"
+  | "guest"
+  | "customer"
+  | "marketplace"
+  | "grower"
+  | "youth"
+  | "partner"
+  | "volunteer"
+  | "produce"
+  | "seedlings";
+
+/* 🔴 FIXED IMAGE MAPPING ONLY */
+const imageCandidates: Record<ImageKey, string[]> = {
+  hero: ["/GrowArea.jpg"],
+  guest: ["/GrowArea.jpg"],
+  customer: ["/SAM_0238.JPG"],
+  marketplace: ["/SAM_0229.JPG"],
+  grower: ["/SAM_0220.JPG"],
+  youth: ["/SAM_0223.JPG"],
+  partner: ["/SAM_0225.JPG"],
+  volunteer: ["/SAM_0249.JPG"],
+  produce: ["/SAM_0238.JPG"],
+  seedlings: ["/SAM_0226.JPG"],
+};
+
+const LANGS: { code: Lang; label: string }[] = [
+  { code: "en", label: "English" },
+  { code: "es", label: "Español" },
+  { code: "fr", label: "Français" },
+  { code: "tl", label: "Tagalog" },
+  { code: "it", label: "Italiano" },
+  { code: "he", label: "עברית" },
 ];
 
-export default function App() {
-  const [active, setActive] = useState<PathKey | null>(null);
+const copy: Record<Lang, Record<string, string>> = {
+  en: {
+    welcome: "Welcome to Bronson Family Farm",
+    subtitle:
+      "A living ecosystem connecting food, families, growers, youth workforce, partners, and marketplace opportunity.",
+    start: "Start the Guided Experience",
+    marketplace: "Enter Marketplace",
+    growers: "Meet the Grower Pathway",
+    youth: "Youth Workforce",
+    inviteOnly:
+      "Growers Supply Market · May 16, 2026 · 9:00 AM–2:00 PM · By Invitation Only",
+    choosePath: "Choose a pathway or follow the guided tour",
+    backHome: "Back to Home",
+    next: "Next",
+    previous: "Previous",
+    purpose: "Purpose",
+    action: "Action",
+    summary: "Summary",
+  },
+};
+
+/* 🔴 SMART IMAGE — NO FALLBACK SWITCHING */
+function SmartImage({
+  imageKey,
+  alt,
+  className = "",
+}: {
+  imageKey: ImageKey;
+  alt: string;
+  className?: string;
+}) {
+  return (
+    <img
+      className={className}
+      src={imageCandidates[imageKey][0]}
+      alt={alt}
+    />
+  );
+}
+
+const pathways = {
+  guest: { label: "Guest Pathway", image: "guest" as ImageKey, sound: "Walk in as a visitor. Leave understanding the vision." },
+  customer: { label: "Customer Pathway", image: "customer" as ImageKey, sound: "Fresh food becomes a repeat healthy choice." },
+  marketplace: { label: "Marketplace", image: "marketplace" as ImageKey, sound: "Interest becomes purchasing power." },
+  grower: { label: "Grower Pathway", image: "grower" as ImageKey, sound: "Grow more than food. Grow opportunity." },
+  youth: { label: "Youth Workforce Pathway", image: "youth" as ImageKey, sound: "Young people build skills by doing real work." },
+  partner: { label: "Partner Pathway", image: "partner" as ImageKey, sound: "Partners align resources for impact." },
+  volunteer: { label: "Volunteer Pathway", image: "volunteer" as ImageKey, sound: "Volunteers turn vision into progress." },
+};
+
+function App() {
+  const [view, setView] = useState<View>("home");
+  const t = copy.en;
 
   return (
-    <div style={styles.page}>
-      <header style={styles.header}>
-        <div style={styles.logo}>Bronson Family Farm</div>
+    <div className="app">
+      <style>{styles}</style>
 
-        <nav style={styles.nav}>
-          <button style={styles.button} onClick={() => setActive("marketplace")}>
-            Enter Marketplace
+      <header className="topbar">
+        <button className="brand" onClick={() => setView("home")}>
+          Bronson Family Farm
+        </button>
+
+        <nav className="nav">
+          <button onClick={() => setView("marketplace")}>
+            {t.marketplace}
           </button>
-          <button style={styles.button} onClick={() => setActive("grower")}>
-            Meet the Grower Pathway
+          <button onClick={() => setView("grower")}>
+            {t.growers}
           </button>
-          <button style={styles.button} onClick={() => setActive("youth")}>
-            Youth Workforce
+          <button onClick={() => setView("youth")}>
+            {t.youth}
           </button>
         </nav>
       </header>
 
-      <section
-        style={{
-          ...styles.hero,
-          backgroundImage: `url(${IMAGE.hero})`,
-        }}
-      />
-
-      <section style={styles.section}>
-        <h1 style={styles.title}>tour</h1>
-        <p style={styles.subtitle}>
-          Start with the guided experience or enter the pathway that matches your
-          role.
-        </p>
-      </section>
-
-      <section style={styles.grid}>
-        {pathways.map((p) => (
-          <article
-            key={p.key}
-            style={styles.card}
-            onClick={() => setActive(p.key)}
-          >
-            <div
-              style={{
-                ...styles.cardImage,
-                backgroundImage: `url(${IMAGE[p.key]})`,
-              }}
+      {view === "home" ? (
+        <main>
+          <section className="hero">
+            <SmartImage
+              imageKey="hero"
+              alt="Farm"
+              className="heroImg"
             />
-            <div style={styles.cardBody}>
-              <h2 style={styles.cardTitle}>{p.title}</h2>
-              <p style={styles.cardDesc}>{p.desc}</p>
+            <div className="heroOverlay" />
+            <div className="heroContent">
+              <h1>{t.welcome}</h1>
+              <p className="lead">{t.subtitle}</p>
             </div>
-          </article>
-        ))}
-      </section>
+          </section>
 
-      {active && (
-        <section style={styles.detail}>
-          <h2 style={styles.detailTitle}>
-            {pathways.find((p) => p.key === active)?.title}
-          </h2>
+          <section className="pathGridSection">
+            <h2>{t.choosePath}</h2>
 
-          <div
-            style={{
-              ...styles.detailImage,
-              backgroundImage: `url(${IMAGE[active]})`,
-            }}
-          />
+            <div className="pathGrid">
+              {Object.entries(pathways).map(([key, p]) => (
+                <button
+                  className="pathCard"
+                  key={key}
+                  onClick={() => setView(key as View)}
+                >
+                  <SmartImage
+                    imageKey={p.image}
+                    alt={p.label}
+                    className="cardImg"
+                  />
+                  <span>{p.label}</span>
+                  <small>{p.sound}</small>
+                </button>
+              ))}
+            </div>
+          </section>
+        </main>
+      ) : (
+        <main>
+          <section className="detailHero">
+            <SmartImage
+              imageKey={pathways[view as keyof typeof pathways]?.image}
+              alt=""
+              className="detailImg"
+            />
+          </section>
 
-          <p style={styles.detailText}>
-            {pathways.find((p) => p.key === active)?.desc}
-          </p>
-
-          <div style={styles.detailButtons}>
-            <button style={styles.button} onClick={() => setActive(null)}>
-              Back
+          <section className="bottomNav">
+            <button onClick={() => setView("home")}>
+              {t.backHome}
             </button>
-            <button style={styles.button} onClick={() => setActive("marketplace")}>
-              Enter Marketplace
-            </button>
-          </div>
-        </section>
+          </section>
+        </main>
       )}
     </div>
   );
 }
 
-const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    background: "#f4eddc",
-    color: "#183927",
-    fontFamily: "Georgia, 'Times New Roman', serif",
-  },
+const styles = `
+body { margin:0; font-family:Georgia, serif; }
+.hero { position:relative; height:400px; }
+.heroImg { width:100%; height:100%; object-fit:cover; }
+.heroOverlay { position:absolute; inset:0; background:rgba(0,0,0,.3); }
+.heroContent { position:absolute; bottom:20px; left:20px; color:white; }
+.pathGrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px; }
+.cardImg { width:100%; height:150px; object-fit:cover; }
+`;
 
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "18px 40px",
-    background: "#e8decc",
-    position: "sticky",
-    top: 0,
-    zIndex: 10,
-  },
-
-  logo: {
-    fontSize: "22px",
-    fontWeight: 700,
-  },
-
-  nav: {
-    display: "flex",
-    gap: "12px",
-    flexWrap: "wrap",
-  },
-
-  button: {
-    padding: "10px 16px",
-    border: "1px solid #b7ad99",
-    borderRadius: "999px",
-    background: "#fffdf7",
-    color: "#183927",
-    cursor: "pointer",
-    fontFamily: "inherit",
-    fontWeight: 600,
-  },
-
-  hero: {
-    height: "300px",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-
-  section: {
-    padding: "48px 40px 24px",
-  },
-
-  title: {
-    fontSize: "48px",
-    margin: 0,
-    lineHeight: 1,
-  },
-
-  subtitle: {
-    fontSize: "19px",
-    marginTop: "18px",
-  },
-
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-    gap: "24px",
-    padding: "24px 40px 48px",
-  },
-
-  card: {
-    background: "#fffdf7",
-    borderRadius: "16px",
-    overflow: "hidden",
-    cursor: "pointer",
-    boxShadow: "0 14px 32px rgba(30, 45, 30, 0.12)",
-  },
-
-  cardImage: {
-    height: "165px",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-
-  cardBody: {
-    padding: "18px",
-  },
-
-  cardTitle: {
-    margin: "0 0 10px",
-    fontSize: "24px",
-    lineHeight: 1.05,
-    color: "#123d2a",
-  },
-
-  cardDesc: {
-    margin: 0,
-    fontSize: "16px",
-    lineHeight: 1.35,
-  },
-
-  detail: {
-    padding: "40px",
-    background: "#fffdf7",
-    margin: "0 40px 60px",
-    borderRadius: "20px",
-    boxShadow: "0 14px 32px rgba(30, 45, 30, 0.12)",
-  },
-
-  detailTitle: {
-    fontSize: "32px",
-    marginTop: 0,
-  },
-
-  detailImage: {
-    height: "320px",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    borderRadius: "16px",
-    margin: "20px 0",
-  },
-
-  detailText: {
-    fontSize: "18px",
-    lineHeight: 1.5,
-  },
-
-  detailButtons: {
-    display: "flex",
-    gap: "12px",
-    marginTop: "20px",
-  },
-};
+export default App;
