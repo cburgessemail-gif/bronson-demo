@@ -1,6 +1,12 @@
 body {
   margin: 0;
-  background: #f4eddd;
-  color: #123d2a;
+  min-width: 320px;
+  min-height: 100vh;
+  background: #f6f0df;
+  color: #1f261f;
   font-family: Georgia, "Times New Roman", serif;
+}
+
+button, select {
+  font-family: inherit;
 }
