@@ -1,13 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  ArrowRight,
   BriefcaseBusiness,
-  CheckCircle2,
   Factory,
   HandHeart,
   Handshake,
-  HeartPulse,
   Home,
   Leaf,
   Menu,
@@ -120,6 +117,8 @@ const partners = [
   "Gates Drone Services",
 ];
 
+type Pathway = (typeof pathways)[number];
+
 function cx(...classes: Array<string | false | undefined | null>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -168,18 +167,16 @@ function ImpactPanel({
       <p className="text-sm font-black uppercase tracking-[0.25em] text-[#E7D7A3]">
         {kicker}
       </p>
-
       <h3 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
         {title}
       </h3>
-
       <p className="mt-6 text-xl leading-9 text-white/85">{body}</p>
     </div>
   );
 }
 
 export default function App() {
-  const [activePathway, setActivePathway] = useState(pathways[0]);
+  const [activePathway, setActivePathway] = useState<Pathway>(pathways[0]);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const activeIndex = pathways.findIndex((p) => p.id === activePathway.id);
@@ -190,7 +187,7 @@ export default function App() {
     return Math.round(((index + 1) / pathways.length) * 100);
   }, [activePathway]);
 
-  function choosePathway(pathway: (typeof pathways)[number]) {
+  function choosePathway(pathway: Pathway) {
     setActivePathway(pathway);
     scrollToId("guided");
   }
@@ -363,11 +360,9 @@ export default function App() {
                 )}
               >
                 <Icon className="mb-5 h-8 w-8" />
-
                 <p className="text-sm font-black uppercase tracking-[0.2em] opacity-70">
                   {pathway.label}
                 </p>
-
                 <p className="mt-3 text-2xl font-black leading-tight">
                   {pathway.title}
                 </p>
@@ -454,13 +449,11 @@ export default function App() {
               title="30,000+ Local Residents Experience Food Insecurity."
               body="Bronson Family Farm is helping strengthen long-term food security through agriculture, education, wellness, workforce development, and community participation."
             />
-
             <ImpactPanel
               kicker="Healthcare"
               title="Food Security Is Preventive Healthcare."
               body="Healthy food access, wellness, outdoor engagement, workforce opportunity, and community stability are interconnected."
             />
-
             <ImpactPanel
               kicker="Transformation"
               title="Transformation Begins With Vision."
