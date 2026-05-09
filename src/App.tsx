@@ -1,38 +1,38 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight,
-  Sprout,
+  Home,
   ShoppingBasket,
+  Sprout,
   BriefcaseBusiness,
   Handshake,
   Factory,
-  Home,
-  Leaf,
+  Menu,
+  X,
   CalendarDays,
   MapPin,
   ShieldCheck,
-  Menu,
-  X,
 } from "lucide-react";
 
 /*
-FINAL BRONSON FAMILY FARM DEMO
-STABILIZED VERSION
-NO REBUILDS
-PLACE IMAGES IN: /public/images
-*/
+FINAL STABILIZED BRONSON FAMILY FARM DEMO
+FULL APP.TSX
 
-const IMAGES = {
-  hero: "/images/GrowArea.jpg",
-  guest: "/images/FarmEntrance.jpg",
-  marketplace: "/images/MarketplaceProduce.jpg",
-  grower: "/images/Seedlings.jpg",
-  youth: "/images/YouthWorkforce.jpg",
-  partners: "/images/CommunityPartners.jpg",
-  valueAdded: "/images/ValueAddedProducer.jpg",
-  customer: "/images/FreshProduce.jpg",
-};
+IMPORTANT:
+Images go inside:
+public/images/
+
+REQUIRED IMAGE FILES:
+
+GrowArea.jpg
+FarmEntrance.jpg
+MarketplaceProduce.jpg
+Seedlings.jpg
+YouthWorkforce.jpg
+CommunityPartners.jpg
+ValueAddedProducer.jpg
+FreshProduce.jpg
+*/
 
 const eventbrite =
   "https://www.eventbrite.com/e/1984126092554?aff=oddtdtcreator";
@@ -41,73 +41,73 @@ const pathways = [
   {
     id: "guest",
     title: "Guest Pathway",
-    image: IMAGES.guest,
     icon: Home,
-    storyTitle: "Why the Farm Exists",
-    description:
-      "Bronson Family Farm was created to help communities reconnect with food, land, opportunity, and one another.",
+    image: "/images/FarmEntrance.jpg",
+    headline: "Why the Farm Exists",
+    subheadline:
+      "Walk in as a visitor. Leave understanding the vision.",
     story:
-      "Guests experience the farm as a living ecosystem rooted in food access, education, agriculture, wellness, entrepreneurship, and regional revitalization in Youngstown and the Mahoning Valley.",
+      "Bronson Family Farm was created to help communities reconnect with food, land, opportunity, wellness, entrepreneurship, and one another. The ecosystem model is rooted in Youngstown and designed to strengthen long-term community resilience.",
   },
 
   {
     id: "marketplace",
     title: "Marketplace",
-    image: IMAGES.marketplace,
     icon: ShoppingBasket,
-    storyTitle: "Economic Ecosystem",
-    description:
-      "Fresh produce, growers, entrepreneurs, and community commerce connected together.",
+    image: "/images/MarketplaceProduce.jpg",
+    headline: "Economic Ecosystem",
+    subheadline:
+      "Interest becomes purchasing power.",
     story:
-      "The marketplace pathway demonstrates how local food systems can strengthen regional sustainability, entrepreneurship, and economic circulation through growers, produce, and value-added products.",
+      "The marketplace pathway demonstrates how growers, produce, entrepreneurship, value-added products, and community participation create sustainable regional food systems and economic opportunity.",
   },
 
   {
     id: "grower",
     title: "Grower Pathway",
-    image: IMAGES.grower,
     icon: Sprout,
-    storyTitle: "Tools, Knowledge & Growing",
-    description:
-      "Helping growers access tools, education, seedlings, and opportunity.",
+    image: "/images/Seedlings.jpg",
+    headline: "Tools, Knowledge & Growing",
+    subheadline:
+      "Helping growers grow successfully.",
     story:
-      "Growers connect to demonstrations, supplies, learning opportunities, and collaborative support designed to strengthen local growing capacity and food participation.",
+      "Growers gain access to seedlings, demonstrations, educational support, tools, and collaborative learning opportunities designed to strengthen local growing capacity.",
   },
 
   {
     id: "youth",
     title: "Youth Workforce",
-    image: IMAGES.youth,
     icon: BriefcaseBusiness,
-    storyTitle: "Building Future Leaders",
-    description:
-      "Outdoor learning, responsibility, leadership, and workforce readiness.",
+    image: "/images/YouthWorkforce.jpg",
+    headline: "Building Future Leaders",
+    subheadline:
+      "Outdoor learning becomes workforce readiness.",
     story:
-      "The Youth Workforce pathway helps young people develop leadership, teamwork, responsibility, entrepreneurship, and employment readiness through hands-on outdoor participation.",
+      "The Youth Workforce pathway helps young people develop leadership, teamwork, responsibility, environmental stewardship, entrepreneurship, and employment readiness through hands-on outdoor participation.",
   },
 
   {
     id: "partners",
     title: "Partners",
-    image: IMAGES.partners,
     icon: Handshake,
-    storyTitle: "Collaborative Infrastructure",
-    description:
-      "Public, private, nonprofit, wellness, and workforce collaboration.",
+    image: "/images/CommunityPartners.jpg",
+    headline: "Collaborative Infrastructure",
+    subheadline:
+      "Community collaboration creates sustainability.",
     story:
-      "The ecosystem connects community organizations, businesses, workforce partners, educational institutions, and municipal collaboration to strengthen food access and regional opportunity.",
+      "Bronson Family Farm connects public, nonprofit, wellness, workforce, educational, and private-sector partners together to strengthen food access, wellness, entrepreneurship, and regional opportunity.",
   },
 
   {
     id: "value",
     title: "Value-Added",
-    image: IMAGES.valueAdded,
     icon: Factory,
-    storyTitle: "From Production to Enterprise",
-    description:
-      "Transforming agricultural products into sustainable economic opportunity.",
+    image: "/images/ValueAddedProducer.jpg",
+    headline: "From Production to Enterprise",
+    subheadline:
+      "Food creates entrepreneurial opportunity.",
     story:
-      "Value-added producers expand opportunity through prepared foods, packaging, processing, entrepreneurship, and local product creation.",
+      "Value-added producers expand opportunity through prepared foods, packaging, processing, branding, entrepreneurship, and local product creation.",
   },
 ];
 
@@ -118,15 +118,19 @@ function ImageBlock({
   src: string;
   alt: string;
 }) {
-  const [error, setError] = useState(false);
+  const [failed, setFailed] = useState(false);
 
-  if (error) {
+  if (failed) {
     return (
-      <div className="flex h-full min-h-[280px] items-center justify-center rounded-[32px] bg-gradient-to-br from-emerald-900 to-emerald-700 text-white">
+      <div className="flex h-full min-h-[420px] items-center justify-center rounded-[36px] bg-gradient-to-br from-[#173C2D] to-[#285841] text-white">
         <div className="text-center">
-          <Leaf className="mx-auto mb-4 h-10 w-10" />
-          <p className="font-semibold">Missing Image</p>
-          <p className="text-sm opacity-80">{src}</p>
+          <p className="text-2xl font-bold">
+            Missing Image
+          </p>
+
+          <p className="mt-3 text-sm opacity-70">
+            {src}
+          </p>
         </div>
       </div>
     );
@@ -136,36 +140,31 @@ function ImageBlock({
     <img
       src={src}
       alt={alt}
-      onError={() => setError(true)}
-      className="h-full w-full rounded-[32px] object-cover"
+      onError={() => setFailed(true)}
+      className="h-full w-full rounded-[36px] object-cover"
     />
   );
 }
 
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeStory, setActiveStory] = useState(pathways[0]);
+  const [activePathway, setActivePathway] =
+    useState(pathways[0]);
 
-  const nav = useMemo(
-    () =>
-      pathways.map((p) => ({
-        id: p.id,
-        title: p.title,
-      })),
-    []
-  );
+  const [menuOpen, setMenuOpen] =
+    useState(false);
 
   return (
-    <main className="min-h-screen bg-[#F4F0E2] text-[#1B1B1B]">
+    <main className="min-h-screen bg-[#F5F1E6] text-[#1D1D1D]">
       {/* NAVBAR */}
 
-      <header className="sticky top-0 z-50 border-b border-[#d8d0bd] bg-[#F4F0E2]/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-[#d9cfbb] bg-[#F5F1E6]/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div>
             <h1
               className="text-2xl font-bold text-[#173C2D]"
               style={{
-                fontFamily: "Playfair Display, serif",
+                fontFamily:
+                  "Playfair Display, serif",
               }}
             >
               Bronson Family Farm
@@ -173,28 +172,33 @@ export default function App() {
           </div>
 
           <nav className="hidden gap-3 lg:flex">
-            {nav.map((item) => (
+            {pathways.map((pathway) => (
               <button
-                key={item.id}
-                onClick={() => {
-                  const found = pathways.find(
-                    (p) => p.id === item.id
-                  );
-                  if (found) setActiveStory(found);
-                }}
-                className="rounded-full border border-[#d0c8b8] bg-white px-5 py-2 font-semibold text-[#173C2D] shadow-sm transition hover:bg-[#173C2D] hover:text-white"
+                key={pathway.id}
+                onClick={() =>
+                  setActivePathway(pathway)
+                }
+                className={`rounded-full px-5 py-2 font-semibold transition ${
+                  activePathway.id ===
+                  pathway.id
+                    ? "bg-[#173C2D] text-white"
+                    : "border border-[#d9cfbb] bg-white text-[#173C2D]"
+                }`}
                 style={{
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily:
+                    "Inter, sans-serif",
                 }}
               >
-                {item.title}
+                {pathway.title}
               </button>
             ))}
           </nav>
 
           <button
             className="lg:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() =>
+              setMenuOpen(!menuOpen)
+            }
           >
             {menuOpen ? <X /> : <Menu />}
           </button>
@@ -206,44 +210,58 @@ export default function App() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <ImageBlock
-            src={IMAGES.hero}
+            src="/images/GrowArea.jpg"
             alt="Bronson Family Farm"
           />
-          <div className="absolute inset-0 bg-black/55" />
+
+          <div className="absolute inset-0 bg-black/50" />
         </div>
 
         <div className="relative mx-auto flex min-h-[760px] max-w-7xl items-center px-6 py-24">
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 24,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             className="max-w-4xl text-white"
           >
             <div className="mb-6 inline-flex rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-semibold backdrop-blur">
-              Growers Supply Market · May 16, 2026
+              Growers Supply Market · May 16,
+              2026
             </div>
 
             <h1
               className="text-6xl font-bold leading-tight md:text-8xl"
               style={{
-                fontFamily: "Playfair Display, serif",
+                fontFamily:
+                  "Playfair Display, serif",
               }}
             >
-              Choose Your Pathway Into the Ecosystem
+              Choose Your Pathway Into the
+              Ecosystem
             </h1>
 
             <p
               className="mt-8 max-w-3xl text-xl leading-9 text-white/90"
               style={{
-                fontFamily: "Inter, sans-serif",
+                fontFamily:
+                  "Inter, sans-serif",
               }}
             >
-              Bronson Family Farm is building a
-              community-centered growers supply market and
-              ecosystem designed to strengthen food access,
-              workforce development, wellness,
-              entrepreneurship, sustainability, and regional
-              opportunity throughout Youngstown and the
-              Mahoning Valley.
+              Bronson Family Farm is building
+              a community-centered growers
+              supply market and ecosystem
+              designed to strengthen food
+              access, workforce development,
+              wellness, entrepreneurship,
+              sustainability, and regional
+              opportunity throughout
+              Youngstown and the Mahoning
+              Valley.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">
@@ -251,9 +269,10 @@ export default function App() {
                 href={eventbrite}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full bg-[#E8D9A9] px-7 py-4 text-lg font-bold text-[#173C2D] shadow-xl transition hover:bg-white"
+                className="rounded-full bg-[#E7D7A3] px-7 py-4 text-lg font-bold text-[#173C2D] transition hover:bg-white"
                 style={{
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily:
+                    "Inter, sans-serif",
                 }}
               >
                 Register on Eventbrite
@@ -261,11 +280,14 @@ export default function App() {
 
               <button
                 onClick={() =>
-                  setActiveStory(pathways[0])
+                  setActivePathway(
+                    pathways[0]
+                  )
                 }
-                className="rounded-full border border-white/40 bg-white/10 px-7 py-4 text-lg font-bold text-white backdrop-blur transition hover:bg-white/20"
+                className="rounded-full border border-white/30 bg-white/10 px-7 py-4 text-lg font-bold text-white backdrop-blur"
                 style={{
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily:
+                    "Inter, sans-serif",
                 }}
               >
                 Explore the Ecosystem
@@ -273,12 +295,14 @@ export default function App() {
             </div>
 
             <p
-              className="mt-8 text-sm uppercase tracking-[0.35em] text-[#E8D9A9]"
+              className="mt-8 text-sm uppercase tracking-[0.35em] text-[#E7D7A3]"
               style={{
-                fontFamily: "Inter, sans-serif",
+                fontFamily:
+                  "Inter, sans-serif",
               }}
             >
-              Select a pathway to experience the story.
+              Select a pathway to experience
+              the story.
             </p>
           </motion.div>
         </div>
@@ -287,82 +311,162 @@ export default function App() {
       {/* STORY EXPERIENCE */}
 
       <section className="mx-auto max-w-7xl px-6 py-24">
-        <div className="mb-12">
+        <div className="mb-14">
           <h2
             className="text-5xl font-bold text-[#173C2D]"
             style={{
-              fontFamily: "Playfair Display, serif",
+              fontFamily:
+                "Playfair Display, serif",
             }}
           >
             Guided Ecosystem Experience
           </h2>
 
           <p
-            className="mt-5 max-w-3xl text-xl leading-8 text-[#444]"
+            className="mt-5 max-w-3xl text-xl leading-8 text-[#555]"
             style={{
-              fontFamily: "Inter, sans-serif",
+              fontFamily:
+                "Inter, sans-serif",
             }}
           >
-            Each pathway reveals a different part of the
-            Bronson Family Farm ecosystem and how food,
-            wellness, workforce development, entrepreneurship,
-            and community infrastructure connect together.
+            Every pathway reveals a different
+            part of the Bronson Family Farm
+            ecosystem and how food,
+            workforce development, wellness,
+            entrepreneurship, and community
+            infrastructure connect together.
           </p>
         </div>
 
+        {/* STORY CARDS */}
+
+        <div className="mb-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {pathways.map((pathway) => {
+            const Icon = pathway.icon;
+
+            return (
+              <button
+                key={pathway.id}
+                onClick={() =>
+                  setActivePathway(pathway)
+                }
+                className={`rounded-[32px] p-6 text-left transition-all ${
+                  activePathway.id ===
+                  pathway.id
+                    ? "bg-[#173C2D] text-white shadow-2xl"
+                    : "bg-white text-[#173C2D] shadow-lg hover:shadow-xl"
+                }`}
+              >
+                <Icon className="mb-5 h-8 w-8" />
+
+                <h3
+                  className="text-3xl font-bold"
+                  style={{
+                    fontFamily:
+                      "Playfair Display, serif",
+                  }}
+                >
+                  {pathway.title}
+                </h3>
+
+                <p
+                  className="mt-4 text-lg leading-7"
+                  style={{
+                    fontFamily:
+                      "Inter, sans-serif",
+                  }}
+                >
+                  {pathway.subheadline}
+                </p>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ACTIVE STORY */}
+
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeStory.id}
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -22 }}
-            transition={{ duration: 0.4 }}
-            className="grid gap-10 lg:grid-cols-[1fr_1fr]"
+            key={activePathway.id}
+            initial={{
+              opacity: 0,
+              y: 24,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -24,
+            }}
+            transition={{
+              duration: 0.4,
+            }}
+            className="grid gap-10 lg:grid-cols-2"
           >
-            <div className="h-[520px] overflow-hidden rounded-[36px] shadow-2xl">
+            {/* IMAGE */}
+
+            <div className="h-[560px] overflow-hidden rounded-[36px] shadow-2xl">
               <ImageBlock
-                src={activeStory.image}
-                alt={activeStory.title}
+                src={activePathway.image}
+                alt={
+                  activePathway.title
+                }
               />
             </div>
 
-            <div className="flex flex-col justify-center rounded-[36px] bg-white p-10 shadow-2xl">
+            {/* STORY */}
+
+            <div className="flex flex-col justify-center rounded-[36px] bg-white p-12 shadow-2xl">
               <div className="mb-5 inline-flex w-fit rounded-full bg-[#173C2D]/10 px-4 py-2 text-sm font-bold text-[#173C2D]">
-                {activeStory.title}
+                {
+                  activePathway.title
+                }
               </div>
 
-              <h3
-                className="text-5xl font-bold leading-tight text-[#173C2D]"
+              <h2
+                className="text-6xl font-bold leading-tight text-[#173C2D]"
                 style={{
-                  fontFamily: "Playfair Display, serif",
+                  fontFamily:
+                    "Playfair Display, serif",
                 }}
               >
-                {activeStory.storyTitle}
-              </h3>
+                {
+                  activePathway.headline
+                }
+              </h2>
 
               <p
-                className="mt-7 text-2xl leading-10 text-[#333]"
+                className="mt-8 text-2xl leading-10 text-[#444]"
                 style={{
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily:
+                    "Inter, sans-serif",
                 }}
               >
-                {activeStory.description}
+                {
+                  activePathway.subheadline
+                }
               </p>
 
               <p
-                className="mt-7 text-lg leading-9 text-[#555]"
+                className="mt-8 text-lg leading-9 text-[#666]"
                 style={{
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily:
+                    "Inter, sans-serif",
                 }}
               >
-                {activeStory.story}
+                {
+                  activePathway.story
+                }
               </p>
 
               <div className="mt-10 flex flex-wrap gap-4">
                 <button
-                  className="rounded-full bg-[#173C2D] px-7 py-4 font-bold text-white transition hover:bg-[#24543f]"
+                  className="rounded-full bg-[#173C2D] px-7 py-4 font-bold text-white transition hover:bg-[#24523e]"
                   style={{
-                    fontFamily: "Inter, sans-serif",
+                    fontFamily:
+                      "Inter, sans-serif",
                   }}
                 >
                   Continue the Journey
@@ -372,12 +476,13 @@ export default function App() {
                   href={eventbrite}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-full border border-[#173C2D]/20 bg-[#f7f4ea] px-7 py-4 font-bold text-[#173C2D]"
+                  className="rounded-full border border-[#173C2D]/20 bg-[#f5f1e6] px-7 py-4 font-bold text-[#173C2D]"
                   style={{
-                    fontFamily: "Inter, sans-serif",
+                    fontFamily:
+                      "Inter, sans-serif",
                   }}
                 >
-                  Register for the Event
+                  Register for Event
                 </a>
               </div>
             </div>
@@ -394,7 +499,8 @@ export default function App() {
               <h2
                 className="text-5xl font-bold"
                 style={{
-                  fontFamily: "Playfair Display, serif",
+                  fontFamily:
+                    "Playfair Display, serif",
                 }}
               >
                 Growers Supply Market
@@ -403,17 +509,20 @@ export default function App() {
               <div
                 className="mt-8 grid gap-5 text-xl"
                 style={{
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily:
+                    "Inter, sans-serif",
                 }}
               >
                 <p className="flex items-center gap-4">
                   <CalendarDays />
-                  Saturday, May 16, 2026 · 9am – 2pm
+                  Saturday, May 16, 2026 ·
+                  9am – 2pm
                 </p>
 
                 <p className="flex items-center gap-4">
                   <MapPin />
-                  Bronson Family Farm · Youngstown, Ohio
+                  Bronson Family Farm ·
+                  Youngstown, Ohio
                 </p>
 
                 <p className="flex items-center gap-4">
@@ -426,20 +535,19 @@ export default function App() {
                 href={eventbrite}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-10 inline-flex rounded-full bg-[#E8D9A9] px-8 py-4 text-lg font-bold text-[#173C2D]"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                }}
+                className="mt-10 inline-flex rounded-full bg-[#E7D7A3] px-8 py-4 text-lg font-bold text-[#173C2D]"
               >
-                Register Through Eventbrite
+                Register Through
+                Eventbrite
               </a>
             </div>
 
-            <div className="rounded-[36px] bg-white/10 p-10 backdrop-blur">
+            <div className="rounded-[36px] bg-white/10 p-12 backdrop-blur">
               <h3
                 className="text-4xl font-bold"
                 style={{
-                  fontFamily: "Playfair Display, serif",
+                  fontFamily:
+                    "Playfair Display, serif",
                 }}
               >
                 Building More Than a Farm
@@ -448,15 +556,20 @@ export default function App() {
               <p
                 className="mt-6 text-xl leading-9 text-white/90"
                 style={{
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily:
+                    "Inter, sans-serif",
                 }}
               >
-                Bronson Family Farm is designed as a
-                community-centered ecosystem connecting food,
-                workforce development, entrepreneurship,
-                wellness, sustainability, and regional
-                collaboration throughout Youngstown and the
-                Mahoning Valley.
+                Bronson Family Farm is
+                designed as a
+                community-centered ecosystem
+                connecting food, workforce
+                development, wellness,
+                entrepreneurship,
+                sustainability, and regional
+                collaboration throughout
+                Youngstown and the Mahoning
+                Valley.
               </p>
             </div>
           </div>
@@ -465,12 +578,13 @@ export default function App() {
 
       {/* PARTNERS */}
 
-      <section className="bg-[#F4F0E2] px-6 py-24">
+      <section className="bg-[#F5F1E6] px-6 py-24">
         <div className="mx-auto max-w-7xl">
           <h2
             className="text-5xl font-bold text-[#173C2D]"
             style={{
-              fontFamily: "Playfair Display, serif",
+              fontFamily:
+                "Playfair Display, serif",
             }}
           >
             Community & Ecosystem Partners
@@ -479,7 +593,8 @@ export default function App() {
           <div
             className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
             style={{
-              fontFamily: "Inter, sans-serif",
+              fontFamily:
+                "Inter, sans-serif",
             }}
           >
             {[
@@ -508,26 +623,30 @@ export default function App() {
 
       {/* FOOTER */}
 
-      <footer className="bg-[#173C2D] px-6 py-12 text-white">
+      <footer className="bg-[#173C2D] px-6 py-14 text-white">
         <div className="mx-auto max-w-7xl">
           <h3
             className="text-3xl font-bold"
             style={{
-              fontFamily: "Playfair Display, serif",
+              fontFamily:
+                "Playfair Display, serif",
             }}
           >
             Bronson Family Farm
           </h3>
 
           <p
-            className="mt-4 max-w-3xl text-lg leading-8 text-white/80"
+            className="mt-5 max-w-3xl text-lg leading-8 text-white/80"
             style={{
-              fontFamily: "Inter, sans-serif",
+              fontFamily:
+                "Inter, sans-serif",
             }}
           >
-            Growing food, opportunity, wellness, and future
-            generations through a place-based ecosystem rooted
-            in Youngstown, Ohio.
+            Growing food, opportunity,
+            wellness, entrepreneurship, and
+            future generations through a
+            place-based ecosystem rooted in
+            Youngstown, Ohio.
           </p>
         </div>
       </footer>
