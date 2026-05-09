@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   BriefcaseBusiness,
   Factory,
@@ -218,21 +217,18 @@ export default function App() {
             >
               Guided Tour
             </button>
-
             <button
               onClick={() => choosePathway(pathways[2])}
               className="rounded-full border border-[#d9cfbb] bg-white px-5 py-2 text-sm font-black text-[#173C2D] hover:bg-[#173C2D] hover:text-white"
             >
               Marketplace
             </button>
-
             <button
               onClick={() => choosePathway(pathways[4])}
               className="rounded-full border border-[#d9cfbb] bg-white px-5 py-2 text-sm font-black text-[#173C2D] hover:bg-[#173C2D] hover:text-white"
             >
               Youth Workforce
             </button>
-
             <button
               onClick={() => choosePathway(pathways[7])}
               className="rounded-full bg-[#173C2D] px-5 py-2 text-sm font-black text-white hover:bg-[#2b5d47]"
@@ -273,11 +269,7 @@ export default function App() {
         </div>
 
         <div className="relative mx-auto flex min-h-[760px] max-w-7xl items-center px-6 py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-5xl text-white"
-          >
+          <div className="max-w-5xl text-white">
             <div className="mb-6 inline-flex rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-bold backdrop-blur">
               Growers Supply Market · May 16, 2026 · By Invitation Only
             </div>
@@ -309,7 +301,7 @@ export default function App() {
                 Register for Growers Supply Market
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -335,7 +327,6 @@ export default function App() {
             <span>Guided Tour Progress</span>
             <span>{progress}%</span>
           </div>
-
           <div className="h-3 overflow-hidden rounded-full bg-[#ddd2bd]">
             <div
               className="h-full rounded-full bg-[#173C2D] transition-all"
@@ -371,74 +362,65 @@ export default function App() {
           })}
         </div>
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activePathway.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.35 }}
-            className="grid gap-10 lg:grid-cols-2"
-          >
-            <div className="h-[620px] overflow-hidden rounded-[40px] shadow-2xl">
-              <ImageBlock src={activePathway.image} alt={activePathway.label} />
-            </div>
+        <div className="grid gap-10 lg:grid-cols-2">
+          <div className="h-[620px] overflow-hidden rounded-[40px] shadow-2xl">
+            <ImageBlock src={activePathway.image} alt={activePathway.label} />
+          </div>
 
-            <div className="flex flex-col justify-center rounded-[40px] bg-white p-12 shadow-2xl">
-              <p className="text-sm font-black uppercase tracking-[0.25em] text-[#7b705f]">
-                {activePathway.label}
-              </p>
+          <div className="flex flex-col justify-center rounded-[40px] bg-white p-12 shadow-2xl">
+            <p className="text-sm font-black uppercase tracking-[0.25em] text-[#7b705f]">
+              {activePathway.label}
+            </p>
 
-              <h3 className="mt-5 text-5xl font-black leading-[1] tracking-tight text-[#173C2D] md:text-6xl">
-                {activePathway.title}
-              </h3>
+            <h3 className="mt-5 text-5xl font-black leading-[1] tracking-tight text-[#173C2D] md:text-6xl">
+              {activePathway.title}
+            </h3>
 
-              <p className="mt-8 text-2xl leading-10 text-[#555]">
-                {activePathway.supporting}
-              </p>
+            <p className="mt-8 text-2xl leading-10 text-[#555]">
+              {activePathway.supporting}
+            </p>
 
-              <div className="mt-10 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-[28px] bg-[#F5F1E6] p-6">
-                  <p className="text-lg font-black text-[#173C2D]">
-                    Food Security
-                  </p>
-                  <p className="mt-3 leading-7 text-[#666]">
-                    Strengthening local access to healthy food, growers,
-                    education, and participation.
-                  </p>
-                </div>
-
-                <div className="rounded-[28px] bg-[#F5F1E6] p-6">
-                  <p className="text-lg font-black text-[#173C2D]">
-                    Community Wellness
-                  </p>
-                  <p className="mt-3 leading-7 text-[#666]">
-                    Connecting wellness, workforce, collaboration, outdoor
-                    engagement, and opportunity.
-                  </p>
-                </div>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-[28px] bg-[#F5F1E6] p-6">
+                <p className="text-lg font-black text-[#173C2D]">
+                  Food Security
+                </p>
+                <p className="mt-3 leading-7 text-[#666]">
+                  Strengthening local access to healthy food, growers,
+                  education, and participation.
+                </p>
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-4">
-                <button
-                  onClick={() => setActivePathway(nextPathway)}
-                  className="rounded-full bg-[#173C2D] px-7 py-4 font-black text-white transition hover:bg-[#2b5d47]"
-                >
-                  Continue to {nextPathway.label}
-                </button>
-
-                <a
-                  href={eventbriteUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full border border-[#173C2D]/20 bg-[#F5F1E6] px-7 py-4 font-black text-[#173C2D]"
-                >
-                  Register for Event
-                </a>
+              <div className="rounded-[28px] bg-[#F5F1E6] p-6">
+                <p className="text-lg font-black text-[#173C2D]">
+                  Community Wellness
+                </p>
+                <p className="mt-3 leading-7 text-[#666]">
+                  Connecting wellness, workforce, collaboration, outdoor
+                  engagement, and opportunity.
+                </p>
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
+
+            <div className="mt-10 flex flex-wrap gap-4">
+              <button
+                onClick={() => setActivePathway(nextPathway)}
+                className="rounded-full bg-[#173C2D] px-7 py-4 font-black text-white transition hover:bg-[#2b5d47]"
+              >
+                Continue to {nextPathway.label}
+              </button>
+
+              <a
+                href={eventbriteUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-[#173C2D]/20 bg-[#F5F1E6] px-7 py-4 font-black text-[#173C2D]"
+              >
+                Register for Event
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="bg-[#173C2D] px-6 py-24 text-white">
