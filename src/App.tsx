@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   BriefcaseBusiness,
-  CalendarDays,
   CheckCircle2,
   Factory,
   HandHeart,
@@ -11,9 +10,7 @@ import {
   HeartPulse,
   Home,
   Leaf,
-  MapPin,
   Menu,
-  ShieldCheck,
   ShoppingBasket,
   Sprout,
   X,
@@ -154,6 +151,30 @@ function ImageBlock({ src, alt }: { src: string; alt: string }) {
       onError={() => setFailed(true)}
       className="h-full w-full rounded-[36px] object-cover"
     />
+  );
+}
+
+function ImpactPanel({
+  kicker,
+  title,
+  body,
+}: {
+  kicker: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div className="rounded-[36px] bg-white/10 p-10 backdrop-blur">
+      <p className="text-sm font-black uppercase tracking-[0.25em] text-[#E7D7A3]">
+        {kicker}
+      </p>
+
+      <h3 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
+        {title}
+      </h3>
+
+      <p className="mt-6 text-xl leading-9 text-white/85">{body}</p>
+    </div>
   );
 }
 
@@ -519,29 +540,5 @@ export default function App() {
         </div>
       </footer>
     </main>
-  );
-}
-
-function ImpactPanel({
-  kicker,
-  title,
-  body,
-}: {
-  kicker: string;
-  title: string;
-  body: string;
-}) {
-  return (
-    <div className="rounded-[36px] bg-white/10 p-10 backdrop-blur">
-      <p className="text-sm font-black uppercase tracking-[0.25em] text-[#E7D7A3]">
-        {kicker}
-      </p>
-
-      <h3 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
-        {title}
-      </h3>
-
-      <p className="mt-6 text-xl leading-9 text-white/85">{body}</p>
-    </div>
   );
 }
