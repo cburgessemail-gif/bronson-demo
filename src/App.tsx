@@ -1,311 +1,436 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
-type Pathway = {
-  id: string;
-  title: string;
-  audience: string;
-  image: string;
-  purpose: string;
-  experience: string[];
-  action: string;
+const eventbriteUrl =
+  "https://www.eventbrite.com/e/1984126092554?aff=oddtdtcreator";
+
+const images = {
+  hero: "/GrowArea.jpg",
+  guest: "/SAM_0220.JPG",
+  customer: "/SAM_0249.JPG",
+  marketplace: "/SAM_0255.JPG",
+  grower: "/SAM_0281.JPG",
+  youth: "/Samaeera2.jpg",
+  partners: "/SAM_0301.JPG",
+  value: "/culniary_edibleflowers.jpeg",
+  donor: "/GrowArea2.jpg",
 };
 
-const EVENTBRITE =
-  "https://www.eventbrite.com/e/bronson-family-farm-growers-supply-market-tickets-1984126092554?aff=oddtdtcreator";
-
-const GROWNBY = "https://grownby.com/farms/bronson-family-farm/shop";
-
-const pathways: Pathway[] = [
+const pathways = [
   {
     id: "guest",
-    title: "Guest Pathway",
-    audience: "Visitors, neighbors, families, and invited community members",
-    image: "/images/farm-road.jpg",
-    purpose:
-      "Step into the farm, understand the story, and experience why Bronson Family Farm exists.",
-    experience: [
-      "Arrive through an invitation-only check-in experience.",
-      "Learn how food, land, health, and community connect.",
-      "See the farm as a place of learning, restoration, and possibility.",
-    ],
-    action: "Register for Growers Supply Market",
+    label: "Guest",
+    icon: "🏡",
+    title: "Food. Wellness. Opportunity.",
+    image: images.guest,
+    supporting:
+      "Bronson Family Farm reconnects communities to food security, education, outdoor engagement, and regional collaboration.",
   },
   {
     id: "customer",
-    title: "Customer Pathway",
-    audience: "Families seeking fresh food, seedlings, and healthy choices",
-    image: "/images/customer-produce.jpg",
-    purpose:
-      "Connect customers to fresh produce, seedlings, Bubble Babies™, and repeat healthy purchasing.",
-    experience: [
-      "Explore what is available from Bronson Family Farm and partner growers.",
-      "Use QR codes to shop, register, or learn more.",
-      "Support a local food system built for Youngstown families.",
-    ],
-    action: "Shop the Farm Store",
+    label: "Customer",
+    icon: "🧺",
+    title: "Healthy Communities Begin With Healthy Food.",
+    image: images.customer,
+    supporting:
+      "Fresh food access, nutrition awareness, and community participation help strengthen long-term wellness and food security.",
   },
   {
     id: "marketplace",
-    title: "Marketplace Pathway",
-    audience: "Growers, customers, vendors, and food-access partners",
-    image: "/images/marketplace-produce.jpg",
-    purpose:
-      "Convert community interest into purchasing power, food access, and long-term sustainability.",
-    experience: [
-      "Discover growers, tools, demonstrations, products, and resources.",
-      "Connect local food production with community purchasing.",
-      "Support a growers supply market that strengthens the regional food economy.",
-    ],
-    action: "Visit the Marketplace",
+    label: "Marketplace",
+    icon: "🥬",
+    title: "Local Food Creates Local Strength.",
+    image: images.marketplace,
+    supporting:
+      "The marketplace transforms participation into food access, economic circulation, grower opportunity, and regional sustainability.",
   },
   {
     id: "grower",
-    title: "Grower Pathway",
-    audience: "Small farmers, gardeners, growers, and emerging producers",
-    image: "/images/grow-area.jpg",
-    purpose:
-      "Connect growers to tools, knowledge, market opportunities, and technical support.",
-    experience: [
-      "Learn from demonstrations, soil education, growing methods, and peer growers.",
-      "Access market opportunities through the farm ecosystem.",
-      "Grow as an entrepreneur while contributing to a larger food system.",
-    ],
-    action: "Join the Grower Network",
+    label: "Grower",
+    icon: "🌱",
+    title: "Unused Land Can Become Community Infrastructure.",
+    image: images.grower,
+    supporting:
+      "The ecosystem helps growers access tools, knowledge, seedlings, demonstrations, collaboration, and pathways into local participation.",
   },
   {
     id: "youth",
-    title: "Youth Workforce Pathway",
-    audience: "Youth, parents, supervisors, and workforce partners",
-    image: "/images/youth-workforce.jpg",
-    purpose:
-      "Build responsibility, confidence, skills, and future readiness through farm-based work.",
-    experience: [
-      "Participate in structured outdoor learning and hands-on work.",
-      "Track attendance, skills, progress, and growth.",
-      "Connect youth to food, entrepreneurship, teamwork, and community purpose.",
-    ],
-    action: "Explore Youth Workforce",
+    label: "Youth Workforce",
+    icon: "💼",
+    title: "Outdoor Work Becomes Confidence.",
+    image: images.youth,
+    supporting:
+      "Young people develop leadership, responsibility, workforce readiness, and environmental stewardship through hands-on participation.",
   },
   {
     id: "partners",
-    title: "Partner Pathway",
-    audience: "Funders, sponsors, institutions, city partners, and collaborators",
-    image: "/images/partners-community.jpg",
-    purpose:
-      "Align resources, demonstrations, education, sponsorship, and investment around community benefit.",
-    experience: [
-      "See how partners contribute to food access, health, education, and economic development.",
-      "Support infrastructure that can be replicated in other communities.",
-      "Invest in a place-based model rooted in Youngstown’s East Side.",
-    ],
-    action: "Partner With the Farm",
+    label: "Partners",
+    icon: "🤝",
+    title: "Collaboration Strengthens Communities.",
+    image: images.partners,
+    supporting:
+      "Regional partnerships connect food security, wellness, workforce development, education, and long-term sustainability.",
+  },
+  {
+    id: "value",
+    label: "Value-Added",
+    icon: "🏭",
+    title: "Food Can Become Enterprise.",
+    image: images.value,
+    supporting:
+      "Local products, prepared foods, packaging, and entrepreneurship help strengthen regional economic participation.",
+  },
+  {
+    id: "donor",
+    label: "Investment",
+    icon: "💚",
+    title: "An Investment In Food Security Is An Investment In Community Health.",
+    image: images.donor,
+    supporting:
+      "Support helps expand food access, youth workforce development, wellness programming, growing infrastructure, and long-term regional resilience.",
   },
 ];
 
-export default function App() {
-  const [selected, setSelected] = useState<Pathway>(pathways[0]);
+const partners = [
+  "City of Youngstown",
+  "New Vision Behavioral Health Services",
+  "Nesco Resource",
+  "Home Depot",
+  "Central State University",
+  "Petitti Garden Centers",
+  "Elliott's Garden Center",
+  "Parker Farms",
+  "Youngstown Area Jewish Foundation",
+  "Farm & Family Alliance Inc.",
+  "Gates Drone Services",
+];
 
-  const handleAction = (pathway: Pathway) => {
-    if (pathway.id === "customer" || pathway.id === "marketplace") {
-      window.open(GROWNBY, "_blank");
-    } else {
-      window.open(EVENTBRITE, "_blank");
-    }
-  };
+type Pathway = (typeof pathways)[number];
+
+function cx(...classes: Array<string | false | undefined | null>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function scrollToId(id: string) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function ImageBlock({ src, alt }: { src: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div className="flex h-full min-h-[320px] items-center justify-center rounded-[36px] bg-gradient-to-br from-[#173C2D] to-[#2F684D] text-white">
+        <div className="p-8 text-center">
+          <div className="mb-4 text-5xl">🌿</div>
+          <p className="text-xl font-black">Image path needs review</p>
+          <p className="mt-2 text-sm opacity-80">{src}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-[#f4efe5] text-[#1f2a1f]">
-      <section
-        className="relative min-h-screen bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/farm-aerial.jpg')" }}
-      >
-        <div className="absolute inset-0 bg-black/55" />
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setFailed(true)}
+      className="h-full w-full rounded-[36px] object-cover"
+    />
+  );
+}
 
-        <div className="relative z-10 flex min-h-screen items-center px-6 py-16 md:px-16">
-          <div className="max-w-5xl text-white">
-            <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#f3d79b]">
+function ImpactPanel({
+  kicker,
+  title,
+  body,
+}: {
+  kicker: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div className="rounded-[36px] bg-white/10 p-10 backdrop-blur">
+      <p className="text-sm font-black uppercase tracking-[0.25em] text-[#E7D7A3]">
+        {kicker}
+      </p>
+      <h3 className="mt-5 text-4xl font-black leading-tight md:text-5xl">
+        {title}
+      </h3>
+      <p className="mt-6 text-xl leading-9 text-white/85">{body}</p>
+    </div>
+  );
+}
+
+export default function App() {
+  const [activePathway, setActivePathway] = useState<Pathway>(pathways[0]);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const activeIndex = pathways.findIndex((p) => p.id === activePathway.id);
+  const nextPathway = pathways[(activeIndex + 1) % pathways.length];
+
+  const progress = useMemo(() => {
+    const index = pathways.findIndex((p) => p.id === activePathway.id);
+    return Math.round(((index + 1) / pathways.length) * 100);
+  }, [activePathway]);
+
+  function choosePathway(pathway: Pathway) {
+    setActivePathway(pathway);
+    scrollToId("guided");
+  }
+
+  return (
+    <main className="min-h-screen bg-[#F5F1E6] text-[#1C1C1C]">
+      <header className="sticky top-0 z-50 border-b border-[#d9cfbb] bg-[#F5F1E6]/95 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <button onClick={() => scrollToId("top")} className="text-left">
+            <h1 className="text-xl font-black tracking-tight text-[#173C2D]">
               Bronson Family Farm
+            </h1>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#7b705f]">
+              Community Food Ecosystem
             </p>
+          </button>
 
-            <h1 className="mb-6 text-4xl font-bold leading-tight md:text-7xl">
-              Step into the Farm.
-              <br />
-              Experience the Wonders of Life.
+          <nav className="hidden gap-3 lg:flex">
+            <button onClick={() => scrollToId("guided")} className="rounded-full border border-[#d9cfbb] bg-white px-5 py-2 text-sm font-black text-[#173C2D] hover:bg-[#173C2D] hover:text-white">
+              Guided Tour
+            </button>
+            <button onClick={() => choosePathway(pathways[2])} className="rounded-full border border-[#d9cfbb] bg-white px-5 py-2 text-sm font-black text-[#173C2D] hover:bg-[#173C2D] hover:text-white">
+              Marketplace
+            </button>
+            <button onClick={() => choosePathway(pathways[4])} className="rounded-full border border-[#d9cfbb] bg-white px-5 py-2 text-sm font-black text-[#173C2D] hover:bg-[#173C2D] hover:text-white">
+              Youth Workforce
+            </button>
+            <button onClick={() => choosePathway(pathways[7])} className="rounded-full bg-[#173C2D] px-5 py-2 text-sm font-black text-white hover:bg-[#2b5d47]">
+              Donation Impact
+            </button>
+          </nav>
+
+          <button className="text-3xl lg:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? "×" : "☰"}
+          </button>
+        </div>
+
+        {menuOpen && (
+          <div className="border-t border-[#d9cfbb] px-6 py-4 lg:hidden">
+            <div className="grid gap-2">
+              {pathways.map((pathway) => (
+                <button
+                  key={pathway.id}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    choosePathway(pathway);
+                  }}
+                  className="rounded-2xl bg-white px-4 py-3 text-left font-black text-[#173C2D]"
+                >
+                  {pathway.icon} {pathway.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </header>
+
+      <section id="top" className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <ImageBlock src={images.hero} alt="Bronson Family Farm" />
+          <div className="absolute inset-0 bg-black/58" />
+        </div>
+
+        <div className="relative mx-auto flex min-h-[760px] max-w-7xl items-center px-6 py-24">
+          <div className="max-w-5xl text-white">
+            <div className="mb-6 inline-flex rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-bold backdrop-blur">
+              Growers Supply Market · May 16, 2026 · By Invitation Only
+            </div>
+
+            <h1 className="max-w-5xl text-6xl font-black leading-[0.95] tracking-tight md:text-8xl">
+              Food Security Begins Locally.
             </h1>
 
-            <p className="mb-8 max-w-3xl text-lg leading-8 md:text-2xl">
-              Bronson Family Farm is building a growers supply market that
-              brings together tools, knowledge, people, food, youth workforce,
-              partners, and community purpose.
+            <p className="mt-8 max-w-3xl text-2xl leading-10 text-white/90">
+              Bronson Family Farm is building a regional ecosystem for food
+              security, wellness, workforce development, entrepreneurship, and
+              community resilience throughout Youngstown and Mahoning County.
             </p>
 
-            <div className="flex flex-wrap gap-4">
-              <button
-                onClick={() => document.getElementById("pathways")?.scrollIntoView({ behavior: "smooth" })}
-                className="rounded-full bg-[#f3d79b] px-7 py-3 font-semibold text-[#1f2a1f] shadow-lg hover:bg-[#ffe7ad]"
-              >
-                Begin the Demo
+            <div className="mt-10 flex flex-wrap gap-4">
+              <button onClick={() => scrollToId("guided")} className="rounded-full bg-[#E7D7A3] px-7 py-4 text-lg font-black text-[#173C2D] transition hover:bg-white">
+                Begin Guided Experience
               </button>
 
-              <button
-                onClick={() => window.open(EVENTBRITE, "_blank")}
-                className="rounded-full border border-white px-7 py-3 font-semibold text-white hover:bg-white hover:text-[#1f2a1f]"
-              >
-                Register on Eventbrite
-              </button>
+              <a href={eventbriteUrl} target="_blank" rel="noreferrer" className="rounded-full border border-white/40 bg-white/10 px-7 py-4 text-lg font-black text-white backdrop-blur transition hover:bg-white/20">
+                Register for Growers Supply Market
+              </a>
             </div>
-
-            <p className="mt-6 text-sm text-white/85">
-              Growers Supply Market · Saturday, May 16, 2026 · 9:00 AM – 2:00 PM · By Invitation Only
-            </p>
           </div>
         </div>
       </section>
 
-      <section id="pathways" className="px-6 py-14 md:px-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10 max-w-4xl">
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-[#7a4f22]">
-              Choose Your Pathway
-            </p>
-            <h2 className="text-3xl font-bold md:text-5xl">
-              One farm. Multiple ways to participate.
-            </h2>
-            <p className="mt-5 text-lg leading-8 text-[#4a5946]">
-              Each pathway shows how people enter the Bronson Family Farm ecosystem —
-              as guests, customers, growers, youth workforce participants, marketplace
-              users, or partners.
-            </p>
+      <section id="guided" className="mx-auto max-w-7xl px-6 py-24">
+        <div className="mb-16">
+          <p className="text-sm font-black uppercase tracking-[0.25em] text-[#7b705f]">
+            Guided Experience
+          </p>
+
+          <h2 className="mt-4 text-5xl font-black leading-tight text-[#173C2D] md:text-6xl">
+            Every Pathway Strengthens The Ecosystem.
+          </h2>
+
+          <p className="mt-6 max-w-3xl text-xl leading-9 text-[#555]">
+            Explore how food security, wellness, workforce development,
+            entrepreneurship, and community collaboration connect together
+            through Bronson Family Farm.
+          </p>
+        </div>
+
+        <div className="mb-10">
+          <div className="mb-3 flex justify-between text-sm font-black text-[#173C2D]">
+            <span>Guided Tour Progress</span>
+            <span>{progress}%</span>
+          </div>
+          <div className="h-3 overflow-hidden rounded-full bg-[#ddd2bd]">
+            <div className="h-full rounded-full bg-[#173C2D] transition-all" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+
+        <div className="mb-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {pathways.map((pathway) => (
+            <button
+              key={pathway.id}
+              onClick={() => choosePathway(pathway)}
+              className={cx(
+                "rounded-[30px] p-5 text-left transition-all",
+                activePathway.id === pathway.id
+                  ? "bg-[#173C2D] text-white shadow-2xl"
+                  : "bg-white text-[#173C2D] shadow-lg hover:shadow-xl"
+              )}
+            >
+              <div className="mb-5 text-3xl">{pathway.icon}</div>
+              <p className="text-sm font-black uppercase tracking-[0.2em] opacity-70">
+                {pathway.label}
+              </p>
+              <p className="mt-3 text-2xl font-black leading-tight">
+                {pathway.title}
+              </p>
+            </button>
+          ))}
+        </div>
+
+        <div className="grid gap-10 lg:grid-cols-2">
+          <div className="h-[620px] overflow-hidden rounded-[40px] shadow-2xl">
+            <ImageBlock src={activePathway.image} alt={activePathway.label} />
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-            {pathways.map((pathway) => (
-              <button
-                key={pathway.id}
-                onClick={() => setSelected(pathway)}
-                className={`rounded-2xl p-4 text-left shadow-md transition ${
-                  selected.id === pathway.id
-                    ? "bg-[#27462c] text-white"
-                    : "bg-white text-[#1f2a1f] hover:bg-[#e7dcc8]"
-                }`}
-              >
-                <p className="text-sm font-bold">{pathway.title}</p>
-              </button>
-            ))}
-          </div>
+          <div className="flex flex-col justify-center rounded-[40px] bg-white p-12 shadow-2xl">
+            <p className="text-sm font-black uppercase tracking-[0.25em] text-[#7b705f]">
+              {activePathway.label}
+            </p>
 
-          <div className="mt-10 grid overflow-hidden rounded-[2rem] bg-white shadow-2xl md:grid-cols-2">
-            <div className="h-[360px] md:h-full">
-              <img
-                src={selected.image}
-                alt={selected.title}
-                className="h-full w-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = "/images/farm-aerial.jpg";
-                }}
-              />
-            </div>
+            <h3 className="mt-5 text-5xl font-black leading-[1] tracking-tight text-[#173C2D] md:text-6xl">
+              {activePathway.title}
+            </h3>
 
-            <div className="p-8 md:p-12">
-              <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-[#7a4f22]">
-                {selected.audience}
-              </p>
+            <p className="mt-8 text-2xl leading-10 text-[#555]">
+              {activePathway.supporting}
+            </p>
 
-              <h3 className="mb-5 text-3xl font-bold md:text-5xl">
-                {selected.title}
-              </h3>
-
-              <p className="mb-6 text-lg leading-8 text-[#3e4a39]">
-                {selected.purpose}
-              </p>
-
-              <div className="space-y-4">
-                {selected.experience.map((item, index) => (
-                  <div key={index} className="rounded-2xl bg-[#f4efe5] p-4">
-                    <p className="font-medium leading-7">{item}</p>
-                  </div>
-                ))}
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-[28px] bg-[#F5F1E6] p-6">
+                <p className="text-lg font-black text-[#173C2D]">Food Security</p>
+                <p className="mt-3 leading-7 text-[#666]">
+                  Strengthening local access to healthy food, growers, education, and participation.
+                </p>
               </div>
 
-              <button
-                onClick={() => handleAction(selected)}
-                className="mt-8 rounded-full bg-[#27462c] px-7 py-3 font-semibold text-white shadow-lg hover:bg-[#1d351f]"
-              >
-                {selected.action}
+              <div className="rounded-[28px] bg-[#F5F1E6] p-6">
+                <p className="text-lg font-black text-[#173C2D]">Community Wellness</p>
+                <p className="mt-3 leading-7 text-[#666]">
+                  Connecting wellness, workforce, collaboration, outdoor engagement, and opportunity.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-10 flex flex-wrap gap-4">
+              <button onClick={() => setActivePathway(nextPathway)} className="rounded-full bg-[#173C2D] px-7 py-4 font-black text-white transition hover:bg-[#2b5d47]">
+                Continue to {nextPathway.label}
               </button>
+
+              <a href={eventbriteUrl} target="_blank" rel="noreferrer" className="rounded-full border border-[#173C2D]/20 bg-[#F5F1E6] px-7 py-4 font-black text-[#173C2D]">
+                Register for Event
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#27462c] px-6 py-14 text-white md:px-16">
-        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2">
-          <div>
-            <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-[#f3d79b]">
-              Why This Matters
-            </p>
-            <h2 className="text-3xl font-bold md:text-5xl">
-              Food access is community infrastructure.
-            </h2>
-          </div>
-
-          <div className="text-lg leading-8 text-white/90">
-            <p>
-              Bronson Family Farm is addressing food insecurity in Youngstown by
-              connecting land, growers, education, health, youth workforce, and
-              marketplace access into one living ecosystem.
-            </p>
-            <p className="mt-5">
-              This demo shows how invited participants can move from awareness
-              to action — registering, shopping, learning, growing, volunteering,
-              partnering, and investing in a stronger regional food future.
-            </p>
+      <section className="bg-[#173C2D] px-6 py-24 text-white">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-3">
+            <ImpactPanel kicker="Food Security" title="Food Access Is Community Infrastructure." body="Bronson Family Farm is helping strengthen long-term food security through agriculture, education, wellness, workforce development, and community participation." />
+            <ImpactPanel kicker="Healthcare" title="Food Security Is Preventive Healthcare." body="Healthy food access, wellness, outdoor engagement, workforce opportunity, and community stability are interconnected." />
+            <ImpactPanel kicker="Transformation" title="Transformation Begins With Vision." body="Bronson Family Farm is transforming overlooked land near Lansdowne Airport into a destination for food security, wellness, entrepreneurship, education, and agritourism." />
           </div>
         </div>
       </section>
 
-      <section className="px-6 py-14 md:px-16">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-white p-8 shadow-xl md:p-12">
-          <div className="grid gap-8 md:grid-cols-3">
-            <div>
-              <h3 className="mb-3 text-2xl font-bold">Event</h3>
-              <p>Growers Supply Market</p>
-              <p>Saturday, May 16, 2026</p>
-              <p>9:00 AM – 2:00 PM</p>
-            </div>
+      <section className="bg-[#F5F1E6] px-6 py-24">
+        <div className="mx-auto max-w-7xl">
+          <p className="text-sm font-black uppercase tracking-[0.25em] text-[#7b705f]">
+            Community & Ecosystem Partners
+          </p>
 
-            <div>
-              <h3 className="mb-3 text-2xl font-bold">Access</h3>
-              <p>By Invitation Only</p>
-              <p>Registration required through Eventbrite.</p>
-              <p>Gate opens for setup at 7:30 AM.</p>
-            </div>
+          <h2 className="mt-5 text-5xl font-black leading-tight text-[#173C2D] md:text-6xl">
+            Collaboration Strengthens Communities.
+          </h2>
 
-            <div>
-              <h3 className="mb-3 text-2xl font-bold">Location</h3>
-              <p>Bronson Family Farm</p>
-              <p>Historic Lansdowne Airport Area</p>
-              <p>Youngstown, Ohio</p>
-            </div>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {partners.map((partner) => (
+              <div key={partner} className="rounded-[30px] bg-white p-7 text-xl font-black text-[#173C2D] shadow-lg">
+                {partner}
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-            <button
-              onClick={() => window.open(EVENTBRITE, "_blank")}
-              className="rounded-full bg-[#27462c] px-7 py-3 font-semibold text-white hover:bg-[#1d351f]"
-            >
-              Register on Eventbrite
+      <section className="bg-gradient-to-br from-[#10281d] via-[#173C2D] to-[#2a241b] px-6 py-28 text-white">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-sm font-black uppercase tracking-[0.25em] text-[#E7D7A3]">
+            Final Message
+          </p>
+
+          <h2 className="mt-6 text-6xl font-black leading-[0.95] tracking-tight md:text-7xl">
+            This Is More Than A Farm.
+          </h2>
+
+          <p className="mx-auto mt-10 max-w-4xl text-2xl leading-10 text-white/85">
+            Bronson Family Farm is building community infrastructure designed to
+            grow food, opportunity, wellness, sustainability, and future
+            generations throughout the Mahoning Valley.
+          </p>
+
+          <div className="mt-12 flex flex-wrap justify-center gap-4">
+            <button onClick={() => choosePathway(pathways[7])} className="rounded-full bg-[#E7D7A3] px-8 py-4 text-lg font-black text-[#173C2D] transition hover:bg-white">
+              Support Food Security
             </button>
 
-            <button
-              onClick={() => window.open(GROWNBY, "_blank")}
-              className="rounded-full border border-[#27462c] px-7 py-3 font-semibold text-[#27462c] hover:bg-[#27462c] hover:text-white"
-            >
-              Shop Bronson Family Farm
-            </button>
+            <a href={eventbriteUrl} target="_blank" rel="noreferrer" className="rounded-full border border-white/30 bg-white/10 px-8 py-4 text-lg font-black text-white backdrop-blur transition hover:bg-white/20">
+              Register For Event
+            </a>
           </div>
         </div>
       </section>
+
+      <footer className="bg-[#173C2D] px-6 py-12 text-white">
+        <div className="mx-auto max-w-7xl">
+          <h3 className="text-3xl font-black">Bronson Family Farm</h3>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/75">
+            Building a regional ecosystem for food security, wellness, workforce
+            development, entrepreneurship, and community resilience.
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }
