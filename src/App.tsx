@@ -43,6 +43,30 @@ const imageCandidates = (file: string) => [`/images/${file}`, `/${file}`];
 
 const img = (file: string) => imageCandidates(file)[0];
 
+function handleImageError(e: React.SyntheticEvent<HTMLImageElement>, file: string, fallback = "GrowArea.jpg") {
+  const el = e.currentTarget;
+  const current = el.getAttribute("src") || "";
+
+  if (current.startsWith("/images/")) {
+    el.src = `/${file}`;
+    return;
+  }
+
+  if (file !== fallback && !current.endsWith(fallback)) {
+    el.src = `/images/${fallback}`;
+    return;
+  }
+
+  if (!current.endsWith(fallback)) {
+    el.src = `/${fallback}`;
+    return;
+  }
+
+  el.style.display = "none";
+  const parent = el.parentElement;
+  if (parent) parent.classList.add("imageFallback");
+}
+
 const LANGS: { id: Lang; label: string }[] = [
   { id: "en", label: "English" },
   { id: "es", label: "Español" },
@@ -99,13 +123,13 @@ const COPY: Record<Lang, { start: string; subtitle: string; tour: string; choose
 
 const pathImage: Record<PathwayId, string> = {
   guest: "GrowArea.jpg",
-  customer: "SAM_0188.JPG",
-  marketplace: "SAM_0195.JPG",
-  grower: "SAM_0201.JPG",
-  youth: "SAM_0214.JPG",
-  partners: "SAM_0220.JPG",
-  valueAdded: "SAM_0231.JPG",
-  investment: "GrowArea2.jpg",
+  customer: "GrowArea.jpg",
+  marketplace: "GrowArea.jpg",
+  grower: "GrowArea.jpg",
+  youth: "GrowArea.jpg",
+  partners: "SAM_0214.JPG",
+  valueAdded: "GrowArea.jpg",
+  investment: "GrowArea.jpg",
 };
 
 const pathways: Pathway[] = [
@@ -688,7 +712,7 @@ function App() {
           <div className="pathwayGrid">
             {pathways.map((p) => (
               <button key={p.id} className={activePathway === p.id ? "pathwayCard selected" : "pathwayCard"} onClick={() => selectPathway(p.id)}>
-                <img src={img(p.image)} alt="" onError={(e) => { const el = e.currentTarget; const current = el.getAttribute("src") || ""; if (current.startsWith("/images/")) el.src = `/${p.image}`; }} />
+                <img src={img(p.image)} alt="" onError={(e) => handleImageError(e, p.image)} />
                 <span>{p.label}</span>
                 <small>{p.short}</small>
               </button>
@@ -708,7 +732,7 @@ function App() {
 
           <div className="tourPanel">
             <div className="imagePanel">
-              <img src={img(scene.image)} alt={scene.alt} onError={(e) => { const el = e.currentTarget; const current = el.getAttribute("src") || ""; if (current.startsWith("/images/")) el.src = `/${scene.image}`; }} />
+              <img src={img(scene.image)} alt={scene.alt} onError={(e) => handleImageError(e, scene.image)} />
               <div className="imageCaption">{scene.eyebrow}</div>
             </div>
             <div className="copyPanel">
@@ -785,8 +809,8 @@ button{font-family:inherit;cursor:pointer}
 h1{font-size:clamp(2.6rem,7vw,6rem);line-height:.94;margin:16px 0;max-width:1000px} .subtitle{font-size:clamp(1.15rem,2.4vw,1.65rem);line-height:1.5;max-width:760px;color:#fff7df}.heroButtons,.buttonRow,.tourControls{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .primaryBtn,.secondaryBtn,.tourControls button,footer button{border:0;border-radius:999px;padding:13px 18px;font-weight:800;box-shadow:0 10px 22px rgba(0,0,0,.16)}.primaryBtn{background:var(--wheat);color:var(--forest)}.secondaryBtn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.38);color:white}.secondaryBtn.dark,.tourControls button{background:var(--forest);color:var(--cream)}
 main{width:min(1180px,92vw);margin:auto}.story,.pathways,.tour,.map,.response{padding:70px 0}.story h2,.pathways h2,.tour h2,.map h2,.response h2{font-size:clamp(2rem,4.6vw,3.8rem);line-height:1;margin:10px 0 18px;color:var(--forest)}.story p,.map p,.response p{font-size:1.18rem;line-height:1.7;max-width:900px}.storyGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}.storyCard{background:var(--white);border-radius:24px;padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}.storyCard strong{font-size:1.25rem;color:var(--forest)}.storyCard span{line-height:1.55}
-.pathwayGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.pathwayCard{text-align:left;background:var(--white);border:2px solid transparent;border-radius:28px;overflow:hidden;padding:0;box-shadow:var(--shadow);color:var(--soil);transition:.2s transform,.2s border}.pathwayCard:hover{transform:translateY(-4px)}.pathwayCard.selected{border-color:var(--moss)}.pathwayCard img{width:100%;height:150px;object-fit:cover;background:var(--leaf)}.pathwayCard span{display:block;font-weight:900;font-size:1.1rem;padding:16px 16px 6px;color:var(--forest)}.pathwayCard small{display:block;padding:0 16px 18px;line-height:1.45;font-size:.92rem}
-.tourTop{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.promise{font-size:1.08rem;line-height:1.55;max-width:780px}.stepper{background:var(--forest);color:var(--cream);border-radius:999px;padding:10px 16px;font-weight:800;white-space:nowrap}.tourPanel{display:grid;grid-template-columns:1.05fr .95fr;background:var(--white);border-radius:34px;overflow:hidden;box-shadow:var(--shadow);min-height:560px}.imagePanel{position:relative;background:var(--leaf)}.imagePanel img{width:100%;height:100%;object-fit:cover;display:block}.imageCaption{position:absolute;left:20px;bottom:20px;background:rgba(31,51,39,.88);color:var(--cream);border-radius:999px;padding:10px 15px;font-weight:900}.copyPanel{padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;justify-content:center}.bodyText{font-size:1.2rem;line-height:1.72}.copyPanel li{margin:12px 0;line-height:1.55;font-size:1.04rem}.tourControls{border-top:1px solid #e2d2aa;padding-top:18px}.tourControls button{box-shadow:none;padding:10px 14px}
+.pathwayGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.pathwayCard{text-align:left;background:var(--white);border:2px solid transparent;border-radius:28px;overflow:hidden;padding:0;box-shadow:var(--shadow);color:var(--soil);transition:.2s transform,.2s border}.pathwayCard:hover{transform:translateY(-4px)}.pathwayCard.selected{border-color:var(--moss)}.pathwayCard img{width:100%;height:150px;object-fit:cover;background:var(--leaf)}.pathwayCard.imageFallback{min-height:150px;background:linear-gradient(135deg,#dfe9cf,#f7f0df,#ddc899)}.pathwayCard span{display:block;font-weight:900;font-size:1.1rem;padding:16px 16px 6px;color:var(--forest)}.pathwayCard small{display:block;padding:0 16px 18px;line-height:1.45;font-size:.92rem}
+.tourTop{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.promise{font-size:1.08rem;line-height:1.55;max-width:780px}.stepper{background:var(--forest);color:var(--cream);border-radius:999px;padding:10px 16px;font-weight:800;white-space:nowrap}.tourPanel{display:grid;grid-template-columns:1.05fr .95fr;background:var(--white);border-radius:34px;overflow:hidden;box-shadow:var(--shadow);min-height:560px}.imagePanel{position:relative;background:var(--leaf)}.imageFallback{background:linear-gradient(135deg,#1f3327,#52633f,#ddc899);min-height:150px}.imagePanel img{width:100%;height:100%;object-fit:cover;display:block}.imageCaption{position:absolute;left:20px;bottom:20px;background:rgba(31,51,39,.88);color:var(--cream);border-radius:999px;padding:10px 15px;font-weight:900}.copyPanel{padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;justify-content:center}.bodyText{font-size:1.2rem;line-height:1.72}.copyPanel li{margin:12px 0;line-height:1.55;font-size:1.04rem}.tourControls{border-top:1px solid #e2d2aa;padding-top:18px}.tourControls button{box-shadow:none;padding:10px 14px}
 .flow{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:24px 0}.flow div{background:var(--forest);color:var(--cream);border-radius:18px;padding:16px 18px;font-weight:900}.flow span{font-size:1.5rem;color:var(--moss);font-weight:900}.response textarea{width:100%;min-height:160px;border:2px solid #d2bd8a;border-radius:24px;padding:18px;font-size:1rem;background:var(--white);margin:14px 0}.thanks{margin-top:14px;background:#edf5df;border-left:6px solid var(--moss);padding:16px;border-radius:14px;font-weight:800;color:var(--forest)}
 footer{background:var(--forest);color:var(--cream);padding:30px clamp(18px,4vw,60px);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}footer span{color:var(--leaf)}footer button{background:var(--wheat);color:var(--forest)}
 @media(max-width:940px){.nav{flex-direction:column}.pathwayGrid{grid-template-columns:repeat(2,1fr)}.tourPanel{grid-template-columns:1fr}.imagePanel img{height:360px}.storyGrid{grid-template-columns:1fr}.tourTop{flex-direction:column}.hero{min-height:86vh}}
