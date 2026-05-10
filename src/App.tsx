@@ -252,7 +252,7 @@ function App() {
               <div className="brand">Bronson Family Farm</div>
               <div className="brandSub">Community Food Ecosystem</div>
             </div>
-            <div className="eventPill">Growers Supply Market · May 16, 2026 · By Invitation Only</div>
+            
           </div>
           <div className="heroContent enterMotion">
             <p className="kicker">Historic Lansdowne Airport · Youngstown, Ohio</p>
@@ -261,6 +261,14 @@ function App() {
               Bronson Family Farm is building a regional ecosystem for food security, wellness, workforce development, entrepreneurship, and community resilience.
             </p>
             <button className="goldBtn" onClick={startTour}>Enter the Ecosystem</button>
+            <div className="languageRow">
+              <button>English</button>
+              <button>Spanish</button>
+              <button>Tagalog</button>
+              <button>Italian</button>
+              <button>Hebrew</button>
+              <button>French</button>
+            </div>
           </div>
         </section>
       )}
@@ -394,8 +402,8 @@ button{cursor:pointer}
 .app{min-height:100vh;background:var(--deep);color:white;overflow:hidden}
 .screen{position:relative;min-height:100vh;width:100%;overflow:hidden}
 .scrollable{overflow-y:auto}
-.screen>img,.hero>img,.cinematic>img,.final>img,.pathwayReveal>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transform:scale(1.03);animation:slowScale 12s ease-out forwards}
-.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,25,17,.86),rgba(10,25,17,.52),rgba(10,25,17,.28));z-index:1}
+.screen>img,.hero>img,.cinematic>img,.final>img,.pathwayReveal>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transform:scale(1.03);animation:slowScale 18s ease-out forwards}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,10,7,.94),rgba(10,25,17,.68),rgba(10,25,17,.34));z-index:1}
 .shade.deep{background:linear-gradient(180deg,rgba(6,14,10,.46),rgba(6,14,10,.82))}
 .shade.soft{background:linear-gradient(180deg,rgba(13,33,24,.72),rgba(245,241,230,.96) 48%,rgba(245,241,230,1))}
 .visualFallback{background:linear-gradient(135deg,#173C2D,#2F684D,#E7D7A3)}
@@ -404,7 +412,7 @@ button{cursor:pointer}
 .eventPill{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);border-radius:999px;padding:10px 14px;font-size:.85rem;font-weight:900;backdrop-filter:blur(12px)}
 .heroContent{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;max-width:1040px;padding:140px clamp(22px,7vw,96px) 110px}
 .kicker{margin:0 0 18px;font-size:.8rem;font-weight:950;text-transform:uppercase;letter-spacing:.25em;color:var(--gold)}
-h1{margin:0;font-size:clamp(4rem,10vw,8.8rem);line-height:.88;letter-spacing:-.075em;font-weight:1000;max-width:1060px}.heroText{margin:34px 0 0;max-width:790px;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.9)}
+h1{margin:0;font-size:clamp(4rem,10vw,8.8rem);line-height:.88;letter-spacing:-.075em;font-weight:1000;max-width:1060px}.heroText{margin:34px 0 0;max-width:790px;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.9)}.languageRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.languageRow button{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);backdrop-filter:blur(12px);color:white;border-radius:999px;padding:8px 14px;font-size:.78rem;font-weight:900}
 .goldBtn,.greenBtn,.creamBtn,.clearBtn{border:0;border-radius:999px;padding:17px 24px;font-size:1rem;font-weight:950;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s,background .2s,color .2s;box-shadow:0 20px 50px rgba(0,0,0,.22)}
 .goldBtn{margin-top:42px;background:var(--gold);color:var(--green)}.goldBtn:hover,.greenBtn:hover,.creamBtn:hover,.clearBtn:hover{transform:translateY(-2px)}.greenBtn{background:var(--green);color:white}.creamBtn{background:var(--cream);color:var(--green)}.clearBtn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:white;backdrop-filter:blur(10px)}
 .tourStatus{position:absolute;z-index:3;top:32px;left:clamp(22px,5vw,72px);right:clamp(22px,5vw,72px);display:flex;justify-content:space-between;align-items:center;font-size:.85rem;font-weight:950;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,255,255,.75)}
