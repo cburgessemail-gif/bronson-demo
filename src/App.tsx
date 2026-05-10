@@ -1,13 +1,21 @@
 import React, { useMemo, useState } from "react";
 
 type Mode = "hero" | "cinematic" | "pathways" | "pathway" | "final";
-type PathwayId = "guest" | "customer" | "marketplace" | "grower" | "youth" | "partners" | "value" | "investment";
+type PathwayId =
+  | "guest"
+  | "customer"
+  | "marketplace"
+  | "grower"
+  | "youth"
+  | "partners"
+  | "value"
+  | "investment";
 
 type TourFrame = {
   id: string;
-  label: string;
   text: string;
   image: string;
+  button: string;
 };
 
 type Pathway = {
@@ -15,52 +23,48 @@ type Pathway = {
   label: string;
   title: string;
   line: string;
-  image: string;
   detail: string;
+  image: string;
 };
-
-const eventbriteUrl = "https://www.eventbrite.com/e/1984126092554?aff=oddtdtcreator";
 
 const images = {
   hero: "GrowArea.jpg",
-  arrival: "GrowArea.jpg",
-  marketplace: "SAM_0214.JPG",
+  marketplace: "MarketplaceProduce.jpg",
   grower: "GrowArea.jpg",
   youth: "SAM_0214.JPG",
   community: "SAM_0214.JPG",
-  fallback: "GrowArea.jpg",
 };
 
-const tourFrames: TourFrame[] = [
+const frames: TourFrame[] = [
   {
     id: "arrival",
-    label: "Arrival",
     text: "Food. Wellness. Opportunity.",
-    image: images.arrival,
+    image: images.hero,
+    button: "Continue",
   },
   {
     id: "marketplace",
-    label: "Marketplace",
     text: "The food moves through the community.",
-    image: "MarketplaceProduce.jpg",
+    image: images.marketplace,
+    button: "Continue",
   },
   {
     id: "grower",
-    label: "Grower",
     text: "Growers need more than land.",
     image: images.grower,
+    button: "Continue the Journey",
   },
   {
     id: "youth",
-    label: "Youth Workforce",
     text: "Outdoor work becomes confidence.",
     image: images.youth,
+    button: "Continue the Journey",
   },
   {
     id: "community",
-    label: "Community",
     text: "Communities grow through participation.",
     image: images.community,
+    button: "Enter the Experience",
   },
 ];
 
@@ -69,174 +73,106 @@ const pathways: Pathway[] = [
     id: "guest",
     label: "Guest",
     title: "Experience The Ecosystem.",
-    line: "Food, learning, wellness, and participation come together here.",
-    image: images.arrival,
-    detail: "Guests enter the farm as a destination — a place where land, history, food, and community participation become visible.",
+    line:
+      "Food, wellness, learning, and participation come together here.",
+    detail:
+      "Bronson Family Farm transforms land near the Historic Lansdowne Airport into a destination for food access, education, wellness, and agritourism.",
+    image: images.hero,
   },
   {
     id: "customer",
     label: "Customer",
     title: "Healthy Communities Begin With Healthy Food.",
-    line: "Fresh food access strengthens long-term wellness.",
+    line:
+      "Fresh food access strengthens long-term wellness.",
+    detail:
+      "Customers connect to fresh, chemical-free food while learning how healthier choices strengthen families and communities.",
     image: images.marketplace,
-    detail: "Customers connect to fresh, chemical-free food, nutrition awareness, and easier ways to participate in healthier choices.",
   },
   {
     id: "marketplace",
     label: "Marketplace",
     title: "Local Food Creates Local Strength.",
-    line: "The marketplace connects growers, customers, and opportunity.",
+    line:
+      "The marketplace connects growers, customers, and opportunity.",
+    detail:
+      "The Growers Supply Market brings together tools, growers, demonstrations, seedlings, partnerships, and regional food circulation.",
     image: images.marketplace,
-    detail: "The Growers Supply Market is not only a sales event. It is where tools, knowledge, seedlings, growers, buyers, demonstrations, and partners come together so food and money can circulate through the community instead of leaving it.",
   },
   {
     id: "grower",
     label: "Grower",
     title: "Growers Need Infrastructure.",
-    line: "Knowledge, tools, distribution, and participation strengthen local growing.",
+    line:
+      "Knowledge, tools, and distribution strengthen local growing.",
+    detail:
+      "The ecosystem supports growers with visibility, infrastructure, education, collaboration, and market participation.",
     image: images.grower,
-    detail: "Growers come because the ecosystem helps answer real needs: soil, tools, learning, buyers, distribution, and shared visibility.",
   },
   {
     id: "youth",
     label: "Youth Workforce",
     title: "Outdoor Work Builds Leadership.",
-    line: "Young people develop confidence through participation and responsibility.",
+    line:
+      "Young people develop confidence through participation.",
+    detail:
+      "Youth workforce pathways connect responsibility, teamwork, agriculture, wellness, and future readiness.",
     image: images.youth,
-    detail: "Youth workforce development turns outdoor work into responsibility, confidence, safety, teamwork, and future readiness.",
   },
   {
     id: "partners",
     label: "Partners",
     title: "Partnership Creates Capacity.",
-    line: "Communities become stronger when organizations work together.",
+    line:
+      "Communities grow stronger together.",
+    detail:
+      "Partners help build infrastructure for food access, workforce development, education, wellness, and long-term sustainability.",
     image: images.community,
-    detail: "Partners help build what one farm cannot build alone: water, tools, education, food safety, workforce, infrastructure, and trust.",
   },
   {
     id: "value",
     label: "Value-Added",
     title: "Food Can Become Enterprise.",
-    line: "Local products create circulation and opportunity.",
+    line:
+      "Local products create circulation and opportunity.",
+    detail:
+      "Value-added production transforms local food into products, entrepreneurship, demonstrations, and economic participation.",
     image: images.marketplace,
-    detail: "Value-added producers turn food into prepared products, demonstrations, small business pathways, and local revenue circulation.",
   },
   {
     id: "investment",
     label: "Investment",
     title: "Investment Builds Resilience.",
-    line: "Support strengthens food access, infrastructure, workforce development, and sustainability.",
-    image: images.arrival,
-    detail: "Investment helps build water access, solar infrastructure, storage, transportation, youth workforce development, agritourism experiences, and long-term regional food resilience.",
+    line:
+      "Support strengthens food access and sustainability.",
+    detail:
+      "Investment supports infrastructure, workforce development, agritourism, food distribution, and long-term regional impact.",
+    image: images.hero,
   },
 ];
 
-function imagePath(file: string) {
+function img(file: string) {
   return `/images/${file}`;
 }
 
-function handleImageError(e: React.SyntheticEvent<HTMLImageElement>, file: string) {
-  const el = e.currentTarget;
-  const current = el.getAttribute("src") || "";
-
-  if (current.startsWith("/images/")) {
-    el.src = `/${file}`;
-    return;
-  }
-
-  if (!current.includes(images.fallback)) {
-    el.src = `/images/${images.fallback}`;
-    return;
-  }
-
-  el.style.display = "none";
-  const parent = el.parentElement;
-  if (parent) parent.classList.add("visualFallback");
-}
-
-function App() {
+export default function App() {
   const [mode, setMode] = useState<Mode>("hero");
-  const [frameIndex, setFrameIndex] = useState(0);
-  const [activePathwayId, setActivePathwayId] = useState<PathwayId>("guest");
-  const [animateKey, setAnimateKey] = useState(0);
+  const [frame, setFrame] = useState(0);
+  const [activePathway, setActivePathway] =
+    useState<PathwayId>("guest");
 
-  const activeFrame = tourFrames[frameIndex];
-  const activePathway = useMemo(
-    () => pathways.find((p) => p.id === activePathwayId) || pathways[0],
-    [activePathwayId]
+  const pathway = useMemo(
+    () =>
+      pathways.find((p) => p.id === activePathway) || pathways[0],
+    [activePathway]
   );
 
-  function startTour() {
-    setFrameIndex(0);
-    setMode("cinematic");
-    setAnimateKey((v) => v + 1);
-  }
-
   function nextFrame() {
-    if (mode === "cinematic") {
-      if (frameIndex < tourFrames.length - 1) {
-        setFrameIndex((v) => v + 1);
-        setAnimateKey((v) => v + 1);
-      } else {
-        setMode("pathways");
-        setAnimateKey((v) => v + 1);
-      }
-      return;
-    }
-
-    if (mode === "pathway") {
-      const current = pathways.findIndex((p) => p.id === activePathwayId);
-      const next = pathways[current + 1];
-      if (next) {
-        setActivePathwayId(next.id);
-        setAnimateKey((v) => v + 1);
-      } else {
-        setMode("final");
-        setAnimateKey((v) => v + 1);
-      }
-    }
-  }
-
-  function back() {
-    if (mode === "cinematic") {
-      if (frameIndex > 0) {
-        setFrameIndex((v) => v - 1);
-        setAnimateKey((v) => v + 1);
-      } else {
-        setMode("hero");
-      }
-      return;
-    }
-
-    if (mode === "pathways") {
-      setMode("cinematic");
-      setFrameIndex(tourFrames.length - 1);
-      setAnimateKey((v) => v + 1);
-      return;
-    }
-
-    if (mode === "pathway") {
+    if (frame < frames.length - 1) {
+      setFrame(frame + 1);
+    } else {
       setMode("pathways");
-      setAnimateKey((v) => v + 1);
-      return;
     }
-
-    if (mode === "final") {
-      setMode("pathways");
-      setAnimateKey((v) => v + 1);
-    }
-  }
-
-  function openPathway(id: PathwayId) {
-    setActivePathwayId(id);
-    setMode("pathway");
-    setAnimateKey((v) => v + 1);
-  }
-
-  function exitTour() {
-    setMode("hero");
-    setFrameIndex(0);
-    setAnimateKey((v) => v + 1);
   }
 
   return (
@@ -244,202 +180,431 @@ function App() {
       <style>{styles}</style>
 
       {mode === "hero" && (
-        <section className="hero screen">
-          <img src={imagePath(images.hero)} alt="Bronson Family Farm" onError={(e) => handleImageError(e, images.hero)} />
-          <div className="shade" />
-          <div className="brandBar">
-            <div>
-              <div className="brand">Bronson Family Farm</div>
-              <div className="brandSub">Guided Ecosystem Experience</div>
-            </div>
-          </div>
-            
-          </div>
-          <div className="heroContent enterMotion">
-            <p className="kicker">Historic Lansdowne Airport · Youngstown, Ohio</p>
-            <h1>Food Security Begins Locally.</h1>
-            <p className="heroText">
-              Bronson Family Farm is building a place-based ecosystem rooted in food access, wellness, growers supply, youth workforce development, partnership, agritourism, and regional resilience.
+        <section className="screen">
+          <img src={img(images.hero)} className="bg" />
+          <div className="overlay" />
+
+          <div className="hero">
+            <p className="eyebrow">
+              Historic Lansdowne Airport · Youngstown
             </p>
-            <div className="heroPoints">
-              <span>The food moves through the community.</span>
-              <span>Growers gain tools, knowledge, and visibility.</span>
-              <span>Youth workforce becomes future workforce.</span>
-              <span>Agritourism creates long-term sustainability.</span>
-            </div>
-            <button className="goldBtn" onClick={startTour}>Enter the Ecosystem</button>
-            <div className="languageRow">
-              <button>English</button>
-              <button>Spanish</button>
-              <button>Tagalog</button>
-              <button>Italian</button>
-              <button>Hebrew</button>
-              <button>French</button>
-            </div>
+
+            <h1>Food Security Begins Locally.</h1>
+
+            <p className="heroText">
+              Bronson Family Farm is building a regional
+              ecosystem for food access, wellness,
+              workforce development, entrepreneurship,
+              agritourism, and community resilience.
+            </p>
+
+            <button
+              className="primary"
+              onClick={() => setMode("cinematic")}
+            >
+              Enter the Ecosystem
+            </button>
           </div>
         </section>
       )}
 
       {mode === "cinematic" && (
-        <section className="cinematic screen" key={`frame-${activeFrame.id}-${animateKey}`}>
-          <img src={imagePath(activeFrame.image)} alt={activeFrame.label} onError={(e) => handleImageError(e, activeFrame.image)} />
-          <div className="shade deep" />
-          
-          <div className="centerStatement frameMotion">
-            <h2>{activeFrame.text}</h2>
-            <button className="goldBtn" onClick={nextFrame}>
-              {frameIndex === tourFrames.length - 1 ? "Enter the Experience" : frameIndex >= 2 ? "Continue the Journey" : "Continue"}
+        <section className="screen cinematic">
+          <img src={img(frames[frame].image)} className="bg" />
+          <div className="overlay dark" />
+
+          <div className="center">
+            <h2>{frames[frame].text}</h2>
+
+            <button
+              className="primary"
+              onClick={nextFrame}
+            >
+              {frames[frame].button}
             </button>
           </div>
-          
         </section>
       )}
 
       {mode === "pathways" && (
-        <section className="pathwayReveal screen" key={`pathways-${animateKey}`}>
-          <img src={imagePath(images.arrival)} alt="Bronson Family Farm" onError={(e) => handleImageError(e, images.arrival)} />
-          <div className="shade soft" />
-          <div className="revealContent">
-            <p className="kicker">Choose Your Entry Point</p>
-            <h2>Where Would You Like To Enter The Ecosystem?</h2>
-            <div className="pathwayGrid cinematicGrid">
-              {pathways.map((pathway, index) => (
+        <section className="screen pathways">
+          <img src={img(images.hero)} className="bg" />
+          <div className="overlay dark" />
+
+          <div className="pathwayIntro">
+            <p className="eyebrow">
+              Guided Ecosystem Experience
+            </p>
+
+            <h2>
+              Where Would You Like To Enter The
+              Ecosystem?
+            </h2>
+
+            <div className="grid">
+              {pathways.map((p, index) => (
                 <button
-                  key={pathway.id}
-                  className="pathwayCard"
-                  style={{ animationDelay: `${index * 90}ms` }}
-                  onClick={() => openPathway(pathway.id)}
+                  key={p.id}
+                  className="card"
+                  style={{
+                    animationDelay: `${index * 120}ms`,
+                  }}
+                  onClick={() => {
+                    setActivePathway(p.id);
+                    setMode("pathway");
+                  }}
                 >
-                  <div className="cardImage">
-                    <img src={imagePath(pathway.image)} alt={pathway.label} onError={(e) => handleImageError(e, pathway.image)} />
-                  </div>
-                  <div className="cardCopy">
-                    <span>{pathway.label}</span>
-                    <strong>{pathway.title}</strong>
-                    <small>{pathway.line}</small>
+                  <img src={img(p.image)} />
+
+                  <div className="cardContent">
+                    <span>{p.label}</span>
+                    <strong>{p.title}</strong>
+                    <small>{p.line}</small>
                   </div>
                 </button>
               ))}
             </div>
           </div>
-          
         </section>
       )}
 
       {mode === "pathway" && (
-        <section className="pathwayExperience screen cinematicPathway" key={`pathway-${activePathway.id}-${animateKey}`}>
-          <div className="splitVisual imageFirst">
-            <img src={imagePath(activePathway.image)} alt={activePathway.label} onError={(e) => handleImageError(e, activePathway.image)} />
+        <section className="screen">
+          <img src={img(pathway.image)} className="bg" />
+          <div className="overlay dark" />
+
+          <div className="pathwayContent">
+            <p className="eyebrow">{pathway.label}</p>
+
+            <h2>{pathway.title}</h2>
+
+            <p className="statement">
+              {pathway.line}
+            </p>
+
+            <p className="detail">
+              {pathway.detail}
+            </p>
+
+            <button
+              className="primary"
+              onClick={() => setMode("final")}
+            >
+              Continue the Journey
+            </button>
           </div>
-          <div className="splitCopy cinematicCopy">
-            <div className="ecosystemLayer">
-              <div>
-                <strong>Purpose</strong>
-                <span>Build a connected regional food ecosystem.</span>
-              </div>
-              <div>
-                <strong>Impact</strong>
-                <span>Food access, workforce development, entrepreneurship, and community participation.</span>
-              </div>
-            </div>
-            <p className="kicker titleSecond">{activePathway.label}</p>
-            <h2 className="titleSecond">{activePathway.title}</h2>
-            <p className="lineThird">{activePathway.line}</p>
-            <p className="detailThird">{activePathway.detail}</p>
-            <div className="actionLast cinematicActions">
-              <button className="greenBtn" onClick={nextFrame}>Continue the Journey</button>
-              
-            </div>
-          </div>
-          
         </section>
       )}
 
       {mode === "final" && (
-        <section className="final screen" key={`final-${animateKey}`}>
-          <img src={imagePath(images.community)} alt="Bronson Family Farm community" onError={(e) => handleImageError(e, images.community)} />
-          <div className="shade deep" />
-          <div className="finalContent frameMotion">
-            <p className="kicker">Final Message</p>
-            <h2>What Happens Here Can Change A Region.</h2>
-            <p>
-              Bronson Family Farm is building a place where food security, wellness, entrepreneurship, workforce development, education, and agritourism work together instead of separately.
+        <section className="screen">
+          <img src={img(images.community)} className="bg" />
+          <div className="overlay dark" />
+
+          <div className="center">
+            <p className="eyebrow">Final Message</p>
+
+            <h2>
+              What Happens Here Can Change A
+              Region.
+            </h2>
+
+            <p className="heroText finalText">
+              Bronson Family Farm is building a
+              place where food security, wellness,
+              entrepreneurship, workforce
+              development, education, and
+              agritourism work together instead
+              of separately.
             </p>
-            <p className="subFinal">The ecosystem grows when people participate.</p>
-            <div className="finalButtons">
-              <button className="goldBtn" onClick={() => openPathway("investment")}>Support the Mission</button>
-              <a className="clearBtn" href={eventbriteUrl} target="_blank" rel="noreferrer">Attend the Experience</a>
-              <button className="clearBtn" onClick={() => setMode("pathways")}>Explore Another Pathway</button>
+
+            <div className="buttonRow">
+              <button className="primary">
+                Support the Mission
+              </button>
+
+              <button className="secondary">
+                Attend the Experience
+              </button>
+
+              <button
+                className="secondary"
+                onClick={() => setMode("pathways")}
+              >
+                Explore Another Pathway
+              </button>
             </div>
           </div>
-          <GuideControls onBack={back} onContinue={() => setMode("pathways")} onExit={exitTour} continueLabel="Explore" />
         </section>
       )}
     </main>
   );
 }
 
-function GuideControls({
-  onBack,
-  onContinue,
-  onExit,
-  continueLabel = "Continue",
-}: {
-  onBack: () => void;
-  onContinue: () => void;
-  onExit: () => void;
-  continueLabel?: string;
-}) {
-  return (
-    <div className="guideControls">
-      <button onClick={onBack}>Back</button>
-      <button onClick={onContinue}>{continueLabel}</button>
-      <button onClick={onExit}>Exit Tour</button>
-    </div>
-  );
-}
-
 const styles = `
-:root{
-  --green:#173C2D;
-  --deep:#0d2118;
-  --gold:#E7D7A3;
-  --cream:#F5F1E6;
-  --text:#1C1C1C;
-  --muted:#6e6658;
+html,body,#root{
+margin:0;
+background:#06110c;
+font-family:Inter,sans-serif;
 }
-*{box-sizing:border-box}
-html,body,#root{margin:0;min-height:100%;background:var(--deep)}
-body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,a{font-family:inherit}
-button{cursor:pointer}
-.app{min-height:100vh;background:var(--deep);color:white;overflow:hidden}
-.screen{position:relative;min-height:100vh;width:100%;overflow:hidden}
-.scrollable{overflow-y:auto}
-.screen>img,.hero>img,.cinematic>img,.final>img,.pathwayReveal>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transform:scale(1.03);animation:slowScale 18s ease-out forwards;filter:brightness(.45)}
-.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,10,7,.94),rgba(10,25,17,.68),rgba(10,25,17,.34));z-index:1}
-.shade.deep{background:linear-gradient(180deg,rgba(6,14,10,.46),rgba(6,14,10,.82))}
-.shade.soft{background:linear-gradient(180deg,rgba(13,33,24,.72),rgba(245,241,230,.96) 48%,rgba(245,241,230,1))}
-.visualFallback{background:linear-gradient(135deg,#173C2D,#2F684D,#E7D7A3)}
-.brandBar{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px clamp(22px,5vw,72px)}
-.brand{font-size:1.3rem;font-weight:950;letter-spacing:-.02em}.brandSub{margin-top:4px;font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.18em;color:rgba(255,255,255,.72)}
-.eventPill{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);border-radius:999px;padding:10px 14px;font-size:.85rem;font-weight:900;backdrop-filter:blur(12px)}
-.heroContent{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;max-width:1040px;padding:140px clamp(22px,7vw,96px) 110px}
-.kicker{margin:0 0 18px;font-size:.8rem;font-weight:950;text-transform:uppercase;letter-spacing:.25em;color:var(--gold)}
-h1{margin:0;font-size:clamp(4rem,10vw,8.8rem);line-height:.88;letter-spacing:-.075em;font-weight:1000;max-width:1060px}.heroText{margin:34px 0 0;max-width:790px;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.9)}.heroPoints{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;max-width:980px}.heroPoints span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px);padding:12px 16px;border-radius:999px;font-size:.92rem;font-weight:850}.languageRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.languageRow button{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);backdrop-filter:blur(12px);color:white;border-radius:999px;padding:8px 14px;font-size:.78rem;font-weight:900}
-.goldBtn,.greenBtn,.creamBtn,.clearBtn{border:0;border-radius:999px;padding:17px 24px;font-size:1rem;font-weight:950;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s,background .2s,color .2s;box-shadow:0 20px 50px rgba(0,0,0,.22)}
-.goldBtn{margin-top:42px;background:var(--gold);color:var(--green)}.goldBtn:hover,.greenBtn:hover,.creamBtn:hover,.clearBtn:hover{transform:translateY(-2px)}.greenBtn{background:var(--green);color:white}.creamBtn{background:var(--cream);color:var(--green)}.clearBtn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:white;backdrop-filter:blur(10px)}
-.tourStatus{position:absolute;z-index:3;top:32px;left:clamp(22px,5vw,72px);right:clamp(22px,5vw,72px);display:flex;justify-content:space-between;align-items:center;font-size:.85rem;font-weight:950;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,255,255,.75)}
-.centerStatement{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px}.centerStatement h2{margin:0;max-width:1050px;font-size:clamp(3.2rem,8vw,8.5rem);line-height:.92;letter-spacing:-.07em;font-weight:1000;text-wrap:balance}.centerStatement .goldBtn{margin-top:48px}
 
-.guideControls button{border:0;background:rgba(255,255,255,.12);color:white;border-radius:999px;padding:10px 14px;font-size:.86rem;font-weight:950}.guideControls button:nth-child(2){background:var(--gold);color:var(--green)}
-.revealContent{position:relative;z-index:2;min-height:100vh;padding:110px clamp(20px,5vw,72px) 110px;color:var(--text)}.revealContent .kicker{color:var(--green)}.revealContent h2{margin:0 0 42px;max-width:980px;color:var(--green);font-size:clamp(2.8rem,6.4vw,6.2rem);line-height:.92;letter-spacing:-.06em;font-weight:1000}.pathwayGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;max-width:1320px}.cinematicGrid{padding-top:80px}.pathwayCard{opacity:0;transform:translateY(60px);animation:cardUp 1s ease forwards;text-align:left;border:1px solid rgba(255,255,255,.18);border-radius:34px;overflow:hidden;background:rgba(255,255,255,.08);backdrop-filter:blur(16px);color:white;box-shadow:0 28px 80px rgba(0,0,0,.35);transition:transform .25s,box-shadow .25s}.pathwayCard:hover{transform:translateY(-7px);box-shadow:0 34px 96px rgba(23,60,45,.3)}.cardImage{height:170px;background:var(--green);overflow:hidden}.cardImage img{width:100%;height:100%;object-fit:cover;display:block}.cardCopy{padding:22px}.cardCopy span{display:block;color:var(--muted);font-size:.72rem;font-weight:950;text-transform:uppercase;letter-spacing:.2em}.cardCopy strong{display:block;margin-top:10px;color:white;font-size:1.45rem;line-height:1.05;font-weight:1000}.cardCopy small{display:block;margin-top:12px;color:rgba(255,255,255,.82);font-size:.95rem;line-height:1.45}
-.pathwayExperience{position:relative;display:flex;align-items:center;justify-content:center;background:black;color:white;overflow:hidden}.cinematicPathway::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.72));z-index:1}.splitVisual{position:absolute;inset:0;min-height:100vh;overflow:hidden;background:var(--green)}.splitVisual img{width:100%;height:100%;object-fit:cover;display:block}.splitVisual:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.78))}.splitCopy{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:110px clamp(28px,5vw,72px);max-width:1100px;margin:auto}.ecosystemLayer{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:28px;max-width:900px}.ecosystemLayer div{background:rgba(255,255,255,.08);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:18px 20px;box-shadow:0 16px 40px rgba(0,0,0,.18)}.ecosystemLayer strong{display:block;color:var(--gold);font-size:.76rem;text-transform:uppercase;letter-spacing:.16em}.ecosystemLayer span{display:block;margin-top:8px;color:white;line-height:1.5;font-size:.96rem}.splitCopy .kicker{color:var(--green)}.splitCopy h2{margin:0;color:white;font-size:clamp(3.8rem,8vw,8rem);line-height:.88;letter-spacing:-.07em;font-weight:1000}.lineThird{max-width:820px;margin:30px 0 0;font-size:clamp(1.45rem,2.4vw,2.2rem);line-height:1.38;color:white;font-weight:850}.detailThird{max-width:820px;margin:24px 0 0;font-size:1.12rem;line-height:1.8;color:rgba(255,255,255,.84)}.actionLast{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
-.finalContent{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px}.finalContent h2{margin:0;max-width:1100px;font-size:clamp(3.4rem,8vw,8.2rem);line-height:.9;letter-spacing:-.07em;font-weight:1000}.finalContent p{max-width:900px;margin:34px auto 0;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.88)}.subFinal{font-weight:950;color:var(--gold)!important}.finalButtons{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:36px}.finalButtons .goldBtn{margin-top:0}
-.enterMotion{animation:riseIn .9s ease both}.frameMotion{animation:frameIn .8s ease both}.imageFirst{animation:imageIn .75s ease both}.titleSecond{animation:fadeUp .65s ease both;animation-delay:.22s}.lineThird,.detailThird{animation:fadeUp .65s ease both;animation-delay:.42s}.actionLast{animation:fadeUp .65s ease both;animation-delay:.64s}
-@keyframes slowScale{from{transform:scale(1.08)}to{transform:scale(1)}}@keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}@keyframes frameIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}@keyframes cardUp{to{opacity:1;transform:translateY(0)}}@keyframes imageIn{from{opacity:.2;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:980px){.eventPill{display:none}.pathwayGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.pathwayExperience{grid-template-columns:1fr}.splitVisual{min-height:48vh}.splitCopy{min-height:52vh;padding-bottom:120px}.guideControls{bottom:14px}.centerStatement h2{font-size:clamp(3rem,12vw,6rem)}}
-@media(max-width:620px){.brandBar{padding:20px}.pathwayGrid{grid-template-columns:1fr}.heroContent{padding:120px 22px 110px}h1{font-size:clamp(3.1rem,16vw,5rem)}.heroText{font-size:1.15rem}.guideControls{width:calc(100% - 24px);justify-content:space-between}.guideControls button{flex:1;padding:10px 8px}.revealContent{padding:90px 18px 110px}.splitCopy h2,.finalContent h2{font-size:clamp(3rem,14vw,5.2rem)}}
+.app{
+min-height:100vh;
+color:white;
+}
+
+.screen{
+position:relative;
+min-height:100vh;
+overflow:hidden;
+}
+
+.bg{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+animation:zoom 18s ease-out forwards;
+}
+
+.overlay{
+position:absolute;
+inset:0;
+background:linear-gradient(
+180deg,
+rgba(0,0,0,.25),
+rgba(0,0,0,.7)
+);
+}
+
+.dark{
+background:linear-gradient(
+180deg,
+rgba(0,0,0,.35),
+rgba(0,0,0,.82)
+);
+}
+
+.hero{
+position:relative;
+z-index:2;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:0 7vw;
+max-width:1100px;
+}
+
+.eyebrow{
+font-size:.8rem;
+letter-spacing:.25em;
+text-transform:uppercase;
+font-weight:800;
+color:#e5d39f;
+}
+
+h1,h2{
+margin:0;
+line-height:.9;
+font-weight:900;
+letter-spacing:-.06em;
+}
+
+h1{
+font-size:clamp(4rem,9vw,8rem);
+max-width:1000px;
+}
+
+h2{
+font-size:clamp(3rem,8vw,7rem);
+max-width:1100px;
+}
+
+.heroText{
+margin-top:28px;
+font-size:clamp(1.2rem,2vw,1.8rem);
+line-height:1.6;
+max-width:760px;
+color:rgba(255,255,255,.9);
+}
+
+.center{
+position:relative;
+z-index:2;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:0 24px;
+}
+
+.primary,.secondary{
+border:0;
+border-radius:999px;
+padding:16px 24px;
+font-weight:800;
+cursor:pointer;
+font-size:1rem;
+}
+
+.primary{
+margin-top:40px;
+background:#e5d39f;
+color:#173628;
+}
+
+.secondary{
+background:rgba(255,255,255,.12);
+border:1px solid rgba(255,255,255,.22);
+color:white;
+backdrop-filter:blur(12px);
+}
+
+.pathwayIntro{
+position:relative;
+z-index:2;
+padding:120px 5vw;
+}
+
+.grid{
+margin-top:50px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+.card{
+opacity:0;
+transform:translateY(60px);
+animation:rise .8s ease forwards;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.16);
+border-radius:28px;
+overflow:hidden;
+backdrop-filter:blur(14px);
+color:white;
+text-align:left;
+padding:0;
+cursor:pointer;
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+display:block;
+}
+
+.cardContent{
+padding:20px;
+}
+
+.cardContent span{
+display:block;
+font-size:.72rem;
+letter-spacing:.2em;
+text-transform:uppercase;
+color:#e5d39f;
+font-weight:800;
+}
+
+.cardContent strong{
+display:block;
+margin-top:10px;
+font-size:1.4rem;
+line-height:1.05;
+}
+
+.cardContent small{
+display:block;
+margin-top:12px;
+font-size:.95rem;
+line-height:1.5;
+color:rgba(255,255,255,.82);
+}
+
+.pathwayContent{
+position:relative;
+z-index:2;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:0 24px;
+max-width:1100px;
+margin:auto;
+}
+
+.statement{
+margin-top:30px;
+font-size:clamp(1.4rem,2vw,2rem);
+font-weight:700;
+max-width:850px;
+}
+
+.detail{
+margin-top:24px;
+font-size:1.1rem;
+line-height:1.8;
+max-width:850px;
+color:rgba(255,255,255,.85);
+}
+
+.buttonRow{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+justify-content:center;
+margin-top:40px;
+}
+
+.finalText{
+text-align:center;
+}
+
+@keyframes rise{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes zoom{
+from{
+transform:scale(1.06);
+}
+to{
+transform:scale(1);
+}
+}
+
+@media(max-width:980px){
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:640px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+h1{
+font-size:4rem;
+}
+
+h2{
+font-size:3rem;
+}
+
+}
 `;
-
-export default App;
