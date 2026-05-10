@@ -1,49 +1,141 @@
 import React, { useMemo, useState } from "react";
 
-/**
- * Bronson Family Farm Guided Ecosystem Demo
- * Complete replacement App.tsx
- *
- * This file intentionally avoids Tailwind and icon libraries so the demo does not break
- * if Tailwind/lucide configuration is missing. It uses plain React + inline CSS.
- *
- * Image placement:
- * Put your real farm images in /public or /public/images.
- * The helper below tries /images/name first, then /name.
- */
+type Mode = "hero" | "cinematic" | "pathways" | "pathway" | "final";
+type PathwayId = "guest" | "customer" | "marketplace" | "grower" | "youth" | "partners" | "value" | "investment";
 
-type Lang = "en" | "es" | "tl" | "it" | "he" | "fr";
-type PathwayId = "guest" | "customer" | "marketplace" | "grower" | "youth" | "partners" | "valueAdded" | "investment";
-
-type Scene = {
+type TourFrame = {
   id: string;
-  title: string;
-  eyebrow: string;
+  label: string;
+  text: string;
   image: string;
-  alt: string;
-  body: string;
-  bullets: string[];
-  primary: string;
-  primaryTarget: string;
-  secondary: string;
-  secondaryTarget: string;
 };
 
 type Pathway = {
   id: PathwayId;
   label: string;
-  short: string;
+  title: string;
+  line: string;
   image: string;
-  destination: string;
-  promise: string;
-  scenes: Scene[];
+  detail: string;
 };
 
-const imageCandidates = (file: string) => [`/images/${file}`, `/${file}`];
+const eventbriteUrl = "https://www.eventbrite.com/e/1984126092554?aff=oddtdtcreator";
 
-const img = (file: string) => imageCandidates(file)[0];
+const images = {
+  hero: "GrowArea.jpg",
+  arrival: "GrowArea.jpg",
+  marketplace: "SAM_0214.JPG",
+  grower: "GrowArea.jpg",
+  youth: "SAM_0214.JPG",
+  community: "SAM_0214.JPG",
+  fallback: "GrowArea.jpg",
+};
 
-function handleImageError(e: React.SyntheticEvent<HTMLImageElement>, file: string, fallback = "GrowArea.jpg") {
+const tourFrames: TourFrame[] = [
+  {
+    id: "arrival",
+    label: "Arrival",
+    text: "Food. Wellness. Opportunity.",
+    image: images.arrival,
+  },
+  {
+    id: "marketplace",
+    label: "Marketplace",
+    text: "The food moves through the community.",
+    image: images.marketplace,
+  },
+  {
+    id: "grower",
+    label: "Grower",
+    text: "Growers need more than land.",
+    image: images.grower,
+  },
+  {
+    id: "youth",
+    label: "Youth Workforce",
+    text: "Outdoor work becomes confidence.",
+    image: images.youth,
+  },
+  {
+    id: "community",
+    label: "Community",
+    text: "Communities grow through participation.",
+    image: images.community,
+  },
+];
+
+const pathways: Pathway[] = [
+  {
+    id: "guest",
+    label: "Guest",
+    title: "Experience The Ecosystem.",
+    line: "Food, learning, wellness, and participation come together here.",
+    image: images.arrival,
+    detail: "Guests enter the farm as a destination — a place where land, history, food, and community participation become visible.",
+  },
+  {
+    id: "customer",
+    label: "Customer",
+    title: "Healthy Communities Begin With Healthy Food.",
+    line: "Fresh food access strengthens long-term wellness.",
+    image: images.marketplace,
+    detail: "Customers connect to fresh, chemical-free food, nutrition awareness, and easier ways to participate in healthier choices.",
+  },
+  {
+    id: "marketplace",
+    label: "Marketplace",
+    title: "Local Food Creates Local Strength.",
+    line: "The marketplace connects growers, customers, and opportunity.",
+    image: images.marketplace,
+    detail: "The Growers Supply Market is not only a sales event. It is where tools, knowledge, seedlings, growers, buyers, and partners meet.",
+  },
+  {
+    id: "grower",
+    label: "Grower",
+    title: "Growers Need Infrastructure.",
+    line: "Knowledge, tools, distribution, and participation strengthen local growing.",
+    image: images.grower,
+    detail: "Growers come because the ecosystem helps answer real needs: soil, tools, learning, buyers, distribution, and shared visibility.",
+  },
+  {
+    id: "youth",
+    label: "Youth Workforce",
+    title: "Outdoor Work Builds Leadership.",
+    line: "Young people develop confidence through participation and responsibility.",
+    image: images.youth,
+    detail: "Youth workforce development turns outdoor work into responsibility, confidence, safety, teamwork, and future readiness.",
+  },
+  {
+    id: "partners",
+    label: "Partners",
+    title: "Partnership Creates Capacity.",
+    line: "Communities become stronger when organizations work together.",
+    image: images.community,
+    detail: "Partners help build what one farm cannot build alone: water, tools, education, food safety, workforce, infrastructure, and trust.",
+  },
+  {
+    id: "value",
+    label: "Value-Added",
+    title: "Food Can Become Enterprise.",
+    line: "Local products create circulation and opportunity.",
+    image: images.marketplace,
+    detail: "Value-added producers turn food into prepared products, demonstrations, small business pathways, and local revenue circulation.",
+  },
+  {
+    id: "investment",
+    label: "Investment",
+    title: "Investment Builds Resilience.",
+    line: "Support strengthens food access, infrastructure, workforce development, and sustainability.",
+    image: images.arrival,
+    detail: "Investment helps the farm build the infrastructure needed for food access, youth workforce, agritourism, and long-term regional impact.",
+  },
+];
+
+function imagePath(file: string) {
+  return `/images/${file}`;
+}
+
+function handleImageError(e: React.SyntheticEvent<HTMLImageElement>, file: string) {
   const el = e.currentTarget;
   const current = el.getAttribute("src") || "";
 
@@ -52,769 +144,280 @@ function handleImageError(e: React.SyntheticEvent<HTMLImageElement>, file: strin
     return;
   }
 
-  if (file !== fallback && !current.endsWith(fallback)) {
-    el.src = `/images/${fallback}`;
-    return;
-  }
-
-  if (!current.endsWith(fallback)) {
-    el.src = `/${fallback}`;
+  if (!current.includes(images.fallback)) {
+    el.src = `/images/${images.fallback}`;
     return;
   }
 
   el.style.display = "none";
   const parent = el.parentElement;
-  if (parent) parent.classList.add("imageFallback");
-}
-
-const LANGS: { id: Lang; label: string }[] = [
-  { id: "en", label: "English" },
-  { id: "es", label: "Español" },
-  { id: "tl", label: "Tagalog" },
-  { id: "it", label: "Italiano" },
-  { id: "he", label: "Hebrew" },
-  { id: "fr", label: "Français" },
-];
-
-const COPY: Record<Lang, { start: string; subtitle: string; tour: string; choose: string; response: string }> = {
-  en: {
-    start: "Start the Guided Farm Tour",
-    subtitle: "A place-based food ecosystem at the Historic Lansdowne Airport in Youngstown.",
-    tour: "Guided Tour",
-    choose: "Choose a pathway. Each one tells a different part of the ecosystem story.",
-    response: "Leave a Demo Response",
-  },
-  es: {
-    start: "Comenzar el recorrido guiado",
-    subtitle: "Un ecosistema alimentario basado en el lugar en el Aeropuerto Histórico Lansdowne de Youngstown.",
-    tour: "Recorrido Guiado",
-    choose: "Elija un camino. Cada uno cuenta una parte distinta de la historia del ecosistema.",
-    response: "Dejar una respuesta del demo",
-  },
-  tl: {
-    start: "Simulan ang Gabay na Paglilibot",
-    subtitle: "Isang food ecosystem na nakaugat sa lugar sa Historic Lansdowne Airport sa Youngstown.",
-    tour: "Gabay na Tour",
-    choose: "Pumili ng pathway. Bawat isa ay nagsasabi ng ibang bahagi ng ecosystem.",
-    response: "Mag-iwan ng tugon sa demo",
-  },
-  it: {
-    start: "Inizia il tour guidato",
-    subtitle: "Un ecosistema alimentare radicato nel territorio presso lo storico Lansdowne Airport di Youngstown.",
-    tour: "Tour Guidato",
-    choose: "Scegli un percorso. Ognuno racconta una parte diversa dell'ecosistema.",
-    response: "Lascia una risposta al demo",
-  },
-  he: {
-    start: "התחל את הסיור המודרך",
-    subtitle: "מערכת מזון מקומית בשדה התעופה ההיסטורי Lansdowne ביונגסטאון.",
-    tour: "סיור מודרך",
-    choose: "בחרו מסלול. כל מסלול מספר חלק אחר מסיפור המערכת.",
-    response: "השאירו תגובה להדגמה",
-  },
-  fr: {
-    start: "Commencer la visite guidée",
-    subtitle: "Un écosystème alimentaire enraciné au Historic Lansdowne Airport à Youngstown.",
-    tour: "Visite guidée",
-    choose: "Choisissez un parcours. Chacun raconte une partie différente de l'écosystème.",
-    response: "Laisser une réponse au démo",
-  },
-};
-
-const pathImage: Record<PathwayId, string> = {
-  guest: "GrowArea.jpg",
-  customer: "SAM_0214.JPG",
-  marketplace: "SAM_0214.JPG",
-  grower: "SAM_0214.JPG",
-  youth: "SAM_0214.JPG",
-  partners: "SAM_0214.JPG",
-  valueAdded: "SAM_0214.JPG",
-  investment: "GrowArea.jpg",
-};
-
-const pathways: Pathway[] = [
-  {
-    id: "guest",
-    label: "Guest Pathway",
-    short: "Understand the story, the place, and why this farm matters.",
-    image: pathImage.guest,
-    destination: "#guest",
-    promise: "This pathway introduces the farm as a living destination, not just a growing site.",
-    scenes: [
-      {
-        id: "guest-arrival",
-        eyebrow: "Arrival",
-        title: "Step into the Farm. Experience the Wonders of Life.",
-        image: "GrowArea.jpg",
-        alt: "Bronson Family Farm growing area at the historic airport site",
-        body: "The Guest journey begins with the land itself. Bronson Family Farm is growing at the Historic Lansdowne Airport, a place once defined by movement through the air and now being reimagined as a place where food, families, education, and opportunity move through the community.",
-        bullets: [
-          "Guests are introduced to the airport history and the farm's future as an agritourism destination.",
-          "The visit explains why food access, health, and local growing matter in Youngstown today.",
-          "The farm becomes a place to learn, reflect, participate, and return."],
-        primary: "Next: See the Ecosystem",
-        primaryTarget: "scene:guest-ecosystem",
-        secondary: "Jump to Pathways",
-        secondaryTarget: "#pathways",
-      },
-      {
-        id: "guest-ecosystem",
-        eyebrow: "Meaning",
-        title: "What Is the Ecosystem?",
-        image: "SAM_0188.JPG",
-        alt: "Farm pathway and growing space",
-        body: "The ecosystem is the organized relationship between growers, customers, youth, partners, value-added producers, and the marketplace. It is designed so the food moves through the system instead of forcing every farmer, family, school, or business to travel everywhere alone.",
-        bullets: [
-          "Growers gain tools, knowledge, and market connection.",
-          "Customers gain access to fresh, chemical-free food and nutrition education.",
-          "Partners help build the infrastructure that keeps food and money circulating locally."],
-        primary: "Next: Destination Vision",
-        primaryTarget: "scene:guest-destination",
-        secondary: "Explore Marketplace",
-        secondaryTarget: "pathway:marketplace",
-      },
-      {
-        id: "guest-destination",
-        eyebrow: "Future",
-        title: "From Farm Visit to Agritourism Destination",
-        image: "SAM_0195.JPG",
-        alt: "Outdoor farm area for future visitor experience",
-        body: "The farm is becoming a place where people can visit, learn, shop, gather, and experience a different kind of community development. Future experiences include an 18-hole mini-golf course, kids zone, RC activities, camping, demonstrations, and food-centered learning.",
-        bullets: [
-          "The destination model creates repeat visits and sustainable revenue.",
-          "Agritourism brings people to the farm while the food system moves food out to the community.",
-          "The experience connects history, land, family legacy, health, and local economic development."],
-        primary: "Choose Another Pathway",
-        primaryTarget: "#pathways",
-        secondary: "Leave a Demo Response",
-        secondaryTarget: "#response",
-      },
-    ],
-  },
-  {
-    id: "customer",
-    label: "Customer Pathway",
-    short: "Fresh food, nutrition, repeat healthy choices, and access.",
-    image: pathImage.customer,
-    destination: "#customer",
-    promise: "This pathway shows how families connect to fresh, chemical-free food and practical health education.",
-    scenes: [
-      {
-        id: "customer-food",
-        eyebrow: "Food Access",
-        title: "Fresh Food Should Be Reachable",
-        image: "SAM_0188.JPG",
-        alt: "Fresh growing space and crops at the farm",
-        body: "The customer journey centers on access to fresh, chemical-free food. Customers should be able to understand what is available, why it matters nutritionally, and how to make repeat healthy choices without confusion.",
-        bullets: [
-          "The marketplace helps families find produce, seedlings, and growing supplies.",
-          "Nutrition education connects food choices to wellness.",
-          "SNAP-aware ordering and pickup options can support practical access."],
-        primary: "Next: How Food Moves",
-        primaryTarget: "scene:customer-circulation",
-        secondary: "Go to Marketplace",
-        secondaryTarget: "pathway:marketplace",
-      },
-      {
-        id: "customer-circulation",
-        eyebrow: "Circulation",
-        title: "The Food Moves, Not the Farmer",
-        image: "SAM_0195.JPG",
-        alt: "Marketplace and distribution concept image",
-        body: "The benefit of joining the ecosystem is that distribution is organized. Food can move to families, schools, community programs, businesses, and partners through coordinated systems instead of requiring every person to navigate separate locations on their own.",
-        bullets: [
-          "The ecosystem strengthens local growers by helping coordinate demand.",
-          "Customers benefit from easier access to fresh food.",
-          "Money circulates locally when growers, customers, and partners are connected."],
-        primary: "Next: Health and Quality",
-        primaryTarget: "scene:customer-quality",
-        secondary: "Explore Grower Pathway",
-        secondaryTarget: "pathway:grower",
-      },
-      {
-        id: "customer-quality",
-        eyebrow: "Quality",
-        title: "Chemical-Free Food, Grown With Care",
-        image: "SAM_0201.JPG",
-        alt: "Chemical-free growing and soil-centered farm work",
-        body: "The quality story matters. Bronson Family Farm emphasizes growing methods that respect the soil, the people eating the food, and the long-term health of the community.",
-        bullets: [
-          "Chemical-free growing supports trust and food confidence.",
-          "Health education helps families understand what they are eating.",
-          "The farm connects food quality to community wellness."],
-        primary: "Choose Another Pathway",
-        primaryTarget: "#pathways",
-        secondary: "Leave a Demo Response",
-        secondaryTarget: "#response",
-      },
-    ],
-  },
-  {
-    id: "marketplace",
-    label: "Marketplace Pathway",
-    short: "Convert interest into purchasing power and local sustainability.",
-    image: pathImage.marketplace,
-    destination: "#marketplace",
-    promise: "This pathway shows how growers, customers, and partners meet through a coordinated market system.",
-    scenes: [
-      {
-        id: "marketplace-entry",
-        eyebrow: "Marketplace",
-        title: "A Growers Supply Market, Not Just a Farmers Market",
-        image: "SAM_0195.JPG",
-        alt: "Marketplace table, produce, seedlings, or event setup",
-        body: "The Growers Supply Market is designed around grower need. It brings together tools, knowledge, seedlings, supplies, demonstrations, buyers, and partners so growers can build capacity and customers can understand the value of local food.",
-        bullets: [
-          "Growers come for practical resources, not only to sell.",
-          "Participants demonstrate what they do and how it supports the food ecosystem.",
-          "Customers learn how buying locally strengthens food access and local circulation."],
-        primary: "Next: What Happens Here",
-        primaryTarget: "scene:marketplace-activity",
-        secondary: "Customer Journey",
-        secondaryTarget: "pathway:customer",
-      },
-      {
-        id: "marketplace-activity",
-        eyebrow: "Activity",
-        title: "Demonstrations, Supplies, Food, Art, and Workforce Connections",
-        image: "SAM_0214.JPG",
-        alt: "Participants and demonstration activity at the farm",
-        body: "The marketplace experience can include Parker Farms, BIOPIC, SMARTS art activities, Flying High culinary pathway introductions, Queens Village wellness connections, seedlings, tools, soil education, and farm demonstrations. The goal is to make the grower need visible and actionable.",
-        bullets: [
-          "Flying High can introduce culinary training connected to local food pathways.",
-          "SMARTS can bring creative activities that make the farm welcoming for children and families.",
-          "Growers and value-added producers are treated as entrepreneurs inside a larger ecosystem."],
-        primary: "Next: Circulate Food and Money",
-        primaryTarget: "scene:marketplace-circulation",
-        secondary: "Value-Added Producers",
-        secondaryTarget: "pathway:valueAdded",
-      },
-      {
-        id: "marketplace-circulation",
-        eyebrow: "Local Economy",
-        title: "Keeping Food and Money Moving Locally",
-        image: "SAM_0231.JPG",
-        alt: "Local food, value-added, or community marketplace activity",
-        body: "The marketplace is the economic engine of the ecosystem. It helps convert interest into purchasing power, supports growers with reliable demand, and gives partners a place to invest in a visible community food system.",
-        bullets: [
-          "Food moves through the ecosystem to families, schools, businesses, and community programs.",
-          "Growers gain a clearer path to sell, distribute, and scale.",
-          "The community sees how food access, entrepreneurship, and workforce development connect."],
-        primary: "Choose Another Pathway",
-        primaryTarget: "#pathways",
-        secondary: "Leave a Demo Response",
-        secondaryTarget: "#response",
-      },
-    ],
-  },
-  {
-    id: "grower",
-    label: "Grower Pathway",
-    short: "Tools, knowledge, shared infrastructure, and market participation.",
-    image: pathImage.grower,
-    destination: "#grower",
-    promise: "This pathway explains why a grower should come and what need the ecosystem answers.",
-    scenes: [
-      {
-        id: "grower-need",
-        eyebrow: "Grower Need",
-        title: "Why Should the Grower Come?",
-        image: "SAM_0201.JPG",
-        alt: "Growing area and farm tools",
-        body: "A grower should come because growing food takes more than seeds. It takes knowledge, soil support, tools, water planning, pest awareness, distribution, buyers, and a community that understands the value of the work.",
-        bullets: [
-          "Growers can access demonstrations, supplies, and practical problem solving.",
-          "The ecosystem helps reduce isolation by connecting growers to buyers and partners.",
-          "The market creates a place where grower needs are seen, respected, and addressed."],
-        primary: "Next: Shared Support",
-        primaryTarget: "scene:grower-support",
-        secondary: "Marketplace Pathway",
-        secondaryTarget: "pathway:marketplace",
-      },
-      {
-        id: "grower-support",
-        eyebrow: "Support",
-        title: "Tools, Knowledge, and Infrastructure",
-        image: "SAM_0220.JPG",
-        alt: "Farm support, partners, tools, and infrastructure",
-        body: "Bronson Family Farm is building a growers supply market because growers need access to more than one-day sales. They need dependable support systems that help them plant, grow, harvest, prepare, sell, and distribute.",
-        bullets: [
-          "Tool access and demonstrations help growers make better decisions.",
-          "Soil, compost, irrigation, and pest education strengthen production.",
-          "Coordinated distribution helps growers participate without carrying the whole burden alone."],
-        primary: "Next: Entrepreneur Role",
-        primaryTarget: "scene:grower-enterprise",
-        secondary: "Partner Pathway",
-        secondaryTarget: "pathway:partners",
-      },
-      {
-        id: "grower-enterprise",
-        eyebrow: "Enterprise",
-        title: "Growers Are Entrepreneurs Inside the Ecosystem",
-        image: "SAM_0231.JPG",
-        alt: "Grower enterprise and market opportunity",
-        body: "The grower pathway recognizes growers as entrepreneurs. The ecosystem helps them connect production to demand, reduce waste, learn from others, and participate in a marketplace that is larger than one stand or one farm.",
-        bullets: [
-          "The grower is part of a regional solution to food insecurity.",
-          "The ecosystem can help create predictable buyers and shared visibility.",
-          "Grower success strengthens local health, local business, and local resilience."],
-        primary: "Choose Another Pathway",
-        primaryTarget: "#pathways",
-        secondary: "Leave a Demo Response",
-        secondaryTarget: "#response",
-      },
-    ],
-  },
-  {
-    id: "youth",
-    label: "Youth Workforce Pathway",
-    short: "Skill-building, responsibility, confidence, and future readiness.",
-    image: pathImage.youth,
-    destination: "#youth",
-    promise: "This pathway shows how youth grow through responsibility, outdoor work, and real skill development.",
-    scenes: [
-      {
-        id: "youth-entry",
-        eyebrow: "Youth Workforce",
-        title: "Young People Learn by Doing Real Work",
-        image: "SAM_0214.JPG",
-        alt: "Youth workforce or people learning in an outdoor farm setting",
-        body: "The youth workforce pathway is not a classroom pretending to be work. It is a structured farm-based experience where young people learn responsibility, teamwork, safety, communication, and the value of completing real tasks.",
-        bullets: [
-          "Youth participate in orientation, safety expectations, and role-based work.",
-          "Supervisors observe progress, attendance, participation, and skill growth.",
-          "Parents and guardians can understand what youth are learning and how they are growing."],
-        primary: "Next: Skill Growth",
-        primaryTarget: "scene:youth-skills",
-        secondary: "Partner Pathway",
-        secondaryTarget: "pathway:partners",
-      },
-      {
-        id: "youth-skills",
-        eyebrow: "Development",
-        title: "Building Confidence, Discipline, and Future Readiness",
-        image: "SAM_0188.JPG",
-        alt: "Outdoor growing area used for youth skill development",
-        body: "The farm gives youth a place to practice showing up, using tools safely, listening, solving problems, and seeing how their work contributes to something bigger than themselves.",
-        bullets: [
-          "Youth connect food, land, health, entrepreneurship, and community service.",
-          "Badges and progress markers make growth visible.",
-          "The pathway can connect to culinary, agriculture, STEAM, business, and public service careers."],
-        primary: "Next: Connection to Ecosystem",
-        primaryTarget: "scene:youth-ecosystem",
-        secondary: "Grower Pathway",
-        secondaryTarget: "pathway:grower",
-      },
-      {
-        id: "youth-ecosystem",
-        eyebrow: "Belonging",
-        title: "Youth Become Part of the Food System Story",
-        image: "SAM_0220.JPG",
-        alt: "Community partners and youth opportunity at the farm",
-        body: "Youth are not separate from the ecosystem. They help make it possible. Their work can support growers, market days, hospitality, food preparation, site care, technology, and future agritourism experiences.",
-        bullets: [
-          "Youth workforce development strengthens the farm and the community at the same time.",
-          "The pathway creates practical experience that can be documented and shared.",
-          "The farm becomes a living training ground for future opportunity."],
-        primary: "Choose Another Pathway",
-        primaryTarget: "#pathways",
-        secondary: "Leave a Demo Response",
-        secondaryTarget: "#response",
-      },
-    ],
-  },
-  {
-    id: "partners",
-    label: "Partner Pathway",
-    short: "Align resources, solve practical barriers, and build community infrastructure.",
-    image: pathImage.partners,
-    destination: "#partners",
-    promise: "This pathway shows partners where their resources fit and why coordination matters.",
-    scenes: [
-      {
-        id: "partners-role",
-        eyebrow: "Partnership",
-        title: "Partners Help Build What One Farm Cannot Build Alone",
-        image: "SAM_0220.JPG",
-        alt: "Partners and infrastructure at Bronson Family Farm",
-        body: "Partners are essential because the ecosystem requires infrastructure: water, power, tools, food safety, youth development, transportation, education, marketing, and distribution. Each partner helps solve a practical barrier.",
-        bullets: [
-          "City, education, nonprofit, health, arts, workforce, and business partners each have a role.",
-          "The farm becomes a place where resources can align around visible community need.",
-          "Partnership makes the food system more reliable and more replicable."],
-        primary: "Next: Practical Asks",
-        primaryTarget: "scene:partners-asks",
-        secondary: "Investment Pathway",
-        secondaryTarget: "pathway:investment",
-      },
-      {
-        id: "partners-asks",
-        eyebrow: "Action",
-        title: "Partnership Is Specific, Practical, and Visible",
-        image: "SAM_0195.JPG",
-        alt: "Outdoor setup, resources, or marketplace support",
-        body: "The strongest partnership asks are specific. A partner can support canopies, tables, chairs, handwashing, tools, soil, compost, trees, demonstrations, youth workforce, food safety, marketing, technology, transportation, or capital improvements.",
-        bullets: [
-          "The partner sees exactly how their contribution strengthens the ecosystem.",
-          "The community sees collaboration in action.",
-          "The farm can document outcomes and build trust for future investment."],
-        primary: "Next: Replicable Model",
-        primaryTarget: "scene:partners-replicate",
-        secondary: "Youth Workforce Pathway",
-        secondaryTarget: "pathway:youth",
-      },
-      {
-        id: "partners-replicate",
-        eyebrow: "Replication",
-        title: "A Local Model That Can Be Repeated",
-        image: "GrowArea.jpg",
-        alt: "Bronson Family Farm land as a replicable community food model",
-        body: "The partner pathway positions Bronson Family Farm and Farm & Family Alliance as a place-based model that can be learned from, improved, and repeated in other communities facing food access, workforce, and land-use challenges.",
-        bullets: [
-          "The model connects agriculture, health, entrepreneurship, and youth development.",
-          "It gives funders and partners a visible place to invest.",
-          "It turns underused land into community-serving infrastructure."],
-        primary: "Choose Another Pathway",
-        primaryTarget: "#pathways",
-        secondary: "Leave a Demo Response",
-        secondaryTarget: "#response",
-      },
-    ],
-  },
-  {
-    id: "valueAdded",
-    label: "Value-Added Producer Pathway",
-    short: "Turn local food into products, enterprise, and circulation.",
-    image: pathImage.valueAdded,
-    destination: "#value-added",
-    promise: "This pathway shows how food becomes product, enterprise, and local economic activity.",
-    scenes: [
-      {
-        id: "value-entry",
-        eyebrow: "Value-Added",
-        title: "Producers Turn Food Into Opportunity",
-        image: "SAM_0231.JPG",
-        alt: "Value-added food, market, or product development",
-        body: "Value-added producers are entrepreneurs. They help extend the life and value of local food by turning ingredients into prepared foods, preserved goods, culinary products, demonstrations, and small business opportunities.",
-        bullets: [
-          "Value-added work reduces waste and increases revenue potential.",
-          "Culinary education can connect students and entrepreneurs to real market pathways.",
-          "Products help customers experience local food in more ways."],
-        primary: "Next: Food Circulation",
-        primaryTarget: "scene:value-circulation",
-        secondary: "Marketplace Pathway",
-        secondaryTarget: "pathway:marketplace",
-      },
-      {
-        id: "value-circulation",
-        eyebrow: "Circulation",
-        title: "Food Becomes Product, Product Becomes Local Revenue",
-        image: "SAM_0195.JPG",
-        alt: "Marketplace product and food circulation",
-        body: "When fresh food becomes a product, it creates more points of participation. Growers, cooks, youth, customers, and partners can all connect through demonstrations, tastings, small batch sales, and future food enterprise development.",
-        bullets: [
-          "The ecosystem supports both growing and enterprise development.",
-          "Food dollars can circulate through more local hands.",
-          "Value-added production helps make the marketplace more sustainable."],
-        primary: "Next: Future Kitchen and Canning",
-        primaryTarget: "scene:value-future",
-        secondary: "Customer Pathway",
-        secondaryTarget: "pathway:customer",
-      },
-      {
-        id: "value-future",
-        eyebrow: "Future Buildout",
-        title: "Preparing for Canning, Cooking, and Demonstration Space",
-        image: "SAM_0220.JPG",
-        alt: "Future infrastructure for canning, cooking, and demonstrations",
-        body: "The long-term vision includes food preparation, canning, demonstration, and teaching spaces that help the farm reduce waste, extend seasonal value, and create more reasons for people to return.",
-        bullets: [
-          "Value-added production supports entrepreneurship and training.",
-          "Demonstrations make the farm experience memorable.",
-          "Future infrastructure turns the ecosystem into a stronger destination."],
-        primary: "Choose Another Pathway",
-        primaryTarget: "#pathways",
-        secondary: "Leave a Demo Response",
-        secondaryTarget: "#response",
-      },
-    ],
-  },
-  {
-    id: "investment",
-    label: "Investment Pathway",
-    short: "Capital improvements, sustainability, and a replicable community model.",
-    image: pathImage.investment,
-    destination: "#investment",
-    promise: "This pathway explains why investment strengthens the entire ecosystem.",
-    scenes: [
-      {
-        id: "investment-case",
-        eyebrow: "Investment Case",
-        title: "Capital Turns Vision Into Infrastructure",
-        image: "GrowArea2.jpg",
-        alt: "Farm land and infrastructure opportunity",
-        body: "Bronson Family Farm is building from the ground up. Capital investment can support water, solar power, security, storage, wash stations, transportation, shelter, growing infrastructure, and agritourism development.",
-        bullets: [
-          "Infrastructure reduces operating barriers and increases production capacity.",
-          "Capital improvements make the farm safer, more reliable, and more scalable.",
-          "Investment supports food access, workforce development, and local enterprise at the same time."],
-        primary: "Next: Community Impact",
-        primaryTarget: "scene:investment-impact",
-        secondary: "Partner Pathway",
-        secondaryTarget: "pathway:partners",
-      },
-      {
-        id: "investment-impact",
-        eyebrow: "Impact",
-        title: "A Place-Based Investment in Youngstown",
-        image: "SAM_0188.JPG",
-        alt: "Youngstown farm land and place-based opportunity",
-        body: "The investment is not only in a farm. It is in a community food system that can improve access to fresh food, support growers, train youth, create visitor experiences, and transform land into productive community infrastructure.",
-        bullets: [
-          "The farm connects history, land, health, business, education, and family legacy.",
-          "The model creates visible outcomes funders and investors can understand.",
-          "The work can become a replicable example for other communities."],
-        primary: "Next: Destination Revenue",
-        primaryTarget: "scene:investment-destination",
-        secondary: "Marketplace Pathway",
-        secondaryTarget: "pathway:marketplace",
-      },
-      {
-        id: "investment-destination",
-        eyebrow: "Sustainability",
-        title: "Agritourism Helps Sustain the Mission",
-        image: "SAM_0231.JPG",
-        alt: "Agritourism, marketplace, and destination development",
-        body: "The farm's future destination model creates revenue beyond produce alone. Mini-golf, camping, RC activities, kids experiences, demonstrations, prepared foods, and events can help sustain the mission while keeping food access at the center.",
-        bullets: [
-          "Revenue diversity helps protect the farm during seasonal and economic shifts.",
-          "Visitor experiences bring people into the story.",
-          "The destination keeps the ecosystem memorable, fundable, and alive."],
-        primary: "Choose Another Pathway",
-        primaryTarget: "#pathways",
-        secondary: "Leave a Demo Response",
-        secondaryTarget: "#response",
-      },
-    ],
-  },
-];
-
-function findScene(id: string): Scene | undefined {
-  for (const p of pathways) {
-    const s = p.scenes.find((scene) => scene.id === id);
-    if (s) return s;
-  }
-  return undefined;
+  if (parent) parent.classList.add("visualFallback");
 }
 
 function App() {
-  const [lang, setLang] = useState<Lang>("en");
-  const [activePathway, setActivePathway] = useState<PathwayId>("guest");
-  const [activeSceneId, setActiveSceneId] = useState("guest-arrival");
-  const [response, setResponse] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [mode, setMode] = useState<Mode>("hero");
+  const [frameIndex, setFrameIndex] = useState(0);
+  const [activePathwayId, setActivePathwayId] = useState<PathwayId>("guest");
+  const [animateKey, setAnimateKey] = useState(0);
 
-  const active = useMemo(() => pathways.find((p) => p.id === activePathway) || pathways[0], [activePathway]);
-  const scene = useMemo(() => findScene(activeSceneId) || active.scenes[0], [active, activeSceneId]);
-  const sceneIndex = active.scenes.findIndex((s) => s.id === scene.id);
-  const isRTL = lang === "he";
+  const activeFrame = tourFrames[frameIndex];
+  const activePathway = useMemo(
+    () => pathways.find((p) => p.id === activePathwayId) || pathways[0],
+    [activePathwayId]
+  );
 
-  function go(target: string) {
-    if (target.startsWith("scene:")) {
-      const id = target.replace("scene:", "");
-      const foundPath = pathways.find((p) => p.scenes.some((s) => s.id === id));
-      if (foundPath) setActivePathway(foundPath.id);
-      setActiveSceneId(id);
-      setTimeout(() => document.getElementById("tour")?.scrollIntoView({ behavior: "smooth", block: "start" }), 20);
-      return;
-    }
-    if (target.startsWith("pathway:")) {
-      const id = target.replace("pathway:", "") as PathwayId;
-      const found = pathways.find((p) => p.id === id);
-      if (found) {
-        setActivePathway(found.id);
-        setActiveSceneId(found.scenes[0].id);
-        setTimeout(() => document.getElementById("tour")?.scrollIntoView({ behavior: "smooth", block: "start" }), 20);
+  function startTour() {
+    setFrameIndex(0);
+    setMode("cinematic");
+    setAnimateKey((v) => v + 1);
+  }
+
+  function nextFrame() {
+    if (mode === "cinematic") {
+      if (frameIndex < tourFrames.length - 1) {
+        setFrameIndex((v) => v + 1);
+        setAnimateKey((v) => v + 1);
+      } else {
+        setMode("pathways");
+        setAnimateKey((v) => v + 1);
       }
       return;
     }
-    document.querySelector(target)?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    if (mode === "pathway") {
+      const current = pathways.findIndex((p) => p.id === activePathwayId);
+      const next = pathways[current + 1];
+      if (next) {
+        setActivePathwayId(next.id);
+        setAnimateKey((v) => v + 1);
+      } else {
+        setMode("final");
+        setAnimateKey((v) => v + 1);
+      }
+    }
   }
 
-  function nextScene() {
-    const next = active.scenes[sceneIndex + 1] || active.scenes[0];
-    setActiveSceneId(next.id);
-    document.getElementById("tour")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  function back() {
+    if (mode === "cinematic") {
+      if (frameIndex > 0) {
+        setFrameIndex((v) => v - 1);
+        setAnimateKey((v) => v + 1);
+      } else {
+        setMode("hero");
+      }
+      return;
+    }
+
+    if (mode === "pathways") {
+      setMode("cinematic");
+      setFrameIndex(tourFrames.length - 1);
+      setAnimateKey((v) => v + 1);
+      return;
+    }
+
+    if (mode === "pathway") {
+      setMode("pathways");
+      setAnimateKey((v) => v + 1);
+      return;
+    }
+
+    if (mode === "final") {
+      setMode("pathways");
+      setAnimateKey((v) => v + 1);
+    }
   }
 
-  function prevScene() {
-    const prev = active.scenes[sceneIndex - 1] || active.scenes[active.scenes.length - 1];
-    setActiveSceneId(prev.id);
-    document.getElementById("tour")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  function openPathway(id: PathwayId) {
+    setActivePathwayId(id);
+    setMode("pathway");
+    setAnimateKey((v) => v + 1);
   }
 
-  function selectPathway(id: PathwayId) {
-    const p = pathways.find((item) => item.id === id) || pathways[0];
-    setActivePathway(id);
-    setActiveSceneId(p.scenes[0].id);
-    setTimeout(() => document.getElementById("tour")?.scrollIntoView({ behavior: "smooth", block: "start" }), 20);
+  function exitTour() {
+    setMode("hero");
+    setFrameIndex(0);
+    setAnimateKey((v) => v + 1);
   }
 
   return (
-    <div className="app" dir={isRTL ? "rtl" : "ltr"}>
+    <main className="app">
       <style>{styles}</style>
 
-      <header className="hero" id="home">
-        <div className="heroOverlay" />
-        <div className="nav">
-          <div>
-            <div className="brand">Bronson Family Farm</div>
-            <div className="tagline">Developed by Bronson Family Farm</div>
-          </div>
-          <div className="languageBar" aria-label="Language selector">
-            {LANGS.map((item) => (
-              <button key={item.id} className={lang === item.id ? "lang active" : "lang"} onClick={() => setLang(item.id)}>
-                {item.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="heroContent">
-          <p className="kicker">Historic Lansdowne Airport • Youngstown, Ohio</p>
-          <h1>A Guided Ecosystem Experience for Food, Family, Growers, and Community</h1>
-          <p className="subtitle">{COPY[lang].subtitle}</p>
-          <div className="heroButtons">
-            <button className="primaryBtn" onClick={() => go("#pathways")}>{COPY[lang].start}</button>
-            <button className="secondaryBtn" onClick={() => go("#story")}>Understand the Story</button>
-            <button className="secondaryBtn" onClick={() => go("#response")}>{COPY[lang].response}</button>
-          </div>
-        </div>
-      </header>
-
-      <main>
-        <section className="story" id="story">
-          <div className="sectionLabel">The Story</div>
-          <h2>From Historic Airfield to Community Food Infrastructure</h2>
-          <p>
-            Bronson Family Farm is growing at the Historic Lansdowne Airport, transforming a place known for movement into a place where food, knowledge, opportunity, and family legacy can move through Youngstown. The farm is not simply presenting a problem. It is demonstrating a response: a growers supply market, a learning environment, a marketplace, a workforce pathway, and a future agritourism destination.
-          </p>
-          <div className="storyGrid">
-            <div className="storyCard"><strong>Place-Based</strong><span>Rooted in Youngstown's East Side and the history of the airport.</span></div>
-            <div className="storyCard"><strong>Grower-Centered</strong><span>Built around the practical needs growers face before, during, and after harvest.</span></div>
-            <div className="storyCard"><strong>Community-Serving</strong><span>Designed so fresh, chemical-free food and local money circulate through the community.</span></div>
-          </div>
-        </section>
-
-        <section className="pathways" id="pathways">
-          <div className="sectionLabel">{COPY[lang].tour}</div>
-          <h2>{COPY[lang].choose}</h2>
-          <div className="pathwayGrid">
-            {pathways.map((p) => (
-              <button key={p.id} className={activePathway === p.id ? "pathwayCard selected" : "pathwayCard"} onClick={() => selectPathway(p.id)}>
-                <img src={img(p.image)} alt="" onError={(e) => handleImageError(e, p.image)} />
-                <span>{p.label}</span>
-                <small>{p.short}</small>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <section className="tour" id="tour">
-          <div className="tourTop">
+      {mode === "hero" && (
+        <section className="hero screen">
+          <img src={imagePath(images.hero)} alt="Bronson Family Farm" onError={(e) => handleImageError(e, images.hero)} />
+          <div className="shade" />
+          <div className="brandBar">
             <div>
-              <div className="sectionLabel">{active.label}</div>
-              <h2>{scene.title}</h2>
-              <p className="promise">{active.promise}</p>
+              <div className="brand">Bronson Family Farm</div>
+              <div className="brandSub">Community Food Ecosystem</div>
             </div>
-            <div className="stepper">Step {Math.max(sceneIndex + 1, 1)} of {active.scenes.length}</div>
+            <div className="eventPill">Growers Supply Market · May 16, 2026 · By Invitation Only</div>
           </div>
-
-          <div className="tourPanel">
-            <div className="imagePanel">
-              <img src={img(scene.image)} alt={scene.alt} onError={(e) => handleImageError(e, scene.image)} />
-              <div className="imageCaption">{scene.eyebrow}</div>
-            </div>
-            <div className="copyPanel">
-              <p className="bodyText">{scene.body}</p>
-              <ul>
-                {scene.bullets.map((b) => <li key={b}>{b}</li>)}
-              </ul>
-              <div className="buttonRow">
-                <button className="primaryBtn" onClick={() => go(scene.primaryTarget)}>{scene.primary}</button>
-                <button className="secondaryBtn dark" onClick={() => go(scene.secondaryTarget)}>{scene.secondary}</button>
-              </div>
-              <div className="tourControls">
-                <button onClick={prevScene}>Back</button>
-                <button onClick={nextScene}>Next</button>
-                <button onClick={() => go("#pathways")}>Jump to Pathways</button>
-                <button onClick={() => go("#response")}>Respond</button>
-              </div>
-            </div>
+          <div className="heroContent enterMotion">
+            <p className="kicker">Historic Lansdowne Airport · Youngstown, Ohio</p>
+            <h1>Food Security Begins Locally.</h1>
+            <p className="heroText">
+              Bronson Family Farm is building a regional ecosystem for food security, wellness, workforce development, entrepreneurship, and community resilience.
+            </p>
+            <button className="goldBtn" onClick={startTour}>Enter the Ecosystem</button>
           </div>
         </section>
+      )}
 
-        <section className="map" id="ecosystem-map">
-          <div className="sectionLabel">How the Ecosystem Works</div>
-          <h2>The food moves through a coordinated system.</h2>
-          <div className="flow">
-            <div>Growers</div><span>→</span><div>Bronson Family Farm</div><span>→</span><div>Marketplace</div><span>→</span><div>Families, Schools, Businesses, Programs</div><span>→</span><div>Local Circulation</div>
+      {mode === "cinematic" && (
+        <section className="cinematic screen" key={`frame-${activeFrame.id}-${animateKey}`}>
+          <img src={imagePath(activeFrame.image)} alt={activeFrame.label} onError={(e) => handleImageError(e, activeFrame.image)} />
+          <div className="shade deep" />
+          <div className="tourStatus">
+            <span>{activeFrame.label}</span>
+            <span>{frameIndex + 1} / {tourFrames.length}</span>
           </div>
-          <p>
-            This is the benefit of the ecosystem: the farmer does not have to carry the whole burden alone. The system manages visibility, education, distribution, and community connection so food and money can circulate locally.
-          </p>
+          <div className="centerStatement frameMotion">
+            <h2>{activeFrame.text}</h2>
+            <button className="goldBtn" onClick={nextFrame}>
+              {frameIndex === tourFrames.length - 1 ? "Enter the Experience" : frameIndex >= 2 ? "Continue the Journey" : "Continue"}
+            </button>
+          </div>
+          <GuideControls onBack={back} onContinue={nextFrame} onExit={exitTour} />
         </section>
+      )}
 
-        <section className="response" id="response">
-          <div className="sectionLabel">Demo Response</div>
-          <h2>After the demo, visitors need a place to respond.</h2>
-          <p>This demo does not require registration. It invites reflection, feedback, and next-step interest.</p>
-          <textarea value={response} onChange={(e) => setResponse(e.target.value)} placeholder="What pathway interested you most? What would you like to support, visit, fund, or learn more about?" />
-          <button className="primaryBtn" onClick={() => setSubmitted(true)}>Save Demo Response</button>
-          {submitted && <div className="thanks">Response saved in this demo view. Connect this button later to Supabase, HubSpot, Google Forms, or your CRM.</div>}
+      {mode === "pathways" && (
+        <section className="pathwayReveal screen scrollable" key={`pathways-${animateKey}`}>
+          <img src={imagePath(images.arrival)} alt="Bronson Family Farm" onError={(e) => handleImageError(e, images.arrival)} />
+          <div className="shade soft" />
+          <div className="revealContent">
+            <p className="kicker">Choose Your Entry Point</p>
+            <h2>Where Would You Like To Enter The Ecosystem?</h2>
+            <div className="pathwayGrid">
+              {pathways.map((pathway, index) => (
+                <button
+                  key={pathway.id}
+                  className="pathwayCard"
+                  style={{ animationDelay: `${index * 90}ms` }}
+                  onClick={() => openPathway(pathway.id)}
+                >
+                  <div className="cardImage">
+                    <img src={imagePath(pathway.image)} alt={pathway.label} onError={(e) => handleImageError(e, pathway.image)} />
+                  </div>
+                  <div className="cardCopy">
+                    <span>{pathway.label}</span>
+                    <strong>{pathway.title}</strong>
+                    <small>{pathway.line}</small>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+          <GuideControls onBack={back} onContinue={() => openPathway("guest")} onExit={exitTour} continueLabel="Start" />
         </section>
-      </main>
+      )}
 
-      <footer>
-        <strong>Bronson Family Farm</strong>
-        <span>Growers Supply Market • Community Food Ecosystem • Youngstown, Ohio</span>
-        <button onClick={() => go("#home")}>Back to Top</button>
-      </footer>
+      {mode === "pathway" && (
+        <section className="pathwayExperience screen" key={`pathway-${activePathway.id}-${animateKey}`}>
+          <div className="splitVisual imageFirst">
+            <img src={imagePath(activePathway.image)} alt={activePathway.label} onError={(e) => handleImageError(e, activePathway.image)} />
+          </div>
+          <div className="splitCopy">
+            <p className="kicker titleSecond">{activePathway.label}</p>
+            <h2 className="titleSecond">{activePathway.title}</h2>
+            <p className="lineThird">{activePathway.line}</p>
+            <p className="detailThird">{activePathway.detail}</p>
+            <div className="actionLast">
+              <button className="greenBtn" onClick={nextFrame}>Continue the Journey</button>
+              <button className="creamBtn" onClick={() => setMode("pathways")}>Explore Another Pathway</button>
+            </div>
+          </div>
+          <GuideControls onBack={back} onContinue={nextFrame} onExit={exitTour} />
+        </section>
+      )}
+
+      {mode === "final" && (
+        <section className="final screen" key={`final-${animateKey}`}>
+          <img src={imagePath(images.community)} alt="Bronson Family Farm community" onError={(e) => handleImageError(e, images.community)} />
+          <div className="shade deep" />
+          <div className="finalContent frameMotion">
+            <p className="kicker">Final Message</p>
+            <h2>What Happens Here Can Change A Region.</h2>
+            <p>
+              Bronson Family Farm is building a place where food security, wellness, entrepreneurship, workforce development, education, and agritourism work together instead of separately.
+            </p>
+            <p className="subFinal">The ecosystem grows when people participate.</p>
+            <div className="finalButtons">
+              <button className="goldBtn" onClick={() => openPathway("investment")}>Support the Mission</button>
+              <a className="clearBtn" href={eventbriteUrl} target="_blank" rel="noreferrer">Attend the Experience</a>
+              <button className="clearBtn" onClick={() => setMode("pathways")}>Explore Another Pathway</button>
+            </div>
+          </div>
+          <GuideControls onBack={back} onContinue={() => setMode("pathways")} onExit={exitTour} continueLabel="Explore" />
+        </section>
+      )}
+    </main>
+  );
+}
+
+function GuideControls({
+  onBack,
+  onContinue,
+  onExit,
+  continueLabel = "Continue",
+}: {
+  onBack: () => void;
+  onContinue: () => void;
+  onExit: () => void;
+  continueLabel?: string;
+}) {
+  return (
+    <div className="guideControls">
+      <button onClick={onBack}>Back</button>
+      <button onClick={onContinue}>{continueLabel}</button>
+      <button onClick={onExit}>Exit Tour</button>
     </div>
   );
 }
 
 const styles = `
-:root {
-  --forest:#1f3327;
-  --moss:#52633f;
-  --cream:#f7f0df;
-  --wheat:#ddc899;
-  --soil:#3a281f;
-  --leaf:#dfe9cf;
-  --white:#fffaf0;
-  --shadow:0 24px 70px rgba(18,28,20,.28);
+:root{
+  --green:#173C2D;
+  --deep:#0d2118;
+  --gold:#E7D7A3;
+  --cream:#F5F1E6;
+  --text:#1C1C1C;
+  --muted:#6e6658;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--cream);color:var(--soil)}
-button{font-family:inherit;cursor:pointer}
-.app{min-height:100vh;background:linear-gradient(180deg,#f8f1df,#efe2c5)}
-.hero{min-height:94vh;position:relative;background-image:url('/images/GrowArea.jpg');background-size:cover;background-position:center;display:flex;flex-direction:column;color:white;overflow:hidden}
-.hero:after{content:'';position:absolute;inset:0;background-image:url('/GrowArea.jpg');background-size:cover;background-position:center;z-index:-2}
-.heroOverlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,31,23,.92),rgba(20,31,23,.68),rgba(20,31,23,.25));z-index:0}
-.nav{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding:28px clamp(18px,4vw,60px)}
-.brand{font-size:1.5rem;font-weight:800;letter-spacing:.03em}.tagline{font-size:.92rem;color:var(--leaf);margin-top:4px}.languageBar{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.lang{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:white;border-radius:999px;padding:8px 12px}.lang.active{background:var(--wheat);color:var(--forest);font-weight:800}
-.heroContent{position:relative;z-index:2;max-width:980px;padding:8vh clamp(20px,6vw,88px) 12vh}.kicker,.sectionLabel{text-transform:uppercase;letter-spacing:.16em;font-weight:800;font-size:.8rem;color:var(--wheat)}
-h1{font-size:clamp(2.6rem,7vw,6rem);line-height:.94;margin:16px 0;max-width:1000px} .subtitle{font-size:clamp(1.15rem,2.4vw,1.65rem);line-height:1.5;max-width:760px;color:#fff7df}.heroButtons,.buttonRow,.tourControls{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
-.primaryBtn,.secondaryBtn,.tourControls button,footer button{border:0;border-radius:999px;padding:13px 18px;font-weight:800;box-shadow:0 10px 22px rgba(0,0,0,.16)}.primaryBtn{background:var(--wheat);color:var(--forest)}.secondaryBtn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.38);color:white}.secondaryBtn.dark,.tourControls button{background:var(--forest);color:var(--cream)}
-main{width:min(1180px,92vw);margin:auto}.story,.pathways,.tour,.map,.response{padding:70px 0}.story h2,.pathways h2,.tour h2,.map h2,.response h2{font-size:clamp(2rem,4.6vw,3.8rem);line-height:1;margin:10px 0 18px;color:var(--forest)}.story p,.map p,.response p{font-size:1.18rem;line-height:1.7;max-width:900px}.storyGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}.storyCard{background:var(--white);border-radius:24px;padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}.storyCard strong{font-size:1.25rem;color:var(--forest)}.storyCard span{line-height:1.55}
-.pathwayGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.pathwayCard{text-align:left;background:var(--white);border:2px solid transparent;border-radius:28px;overflow:hidden;padding:0;box-shadow:var(--shadow);color:var(--soil);transition:.2s transform,.2s border}.pathwayCard:hover{transform:translateY(-4px)}.pathwayCard.selected{border-color:var(--moss)}.pathwayCard img{width:100%;height:150px;object-fit:cover;background:var(--leaf)}.pathwayCard.imageFallback{min-height:150px;background:linear-gradient(135deg,#dfe9cf,#f7f0df,#ddc899)}.pathwayCard span{display:block;font-weight:900;font-size:1.1rem;padding:16px 16px 6px;color:var(--forest)}.pathwayCard small{display:block;padding:0 16px 18px;line-height:1.45;font-size:.92rem}
-.tourTop{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.promise{font-size:1.08rem;line-height:1.55;max-width:780px}.stepper{background:var(--forest);color:var(--cream);border-radius:999px;padding:10px 16px;font-weight:800;white-space:nowrap}.tourPanel{display:grid;grid-template-columns:1.05fr .95fr;background:var(--white);border-radius:34px;overflow:hidden;box-shadow:var(--shadow);min-height:560px}.imagePanel{position:relative;background:var(--leaf)}.imageFallback{background:linear-gradient(135deg,#1f3327,#52633f,#ddc899);min-height:150px}.imagePanel img{width:100%;height:100%;object-fit:cover;display:block}.imageCaption{position:absolute;left:20px;bottom:20px;background:rgba(31,51,39,.88);color:var(--cream);border-radius:999px;padding:10px 15px;font-weight:900}.copyPanel{padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;justify-content:center}.bodyText{font-size:1.2rem;line-height:1.72}.copyPanel li{margin:12px 0;line-height:1.55;font-size:1.04rem}.tourControls{border-top:1px solid #e2d2aa;padding-top:18px}.tourControls button{box-shadow:none;padding:10px 14px}
-.flow{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:24px 0}.flow div{background:var(--forest);color:var(--cream);border-radius:18px;padding:16px 18px;font-weight:900}.flow span{font-size:1.5rem;color:var(--moss);font-weight:900}.response textarea{width:100%;min-height:160px;border:2px solid #d2bd8a;border-radius:24px;padding:18px;font-size:1rem;background:var(--white);margin:14px 0}.thanks{margin-top:14px;background:#edf5df;border-left:6px solid var(--moss);padding:16px;border-radius:14px;font-weight:800;color:var(--forest)}
-footer{background:var(--forest);color:var(--cream);padding:30px clamp(18px,4vw,60px);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}footer span{color:var(--leaf)}footer button{background:var(--wheat);color:var(--forest)}
-@media(max-width:940px){.nav{flex-direction:column}.pathwayGrid{grid-template-columns:repeat(2,1fr)}.tourPanel{grid-template-columns:1fr}.imagePanel img{height:360px}.storyGrid{grid-template-columns:1fr}.tourTop{flex-direction:column}.hero{min-height:86vh}}
-@media(max-width:560px){.pathwayGrid{grid-template-columns:1fr}.heroButtons,.buttonRow,.tourControls{flex-direction:column}.primaryBtn,.secondaryBtn,.tourControls button{width:100%}h1{font-size:2.45rem}.languageBar{justify-content:flex-start}.imagePanel img{height:280px}}
+html,body,#root{margin:0;min-height:100%;background:var(--deep)}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,a{font-family:inherit}
+button{cursor:pointer}
+.app{min-height:100vh;background:var(--deep);color:white;overflow:hidden}
+.screen{position:relative;min-height:100vh;width:100%;overflow:hidden}
+.scrollable{overflow-y:auto}
+.screen>img,.hero>img,.cinematic>img,.final>img,.pathwayReveal>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transform:scale(1.03);animation:slowScale 12s ease-out forwards}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,25,17,.86),rgba(10,25,17,.52),rgba(10,25,17,.28));z-index:1}
+.shade.deep{background:linear-gradient(180deg,rgba(6,14,10,.46),rgba(6,14,10,.82))}
+.shade.soft{background:linear-gradient(180deg,rgba(13,33,24,.72),rgba(245,241,230,.96) 48%,rgba(245,241,230,1))}
+.visualFallback{background:linear-gradient(135deg,#173C2D,#2F684D,#E7D7A3)}
+.brandBar{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px clamp(22px,5vw,72px)}
+.brand{font-size:1.3rem;font-weight:950;letter-spacing:-.02em}.brandSub{margin-top:4px;font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.18em;color:rgba(255,255,255,.72)}
+.eventPill{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);border-radius:999px;padding:10px 14px;font-size:.85rem;font-weight:900;backdrop-filter:blur(12px)}
+.heroContent{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;max-width:1040px;padding:140px clamp(22px,7vw,96px) 110px}
+.kicker{margin:0 0 18px;font-size:.8rem;font-weight:950;text-transform:uppercase;letter-spacing:.25em;color:var(--gold)}
+h1{margin:0;font-size:clamp(4rem,10vw,8.8rem);line-height:.88;letter-spacing:-.075em;font-weight:1000;max-width:1060px}.heroText{margin:34px 0 0;max-width:790px;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.9)}
+.goldBtn,.greenBtn,.creamBtn,.clearBtn{border:0;border-radius:999px;padding:17px 24px;font-size:1rem;font-weight:950;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s,background .2s,color .2s;box-shadow:0 20px 50px rgba(0,0,0,.22)}
+.goldBtn{margin-top:42px;background:var(--gold);color:var(--green)}.goldBtn:hover,.greenBtn:hover,.creamBtn:hover,.clearBtn:hover{transform:translateY(-2px)}.greenBtn{background:var(--green);color:white}.creamBtn{background:var(--cream);color:var(--green)}.clearBtn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:white;backdrop-filter:blur(10px)}
+.tourStatus{position:absolute;z-index:3;top:32px;left:clamp(22px,5vw,72px);right:clamp(22px,5vw,72px);display:flex;justify-content:space-between;align-items:center;font-size:.85rem;font-weight:950;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,255,255,.75)}
+.centerStatement{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px}.centerStatement h2{margin:0;max-width:1050px;font-size:clamp(3.2rem,8vw,8.5rem);line-height:.92;letter-spacing:-.07em;font-weight:1000;text-wrap:balance}.centerStatement .goldBtn{margin-top:48px}
+.guideControls{position:fixed;z-index:20;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:10px;border:1px solid rgba(255,255,255,.22);background:rgba(10,25,17,.56);padding:8px;border-radius:999px;backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.guideControls button{border:0;background:rgba(255,255,255,.12);color:white;border-radius:999px;padding:10px 14px;font-size:.86rem;font-weight:950}.guideControls button:nth-child(2){background:var(--gold);color:var(--green)}
+.revealContent{position:relative;z-index:2;min-height:100vh;padding:110px clamp(20px,5vw,72px) 110px;color:var(--text)}.revealContent .kicker{color:var(--green)}.revealContent h2{margin:0 0 42px;max-width:980px;color:var(--green);font-size:clamp(2.8rem,6.4vw,6.2rem);line-height:.92;letter-spacing:-.06em;font-weight:1000}.pathwayGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;max-width:1320px}.pathwayCard{opacity:0;transform:translateY(34px);animation:cardUp .7s ease forwards;text-align:left;border:0;border-radius:32px;overflow:hidden;background:white;color:var(--text);box-shadow:0 28px 80px rgba(23,60,45,.2);transition:transform .25s,box-shadow .25s}.pathwayCard:hover{transform:translateY(-7px);box-shadow:0 34px 96px rgba(23,60,45,.3)}.cardImage{height:170px;background:var(--green);overflow:hidden}.cardImage img{width:100%;height:100%;object-fit:cover;display:block}.cardCopy{padding:22px}.cardCopy span{display:block;color:var(--muted);font-size:.72rem;font-weight:950;text-transform:uppercase;letter-spacing:.2em}.cardCopy strong{display:block;margin-top:10px;color:var(--green);font-size:1.45rem;line-height:1.05;font-weight:1000}.cardCopy small{display:block;margin-top:12px;color:#5b554b;font-size:.95rem;line-height:1.45}
+.pathwayExperience{display:grid;grid-template-columns:1.05fr .95fr;background:var(--cream);color:var(--text)}.splitVisual{position:relative;min-height:100vh;overflow:hidden;background:var(--green)}.splitVisual img{width:100%;height:100%;object-fit:cover;display:block}.splitVisual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.1),rgba(0,0,0,0))}.splitCopy{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:110px clamp(28px,5vw,72px)}.splitCopy .kicker{color:var(--green)}.splitCopy h2{margin:0;color:var(--green);font-size:clamp(3.2rem,6.8vw,6.7rem);line-height:.88;letter-spacing:-.07em;font-weight:1000}.lineThird{max-width:720px;margin:30px 0 0;font-size:clamp(1.35rem,2.2vw,2rem);line-height:1.38;color:#4c463e;font-weight:850}.detailThird{max-width:720px;margin:24px 0 0;font-size:1.08rem;line-height:1.7;color:#5f584d}.actionLast{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.finalContent{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px}.finalContent h2{margin:0;max-width:1100px;font-size:clamp(3.4rem,8vw,8.2rem);line-height:.9;letter-spacing:-.07em;font-weight:1000}.finalContent p{max-width:900px;margin:34px auto 0;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.88)}.subFinal{font-weight:950;color:var(--gold)!important}.finalButtons{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:36px}.finalButtons .goldBtn{margin-top:0}
+.enterMotion{animation:riseIn .9s ease both}.frameMotion{animation:frameIn .8s ease both}.imageFirst{animation:imageIn .75s ease both}.titleSecond{animation:fadeUp .65s ease both;animation-delay:.22s}.lineThird,.detailThird{animation:fadeUp .65s ease both;animation-delay:.42s}.actionLast{animation:fadeUp .65s ease both;animation-delay:.64s}
+@keyframes slowScale{from{transform:scale(1.08)}to{transform:scale(1)}}@keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}@keyframes frameIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}@keyframes cardUp{to{opacity:1;transform:translateY(0)}}@keyframes imageIn{from{opacity:.2;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:980px){.eventPill{display:none}.pathwayGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.pathwayExperience{grid-template-columns:1fr}.splitVisual{min-height:48vh}.splitCopy{min-height:52vh;padding-bottom:120px}.guideControls{bottom:14px}.centerStatement h2{font-size:clamp(3rem,12vw,6rem)}}
+@media(max-width:620px){.brandBar{padding:20px}.pathwayGrid{grid-template-columns:1fr}.heroContent{padding:120px 22px 110px}h1{font-size:clamp(3.1rem,16vw,5rem)}.heroText{font-size:1.15rem}.guideControls{width:calc(100% - 24px);justify-content:space-between}.guideControls button{flex:1;padding:10px 8px}.revealContent{padding:90px 18px 110px}.splitCopy h2,.finalContent h2{font-size:clamp(3rem,14vw,5.2rem)}}
 `;
 
 export default App;
