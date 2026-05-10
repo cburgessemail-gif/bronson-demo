@@ -42,7 +42,7 @@ const tourFrames: TourFrame[] = [
     id: "marketplace",
     label: "Marketplace",
     text: "The food moves through the community.",
-    image: images.marketplace,
+    image: "MarketplaceProduce.jpg",
   },
   {
     id: "grower",
@@ -87,7 +87,7 @@ const pathways: Pathway[] = [
     title: "Local Food Creates Local Strength.",
     line: "The marketplace connects growers, customers, and opportunity.",
     image: images.marketplace,
-    detail: "The Growers Supply Market is not only a sales event. It is where tools, knowledge, seedlings, growers, buyers, and partners meet.",
+    detail: "The Growers Supply Market is not only a sales event. It is where tools, knowledge, seedlings, growers, buyers, demonstrations, and partners come together so food and money can circulate through the community instead of leaving it.",
   },
   {
     id: "grower",
@@ -127,7 +127,7 @@ const pathways: Pathway[] = [
     title: "Investment Builds Resilience.",
     line: "Support strengthens food access, infrastructure, workforce development, and sustainability.",
     image: images.arrival,
-    detail: "Investment helps the farm build the infrastructure needed for food access, youth workforce, agritourism, and long-term regional impact.",
+    detail: "Investment helps build water access, solar infrastructure, storage, transportation, youth workforce development, agritourism experiences, and long-term regional food resilience.",
   },
 ];
 
@@ -250,16 +250,23 @@ function App() {
           <div className="brandBar">
             <div>
               <div className="brand">Bronson Family Farm</div>
-              <div className="brandSub">Community Food Ecosystem</div>
+              <div className="brandSub">Guided Ecosystem Experience</div>
             </div>
+          </div>
             
           </div>
           <div className="heroContent enterMotion">
             <p className="kicker">Historic Lansdowne Airport · Youngstown, Ohio</p>
             <h1>Food Security Begins Locally.</h1>
             <p className="heroText">
-              Bronson Family Farm is building a regional ecosystem for food security, wellness, workforce development, entrepreneurship, and community resilience.
+              Bronson Family Farm is building a place-based ecosystem rooted in food access, wellness, growers supply, youth workforce development, partnership, agritourism, and regional resilience.
             </p>
+            <div className="heroPoints">
+              <span>The food moves through the community.</span>
+              <span>Growers gain tools, knowledge, and visibility.</span>
+              <span>Youth workforce becomes future workforce.</span>
+              <span>Agritourism creates long-term sustainability.</span>
+            </div>
             <button className="goldBtn" onClick={startTour}>Enter the Ecosystem</button>
             <div className="languageRow">
               <button>English</button>
@@ -277,28 +284,25 @@ function App() {
         <section className="cinematic screen" key={`frame-${activeFrame.id}-${animateKey}`}>
           <img src={imagePath(activeFrame.image)} alt={activeFrame.label} onError={(e) => handleImageError(e, activeFrame.image)} />
           <div className="shade deep" />
-          <div className="tourStatus">
-            <span>{activeFrame.label}</span>
-            <span>{frameIndex + 1} / {tourFrames.length}</span>
-          </div>
+          
           <div className="centerStatement frameMotion">
             <h2>{activeFrame.text}</h2>
             <button className="goldBtn" onClick={nextFrame}>
               {frameIndex === tourFrames.length - 1 ? "Enter the Experience" : frameIndex >= 2 ? "Continue the Journey" : "Continue"}
             </button>
           </div>
-          <GuideControls onBack={back} onContinue={nextFrame} onExit={exitTour} />
+          
         </section>
       )}
 
       {mode === "pathways" && (
-        <section className="pathwayReveal screen scrollable" key={`pathways-${animateKey}`}>
+        <section className="pathwayReveal screen" key={`pathways-${animateKey}`}>
           <img src={imagePath(images.arrival)} alt="Bronson Family Farm" onError={(e) => handleImageError(e, images.arrival)} />
           <div className="shade soft" />
           <div className="revealContent">
             <p className="kicker">Choose Your Entry Point</p>
             <h2>Where Would You Like To Enter The Ecosystem?</h2>
-            <div className="pathwayGrid">
+            <div className="pathwayGrid cinematicGrid">
               {pathways.map((pathway, index) => (
                 <button
                   key={pathway.id}
@@ -318,26 +322,36 @@ function App() {
               ))}
             </div>
           </div>
-          <GuideControls onBack={back} onContinue={() => openPathway("guest")} onExit={exitTour} continueLabel="Start" />
+          
         </section>
       )}
 
       {mode === "pathway" && (
-        <section className="pathwayExperience screen" key={`pathway-${activePathway.id}-${animateKey}`}>
+        <section className="pathwayExperience screen cinematicPathway" key={`pathway-${activePathway.id}-${animateKey}`}>
           <div className="splitVisual imageFirst">
             <img src={imagePath(activePathway.image)} alt={activePathway.label} onError={(e) => handleImageError(e, activePathway.image)} />
           </div>
-          <div className="splitCopy">
+          <div className="splitCopy cinematicCopy">
+            <div className="ecosystemLayer">
+              <div>
+                <strong>Purpose</strong>
+                <span>Build a connected regional food ecosystem.</span>
+              </div>
+              <div>
+                <strong>Impact</strong>
+                <span>Food access, workforce development, entrepreneurship, and community participation.</span>
+              </div>
+            </div>
             <p className="kicker titleSecond">{activePathway.label}</p>
             <h2 className="titleSecond">{activePathway.title}</h2>
             <p className="lineThird">{activePathway.line}</p>
             <p className="detailThird">{activePathway.detail}</p>
-            <div className="actionLast">
+            <div className="actionLast cinematicActions">
               <button className="greenBtn" onClick={nextFrame}>Continue the Journey</button>
-              <button className="creamBtn" onClick={() => setMode("pathways")}>Explore Another Pathway</button>
+              
             </div>
           </div>
-          <GuideControls onBack={back} onContinue={nextFrame} onExit={exitTour} />
+          
         </section>
       )}
 
@@ -402,7 +416,7 @@ button{cursor:pointer}
 .app{min-height:100vh;background:var(--deep);color:white;overflow:hidden}
 .screen{position:relative;min-height:100vh;width:100%;overflow:hidden}
 .scrollable{overflow-y:auto}
-.screen>img,.hero>img,.cinematic>img,.final>img,.pathwayReveal>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transform:scale(1.03);animation:slowScale 18s ease-out forwards}
+.screen>img,.hero>img,.cinematic>img,.final>img,.pathwayReveal>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transform:scale(1.03);animation:slowScale 18s ease-out forwards;filter:brightness(.45)}
 .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,10,7,.94),rgba(10,25,17,.68),rgba(10,25,17,.34));z-index:1}
 .shade.deep{background:linear-gradient(180deg,rgba(6,14,10,.46),rgba(6,14,10,.82))}
 .shade.soft{background:linear-gradient(180deg,rgba(13,33,24,.72),rgba(245,241,230,.96) 48%,rgba(245,241,230,1))}
@@ -412,15 +426,15 @@ button{cursor:pointer}
 .eventPill{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);border-radius:999px;padding:10px 14px;font-size:.85rem;font-weight:900;backdrop-filter:blur(12px)}
 .heroContent{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;max-width:1040px;padding:140px clamp(22px,7vw,96px) 110px}
 .kicker{margin:0 0 18px;font-size:.8rem;font-weight:950;text-transform:uppercase;letter-spacing:.25em;color:var(--gold)}
-h1{margin:0;font-size:clamp(4rem,10vw,8.8rem);line-height:.88;letter-spacing:-.075em;font-weight:1000;max-width:1060px}.heroText{margin:34px 0 0;max-width:790px;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.9)}.languageRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.languageRow button{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);backdrop-filter:blur(12px);color:white;border-radius:999px;padding:8px 14px;font-size:.78rem;font-weight:900}
+h1{margin:0;font-size:clamp(4rem,10vw,8.8rem);line-height:.88;letter-spacing:-.075em;font-weight:1000;max-width:1060px}.heroText{margin:34px 0 0;max-width:790px;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.9)}.heroPoints{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;max-width:980px}.heroPoints span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px);padding:12px 16px;border-radius:999px;font-size:.92rem;font-weight:850}.languageRow{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.languageRow button{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);backdrop-filter:blur(12px);color:white;border-radius:999px;padding:8px 14px;font-size:.78rem;font-weight:900}
 .goldBtn,.greenBtn,.creamBtn,.clearBtn{border:0;border-radius:999px;padding:17px 24px;font-size:1rem;font-weight:950;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s,background .2s,color .2s;box-shadow:0 20px 50px rgba(0,0,0,.22)}
 .goldBtn{margin-top:42px;background:var(--gold);color:var(--green)}.goldBtn:hover,.greenBtn:hover,.creamBtn:hover,.clearBtn:hover{transform:translateY(-2px)}.greenBtn{background:var(--green);color:white}.creamBtn{background:var(--cream);color:var(--green)}.clearBtn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:white;backdrop-filter:blur(10px)}
 .tourStatus{position:absolute;z-index:3;top:32px;left:clamp(22px,5vw,72px);right:clamp(22px,5vw,72px);display:flex;justify-content:space-between;align-items:center;font-size:.85rem;font-weight:950;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,255,255,.75)}
 .centerStatement{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px}.centerStatement h2{margin:0;max-width:1050px;font-size:clamp(3.2rem,8vw,8.5rem);line-height:.92;letter-spacing:-.07em;font-weight:1000;text-wrap:balance}.centerStatement .goldBtn{margin-top:48px}
-.guideControls{position:fixed;z-index:20;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:10px;border:1px solid rgba(255,255,255,.22);background:rgba(10,25,17,.56);padding:8px;border-radius:999px;backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+
 .guideControls button{border:0;background:rgba(255,255,255,.12);color:white;border-radius:999px;padding:10px 14px;font-size:.86rem;font-weight:950}.guideControls button:nth-child(2){background:var(--gold);color:var(--green)}
-.revealContent{position:relative;z-index:2;min-height:100vh;padding:110px clamp(20px,5vw,72px) 110px;color:var(--text)}.revealContent .kicker{color:var(--green)}.revealContent h2{margin:0 0 42px;max-width:980px;color:var(--green);font-size:clamp(2.8rem,6.4vw,6.2rem);line-height:.92;letter-spacing:-.06em;font-weight:1000}.pathwayGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;max-width:1320px}.pathwayCard{opacity:0;transform:translateY(34px);animation:cardUp .7s ease forwards;text-align:left;border:0;border-radius:32px;overflow:hidden;background:white;color:var(--text);box-shadow:0 28px 80px rgba(23,60,45,.2);transition:transform .25s,box-shadow .25s}.pathwayCard:hover{transform:translateY(-7px);box-shadow:0 34px 96px rgba(23,60,45,.3)}.cardImage{height:170px;background:var(--green);overflow:hidden}.cardImage img{width:100%;height:100%;object-fit:cover;display:block}.cardCopy{padding:22px}.cardCopy span{display:block;color:var(--muted);font-size:.72rem;font-weight:950;text-transform:uppercase;letter-spacing:.2em}.cardCopy strong{display:block;margin-top:10px;color:var(--green);font-size:1.45rem;line-height:1.05;font-weight:1000}.cardCopy small{display:block;margin-top:12px;color:#5b554b;font-size:.95rem;line-height:1.45}
-.pathwayExperience{display:grid;grid-template-columns:1.05fr .95fr;background:var(--cream);color:var(--text)}.splitVisual{position:relative;min-height:100vh;overflow:hidden;background:var(--green)}.splitVisual img{width:100%;height:100%;object-fit:cover;display:block}.splitVisual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.1),rgba(0,0,0,0))}.splitCopy{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:110px clamp(28px,5vw,72px)}.splitCopy .kicker{color:var(--green)}.splitCopy h2{margin:0;color:var(--green);font-size:clamp(3.2rem,6.8vw,6.7rem);line-height:.88;letter-spacing:-.07em;font-weight:1000}.lineThird{max-width:720px;margin:30px 0 0;font-size:clamp(1.35rem,2.2vw,2rem);line-height:1.38;color:#4c463e;font-weight:850}.detailThird{max-width:720px;margin:24px 0 0;font-size:1.08rem;line-height:1.7;color:#5f584d}.actionLast{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.revealContent{position:relative;z-index:2;min-height:100vh;padding:110px clamp(20px,5vw,72px) 110px;color:var(--text)}.revealContent .kicker{color:var(--green)}.revealContent h2{margin:0 0 42px;max-width:980px;color:var(--green);font-size:clamp(2.8rem,6.4vw,6.2rem);line-height:.92;letter-spacing:-.06em;font-weight:1000}.pathwayGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;max-width:1320px}.cinematicGrid{padding-top:80px}.pathwayCard{opacity:0;transform:translateY(60px);animation:cardUp 1s ease forwards;text-align:left;border:1px solid rgba(255,255,255,.18);border-radius:34px;overflow:hidden;background:rgba(255,255,255,.08);backdrop-filter:blur(16px);color:white;box-shadow:0 28px 80px rgba(0,0,0,.35);transition:transform .25s,box-shadow .25s}.pathwayCard:hover{transform:translateY(-7px);box-shadow:0 34px 96px rgba(23,60,45,.3)}.cardImage{height:170px;background:var(--green);overflow:hidden}.cardImage img{width:100%;height:100%;object-fit:cover;display:block}.cardCopy{padding:22px}.cardCopy span{display:block;color:var(--muted);font-size:.72rem;font-weight:950;text-transform:uppercase;letter-spacing:.2em}.cardCopy strong{display:block;margin-top:10px;color:white;font-size:1.45rem;line-height:1.05;font-weight:1000}.cardCopy small{display:block;margin-top:12px;color:rgba(255,255,255,.82);font-size:.95rem;line-height:1.45}
+.pathwayExperience{position:relative;display:flex;align-items:center;justify-content:center;background:black;color:white;overflow:hidden}.cinematicPathway::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.72));z-index:1}.splitVisual{position:absolute;inset:0;min-height:100vh;overflow:hidden;background:var(--green)}.splitVisual img{width:100%;height:100%;object-fit:cover;display:block}.splitVisual:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.78))}.splitCopy{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:110px clamp(28px,5vw,72px);max-width:1100px;margin:auto}.ecosystemLayer{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:28px;max-width:900px}.ecosystemLayer div{background:rgba(255,255,255,.08);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.18);border-radius:22px;padding:18px 20px;box-shadow:0 16px 40px rgba(0,0,0,.18)}.ecosystemLayer strong{display:block;color:var(--gold);font-size:.76rem;text-transform:uppercase;letter-spacing:.16em}.ecosystemLayer span{display:block;margin-top:8px;color:white;line-height:1.5;font-size:.96rem}.splitCopy .kicker{color:var(--green)}.splitCopy h2{margin:0;color:white;font-size:clamp(3.8rem,8vw,8rem);line-height:.88;letter-spacing:-.07em;font-weight:1000}.lineThird{max-width:820px;margin:30px 0 0;font-size:clamp(1.45rem,2.4vw,2.2rem);line-height:1.38;color:white;font-weight:850}.detailThird{max-width:820px;margin:24px 0 0;font-size:1.12rem;line-height:1.8;color:rgba(255,255,255,.84)}.actionLast{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
 .finalContent{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px}.finalContent h2{margin:0;max-width:1100px;font-size:clamp(3.4rem,8vw,8.2rem);line-height:.9;letter-spacing:-.07em;font-weight:1000}.finalContent p{max-width:900px;margin:34px auto 0;font-size:clamp(1.25rem,2vw,1.9rem);line-height:1.55;color:rgba(255,255,255,.88)}.subFinal{font-weight:950;color:var(--gold)!important}.finalButtons{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:36px}.finalButtons .goldBtn{margin-top:0}
 .enterMotion{animation:riseIn .9s ease both}.frameMotion{animation:frameIn .8s ease both}.imageFirst{animation:imageIn .75s ease both}.titleSecond{animation:fadeUp .65s ease both;animation-delay:.22s}.lineThird,.detailThird{animation:fadeUp .65s ease both;animation-delay:.42s}.actionLast{animation:fadeUp .65s ease both;animation-delay:.64s}
 @keyframes slowScale{from{transform:scale(1.08)}to{transform:scale(1)}}@keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}@keyframes frameIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:scale(1)}}@keyframes cardUp{to{opacity:1;transform:translateY(0)}}@keyframes imageIn{from{opacity:.2;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
