@@ -123,12 +123,12 @@ const COPY: Record<Lang, { start: string; subtitle: string; tour: string; choose
 
 const pathImage: Record<PathwayId, string> = {
   guest: "GrowArea.jpg",
-  customer: "GrowArea.jpg",
-  marketplace: "GrowArea.jpg",
-  grower: "GrowArea.jpg",
-  youth: "GrowArea.jpg",
+  customer: "SAM_0214.JPG",
+  marketplace: "SAM_0214.JPG",
+  grower: "SAM_0214.JPG",
+  youth: "SAM_0214.JPG",
   partners: "SAM_0214.JPG",
-  valueAdded: "GrowArea.jpg",
+  valueAdded: "SAM_0214.JPG",
   investment: "GrowArea.jpg",
 };
 
