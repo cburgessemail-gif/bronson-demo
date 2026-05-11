@@ -13,5 +13,10 @@ body,
 
 body {
   font-family: Inter, sans-serif;
-  background: #F5F1E6;
+  background: #f8f3e7;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
