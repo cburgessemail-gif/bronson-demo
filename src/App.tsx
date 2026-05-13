@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   Globe,
   Users,
   ShoppingBasket,
@@ -12,6 +10,10 @@ import {
   Briefcase,
   Landmark,
 } from "lucide-react";
+
+const EVENTBRITE_URL = "https://www.eventbrite.com/e/1984126092554";
+const GROWNBY_URL = "https://grownby.com/farms/bronson-family-farm/shop";
+const WEBSITE_URL = "https://www.bronsonfamilyfarm.com/";
 
 const slides = [
   {
@@ -44,7 +46,7 @@ const pathways = [
     icon: <Landmark className="w-10 h-10" />,
     image: "/SAM_0214.JPG",
     description:
-      "Walk the farm. Experience history, agriculture, youth engagement, growers markets, wellness, and future agritourism attractions.",
+      "Walk the farm. Experience history, agriculture, wellness, youth engagement, growers markets, and future agritourism.",
     content: [
       "Historic airport property transformed into a growers ecosystem",
       "Future agritourism destination with camping, mini-golf, and family experiences",
@@ -58,12 +60,12 @@ const pathways = [
     icon: <ShoppingBasket className="w-10 h-10" />,
     image: "/Produce.jpg",
     description:
-      "Fresh, chemical-free produce grown through regional growers and distributed through a coordinated marketplace system.",
+      "Customers access fresh, chemical-free food through a coordinated system focused on nutrition, convenience, and community health.",
     content: [
-      "Chemical-free vegetables and herbs",
-      "Food accessibility for families and communities",
-      "Marketplace ordering and coordinated distribution",
-      "Nutrition-centered growing and purchasing",
+      "Fresh, chemical-free vegetables and herbs",
+      "Food accessibility for families, seniors, and community members",
+      "Simple online shopping through Bronson Family Farm’s GrownBy store",
+      "The food moves through the ecosystem so customers do not have to chase multiple sources",
     ],
   },
   {
@@ -72,12 +74,12 @@ const pathways = [
     icon: <Tractor className="w-10 h-10" />,
     image: "/Marketplace.jpg",
     description:
-      "A growers supply marketplace connecting tools, knowledge, supplies, seedlings, and regional growers.",
+      "The marketplace connects growers, customers, tools, seedlings, supplies, education, and coordinated food distribution.",
     content: [
       "Growers supply market model",
-      "Seedlings, tools, education, and growing support",
+      "Seedlings, tools, demonstrations, and growing support",
       "Regional grower coordination",
-      "Distribution infrastructure for schools, organizations, and communities",
+      "Distribution infrastructure for schools, organizations, businesses, and communities",
     ],
   },
   {
@@ -86,7 +88,7 @@ const pathways = [
     icon: <Sprout className="w-10 h-10" />,
     image: "/Grower.jpg",
     description:
-      "Growers become part of a collaborative ecosystem instead of operating alone.",
+      "Growers join a collaborative ecosystem with shared distribution, technical support, training, and market access.",
     content: [
       "Shared distribution opportunities",
       "Training and technical support",
@@ -100,12 +102,12 @@ const pathways = [
     icon: <Briefcase className="w-10 h-10" />,
     image: "/Youth.jpg",
     description:
-      "An outdoor workforce development experience focused on responsibility, agriculture, teamwork, and future readiness.",
+      "Youth participate in an outdoor workforce development experience focused on responsibility, agriculture, teamwork, and future readiness.",
     content: [
       "8-week workforce experience",
       "Hands-on agriculture and operations training",
       "Leadership and life skills development",
-      "Career pathway exposure through agriculture and agritourism",
+      "Career exposure through farming, food systems, and agritourism",
     ],
   },
   {
@@ -114,7 +116,7 @@ const pathways = [
     icon: <HeartHandshake className="w-10 h-10" />,
     image: "/Partners.jpg",
     description:
-      "Public, nonprofit, educational, and community partners working together to improve regional food systems.",
+      "Public, nonprofit, educational, grower, health, and community partners help strengthen the regional food system.",
     content: [
       "Schools, nonprofits, growers, and health organizations",
       "Workforce and educational collaborations",
@@ -146,9 +148,90 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
+  const modalButtons = useMemo(() => {
+    if (!selectedPathway) return null;
+
+    if (selectedPathway.id === "customer") {
+      return (
+        <>
+          <button
+            onClick={() => window.open(GROWNBY_URL, "_blank")}
+            className="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-full"
+          >
+            Shop Fresh Food
+          </button>
+
+          <button
+            onClick={() => setSelectedPathway(null)}
+            className="border border-white px-8 py-4 rounded-full"
+          >
+            Return to Pathways
+          </button>
+        </>
+      );
+    }
+
+    if (selectedPathway.id === "marketplace") {
+      return (
+        <>
+          <button
+            onClick={() => window.open(GROWNBY_URL, "_blank")}
+            className="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-full"
+          >
+            Explore Marketplace
+          </button>
+
+          <button
+            onClick={() => window.open(EVENTBRITE_URL, "_blank")}
+            className="border border-white px-8 py-4 rounded-full"
+          >
+            Growers Supply Market
+          </button>
+        </>
+      );
+    }
+
+    if (selectedPathway.id === "youth") {
+      return (
+        <>
+          <button
+            onClick={() => window.open(EVENTBRITE_URL, "_blank")}
+            className="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-full"
+          >
+            View Youth Workforce Opportunity
+          </button>
+
+          <button
+            onClick={() => setSelectedPathway(null)}
+            className="border border-white px-8 py-4 rounded-full"
+          >
+            Return to Pathways
+          </button>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <button
+          onClick={() => window.open(EVENTBRITE_URL, "_blank")}
+          className="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-full"
+        >
+          View Growers Supply Market
+        </button>
+
+        <button
+          onClick={() => setSelectedPathway(null)}
+          className="border border-white px-8 py-4 rounded-full"
+        >
+          Return to Pathways
+        </button>
+      </>
+    );
+  }, [selectedPathway]);
+
   return (
     <div className="bg-black text-white min-h-screen overflow-x-hidden">
-      {/* HERO */}
       <section className="relative h-screen">
         <img
           src={slides[slideIndex].image}
@@ -220,11 +303,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* STORY */}
-      <section
-        id="story"
-        className="py-24 px-6 md:px-20 bg-zinc-950"
-      >
+      <section id="story" className="py-24 px-6 md:px-20 bg-zinc-950">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <img
             src="/SAM_0188.JPG"
@@ -258,11 +337,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* PATHWAYS */}
-      <section
-        id="pathways"
-        className="py-24 px-6 md:px-20 bg-black"
-      >
+      <section id="pathways" className="py-24 px-6 md:px-20 bg-black">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold mb-6">
             Guided Ecosystem Pathways
@@ -281,23 +356,14 @@ export default function App() {
               key={pathway.id}
               className="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 hover:border-green-500 transition-all"
             >
-              <img
-                src={pathway.image}
-                className="h-64 w-full object-cover"
-              />
+              <img src={pathway.image} className="h-64 w-full object-cover" />
 
               <div className="p-8">
-                <div className="mb-4 text-green-500">
-                  {pathway.icon}
-                </div>
+                <div className="mb-4 text-green-500">{pathway.icon}</div>
 
-                <h3 className="text-2xl font-bold mb-4">
-                  {pathway.title}
-                </h3>
+                <h3 className="text-2xl font-bold mb-4">{pathway.title}</h3>
 
-                <p className="text-zinc-300 mb-6">
-                  {pathway.description}
-                </p>
+                <p className="text-zinc-300 mb-6">{pathway.description}</p>
 
                 <button
                   onClick={() => setSelectedPathway(pathway)}
@@ -312,7 +378,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* MODAL */}
       {selectedPathway && (
         <div className="fixed inset-0 z-50 bg-black/90 overflow-y-auto">
           <div className="min-h-screen p-8 flex items-center justify-center">
@@ -341,61 +406,30 @@ export default function App() {
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-6">
-                  {selectedPathway.content.map(
-                    (item: string, idx: number) => (
-                      <div
-                        key={idx}
-                        className="bg-zinc-900 p-6 rounded-2xl border border-zinc-800"
-                      >
-                        <div className="flex items-start gap-4">
-                          <Users className="text-green-500 mt-1" />
+                  {selectedPathway.content.map((item: string, idx: number) => (
+                    <div
+                      key={idx}
+                      className="bg-zinc-900 p-6 rounded-2xl border border-zinc-800"
+                    >
+                      <div className="flex items-start gap-4">
+                        <Users className="text-green-500 mt-1" />
 
-                          <p className="text-lg text-zinc-200">
-                            {item}
-                          </p>
-                        </div>
+                        <p className="text-lg text-zinc-200">{item}</p>
                       </div>
-                    )
-                  )}
+                    </div>
+                  ))}
                 </div>
 
-                <div className="mt-12 flex flex-wrap gap-4">
-                  <button
-                    onClick={() =>
-                      window.open(
-                        "https://www.eventbrite.com/e/1984126092554",
-                        "_blank"
-                      )
-                    }
-                    className="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-full"
-                  >
-                    View Growers Supply Market
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      window.open(
-                        "https://grownby.com/farms/bronson-family-farm/shop",
-                        "_blank"
-                      )
-                    }
-                    className="border border-white px-8 py-4 rounded-full"
-                  >
-                    Explore Marketplace
-                  </button>
-                </div>
+                <div className="mt-12 flex flex-wrap gap-4">{modalButtons}</div>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* FOOTER */}
       <footer className="py-16 px-6 border-t border-zinc-800 bg-black">
         <div className="max-w-6xl mx-auto text-center">
-          <h3 className="text-3xl font-bold mb-6">
-            Bronson Family Farm
-          </h3>
+          <h3 className="text-3xl font-bold mb-6">Bronson Family Farm</h3>
 
           <p className="text-zinc-400 max-w-3xl mx-auto leading-relaxed">
             A growers ecosystem focused on health, food accessibility,
@@ -405,24 +439,14 @@ export default function App() {
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <button
-              onClick={() =>
-                window.open(
-                  "https://www.bronsonfamilyfarm.com/",
-                  "_blank"
-                )
-              }
+              onClick={() => window.open(WEBSITE_URL, "_blank")}
               className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-full"
             >
               Visit Website
             </button>
 
             <button
-              onClick={() =>
-                window.open(
-                  "https://www.eventbrite.com/e/1984126092554",
-                  "_blank"
-                )
-              }
+              onClick={() => window.open(EVENTBRITE_URL, "_blank")}
               className="border border-white px-6 py-3 rounded-full"
             >
               Growers Supply Market
