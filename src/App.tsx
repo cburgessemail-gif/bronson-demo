@@ -449,10 +449,10 @@ export default function App() {
                 className="absolute inset-0 h-full w-full object-cover scale-[1.02] transition-transform duration-[12000ms]"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute inset-0 bg-black/20 backdrop-[brightness(.85)]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/25 to-transparent" />
+              <div className="absolute inset-0 bg-black/15 backdrop-[brightness(.85)]" />
 
-              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+              <div className="absolute top-0 left-0 right-0 p-6 md:p-8">
                 <p className="text-xs uppercase tracking-[0.3em] text-green-400">
                   Guided Tour
                 </p>
