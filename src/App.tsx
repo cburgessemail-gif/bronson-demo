@@ -39,7 +39,7 @@ type TourStepKey =
   | "ending";
 
 const imageSets: Record<PathwayKey | "hero" | TourStepKey, string[]> = {
-  hero: ["/GrowArea.jpg", "/GrowArea2.jpg", "/SAM_0220.JPG"],
+  hero: ["/GrowArea.jpg", "/SAM_0220.JPG", "/SAM_0221.JPG"],
 
   welcome: ["/SAM_0220.JPG", "/SAM_0221.JPG", "/SAM_0222.JPG"],
 
@@ -71,9 +71,9 @@ const imageSets: Record<PathwayKey | "hero" | TourStepKey, string[]> = {
 
   partners: ["/SAM_0313.JPG", "/Samaeera2.jpg", "/Sameera3.jpg", "/Samerra4.jpg"],
 
-  future: ["/Samerra5.jpg", "/Samerra6.jpg", "/GrowArea2.jpg"],
+  future: ["/Samerra5.jpg", "/Samerra6.jpg", "/SAM_0313.JPG"],
 
-  ending: ["/GrowArea.jpg", "/GrowArea2.jpg", "/snake.jpg", "/WolfSpider.jpg"],
+  ending: ["/GrowArea.jpg", "/snake.jpg", "/WolfSpider.jpg"],
 };
 
 function SmartImage({
@@ -374,7 +374,7 @@ export default function App() {
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/75 to-black" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-6 pt-16 pb-10">
+        <div className="relative z-10 mx-auto max-w-7xl px-6 pt-12 pb-8">
           <div className="mb-5 flex flex-wrap gap-3">
             {["English", "Spanish", "Tagalog", "Italian", "Hebrew", "French"].map(
               (lang) => (
@@ -441,8 +441,8 @@ export default function App() {
 
       <section id="guided-tour" className="mx-auto max-w-7xl px-6 pt-8 pb-16">
         <div className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-zinc-950 shadow-2xl">
-          <div className="grid min-h-[560px] md:grid-cols-[1fr_1.1fr]">
-            <div className="relative min-h-[320px] overflow-hidden">
+          <div className="grid min-h-[520px] md:grid-cols-[0.95fr_1.15fr]">
+            <div className="relative min-h-[300px] overflow-hidden">
               <SmartImage
                 srcs={imageSets[currentStep.key]}
                 alt={currentStep.title}
@@ -452,18 +452,18 @@ export default function App() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute inset-0 bg-black/20 backdrop-[brightness(.85)]" />
 
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <p className="text-sm uppercase tracking-[0.3em] text-green-400">
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                <p className="text-xs uppercase tracking-[0.3em] text-green-400">
                   Guided Tour
                 </p>
 
-                <h2 className="mt-3 max-w-md text-4xl font-black leading-tight md:text-5xl">
-                  {currentStep.title}
+                <h2 className="mt-3 max-w-md text-3xl font-black leading-tight md:text-4xl">
+                  {currentStep.label}
                 </h2>
               </div>
             </div>
 
-            <div className="flex flex-col justify-between p-8 md:p-10">
+            <div className="flex flex-col justify-between p-6 md:p-8">
               <div>
                 <div className="mb-5 flex items-start justify-between gap-6">
                   <div>
@@ -471,27 +471,27 @@ export default function App() {
                       Step {tourIndex + 1} of {tourSteps.length}
                     </p>
 
-                    <h3 className="mt-4 text-3xl font-black leading-tight md:text-5xl">
+                    <h3 className="mt-3 text-3xl font-black leading-tight md:text-4xl">
                       {currentStep.title}
                     </h3>
                   </div>
 
-                  <Globe2 className="shrink-0 text-green-400" size={42} />
+                  <Globe2 className="shrink-0 text-green-400" size={38} />
                 </div>
 
-                <p className="text-xl leading-9 text-white/85">
+                <p className="text-lg leading-8 text-white/85">
                   {currentStep.body}
                 </p>
 
-                <ul className="mt-7 space-y-4">
+                <ul className="mt-6 space-y-3">
                   {currentStep.bullets.map((item) => (
                     <li
                       key={item}
-                      className="flex gap-4 text-lg leading-8 text-white/85"
+                      className="flex gap-3 text-base leading-7 text-white/85"
                     >
                       <CheckCircle
                         className="mt-1 shrink-0 text-green-400"
-                        size={22}
+                        size={20}
                       />
                       <span>{item}</span>
                     </li>
@@ -499,7 +499,7 @@ export default function App() {
                 </ul>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-7">
                 <div className="mb-5 h-2 overflow-hidden rounded-full bg-white/10">
                   <div
                     className="h-full rounded-full bg-green-500 transition-all duration-700"
@@ -509,7 +509,7 @@ export default function App() {
                   />
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-5">
+                <div className="flex flex-wrap items-center justify-between gap-4">
                   <button
                     onClick={prevTour}
                     disabled={tourIndex === 0}
