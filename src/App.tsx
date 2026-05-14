@@ -40,51 +40,21 @@ type TourStepKey =
 
 const imageSets: Record<PathwayKey | "hero" | TourStepKey, string[]> = {
   hero: ["/GrowArea.jpg", "/SAM_0220.JPG", "/SAM_0221.JPG"],
-
   welcome: ["/SAM_0220.JPG", "/SAM_0221.JPG", "/SAM_0222.JPG"],
-
   place: ["/SAM_0223.JPG", "/SAM_0225.JPG", "/SAM_0226.JPG"],
-
   problem: ["/SAM_0238.JPG", "/SAM_0249.JPG", "/SAM_0255.JPG"],
-
   solution: ["/SAM_0257.JPG", "/SAM_0260.JPG", "/SAM_0274.JPG"],
-
   guest: ["/SAM_0275.JPG", "/SAM_0281.JPG", "/SAM_0282.JPG"],
-
-  customer: [
-    "/SAM_0286.JPG",
-    "/SAM_0288.JPG",
-    "/SAM_0289.JPG",
-    "/culniary_edibleflowers.jpeg",
-  ],
-
-  marketplace: [
-    "/SAM_0290.JPG",
-    "/SAM_0291.JPG",
-    "/SAM_0293.JPG",
-    "/culniary_edibleflowers2.jpeg",
-  ],
-
+  customer: ["/SAM_0286.JPG", "/SAM_0288.JPG", "/SAM_0289.JPG", "/culniary_edibleflowers.jpeg"],
+  marketplace: ["/SAM_0290.JPG", "/SAM_0291.JPG", "/SAM_0293.JPG", "/culniary_edibleflowers2.jpeg"],
   grower: ["/SAM_0299.JPG", "/SAM_0301.JPG", "/SAM_0303.JPG"],
-
   youth: ["/SAM_0305.JPG", "/SAM_0307.JPG", "/SAM_0308.JPG", "/SAM_0310.JPG"],
-
   partners: ["/SAM_0313.JPG", "/Samaeera2.jpg", "/Sameera3.jpg", "/Samerra4.jpg"],
-
   future: ["/Samerra5.jpg", "/Samerra6.jpg", "/SAM_0313.JPG"],
-
   ending: ["/GrowArea.jpg", "/snake.jpg", "/WolfSpider.jpg"],
 };
 
-function SmartImage({
-  srcs,
-  alt,
-  className,
-}: {
-  srcs: string[];
-  alt: string;
-  className?: string;
-}) {
+function SmartImage({ srcs, alt, className }: { srcs: string[]; alt: string; className?: string }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -108,10 +78,8 @@ const pathways = [
     key: "guest" as PathwayKey,
     title: "Guest Experience",
     icon: Home,
-    short:
-      "Guests enter through story, land, history, agriculture, wellness, youth engagement, and future agritourism.",
-    purpose:
-      "Guests are guided through the meaning of the farm before they are asked to choose a role.",
+    short: "Guests enter through story, land, history, agriculture, wellness, youth engagement, and future agritourism.",
+    purpose: "Guests are guided through the meaning of the farm before they are asked to choose a role.",
     depth: [
       "The visit begins with the land and the history of the Historic Lansdowne Airport.",
       "Guests see how the farm connects food, family, wellness, education, and community revitalization.",
@@ -122,10 +90,8 @@ const pathways = [
     key: "customer" as PathwayKey,
     title: "Customer Pathway",
     icon: Users,
-    short:
-      "Customers access fresh, chemical-free food through a coordinated system focused on nutrition and community health.",
-    purpose:
-      "Customers do not have to chase food across many disconnected places. The ecosystem helps move food toward families, schools, businesses, and community partners.",
+    short: "Customers access fresh, chemical-free food through a coordinated system focused on nutrition and community health.",
+    purpose: "Customers do not have to chase food across many disconnected places. The ecosystem helps move food toward families, schools, businesses, and community partners.",
     depth: [
       "Customers access local produce, seedlings, and future food-ordering options.",
       "The pathway supports healthier choices through fresh, chemical-free food.",
@@ -136,10 +102,8 @@ const pathways = [
     key: "marketplace" as PathwayKey,
     title: "Marketplace",
     icon: ShoppingBasket,
-    short:
-      "The marketplace connects growers, customers, tools, seedlings, supplies, education, and food distribution.",
-    purpose:
-      "The marketplace is the exchange point where food, supplies, knowledge, customers, and opportunity move together.",
+    short: "The marketplace connects growers, customers, tools, seedlings, supplies, education, and food distribution.",
+    purpose: "The marketplace is the exchange point where food, supplies, knowledge, customers, and opportunity move together.",
     depth: [
       "The marketplace can feature produce, seedlings, Bubble Babies™, grower supplies, and value-added products.",
       "Growers gain a coordinated place to connect with customers and institutions.",
@@ -150,10 +114,8 @@ const pathways = [
     key: "grower" as PathwayKey,
     title: "Grower Pathway",
     icon: Tractor,
-    short:
-      "Growers receive access to tools, education, supplies, markets, coordination, and community-based support.",
-    purpose:
-      "Growers come because they need practical support: what to grow, how to prepare, where to sell, and how to stay connected.",
+    short: "Growers receive access to tools, education, supplies, markets, coordination, and community-based support.",
+    purpose: "Growers come because they need practical support: what to grow, how to prepare, where to sell, and how to stay connected.",
     depth: [
       "Growers connect to education, seedlings, tools, soil support, and market preparation.",
       "The ecosystem reduces isolation by creating shared infrastructure and shared opportunity.",
@@ -164,10 +126,8 @@ const pathways = [
     key: "youth" as PathwayKey,
     title: "Youth Workforce",
     icon: GraduationCap,
-    short:
-      "Youth build responsibility, confidence, job readiness, teamwork, agriculture skills, and community pride.",
-    purpose:
-      "The farm becomes a living classroom where young people learn work habits, safety, leadership, and responsibility.",
+    short: "Youth build responsibility, confidence, job readiness, teamwork, agriculture skills, and community pride.",
+    purpose: "The farm becomes a living classroom where young people learn work habits, safety, leadership, and responsibility.",
     depth: [
       "Youth learn through outdoor, hands-on work instead of only classroom instruction.",
       "The pathway includes safety, PPE, teamwork, communication, attendance, and accountability.",
@@ -178,10 +138,8 @@ const pathways = [
     key: "partners" as PathwayKey,
     title: "Partners",
     icon: Handshake,
-    short:
-      "Partners align resources, education, health, workforce, agriculture, and community investment around one ecosystem.",
-    purpose:
-      "Partners strengthen the farm by contributing knowledge, tools, volunteers, sponsorship, education, health services, and visibility.",
+    short: "Partners align resources, education, health, workforce, agriculture, and community investment around one ecosystem.",
+    purpose: "Partners strengthen the farm by contributing knowledge, tools, volunteers, sponsorship, education, health services, and visibility.",
     depth: [
       "Partners support food access, workforce development, health education, and community revitalization.",
       "The pathway connects city, education, business, nonprofit, grower, and community resources.",
@@ -201,8 +159,7 @@ const tourSteps: {
     key: "welcome",
     label: "Opening",
     title: "Welcome to Bronson Family Farm",
-    body:
-      "Welcome to a guided ecosystem experience at Bronson Family Farm in Youngstown, Ohio. This experience moves through the story, purpose, pathways, and future vision of a place-based regenerative food system designed to strengthen growers, families, youth, and community resilience.",
+    body: "Welcome to a guided ecosystem experience at Bronson Family Farm in Youngstown, Ohio. This experience moves through the story, purpose, pathways, and future vision of a place-based regenerative food system designed to strengthen growers, families, youth, and community resilience.",
     bullets: [
       "This is a fully guided experience designed to move automatically.",
       "Bronson Family Farm combines agriculture, education, food access, workforce development, and agritourism.",
@@ -213,8 +170,7 @@ const tourSteps: {
     key: "place",
     label: "Place",
     title: "Historic Lansdowne Airport",
-    body:
-      "Bronson Family Farm is being developed at the Historic Lansdowne Airport on Youngstown’s east side. What was once aviation infrastructure is becoming food infrastructure — transforming underutilized land into a regenerative agricultural and community destination.",
+    body: "Bronson Family Farm is being developed at the Historic Lansdowne Airport on Youngstown’s east side. What was once aviation infrastructure is becoming food infrastructure — transforming underutilized land into a regenerative agricultural and community destination.",
     bullets: [
       "The airport creates a unique place-based identity for the farm.",
       "The site supports agriculture, education, events, growers, and future agritourism.",
@@ -225,8 +181,7 @@ const tourSteps: {
     key: "problem",
     label: "Need",
     title: "Food Access, Health, and Economic Pressure",
-    body:
-      "Youngstown families continue facing rising food costs, limited fresh food access, economic instability, and declining neighborhood investment. Small growers also face barriers including limited distribution systems, infrastructure costs, and lack of coordinated support.",
+    body: "Youngstown families continue facing rising food costs, limited fresh food access, economic instability, and declining neighborhood investment. Small growers also face barriers including limited distribution systems, infrastructure costs, and lack of coordinated support.",
     bullets: [
       "Fresh food access is a community need.",
       "Growers need support, tools, markets, and distribution pathways.",
@@ -237,8 +192,7 @@ const tourSteps: {
     key: "solution",
     label: "Solution",
     title: "A Regenerative Community Food System",
-    body:
-      "Bronson Family Farm and Farm & Family Alliance create a coordinated ecosystem where food, growers, education, youth workforce, wellness, and community partnerships operate as one connected system instead of disconnected programs.",
+    body: "Bronson Family Farm and Farm & Family Alliance create a coordinated ecosystem where food, growers, education, youth workforce, wellness, and community partnerships operate as one connected system instead of disconnected programs.",
     bullets: [
       "The system focuses on local food circulation and community accessibility.",
       "Regenerative growing practices support healthier soil, healthier food, and healthier communities.",
@@ -256,8 +210,7 @@ const tourSteps: {
     key: "future",
     label: "Future",
     title: "Future Agritourism Destination",
-    body:
-      "The long-term vision expands Bronson Family Farm into a regional destination where agriculture, recreation, education, wellness, tourism, and local economic opportunity work together through one immersive experience.",
+    body: "The long-term vision expands Bronson Family Farm into a regional destination where agriculture, recreation, education, wellness, tourism, and local economic opportunity work together through one immersive experience.",
     bullets: [
       "Future plans may include camping, seasonal festivals, family recreation, and tours.",
       "An 18-hole mini-golf course and children’s zones can support family engagement.",
@@ -268,8 +221,7 @@ const tourSteps: {
     key: "ending",
     label: "End",
     title: "A Model for Community Regeneration",
-    body:
-      "Bronson Family Farm demonstrates how land, food, growers, education, youth workforce, wellness, and economic sustainability can operate together through one intentional ecosystem designed to strengthen communities over generations.",
+    body: "Bronson Family Farm demonstrates how land, food, growers, education, youth workforce, wellness, and economic sustainability can operate together through one intentional ecosystem designed to strengthen communities over generations.",
     bullets: [
       "Every pathway connects back to community benefit.",
       "The ecosystem helps circulate food, knowledge, opportunity, and investment locally.",
@@ -295,18 +247,16 @@ export default function App() {
   useEffect(() => {
     if (!isGuided) return;
 
-    const section = document.getElementById("guided-tour");
-    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("guided-tour")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
 
     if (narrationOn && "speechSynthesis" in window) {
-      const speech = new SpeechSynthesisUtterance(
-        `${currentStep.title}. ${currentStep.body}`
-      );
-
+      const speech = new SpeechSynthesisUtterance(`${currentStep.title}. ${currentStep.body}`);
       speech.rate = 0.9;
       speech.pitch = 1;
       speech.volume = 1;
-
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(speech);
     }
@@ -358,9 +308,7 @@ export default function App() {
     setIsGuided(false);
     setActivePathway(key);
     setTourIndex(tourSteps.findIndex((step) => step.key === key));
-    document.getElementById("pathway-detail")?.scrollIntoView({
-      behavior: "smooth",
-    });
+    document.getElementById("pathway-detail")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -374,43 +322,38 @@ export default function App() {
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/75 to-black" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-6 pt-12 pb-8">
-          <div className="mb-5 flex flex-wrap gap-3">
-            {["English", "Spanish", "Tagalog", "Italian", "Hebrew", "French"].map(
-              (lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setLanguage(lang)}
-                  className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
-                    language === lang
-                      ? "bg-green-500 text-black"
-                      : "bg-white/10 text-white hover:bg-white/20"
-                  }`}
-                >
-                  {lang}
-                </button>
-              )
-            )}
+        <div className="relative z-10 mx-auto max-w-7xl px-6 pt-10 pb-6">
+          <div className="mb-4 flex flex-wrap gap-3">
+            {["English", "Spanish", "Tagalog", "Italian", "Hebrew", "French"].map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setLanguage(lang)}
+                className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
+                  language === lang
+                    ? "bg-green-500 text-black"
+                    : "bg-white/10 text-white hover:bg-white/20"
+                }`}
+              >
+                {lang}
+              </button>
+            ))}
           </div>
 
           <div className="mb-4 flex items-center gap-2 text-green-400">
             <MapPin size={18} />
-            <span className="text-lg">
-              Historic Lansdowne Airport · Youngstown, Ohio
-            </span>
+            <span className="text-lg">Historic Lansdowne Airport · Youngstown, Ohio</span>
           </div>
 
           <h1 className="max-w-5xl text-5xl font-black leading-none md:text-7xl">
             Bronson Family Farm
           </h1>
 
-          <p className="mt-6 max-w-4xl text-xl leading-relaxed text-white/85">
-            A guided ecosystem experience showing how land, growers, food,
-            youth workforce, community partners, and future agritourism work
-            together.
+          <p className="mt-5 max-w-4xl text-xl leading-relaxed text-white/85">
+            A guided ecosystem experience showing how land, growers, food, youth workforce,
+            community partners, and future agritourism work together.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-5">
+          <div className="mt-7 flex flex-wrap gap-5">
             <button
               onClick={startGuidedTour}
               className="rounded-full bg-green-500 px-8 py-4 text-lg font-bold text-black transition hover:scale-105"
@@ -426,11 +369,7 @@ export default function App() {
             </button>
 
             <button
-              onClick={() =>
-                document
-                  .getElementById("pathways")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
+              onClick={() => document.getElementById("pathways")?.scrollIntoView({ behavior: "smooth" })}
               className="rounded-full border border-white/30 px-8 py-4 text-lg font-bold hover:bg-white/10"
             >
               Explore Pathways
@@ -439,10 +378,10 @@ export default function App() {
         </div>
       </section>
 
-      <section id="guided-tour" className="mx-auto max-w-7xl px-6 pt-8 pb-16">
+      <section id="guided-tour" className="mx-auto max-w-7xl px-6 pt-4 pb-8">
         <div className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-zinc-950 shadow-2xl">
-          <div className="grid min-h-[520px] md:grid-cols-[0.95fr_1.15fr]">
-            <div className="relative min-h-[300px] overflow-hidden">
+          <div className="grid min-h-[470px] md:grid-cols-[0.95fr_1.15fr]">
+            <div className="relative min-h-[260px] overflow-hidden">
               <SmartImage
                 srcs={imageSets[currentStep.key]}
                 alt={currentStep.title}
@@ -463,49 +402,39 @@ export default function App() {
               </div>
             </div>
 
-            <div className="flex flex-col justify-between p-6 md:p-8">
+            <div className="flex flex-col justify-between p-5 md:p-6">
               <div>
-                <div className="mb-5 flex items-start justify-between gap-6">
+                <div className="mb-4 flex items-start justify-between gap-6">
                   <div>
                     <p className="text-sm uppercase tracking-[0.3em] text-green-400">
                       Step {tourIndex + 1} of {tourSteps.length}
                     </p>
 
-                    <h3 className="mt-3 text-3xl font-black leading-tight md:text-4xl">
+                    <h3 className="mt-2 text-2xl font-black leading-tight md:text-3xl">
                       {currentStep.title}
                     </h3>
                   </div>
 
-                  <Globe2 className="shrink-0 text-green-400" size={38} />
+                  <Globe2 className="shrink-0 text-green-400" size={34} />
                 </div>
 
-                <p className="text-lg leading-8 text-white/85">
-                  {currentStep.body}
-                </p>
+                <p className="text-base leading-7 text-white/85">{currentStep.body}</p>
 
-                <ul className="mt-6 space-y-3">
+                <ul className="mt-4 space-y-2">
                   {currentStep.bullets.map((item) => (
-                    <li
-                      key={item}
-                      className="flex gap-3 text-base leading-7 text-white/85"
-                    >
-                      <CheckCircle
-                        className="mt-1 shrink-0 text-green-400"
-                        size={20}
-                      />
+                    <li key={item} className="flex gap-3 text-sm leading-6 text-white/85">
+                      <CheckCircle className="mt-1 shrink-0 text-green-400" size={18} />
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mt-7">
-                <div className="mb-5 h-2 overflow-hidden rounded-full bg-white/10">
+              <div className="mt-4">
+                <div className="mb-4 h-2 overflow-hidden rounded-full bg-white/10">
                   <div
                     className="h-full rounded-full bg-green-500 transition-all duration-700"
-                    style={{
-                      width: `${((tourIndex + 1) / tourSteps.length) * 100}%`,
-                    }}
+                    style={{ width: `${((tourIndex + 1) / tourSteps.length) * 100}%` }}
                   />
                 </div>
 
@@ -513,7 +442,7 @@ export default function App() {
                   <button
                     onClick={prevTour}
                     disabled={tourIndex === 0}
-                    className="flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 font-bold disabled:opacity-30"
+                    className="flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 font-bold disabled:opacity-30"
                   >
                     <ArrowLeft size={18} />
                     Back
@@ -535,7 +464,7 @@ export default function App() {
                   <div className="flex gap-3">
                     <button
                       onClick={() => setIsGuided((prev) => !prev)}
-                      className="flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 font-bold hover:bg-white/10"
+                      className="flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 font-bold hover:bg-white/10"
                     >
                       {isGuided ? <Pause size={18} /> : <Play size={18} />}
                       {isGuided ? "Pause" : "Resume"}
@@ -544,7 +473,7 @@ export default function App() {
                     <button
                       onClick={nextTour}
                       disabled={tourIndex === tourSteps.length - 1}
-                      className="flex items-center gap-2 rounded-full bg-green-500 px-5 py-3 font-bold text-black disabled:opacity-30"
+                      className="flex items-center gap-2 rounded-full bg-green-500 px-4 py-2 font-bold text-black disabled:opacity-30"
                     >
                       Next
                       <ArrowRight size={18} />
@@ -555,7 +484,7 @@ export default function App() {
                 {tourIndex === tourSteps.length - 1 && (
                   <button
                     onClick={startGuidedTour}
-                    className="mt-6 flex items-center gap-2 rounded-full bg-white px-6 py-3 font-bold text-black"
+                    className="mt-4 flex items-center gap-2 rounded-full bg-white px-6 py-3 font-bold text-black"
                   >
                     <RotateCcw size={18} />
                     Replay Guided Tour
@@ -567,19 +496,16 @@ export default function App() {
         </div>
       </section>
 
-      <section id="pathways" className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-14 text-center">
+      <section id="pathways" className="mx-auto max-w-7xl px-6 py-12">
+        <div className="mb-12 text-center">
           <p className="text-green-400">Explore the Ecosystem</p>
 
-          <h2 className="mt-3 text-5xl font-black">
-            Pathways Through the Farm
-          </h2>
+          <h2 className="mt-3 text-5xl font-black">Pathways Through the Farm</h2>
 
           <p className="mx-auto mt-6 max-w-4xl text-xl leading-8 text-white/70">
-            Every pathway represents a different role inside the ecosystem.
-            Together they create a connected regional system focused on food
-            accessibility, grower support, workforce development, and
-            sustainability.
+            Every pathway represents a different role inside the ecosystem. Together they create a
+            connected regional system focused on food accessibility, grower support, workforce
+            development, and sustainability.
           </p>
         </div>
 
@@ -592,20 +518,12 @@ export default function App() {
                 key={p.key}
                 className="overflow-hidden rounded-[2rem] bg-zinc-900 shadow-2xl transition hover:-translate-y-2"
               >
-                <SmartImage
-                  srcs={imageSets[p.key]}
-                  alt={p.title}
-                  className="h-64 w-full object-cover"
-                />
+                <SmartImage srcs={imageSets[p.key]} alt={p.title} className="h-64 w-full object-cover" />
 
                 <div className="p-8">
                   <Icon className="mb-6 text-green-400" size={38} />
-
                   <h3 className="text-3xl font-black">{p.title}</h3>
-
-                  <p className="mt-5 min-h-[120px] text-lg leading-8 text-white/80">
-                    {p.short}
-                  </p>
+                  <p className="mt-5 min-h-[120px] text-lg leading-8 text-white/80">{p.short}</p>
 
                   <button
                     onClick={() => jumpToPathway(p.key)}
@@ -632,25 +550,13 @@ export default function App() {
 
             <div>
               <p className="text-green-400">Active Pathway</p>
-
-              <h2 className="mt-3 text-5xl font-black">
-                {activeData.title}
-              </h2>
-
-              <p className="mt-6 text-xl leading-9 text-white/80">
-                {activeData.purpose}
-              </p>
+              <h2 className="mt-3 text-5xl font-black">{activeData.title}</h2>
+              <p className="mt-6 text-xl leading-9 text-white/80">{activeData.purpose}</p>
 
               <ul className="mt-8 space-y-5">
                 {activeData.depth.map((item) => (
-                  <li
-                    key={item}
-                    className="flex gap-4 text-lg leading-8 text-white/85"
-                  >
-                    <CheckCircle
-                      className="mt-1 shrink-0 text-green-400"
-                      size={22}
-                    />
+                  <li key={item} className="flex gap-4 text-lg leading-8 text-white/85">
+                    <CheckCircle className="mt-1 shrink-0 text-green-400" size={22} />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -673,13 +579,13 @@ export default function App() {
         </section>
       )}
 
-      <section className="mx-auto max-w-6xl px-6 py-24 text-center">
+      <section className="mx-auto max-w-6xl px-6 py-20 text-center">
         <h2 className="text-5xl font-black">End of Experience</h2>
 
         <p className="mx-auto mt-8 max-w-4xl text-2xl leading-10 text-white/75">
-          Bronson Family Farm demonstrates how food, agriculture, growers,
-          education, youth workforce, community wellness, and economic
-          sustainability can work together through one intentional ecosystem.
+          Bronson Family Farm demonstrates how food, agriculture, growers, education, youth
+          workforce, community wellness, and economic sustainability can work together through one
+          intentional ecosystem.
         </p>
       </section>
     </main>
