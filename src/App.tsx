@@ -39,110 +39,41 @@ type TourStepKey =
   | "ending";
 
 const imageSets: Record<PathwayKey | "hero" | TourStepKey, string[]> = {
-  hero: [
-    "/GrowArea.jpg",
-    "/images/GrowArea.jpg",
-    "/GrowArea2.jpg",
-    "/images/GrowArea2.jpg",
-  ],
+  hero: ["/GrowArea.jpg", "/GrowArea2.jpg", "/SAM_0220.JPG"],
 
-  welcome: [
-    "/GrowArea.jpg",
-    "/images/GrowArea.jpg",
-    "/SAM_0251.JPG",
-    "/images/SAM_0251.JPG",
-    "/GrowArea2.jpg",
-  ],
+  welcome: ["/GrowArea.jpg", "/SAM_0221.JPG", "/SAM_0222.JPG"],
 
-  place: [
-    "/images/lansdowne-runway.jpg",
-    "/images/lansdowne-airfield.jpg",
-    "/images/lansdowne-sign.jpg",
-    "/images/lansdowne-historic.jpg",
-    "/GrowArea2.jpg",
-    "/images/GrowArea2.jpg",
-  ],
+  place: ["/GrowArea2.jpg", "/SAM_0223.JPG", "/SAM_0225.JPG", "/SAM_0226.JPG"],
 
-  problem: [
-    "/images/food-access.jpg",
-    "/images/community-need.jpg",
-    "/SAM_0251.JPG",
-    "/images/SAM_0251.JPG",
-    "/SAM_0252.JPG",
-  ],
+  problem: ["/SAM_0238.JPG", "/SAM_0249.JPG", "/SAM_0255.JPG"],
 
-  solution: [
-    "/images/regenerative-farming.jpg",
-    "/images/community-growing.jpg",
-    "/SAM_0260.JPG",
-    "/images/SAM_0260.JPG",
-    "/SAM_0261.JPG",
-  ],
+  solution: ["/SAM_0257.JPG", "/SAM_0260.JPG", "/SAM_0274.JPG"],
 
-  guest: [
-    "/images/farm-tour.jpg",
-    "/images/family-visit.jpg",
-    "/SAM_0252.JPG",
-    "/images/SAM_0252.JPG",
-    "/GrowArea.jpg",
-  ],
+  guest: ["/SAM_0275.JPG", "/SAM_0281.JPG", "/SAM_0282.JPG"],
 
   customer: [
-    "/images/fresh-produce.jpg",
-    "/images/healthy-food.jpg",
-    "/images/produce-table.jpg",
-    "/SAM_0260.JPG",
-    "/SAM_0261.JPG",
+    "/SAM_0286.JPG",
+    "/SAM_0288.JPG",
+    "/SAM_0289.JPG",
+    "/culniary_edibleflowers.jpeg",
   ],
 
   marketplace: [
-    "/images/produce-market.jpg",
-    "/images/seedling-display.jpg",
-    "/images/community-marketplace.jpg",
-    "/images/bubble-babies-display.jpg",
-    "/SAM_0280.JPG",
-    "/SAM_0281.JPG",
+    "/SAM_0290.JPG",
+    "/SAM_0291.JPG",
+    "/SAM_0293.JPG",
+    "/culniary_edibleflowers2.jpeg",
   ],
 
-  grower: [
-    "/images/grower-field.jpg",
-    "/images/seedlings.jpg",
-    "/images/farm-tools.jpg",
-    "/SAM_0300.JPG",
-    "/SAM_0301.JPG",
-  ],
+  grower: ["/SAM_0299.JPG", "/SAM_0301.JPG", "/SAM_0303.JPG"],
 
-  youth: [
-    "/images/youth-workforce.jpg",
-    "/images/students-working.jpg",
-    "/images/teamwork.jpg",
-    "/SAM_0320.JPG",
-    "/SAM_0321.JPG",
-  ],
+  youth: ["/SAM_0305.JPG", "/SAM_0307.JPG", "/SAM_0308.JPG", "/SAM_0310.JPG"],
 
-  partners: [
-    "/images/community-partners.jpg",
-    "/images/meeting.jpg",
-    "/images/collaboration.jpg",
-    "/SAM_0340.JPG",
-    "/SAM_0341.JPG",
-  ],
+  partners: ["/SAM_0313.JPG", "/Samaeera2.jpg", "/Sameera3.jpg", "/Samerra4.jpg"],
 
-  future: [
-    "/images/agritourism.jpg",
-    "/images/future-vision.jpg",
-    "/images/family-destination.jpg",
-    "/GrowArea2.jpg",
-    "/images/GrowArea2.jpg",
-  ],
+  future: ["/Samerra5.jpg", "/Samerra6.jpg", "/GrowArea2.jpg"],
 
-  ending: [
-    "/images/sunset-field.jpg",
-    "/images/farm-future.jpg",
-    "/images/community-farm.jpg",
-    "/GrowArea.jpg",
-    "/images/GrowArea.jpg",
-  ],
+  ending: ["/GrowArea.jpg", "/GrowArea2.jpg", "/snake.jpg", "/WolfSpider.jpg"],
 };
 
 function SmartImage({
