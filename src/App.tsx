@@ -41,9 +41,9 @@ type TourStepKey =
 const imageSets: Record<PathwayKey | "hero" | TourStepKey, string[]> = {
   hero: ["/GrowArea.jpg", "/GrowArea2.jpg", "/SAM_0220.JPG"],
 
-  welcome: ["/GrowArea.jpg", "/SAM_0221.JPG", "/SAM_0222.JPG"],
+  welcome: ["/SAM_0220.JPG", "/SAM_0221.JPG", "/SAM_0222.JPG"],
 
-  place: ["/GrowArea2.jpg", "/SAM_0223.JPG", "/SAM_0225.JPG", "/SAM_0226.JPG"],
+  place: ["/SAM_0223.JPG", "/SAM_0225.JPG", "/SAM_0226.JPG"],
 
   problem: ["/SAM_0238.JPG", "/SAM_0249.JPG", "/SAM_0255.JPG"],
 
