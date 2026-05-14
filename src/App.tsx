@@ -15,27 +15,51 @@ const EVENTBRITE_URL = "https://www.eventbrite.com/e/1984126092554";
 const GROWNBY_URL = "https://grownby.com/farms/bronson-family-farm/shop";
 const WEBSITE_URL = "https://www.bronsonfamilyfarm.com/";
 
+const fallbackImage =
+  "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1400&q=80";
+
+function FarmImage({
+  src,
+  alt,
+  className,
+}: {
+  src: string;
+  alt: string;
+  className: string;
+}) {
+  const [imageSrc, setImageSrc] = useState(src);
+
+  return (
+    <img
+      src={imageSrc}
+      alt={alt}
+      className={className}
+      onError={() => setImageSrc(fallbackImage)}
+    />
+  );
+}
+
 const slides = [
   {
     id: "welcome",
     title: "Bronson Family Farm",
     subtitle:
       "A community-centered growers ecosystem rooted in health, food access, workforce development, and agritourism.",
-    image: "/GrowArea.jpg",
+    image: "/images/GrowArea.jpg",
   },
   {
     id: "history",
     title: "Historic Lansdowne Airport",
     subtitle:
       "A working airport transformed into a place-based agricultural ecosystem serving Youngstown and the Mahoning Valley.",
-    image: "/Airport.jpg",
+    image: "/images/Airport.jpg",
   },
   {
     id: "ecosystem",
     title: "The Ecosystem",
     subtitle:
       "The food moves — not the farmer. Growers connect to distribution, education, and opportunity through one coordinated system.",
-    image: "/SAM_0205.JPG",
+    image: "/images/GrowArea2.jpg",
   },
 ];
 
@@ -44,7 +68,7 @@ const pathways = [
     id: "guest",
     title: "Guest Experience",
     icon: <Landmark className="w-10 h-10" />,
-    image: "/SAM_0214.JPG",
+    image: "/images/SAM_0214.JPG",
     description:
       "Walk the farm. Experience history, agriculture, wellness, youth engagement, growers markets, and future agritourism.",
     content: [
@@ -58,7 +82,7 @@ const pathways = [
     id: "customer",
     title: "Customer Pathway",
     icon: <ShoppingBasket className="w-10 h-10" />,
-    image: "/Produce.jpg",
+    image: "/images/Produce.jpg",
     description:
       "Customers access fresh, chemical-free food through a coordinated system focused on nutrition, convenience, and community health.",
     content: [
@@ -72,7 +96,7 @@ const pathways = [
     id: "marketplace",
     title: "Marketplace",
     icon: <Tractor className="w-10 h-10" />,
-    image: "/Marketplace.jpg",
+    image: "/images/Marketplace.jpg",
     description:
       "The marketplace connects growers, customers, tools, seedlings, supplies, education, and coordinated food distribution.",
     content: [
@@ -86,7 +110,7 @@ const pathways = [
     id: "grower",
     title: "Grower Pathway",
     icon: <Sprout className="w-10 h-10" />,
-    image: "/Grower.jpg",
+    image: "/images/Grower.jpg",
     description:
       "Growers join a collaborative ecosystem with shared distribution, technical support, training, and market access.",
     content: [
@@ -100,7 +124,7 @@ const pathways = [
     id: "youth",
     title: "Youth Workforce",
     icon: <Briefcase className="w-10 h-10" />,
-    image: "/Youth.jpg",
+    image: "/images/Youth.jpg",
     description:
       "Youth participate in an outdoor workforce development experience focused on responsibility, agriculture, teamwork, and future readiness.",
     content: [
@@ -114,7 +138,7 @@ const pathways = [
     id: "partners",
     title: "Partners & Community",
     icon: <HeartHandshake className="w-10 h-10" />,
-    image: "/Partners.jpg",
+    image: "/images/Partners.jpg",
     description:
       "Public, nonprofit, educational, grower, health, and community partners help strengthen the regional food system.",
     content: [
@@ -126,14 +150,7 @@ const pathways = [
   },
 ];
 
-const languages = [
-  "English",
-  "Español",
-  "Tagalog",
-  "Italiano",
-  "Français",
-  "עברית",
-];
+const languages = ["English", "Español", "Tagalog", "Italiano", "Français", "עברית"];
 
 export default function App() {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -191,26 +208,6 @@ export default function App() {
       );
     }
 
-    if (selectedPathway.id === "youth") {
-      return (
-        <>
-          <button
-            onClick={() => window.open(EVENTBRITE_URL, "_blank")}
-            className="bg-green-600 hover:bg-green-700 px-8 py-4 rounded-full"
-          >
-            View Youth Workforce Opportunity
-          </button>
-
-          <button
-            onClick={() => setSelectedPathway(null)}
-            className="border border-white px-8 py-4 rounded-full"
-          >
-            Return to Pathways
-          </button>
-        </>
-      );
-    }
-
     return (
       <>
         <button
@@ -233,8 +230,9 @@ export default function App() {
   return (
     <div className="bg-black text-white min-h-screen overflow-x-hidden">
       <section className="relative h-screen">
-        <img
+        <FarmImage
           src={slides[slideIndex].image}
+          alt={slides[slideIndex].title}
           className="absolute inset-0 w-full h-full object-cover"
         />
 
@@ -248,7 +246,7 @@ export default function App() {
             onChange={(e) => setLanguage(e.target.value)}
           >
             {languages.map((lang) => (
-              <option key={lang} className="text-black">
+              <option key={lang} className="text-black" value={lang}>
                 {lang}
               </option>
             ))}
@@ -289,31 +287,18 @@ export default function App() {
             </button>
           </div>
         </div>
-
-        <div className="absolute bottom-8 w-full flex justify-center gap-3 z-20">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setSlideIndex(i)}
-              className={`w-3 h-3 rounded-full ${
-                slideIndex === i ? "bg-white" : "bg-white/40"
-              }`}
-            />
-          ))}
-        </div>
       </section>
 
       <section id="story" className="py-24 px-6 md:px-20 bg-zinc-950">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <img
-            src="/SAM_0188.JPG"
+          <FarmImage
+            src="/images/SAM_0188.JPG"
+            alt="Bronson Family Farm growing area"
             className="rounded-3xl shadow-2xl w-full object-cover"
           />
 
           <div>
-            <h2 className="text-4xl font-bold mb-6">
-              A Different Kind of Farm
-            </h2>
+            <h2 className="text-4xl font-bold mb-6">A Different Kind of Farm</h2>
 
             <p className="text-lg leading-relaxed text-zinc-300 mb-6">
               Bronson Family Farm is more than a farm. It is a coordinated
@@ -339,9 +324,7 @@ export default function App() {
 
       <section id="pathways" className="py-24 px-6 md:px-20 bg-black">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold mb-6">
-            Guided Ecosystem Pathways
-          </h2>
+          <h2 className="text-5xl font-bold mb-6">Guided Ecosystem Pathways</h2>
 
           <p className="max-w-4xl mx-auto text-zinc-300 text-lg">
             Explore the ecosystem through intentional guided experiences
@@ -356,7 +339,11 @@ export default function App() {
               key={pathway.id}
               className="bg-zinc-900 rounded-3xl overflow-hidden border border-zinc-800 hover:border-green-500 transition-all"
             >
-              <img src={pathway.image} className="h-64 w-full object-cover" />
+              <FarmImage
+                src={pathway.image}
+                alt={pathway.title}
+                className="h-64 w-full object-cover"
+              />
 
               <div className="p-8">
                 <div className="mb-4 text-green-500">{pathway.icon}</div>
@@ -382,8 +369,9 @@ export default function App() {
         <div className="fixed inset-0 z-50 bg-black/90 overflow-y-auto">
           <div className="min-h-screen p-8 flex items-center justify-center">
             <div className="bg-zinc-950 rounded-3xl max-w-5xl w-full overflow-hidden border border-zinc-800">
-              <img
+              <FarmImage
                 src={selectedPathway.image}
+                alt={selectedPathway.title}
                 className="w-full h-[420px] object-cover"
               />
 
