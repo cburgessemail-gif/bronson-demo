@@ -44,54 +44,22 @@ type TourStepKey =
 
 const imageSets: Record<PathwayKey | "hero" | TourStepKey, string[]> = {
   hero: ["/GrowArea.jpg", "/SAM_0220.JPG", "/SAM_0221.JPG"],
-
-  welcome: ["/SAM_0220.JPG", "/SAM_0221.JPG", "/SAM_0222.JPG"],
-
+  welcome: ["/GrowArea.jpg", "/SAM_0220.JPG", "/SAM_0221.JPG"],
   airport: ["/SAM_0220.JPG", "/SAM_0221.JPG", "/SAM_0222.JPG"],
-
   youngstown: ["/SAM_0238.JPG", "/SAM_0249.JPG", "/SAM_0255.JPG"],
-
-  foodCost: ["/SAM_0238.JPG", "/SAM_0249.JPG", "/SAM_0255.JPG"],
-
+  foodCost: ["/culniary_edibleflowers.jpeg", "/culniary_edibleflowers2.jpeg", "/SAM_0286.JPG"],
   regenerative: ["/SAM_0257.JPG", "/SAM_0260.JPG", "/SAM_0274.JPG"],
-
-  ecosystem: ["/SAM_0275.JPG", "/SAM_0281.JPG", "/SAM_0282.JPG"],
-
-  guest: ["/SAM_0275.JPG", "/SAM_0281.JPG", "/SAM_0282.JPG"],
-
-  customer: [
-    "/culniary_edibleflowers.jpeg",
-    "/culniary_edibleflowers2.jpeg",
-    "/SAM_0286.JPG",
-  ],
-
+  ecosystem: ["/GrowArea.jpg", "/SAM_0275.JPG", "/SAM_0281.JPG"],
+  guest: ["/SAM_0281.JPG", "/SAM_0282.JPG", "/SAM_0286.JPG"],
+  customer: ["/culniary_edibleflowers.jpeg", "/culniary_edibleflowers2.jpeg", "/SAM_0288.JPG"],
   marketplace: ["/SAM_0286.JPG", "/SAM_0288.JPG", "/SAM_0289.JPG"],
-
   grower: ["/SAM_0290.JPG", "/SAM_0291.JPG", "/SAM_0293.JPG"],
-
-  youth: [
-    "/Samaeera2.jpg",
-    "/Sameera3.jpg",
-    "/Samerra4.jpg",
-    "/Samerra5.jpg",
-    "/Samerra6.jpg",
-  ],
-
-  partners: [
-    "/SAM_0305.JPG",
-    "/SAM_0307.JPG",
-    "/SAM_0308.JPG",
-    "/SAM_0310.JPG",
-    "/SAM_0313.JPG",
-  ],
-
+  youth: ["/Samaeera2.jpg", "/Sameera3.jpg", "/Samerra4.jpg", "/Samerra5.jpg", "/Samerra6.jpg"],
+  partners: ["/SAM_0305.JPG", "/SAM_0307.JPG", "/SAM_0308.JPG", "/SAM_0310.JPG", "/SAM_0313.JPG"],
   distribution: ["/SAM_0286.JPG", "/SAM_0288.JPG", "/SAM_0289.JPG"],
-
   agritourism: ["/SAM_0299.JPG", "/SAM_0301.JPG", "/SAM_0303.JPG"],
-
-  replication: ["/SAM_0299.JPG", "/SAM_0301.JPG", "/SAM_0303.JPG"],
-
-  ending: ["/GrowArea.jpg", "/snake.jpg", "/WolfSpider.jpg"],
+  replication: ["/GrowArea.jpg", "/SAM_0313.JPG", "/SAM_0301.JPG"],
+  ending: ["/GrowArea.jpg", "/WolfSpider.jpg", "/snake.jpg"],
 };
 
 function SmartImage({
@@ -131,9 +99,9 @@ const pathways = [
     purpose:
       "Guests are guided through the meaning of the farm before they are asked to choose a role.",
     depth: [
-      "The visit begins with the land and the history of the Historic Lansdowne Airport.",
-      "Guests see how the farm connects food, family, wellness, education, and community revitalization.",
-      "The experience points toward future agritourism: tours, camping, mini-golf, youth spaces, events, and family recreation.",
+      "Guests learn the purpose of the farm.",
+      "The experience builds connection before action.",
+      "Future tours and events help people return to the land.",
     ],
   },
   {
@@ -145,9 +113,9 @@ const pathways = [
     purpose:
       "Customers do not have to chase food across many disconnected places. The ecosystem helps move food toward families, schools, businesses, and community partners.",
     depth: [
-      "Customers access local produce, seedlings, and future food-ordering options.",
-      "The pathway supports healthier choices through fresh, chemical-free food.",
-      "Every purchase helps circulate money through growers, youth workforce, and community-based food access.",
+      "Fresh food supports healthier choices.",
+      "Purchases support local growers and youth workforce.",
+      "Food access becomes easier through coordination.",
     ],
   },
   {
@@ -157,11 +125,11 @@ const pathways = [
     short:
       "The marketplace connects growers, customers, tools, seedlings, supplies, education, and food distribution.",
     purpose:
-      "The marketplace is the exchange point where food, supplies, knowledge, customers, and opportunity move together.",
+      "The marketplace is where food, seedlings, supplies, tools, growers, customers, and knowledge come together.",
     depth: [
-      "The marketplace can feature produce, seedlings, Bubble Babies™, grower supplies, and value-added products.",
-      "Growers gain a coordinated place to connect with customers and institutions.",
-      "The system supports food accessibility by helping organize local food movement.",
+      "The marketplace supports exchange.",
+      "Growers gain visibility and opportunity.",
+      "Customers gain access to food and growing resources.",
     ],
   },
   {
@@ -171,11 +139,11 @@ const pathways = [
     short:
       "Growers receive access to tools, education, supplies, markets, coordination, and community-based support.",
     purpose:
-      "Growers come because they need practical support: what to grow, how to prepare, where to sell, and how to stay connected.",
+      "Growers receive support with planning, seedlings, tools, growing knowledge, market access, and distribution coordination.",
     depth: [
-      "Growers connect to education, seedlings, tools, soil support, and market preparation.",
-      "The ecosystem reduces isolation by creating shared infrastructure and shared opportunity.",
-      "The food moves through coordinated distribution so growers do not have to manage everything alone.",
+      "Growers need more than land.",
+      "They need tools, markets, support, and coordination.",
+      "The ecosystem reduces isolation for small growers.",
     ],
   },
   {
@@ -185,11 +153,11 @@ const pathways = [
     short:
       "Youth build responsibility, confidence, job readiness, teamwork, agriculture skills, and community pride.",
     purpose:
-      "The farm becomes a living classroom where young people learn work habits, safety, leadership, and responsibility.",
+      "Youth learn responsibility, teamwork, safety, leadership, agriculture, communication, and work readiness through hands-on farm experience.",
     depth: [
-      "Youth learn through outdoor, hands-on work instead of only classroom instruction.",
-      "The pathway includes safety, PPE, teamwork, communication, attendance, and accountability.",
-      "Supervisors can observe growth in responsibility, leadership, and readiness.",
+      "The farm becomes a living classroom.",
+      "Youth gain real-world work habits.",
+      "The pathway builds confidence and future readiness.",
     ],
   },
   {
@@ -199,11 +167,11 @@ const pathways = [
     short:
       "Partners align resources, education, health, workforce, agriculture, and community investment around one ecosystem.",
     purpose:
-      "Partners strengthen the farm by contributing knowledge, tools, volunteers, sponsorship, education, health services, and visibility.",
+      "Partners help strengthen the ecosystem through education, sponsorship, health services, tools, volunteers, visibility, and investment.",
     depth: [
-      "Partners support food access, workforce development, health education, and community revitalization.",
-      "The pathway connects city, education, business, nonprofit, grower, and community resources.",
-      "Together, partners help build a model that can be replicated in other communities.",
+      "Partners align resources around shared impact.",
+      "The ecosystem connects public, nonprofit, business, and community support.",
+      "Partnership makes the model stronger.",
     ],
   },
 ];
@@ -368,9 +336,7 @@ export default function App() {
 
     if (narrationOn && "speechSynthesis" in window) {
       const speech = new SpeechSynthesisUtterance(
-        `${currentStep.title}. ${currentStep.body}. ${currentStep.bullets.join(
-          " "
-        )}`
+        `${currentStep.title}. ${currentStep.body}. ${currentStep.bullets.join(" ")}`
       );
 
       speech.rate = 0.9;
@@ -429,7 +395,6 @@ export default function App() {
   const jumpToPathway = (key: PathwayKey) => {
     setIsGuided(false);
     setActivePathway(key);
-
     setTourIndex(tourSteps.findIndex((step) => step.key === key));
 
     document.getElementById("pathway-detail")?.scrollIntoView({
@@ -450,31 +415,25 @@ export default function App() {
 
         <div className="relative z-10 mx-auto max-w-7xl px-6 pt-10 pb-6">
           <div className="mb-4 flex flex-wrap gap-3">
-            {[
-              "English",
-              "Spanish",
-              "Tagalog",
-              "Italian",
-              "Hebrew",
-              "French",
-            ].map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setLanguage(lang)}
-                className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
-                  language === lang
-                    ? "bg-green-500 text-black"
-                    : "bg-white/10 text-white hover:bg-white/20"
-                }`}
-              >
-                {lang}
-              </button>
-            ))}
+            {["English", "Spanish", "Tagalog", "Italian", "Hebrew", "French"].map(
+              (lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setLanguage(lang)}
+                  className={`rounded-full px-5 py-3 text-sm font-semibold transition ${
+                    language === lang
+                      ? "bg-green-500 text-black"
+                      : "bg-white/10 text-white hover:bg-white/20"
+                  }`}
+                >
+                  {lang}
+                </button>
+              )
+            )}
           </div>
 
           <div className="mb-4 flex items-center gap-2 text-green-400">
             <MapPin size={18} />
-
             <span className="text-lg">
               Historic Lansdowne Airport · Youngstown, Ohio
             </span>
@@ -573,7 +532,6 @@ export default function App() {
                         className="mt-1 shrink-0 text-green-400"
                         size={18}
                       />
-
                       <span>{item}</span>
                     </li>
                   ))}
@@ -619,7 +577,6 @@ export default function App() {
                       className="flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 font-bold hover:bg-white/10"
                     >
                       {isGuided ? <Pause size={18} /> : <Play size={18} />}
-
                       {isGuided ? "Pause" : "Resume"}
                     </button>
 
@@ -733,7 +690,6 @@ export default function App() {
                       className="mt-1 shrink-0 text-green-400"
                       size={22}
                     />
-
                     <span>{item}</span>
                   </li>
                 ))}
