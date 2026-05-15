@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const TOUR_TIMING = {
-  slideDuration: 13500,
-  deepSlideDuration: 16000,
+  firstMoveDelay: 1200,
+  slideDuration: 12000,
+  deepSlideDuration: 14500,
 };
 
 const slides = [
@@ -111,6 +112,8 @@ export default function App() {
   const [index, setIndex] = useState(0);
   const [guided, setGuided] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [tourJustStarted, setTourJustStarted] = useState(false);
+
   const timerRef = useRef<number | null>(null);
 
   const current = slides[index];
@@ -118,39 +121,47 @@ export default function App() {
 
   const clearTourTimer = () => {
     if (timerRef.current) {
-      clearTimeout(timerRef.current);
+      window.clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   };
 
   const goToSlide = (newIndex: number) => {
     clearTourTimer();
+    setGuided(false);
+    setPaused(false);
+    setTourJustStarted(false);
     setIndex(Math.max(0, Math.min(newIndex, slides.length - 1)));
   };
 
   const startGuidedTour = () => {
     clearTourTimer();
-    setIndex(0);
     setGuided(true);
     setPaused(false);
+    setTourJustStarted(true);
+    setIndex(0);
+
+    window.setTimeout(() => {
+      setTourJustStarted(false);
+      setIndex(1);
+    }, TOUR_TIMING.firstMoveDelay);
   };
 
   const togglePause = () => {
     clearTourTimer();
     setPaused((prev) => !prev);
+    setTourJustStarted(false);
   };
 
   const explorePathway = (label: string) => {
     const target = slides.findIndex((slide) => slide.pathway === label);
-    setGuided(false);
-    setPaused(false);
     goToSlide(target);
   };
 
   useEffect(() => {
     clearTourTimer();
 
-    if (!guided || paused) return;
+    if (!guided || paused || tourJustStarted) return;
 
     const duration = current.deep
       ? TOUR_TIMING.deepSlideDuration
@@ -160,23 +171,24 @@ export default function App() {
       setIndex((prev) => {
         if (prev + 1 >= slides.length) {
           setGuided(false);
+          setPaused(false);
           return prev;
         }
+
         return prev + 1;
       });
     }, duration);
 
     return clearTourTimer;
-  }, [guided, paused, index, current.deep]);
+  }, [guided, paused, tourJustStarted, index, current.deep]);
 
-  const progress = useMemo(
-    () => ((index + 1) / slides.length) * 100,
-    [index]
-  );
+  const progress = useMemo(() => {
+    return ((index + 1) / slides.length) * 100;
+  }, [index]);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#101510] text-white">
-      <section className="relative min-h-screen">
+    <main className="h-screen overflow-hidden bg-[#101510] text-white">
+      <section className="relative h-screen overflow-hidden">
         <img
           src={current.image}
           alt={current.title}
@@ -185,7 +197,13 @@ export default function App() {
 
         <div className="absolute inset-0 bg-black/60" />
 
-        <div className="relative z-10 flex min-h-screen flex-col justify-between px-6 py-6 md:px-12">
+        {guided && (
+          <div className="absolute left-6 top-6 z-20 rounded-full bg-lime-300 px-4 py-2 text-xs font-bold uppercase tracking-wide text-black">
+            Guided Tour Running
+          </div>
+        )}
+
+        <div className="relative z-10 flex h-screen flex-col justify-between px-6 py-8 md:px-12">
           <header className="flex items-start justify-between gap-4">
             <div>
               <p className="text-sm uppercase tracking-[0.35em] text-lime-200">
@@ -206,16 +224,14 @@ export default function App() {
             </div>
           </header>
 
-          <section className="max-w-5xl rounded-[2rem] bg-black/45 p-6 shadow-2xl backdrop-blur-md md:p-9">
+          <section className="max-w-5xl rounded-[2rem] bg-black/45 p-6 shadow-2xl backdrop-blur-md md:p-8">
             <p className="text-xl leading-relaxed md:text-3xl md:leading-relaxed">
               {current.text}
             </p>
 
             {current.detail && (
               <div className="mt-5 rounded-3xl bg-lime-300/90 p-5 text-black">
-                <h3 className="text-lg font-bold">
-                  Why this pathway matters
-                </h3>
+                <h3 className="text-lg font-bold">Why this pathway matters</h3>
                 <p className="mt-2 text-base leading-relaxed">
                   {current.detail}
                 </p>
@@ -234,7 +250,7 @@ export default function App() {
             )}
           </section>
 
-          <footer className="space-y-4 pb-2">
+          <footer className="space-y-4">
             <div className="h-2 overflow-hidden rounded-full bg-white/20">
               <div
                 className="h-full rounded-full bg-lime-300 transition-all duration-700"
@@ -248,7 +264,7 @@ export default function App() {
                   onClick={startGuidedTour}
                   className="rounded-full bg-lime-300 px-6 py-3 text-sm font-bold uppercase tracking-wide text-black shadow-xl"
                 >
-                  Guided Tour
+                  {guided ? "Restart Tour" : "Guided Tour"}
                 </button>
 
                 {guided && (
