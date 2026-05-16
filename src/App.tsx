@@ -1,19 +1,20 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const TOUR_TIMING = {
-  firstMoveDelay: 1200,
-  slideDuration: 12500,
-  deepSlideDuration: 15000,
+  firstMoveDelay: 2200,
+  slideDuration: 13500,
+  deepSlideDuration: 16000,
 };
 
 const slides = [
   {
-    id: "entrance",
-    title: "Bronson Family Farm",
-    subtitle: "A guided ecosystem experience",
-    image: "/GrowArea.jpg",
+    id: "ecosystem",
+    title: "A Connected Food Ecosystem",
+    subtitle: "People. Resources. Opportunity. Circulating Together.",
+    image: "/EcosystemOverview.png",
     deep: true,
-    text: "Welcome to Bronson Family Farm. This is more than a farm. It is a place-based food ecosystem designed to help growers, families, youth, customers, partners, and the community move together toward food access, workforce development, health, education, local food circulation, and regional revitalization.",
+    ecosystem: true,
+    text: "Bronson Family Farm is a place-based ecosystem where growers, families, youth, customers, partners, resources, and opportunities work together instead of separately. The ecosystem helps food, knowledge, workforce development, partnerships, and economic value circulate locally to strengthen the community over time.",
   },
   {
     id: "place",
@@ -25,66 +26,102 @@ const slides = [
   },
   {
     id: "guest",
-    title: "Guest Pathway",
-    subtitle: "Understand the vision",
+    title: "Explore the Farm",
+    subtitle: "Experience the vision, story, and purpose",
     image: "/SAM_0221.JPG",
-    pathway: "Guest",
-    text: "Guests experience the atmosphere, story, purpose, and future of the ecosystem. The guided experience introduces visitors to growing areas, demonstrations, sustainability, community engagement, and the importance of local food systems.",
+    pathway: "Explore the Farm",
+    text: "Guests enter the ecosystem to understand what Bronson Family Farm is becoming and why it matters. They experience the land, the story, the growing areas, the community purpose, and the vision for food access, education, and family-centered agritourism.",
     detail:
-      "This pathway helps visitors understand what the farm is becoming and why the ecosystem matters.",
+      "This experience helps visitors understand the full vision before they decide how they want to participate.",
+    experience: [
+      "See the farm story, history, and purpose.",
+      "Understand what a community food ecosystem is.",
+      "Explore growing areas, demonstrations, and future destination plans.",
+      "Identify where they may fit as a visitor, customer, volunteer, partner, or supporter.",
+    ],
   },
   {
     id: "customer",
-    title: "Customer Pathway",
-    subtitle: "Fresh, chemical-free food",
+    title: "Healthy Food Access",
+    subtitle: "Fresh, chemical-free food and healthier choices",
     image: "/SAM_0222.JPG",
-    pathway: "Customer",
-    text: "Customers gain access to fresh, chemical-free produce grown locally with care. The ecosystem supports healthier food choices, nutrition awareness, family wellness, and stronger connections between growers and consumers.",
+    pathway: "Healthy Food Access",
+    text: "Families connect to fresh, chemical-free food grown locally with care. This experience supports healthier family choices, nutrition awareness, and repeat access to local food through the marketplace and future distribution system.",
     detail:
-      "This pathway connects families to food, nutrition, wellness, and repeat healthy choices.",
+      "This experience connects families to food, nutrition, wellness, and consistent healthy choices.",
+    experience: [
+      "Learn what is being grown and why quality matters.",
+      "Connect to fresh, chemical-free produce.",
+      "Understand how local food supports health and family wellness.",
+      "Return through marketplace access, ordering, events, and community food distribution.",
+    ],
   },
   {
     id: "marketplace",
-    title: "Marketplace Pathway",
+    title: "Community Marketplace",
     subtitle: "Food and money circulate locally",
     image: "/SAM_0223.JPG",
     deep: true,
-    pathway: "Marketplace",
-    text: "The marketplace pathway helps food move efficiently through the ecosystem. Growers should not have to carry the burden of distribution alone. Bronson Family Farm works to connect growers with schools, markets, organizations, institutions, and community buyers so the food moves — not the farmer.",
+    pathway: "Community Marketplace",
+    text: "The Community Marketplace helps food move efficiently through the ecosystem. Growers should not have to carry the burden of distribution alone. Bronson Family Farm works to connect growers with customers, schools, markets, businesses, organizations, institutions, and community buyers so the food moves — not the farmer.",
     detail:
-      "This pathway turns interest into purchasing power, distribution, and sustainability.",
+      "This experience turns interest into purchasing power, distribution, and sustainability.",
+    experience: [
+      "Connect local growers to buyers and community outlets.",
+      "Support food movement to schools, families, businesses, and organizations.",
+      "Create a stronger system for selling, ordering, pickup, and distribution.",
+      "Keep food dollars circulating locally instead of leaving the community.",
+    ],
   },
   {
     id: "grower",
-    title: "Grower Pathway",
+    title: "Grower Support System",
     subtitle: "Tools, supplies, demonstrations, and support",
     image: "/SAM_0225.JPG",
     deep: true,
-    pathway: "Grower",
-    text: "Growers need more than land. They need education, demonstrations, tools, infrastructure ideas, networking, and market opportunities. The Growers Supply Market was created to help growers learn, prepare, build confidence, and grow more successfully.",
+    pathway: "Grower Support System",
+    text: "Growers need more than land. They need education, demonstrations, tools, infrastructure ideas, networking, market access, and support. The Growers Supply Market was created to help small farms, gardeners, and community growers learn, prepare, build confidence, and grow more successfully.",
     detail:
-      "This pathway connects producers to tools, knowledge, market participation, and opportunity.",
+      "This experience connects producers to tools, knowledge, market participation, and opportunity.",
+    experience: [
+      "See demonstrations and growing methods.",
+      "Learn about tools, supplies, soil, irrigation, and production needs.",
+      "Connect to marketplace and distribution opportunities.",
+      "Build confidence as part of a larger food ecosystem.",
+    ],
   },
   {
     id: "youth",
-    title: "Youth Workforce Pathway",
+    title: "Youth Workforce Development",
     subtitle: "Skills, leadership, and future readiness",
     image: "/SAM_0226.JPG",
     deep: true,
-    pathway: "Youth Workforce",
-    text: "Youth workforce development is integrated directly into the ecosystem. Young people gain hands-on experience in leadership, responsibility, communication, teamwork, food handling, growing practices, customer engagement, and outdoor work readiness.",
+    pathway: "Youth Workforce Development",
+    text: "Youth workforce development is built into the ecosystem. Young people gain hands-on experience in leadership, responsibility, communication, teamwork, agriculture, food handling, customer engagement, and outdoor work readiness.",
     detail:
-      "This pathway builds responsibility, practical skills, confidence, and future readiness.",
+      "This experience builds responsibility, practical skills, confidence, and future readiness.",
+    experience: [
+      "Participate in structured outdoor learning and work experiences.",
+      "Practice responsibility, safety, teamwork, and communication.",
+      "Learn growing, food handling, customer service, and leadership skills.",
+      "Build confidence for future employment, entrepreneurship, and service.",
+    ],
   },
   {
     id: "partners",
-    title: "Partner Pathway",
+    title: "Community Partnerships",
     subtitle: "Shared impact and collaboration",
     image: "/SAM_0229.JPG",
-    pathway: "Partner",
-    text: "Partners help strengthen the ecosystem through collaboration, education, workforce support, health programming, tools, supplies, demonstrations, funding, and community engagement that creates long-term shared benefit.",
+    pathway: "Community Partnerships",
+    text: "Partners strengthen the ecosystem through collaboration, education, workforce support, health programming, demonstrations, funding, tools, sponsorship, and shared community investment.",
     detail:
-      "This pathway aligns resources, collaboration, and community benefit.",
+      "This experience aligns resources, collaboration, and community benefit.",
+    experience: [
+      "Identify where partner resources can strengthen the ecosystem.",
+      "Support education, health, workforce, food access, or infrastructure.",
+      "Collaborate with growers, families, youth, and community organizations.",
+      "Help create a replicable model for place-based food system development.",
+    ],
   },
   {
     id: "future",
@@ -105,13 +142,13 @@ const slides = [
   },
 ];
 
-const pathwayLabels = [
-  "Guest",
-  "Customer",
-  "Marketplace",
-  "Grower",
-  "Youth Workforce",
-  "Partner",
+const experienceLabels = [
+  "Explore the Farm",
+  "Healthy Food Access",
+  "Community Marketplace",
+  "Grower Support System",
+  "Youth Workforce Development",
+  "Community Partnerships",
 ];
 
 export default function App() {
@@ -177,7 +214,7 @@ export default function App() {
     setTourJustStarted(false);
   };
 
-  const explorePathway = (label: string) => {
+  const exploreExperience = (label: string) => {
     const target = slides.findIndex((slide) => slide.pathway === label);
     goToSlide(target);
   };
@@ -253,15 +290,61 @@ export default function App() {
               {current.text}
             </p>
 
+            {current.ecosystem && (
+              <div className="mt-6 grid gap-4 md:grid-cols-3">
+                <div className="rounded-3xl bg-black/35 p-5 backdrop-blur">
+                  <h3 className="text-lg font-bold text-amber-200">Grow</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/90">
+                    Local growers receive education, tools, demonstrations,
+                    support, and marketplace access to grow healthier food
+                    successfully.
+                  </p>
+                </div>
+
+                <div className="rounded-3xl bg-black/35 p-5 backdrop-blur">
+                  <h3 className="text-lg font-bold text-amber-200">Connect</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/90">
+                    Families, youth, customers, schools, organizations, and
+                    partners connect through food, learning, workforce
+                    development, and community experiences.
+                  </p>
+                </div>
+
+                <div className="rounded-3xl bg-black/35 p-5 backdrop-blur">
+                  <h3 className="text-lg font-bold text-amber-200">
+                    Circulate
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/90">
+                    Food, money, education, partnerships, and opportunity
+                    circulate locally to strengthen the ecosystem and community
+                    over time.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {current.detail && (
               <div className="mt-5 rounded-3xl border border-amber-700/40 bg-gradient-to-br from-[#7c2d12]/90 via-[#92400e]/90 to-[#78350f]/90 p-5 text-amber-50 shadow-2xl backdrop-blur">
                 <h3 className="text-lg font-bold tracking-wide text-amber-200">
-                  Why this pathway matters
+                  Why this experience matters
                 </h3>
 
                 <p className="mt-2 text-base leading-relaxed">
                   {current.detail}
                 </p>
+              </div>
+            )}
+
+            {current.experience && (
+              <div className="mt-5 grid gap-3 md:grid-cols-2">
+                {current.experience.map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl bg-black/35 p-4 text-sm leading-relaxed text-white/90 backdrop-blur"
+                  >
+                    {item}
+                  </div>
+                ))}
               </div>
             )}
 
@@ -350,10 +433,10 @@ export default function App() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {pathwayLabels.map((label) => (
+              {experienceLabels.map((label) => (
                 <button
                   key={label}
-                  onClick={() => explorePathway(label)}
+                  onClick={() => exploreExperience(label)}
                   className="rounded-full bg-lime-300/90 px-4 py-2 text-xs font-bold uppercase tracking-wide text-black transition hover:bg-lime-200"
                 >
                   {label}
