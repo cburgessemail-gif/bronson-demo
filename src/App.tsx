@@ -333,7 +333,7 @@ export default function App() {
             ...styles.overlay,
             background:
               slide.id === "intro"
-                ? "linear-gradient(135deg, rgba(5,8,5,.50) 0%, rgba(0,0,0,.28) 100%)"
+                ? "linear-gradient(135deg, rgba(5,8,5,.38) 0%, rgba(0,0,0,.18) 100%)"
                 : `linear-gradient(135deg, rgba(18,18,18,.56) 0%, ${slide.color}aa 45%, rgba(0,0,0,.24) 100%)`,
           }}
         >
@@ -435,6 +435,8 @@ const styles: Record<string, React.CSSProperties> = {
     width: "100%",
     height: "100%",
     objectFit: "cover",
+    transform: "scale(1.01)",
+    transition: "transform 8s ease",
   },
   overlay: {
     position: "absolute",
@@ -473,14 +475,15 @@ const styles: Record<string, React.CSSProperties> = {
   },
   content: {
     display: "grid",
-    gridTemplateColumns: "360px minmax(560px, 1fr)",
+    gridTemplateColumns: "340px minmax(500px, 920px)",
     gap: 18,
-    alignItems: "center",
+    alignItems: "start",
+    paddingTop: 14,
     minHeight: 0,
     overflow: "hidden",
   },
   textSide: {
-    maxWidth: 360,
+    maxWidth: 340,
     minHeight: 0,
   },
   title: {
@@ -500,7 +503,7 @@ const styles: Record<string, React.CSSProperties> = {
     lineHeight: 1.2,
   },
   bodyBox: {
-    background: "rgba(12,12,12,.54)",
+    background: "rgba(8,8,8,.72)",
     borderRadius: 14,
     padding: "10px",
     backdropFilter: "blur(8px)",
@@ -598,12 +601,13 @@ const styles: Record<string, React.CSSProperties> = {
     height: "100%",
     maxHeight: "calc(100dvh - 190px)",
     background: "rgba(0,0,0,.18)",
-    border: "1px solid rgba(255,255,255,.12)",
+    border: "1px solid rgba(255,255,255,.08)",
     borderRadius: 18,
     padding: 6,
     backdropFilter: "blur(5px)",
-    overflow: "auto",
+    overflow: "hidden",
     boxSizing: "border-box",
+    boxShadow: "0 18px 45px rgba(0,0,0,.38)",
   },
   pathwayMiniLabel: {
     color: warm,
