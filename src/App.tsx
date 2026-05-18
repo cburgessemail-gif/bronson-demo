@@ -1,754 +1,287 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-const accent = "#c58a34";
-const warm = "#f0d4a2";
-
-const pathways = [
-  {
-    id: "explore",
-    label: "Explore the Farm",
-    short: "Airport land, outdoor growing areas, and place-based purpose.",
-    role:
-      "Introduces Bronson Family Farm as a place-based food ecosystem located at the Historic Lansdowne Airport in Youngstown, Ohio.",
-    does: [
-      "Explains the airport setting and why this land matters.",
-      "Introduces outdoor growing areas as demonstration, production, and education spaces.",
-      "Shows how an underused place becomes infrastructure for food access, learning, workforce development, and revitalization.",
-    ],
-  },
-  {
-    id: "food",
-    label: "Healthy Food Access",
-    short: "Fresh, chemical-free produce, seedlings, and nutrition education.",
-    role:
-      "Explains how the ecosystem supports families through healthier food choices and repeated access to local food.",
-    does: [
-      "Connects families to fresh produce, seedlings, and nutrition education.",
-      "Links food access to health, wellness, and household stability.",
-      "Shows how customer participation strengthens growers and the marketplace.",
-    ],
-  },
-  {
-    id: "marketplace",
-    label: "Community Marketplace",
-    short: "Food moves through a coordinated community system.",
-    role:
-      "Explains how the marketplace moves food, orders, money, and opportunity through the community.",
-    does: [
-      "Connects growers to families, schools, businesses, organizations, and buyers.",
-      "Explains the principle: the food moves — not every farmer alone.",
-      "Keeps food and money circulating locally.",
-    ],
-  },
-  {
-    id: "growers",
-    label: "Grower Support System",
-    short: "Education, tools, demonstrations, resources, and infrastructure.",
-    role:
-      "Explains how the ecosystem helps growers become stronger, more productive, and more connected.",
-    does: [
-      "Supports growers with education, demonstrations, tools, and technical assistance.",
-      "Explains soil knowledge, irrigation, pest awareness, harvesting, and market readiness.",
-      "Helps growers participate in a shared system instead of working in isolation.",
-    ],
-  },
-  {
-    id: "youth",
-    label: "Youth Workforce Development",
-    short: "Responsibility, leadership, job skills, and confidence.",
-    role:
-      "Explains how the farm becomes an outdoor classroom for workforce development and future readiness.",
-    does: [
-      "Builds attendance, teamwork, communication, responsibility, and safety habits.",
-      "Uses real farm work to teach job readiness, leadership, and problem-solving.",
-      "Connects youth to visible results, community purpose, and future opportunity.",
-    ],
-  },
-  {
-    id: "partners",
-    label: "Community Partnerships",
-    short: "Education, health, workforce, business, agriculture, and community.",
-    role:
-      "Explains how partners strengthen the ecosystem so it can serve more people than one organization could alone.",
-    does: [
-      "Partners include the City of Youngstown, Central State University, Ohio State University, Northeast Ohio Regional Sewer District, Farm & Family Alliance, Parker Farms, Home Depot, Flying High, Jubilee Gardens, Inc., Elliott’s Garden Center, Petitti Garden Centers, and The Airport Association.",
-      "Partners contribute education, materials, funding, technical assistance, outreach, and workforce support.",
-      "Partnerships expand capacity, credibility, infrastructure, and community impact.",
-    ],
-  },
-];
-
 const slides = [
   {
-    id: "intro",
+    id: 1,
     title: "A Connected Food Ecosystem",
     subtitle: "People. Resources. Opportunity. Circulating Together.",
     image: "/ConnectFoodEcosystem_withimages.jpeg",
+    section: "ECOSYSTEM OVERVIEW",
     body:
       "Bronson Family Farm is a place-based ecosystem where growers, families, youth, partners, resources, and opportunities work together so food, knowledge, and economic value circulate locally and strengthen the whole community.",
-    details: [
-      "The ecosystem image shows six connected pathways.",
-      "Each numbered section represents a role in the system.",
-      "Viewers can follow each pathway to understand what it does, why it matters, and how it strengthens the whole ecosystem.",
-    ],
+    detail:
+      "Each section of the ecosystem wheel represents a role in the system. Visitors can follow each pathway to understand how food, knowledge, opportunity, and resources move through the community.",
   },
+
   {
-    id: "place",
+    id: 2,
     title: "The Place",
-    subtitle: "Historic Lansdowne Airport · Youngstown, Ohio",
-    image: "/GrowArea2.jpg",
+    subtitle: "Historic Lansdowne Airport • Youngstown, Ohio",
+    image: "/GrowArea.jpg",
+    section: "PLACE-BASED INFRASTRUCTURE",
     body:
-      "The farm grows on historic land connected to aviation, memory, and new possibility. This place is becoming infrastructure for food access, learning, wellness, workforce development, and agritourism.",
-    details: [
-      "The land is the entry point for the story.",
-      "The airport setting gives the farm a unique identity and destination value.",
-      "The site becomes a working demonstration space where people can see food systems in action.",
-    ],
+      "Bronson Family Farm operates on historic airport property where overlooked land is being transformed into infrastructure for food production, workforce development, education, and agritourism.",
+    detail:
+      "The airport environment provides open outdoor growing space, transportation access, visibility, and room for long-term ecosystem growth. The farm is rooted in place, history, and community revitalization.",
   },
+
   {
-    id: "explore",
+    id: 3,
     title: "Explore the Farm",
-    subtitle: "Historic airport land becoming a place-based food ecosystem.",
-    image: "/SAM_0220.JPG",
+    subtitle: "Understanding the land, story, and purpose.",
+    image: "/SAM_0238.JPG",
+    section: "PATHWAY 1",
     body:
-      "Explore the Farm introduces visitors to the Historic Lansdowne Airport, the outdoor growing areas, and the purpose of using this place to grow food, teach skills, support growers, and create community opportunity.",
-    pathwayId: "explore",
-    nextPath: "food",
+      "Visitors experience the airport property, outdoor growing areas, demonstrations, and educational spaces that explain why local food systems matter.",
+    detail:
+      "This pathway introduces guests to the ecosystem story. People begin to understand how agriculture, education, health, workforce development, and community reinvestment connect together.",
   },
+
   {
-    id: "food",
+    id: 4,
     title: "Healthy Food Access",
-    subtitle: "Fresh food supports healthier families.",
-    image: "/culniary_edibleflowers.jpeg",
+    subtitle: "Fresh food. Chemical-free produce. Stronger families.",
+    image: "/SAM_0274.JPG",
+    section: "PATHWAY 2",
     body:
-      "Healthy Food Access explains how families connect to fresh, chemical-free produce, seedlings, nutrition education, and healthier choices that support wellness, food security, and household stability.",
-    pathwayId: "food",
-    nextPath: "marketplace",
+      "Families gain access to fresh produce, seedlings, nutrition education, and healthier food choices connected to local growers and community support systems.",
+    detail:
+      "The ecosystem increases access to nutritious food while helping families reconnect to growing, cooking, wellness, and healthier long-term outcomes.",
   },
+
   {
-    id: "marketplace",
+    id: 5,
     title: "Community Marketplace",
     subtitle: "The food moves — not the farmer.",
-    image: "/SAM_0301.JPG",
+    image: "/SAM_0281.JPG",
+    section: "PATHWAY 3",
     body:
-      "The Community Marketplace explains how food, buyers, growers, schools, businesses, organizations, and community programs can be coordinated so food and money circulate locally.",
-    pathwayId: "marketplace",
-    nextPath: "growers",
+      "The marketplace connects growers to schools, businesses, organizations, institutions, and community buyers through a coordinated local food system.",
+    detail:
+      "Instead of every grower searching independently for customers, the ecosystem helps organize food distribution so products, money, and opportunity circulate more efficiently throughout the region.",
   },
+
   {
-    id: "growers",
+    id: 6,
     title: "Grower Support System",
-    subtitle: "Tools, education, infrastructure, and opportunity.",
-    image: "/SAM_0225.JPG",
+    subtitle: "Tools. Education. Infrastructure. Opportunity.",
+    image: "/SAM_0229.JPG",
+    section: "PATHWAY 4",
     body:
-      "The Grower Support System explains how growers receive demonstrations, technical assistance, irrigation knowledge, tools, market opportunities, education, and support to become more sustainable and successful.",
-    pathwayId: "growers",
-    nextPath: "youth",
+      "Growers receive demonstrations, technical support, tools, educational resources, irrigation knowledge, and market opportunities that help them become more sustainable and successful.",
+    detail:
+      "The ecosystem lowers barriers for local growers by connecting them to practical support systems, shared resources, and collaborative learning opportunities.",
   },
+
   {
-    id: "youth",
+    id: 7,
     title: "Youth Workforce Development",
     subtitle: "The farm becomes an outdoor classroom.",
-    image: "/SAM_0226.JPG",
+    image: "/SAM_0308.JPG",
+    section: "PATHWAY 5",
     body:
-      "Youth Workforce Development explains how young people build leadership, responsibility, teamwork, communication, safety, and workforce skills through real experiences connected to growing food and serving community.",
-    pathwayId: "youth",
-    nextPath: "partners",
+      "Youth participants build responsibility, leadership, teamwork, communication, and workforce skills through real outdoor learning experiences connected to agriculture and community service.",
+    detail:
+      "The ecosystem prepares young people for future careers while teaching ownership, discipline, environmental awareness, and community engagement.",
   },
+
   {
-    id: "partners",
+    id: 8,
     title: "Community Partnerships",
-    subtitle: "Stronger together.",
-    image: "/SAM_0238.JPG",
+    subtitle: "Collaboration strengthens the ecosystem.",
+    image: "/SAM_0303.JPG",
+    section: "PATHWAY 6",
     body:
-      "Community Partnerships explains how organizations align resources, knowledge, funding, technical assistance, workforce support, and community investment to strengthen the ecosystem.",
-    pathwayId: "partners",
-    nextPath: "future",
+      "Community partnerships align education, workforce development, agriculture, health, business, and nonprofit collaboration around local food system growth.",
+    detail:
+      "Partners include the City of Youngstown, Central State University, Ohio State University, Farm & Family Alliance, Parker Farms, Home Depot, Flying High, Jubilee Gardens, Inc., Elliott's Garden Center, Petitti Garden Centers, The Airport Association, and other community organizations.",
   },
+
   {
-    id: "future",
+    id: 9,
     title: "Future Growth",
-    subtitle: "Agritourism, food innovation, and community-centered development.",
-    image: "/SAM_0249.JPG",
+    subtitle: "Building a regional agritourism destination.",
+    image: "/SAM_0257.JPG",
+    section: "FUTURE VISION",
     body:
-      "Beyond the six ecosystem pathways, Bronson Family Farm is growing toward agritourism, youth experiences, food innovation, camping, RC activities, education, wellness, grower supply systems, and community-centered economic development.",
-    details: [
-      "Future growth builds from the six connected ecosystem pathways.",
-      "Agritourism creates earned revenue while keeping the mission community-centered.",
-      "The farm becomes a regional model for food access, learning, workforce development, and revitalization.",
-    ],
+      "The ecosystem continues growing toward expanded education, agritourism, workforce opportunities, camping, food distribution, family engagement, and regional collaboration.",
+    detail:
+      "Future plans include expanded growers markets, agritourism experiences, educational demonstrations, family attractions, and year-round ecosystem participation.",
   },
+
   {
-    id: "purpose",
+    id: 10,
     title: "The Purpose",
-    subtitle: "Grow food. Grow people. Grow community.",
-    image: "/GrowArea.jpg",
+    subtitle: "Growing opportunity for all.",
+    image: "/SAM_0299.JPG",
+    section: "THE MISSION",
     body:
-      "The purpose of Bronson Family Farm is to help communities grow stronger through food access, education, workforce development, wellness, local enterprise, and shared participation in a connected food ecosystem.",
-    details: [
-      "Food access is the starting point.",
-      "Education and workforce development help people grow with the system.",
-      "The ecosystem keeps resources, opportunity, and value circulating locally.",
-    ],
+      "Bronson Family Farm exists to strengthen communities through food access, education, workforce development, agriculture, partnerships, and local economic circulation.",
+    detail:
+      "The ecosystem is designed so people can enter, learn, grow, participate, work, partner, reinvest, and help strengthen the future of the community.",
   },
 ];
 
-function findSlideIndex(id: string) {
-  const found = slides.findIndex((s) => s.id === id);
-  return found >= 0 ? found : 0;
-}
-
-function findPathway(id?: string) {
-  return pathways.find((p) => p.id === id);
-}
-
 export default function App() {
-  const [index, setIndex] = useState(0);
-  const [guided, setGuided] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [playing, setPlaying] = useState(false);
 
-  const slide = slides[index];
-  const pathway = findPathway(slide.pathwayId);
-  const items = pathway ? pathway.does : slide.details || [];
+  const slide = useMemo(() => slides[current], [current]);
 
   useEffect(() => {
-    if (!guided) return;
-    if (index >= slides.length - 1) {
-      setGuided(false);
-      return;
-    }
+    if (!playing) return;
 
     const timer = setTimeout(() => {
-      setIndex((prev) => Math.min(prev + 1, slides.length - 1));
-    }, 15000);
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 9500);
 
     return () => clearTimeout(timer);
-  }, [guided, index]);
+  }, [current, playing]);
 
-  const progress = useMemo(() => ((index + 1) / slides.length) * 100, [index]);
+  const next = () => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  };
 
-  const next = () => setIndex((i) => Math.min(i + 1, slides.length - 1));
-  const back = () => setIndex((i) => Math.max(i - 1, 0));
+  const back = () => {
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+  };
 
   return (
-    <div style={styles.page}>
-      <img src={slide.image} alt={slide.title} style={styles.backgroundImage} />
-      <div style={styles.overlay} />
+    <div className="w-screen h-screen overflow-hidden bg-black text-white relative font-sans">
+      {/* Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center transition-all duration-[2500ms]"
+        style={{
+          backgroundImage: `url(${slide.image})`,
+        }}
+      />
 
-      <header style={styles.topBar}>
-        <div style={styles.brand}>
-          <div style={styles.brandTitle}>BRONSON FAMILY FARM</div>
-          <div style={styles.brandSub}>Guided Ecosystem Demo</div>
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px]" />
+
+      {/* Top */}
+      <div className="absolute top-6 left-6 z-30">
+        <div className="tracking-[5px] text-[#e7c98a] text-sm font-bold">
+          BRONSON FAMILY FARM
         </div>
 
-        <div style={styles.counter}>
-          {index + 1} / {slides.length}
+        <div className="text-white/90 text-xl font-black mt-6 leading-none max-w-[380px]">
+          {slide.title}
         </div>
-      </header>
 
-      <main style={styles.content}>
-        <section style={styles.textSide}>
-          <h1 style={styles.title}>{slide.title}</h1>
-          <div style={styles.subtitle}>{slide.subtitle}</div>
+        <div className="mt-4 text-[#e6cf96] text-lg font-semibold leading-snug max-w-[380px]">
+          {slide.subtitle}
+        </div>
+      </div>
 
-          <div style={styles.bodyBox}>
-            <div style={styles.bodyText}>{slide.body}</div>
-          </div>
-
-          <div style={styles.detailBox}>
-            <div style={styles.detailTitle}>
-              {pathway ? "Pathway Knowledge" : "What this story establishes"}
+      {/* Main Content */}
+      <div className="relative z-20 h-full flex items-center justify-between px-6 pt-24 pb-36 gap-8">
+        {/* LEFT */}
+        <div className="w-[28%] max-w-[390px] flex flex-col gap-4">
+          <div className="bg-black/50 border border-[#caa04d]/30 rounded-3xl p-5 backdrop-blur-md">
+            <div className="text-[#e6cf96] text-xs tracking-[3px] font-bold mb-3">
+              {slide.section}
             </div>
 
-            {pathway && (
-              <div style={styles.detailText}>
-                <strong>Role:</strong> {pathway.role}
-              </div>
-            )}
-
-            <ul style={styles.detailList}>
-              {items.map((item: string) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-
-            <div style={styles.pathEndControls}>
-              {slide.nextPath && (
-                <button
-                  style={styles.primarySmallBtn}
-                  onClick={() => setIndex(findSlideIndex(slide.nextPath))}
-                >
-                  Follow Next Path →
-                </button>
-              )}
-
-              <button style={styles.secondarySmallBtn} onClick={back}>
-                Back
-              </button>
-
-              <button style={styles.secondarySmallBtn} onClick={() => setIndex(0)}>
-                Start
-              </button>
+            <div className="text-white/92 text-[15px] leading-relaxed">
+              {slide.body}
             </div>
           </div>
 
-          <div style={styles.actionRow}>
+          <div className="bg-black/45 border border-[#caa04d]/30 rounded-3xl p-5 backdrop-blur-md max-h-[220px] overflow-y-auto">
+            <div className="text-[#f1d08a] text-sm font-black tracking-[2px] mb-3">
+              WHAT THIS PATHWAY EXPLAINS
+            </div>
+
+            <div className="text-white/88 text-[14px] leading-relaxed">
+              {slide.detail}
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-wrap gap-3 pt-2">
             <button
-              style={styles.primaryBtn}
-              onClick={() => {
-                setIndex(0);
-                setGuided(true);
-              }}
+              onClick={() => setPlaying(true)}
+              className="px-5 py-3 rounded-full bg-[#c99732] text-black font-black hover:scale-105 transition"
             >
               Guided Tour
             </button>
 
-            <button style={styles.secondaryBtn} onClick={() => setGuided((g) => !g)}>
-              {guided ? "Pause Tour" : "Resume Tour"}
+            <button
+              onClick={() => setPlaying(false)}
+              className="px-5 py-3 rounded-full bg-black/55 border border-white/20 text-white font-bold"
+            >
+              Pause Tour
             </button>
 
-            <button style={styles.secondaryBtn} onClick={back}>
+            <button
+              onClick={back}
+              className="px-5 py-3 rounded-full bg-black/55 border border-white/20 text-white font-bold"
+            >
               Back
             </button>
 
-            <button style={styles.primaryBtn} onClick={next}>
+            <button
+              onClick={next}
+              className="px-5 py-3 rounded-full bg-[#c99732] text-black font-black"
+            >
               Next
             </button>
           </div>
-        </section>
+        </div>
 
-        <section style={styles.ecosystemPanel}>
-          {slide.id === "intro" ? (
-            <div />
-          ) : (
-            <div style={styles.pathwayPanel}>
-              <div style={styles.pathwayMiniLabel}>ECOSYSTEM PATHWAYS</div>
-
-              <div style={styles.pathwayList}>
-                {pathways.map((p, i) => (
-                  <button
-                    key={p.id}
-                    onClick={() => setIndex(findSlideIndex(p.id))}
-                    style={{
-                      ...styles.pathwayItem,
-                      borderColor:
-                        slide.pathwayId === p.id ? accent : "rgba(255,255,255,.14)",
-                      background:
-                        slide.pathwayId === p.id
-                          ? "rgba(197,138,52,.24)"
-                          : "rgba(0,0,0,.34)",
-                    }}
-                  >
-                    <div style={styles.pathwayNumber}>{i + 1}</div>
-                    <div>
-                      <div style={styles.pathwayTitle}>{p.label}</div>
-                      <div style={styles.pathwayText}>{p.short}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              <div style={styles.pathwayFlow}>
-                Explore → Healthy Food Access → Marketplace → Grower Support →
-                Youth Workforce → Partnerships
-              </div>
-            </div>
-          )}
-        </section>
-      </main>
-
-      <div style={styles.progressWrap}>
-        <div style={{ ...styles.progress, width: `${progress}%` }} />
+        {/* RIGHT VISUAL */}
+        <div className="w-[68%] h-full flex items-center justify-center">
+          <div className="w-full max-w-[1120px] rounded-[38px] overflow-hidden border border-white/10 bg-black/20 backdrop-blur-md shadow-2xl">
+            <img
+              src={
+                current === 0
+                  ? "/ConnectFoodEcosystem_withimages.jpeg"
+                  : slide.image
+              }
+              alt={slide.title}
+              className="w-full h-full object-contain"
+            />
+          </div>
+        </div>
       </div>
 
-      <nav style={styles.bottomStrip}>
-        {slides.map((s, i) => (
-          <button
-            key={s.id}
-            onClick={() => setIndex(i)}
-            style={{
-              ...styles.thumb,
-              ...(i === index ? styles.thumbActive : {}),
-            }}
-          >
-            <img src={s.image} alt={s.title} style={styles.thumbImg} />
-            <div style={styles.thumbOverlay}>
-              <div style={styles.thumbText}>{s.title}</div>
-            </div>
-          </button>
-        ))}
-      </nav>
+      {/* Counter */}
+      <div className="absolute top-5 right-5 z-30 bg-black/40 border border-white/20 rounded-full px-5 py-2 text-white font-bold">
+        {current + 1} / {slides.length}
+      </div>
+
+      {/* Bottom Navigation */}
+      <div className="absolute bottom-0 left-0 right-0 z-30 bg-black/45 backdrop-blur-md border-t border-white/10 px-4 py-3">
+        <div className="flex gap-3 overflow-x-auto pb-1">
+          {slides.map((s, index) => (
+            <button
+              key={s.id}
+              onClick={() => setCurrent(index)}
+              className={`min-w-[170px] transition-all rounded-2xl overflow-hidden border ${
+                current === index
+                  ? "border-[#d8a64b] scale-[1.02]"
+                  : "border-white/10 opacity-75"
+              }`}
+            >
+              <div
+                className="h-[82px] bg-cover bg-center relative"
+                style={{
+                  backgroundImage: `url(${s.image})`,
+                }}
+              >
+                <div className="absolute inset-0 bg-black/45" />
+
+                <div className="absolute bottom-2 left-2 right-2 text-left">
+                  <div className="text-white text-[12px] font-bold leading-tight">
+                    {s.title}
+                  </div>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
-
-const styles: Record<string, React.CSSProperties> = {
-  page: {
-    position: "relative",
-    width: "100%",
-    height: "100dvh",
-    overflow: "hidden",
-    background: "#09110c",
-    color: "white",
-    display: "flex",
-    flexDirection: "column",
-  },
-
-  backgroundImage: {
-    position: "absolute",
-    inset: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    filter: "blur(2px) brightness(.52)",
-    transform: "scale(1.03)",
-  },
-
-  overlay: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(135deg, rgba(8,14,12,.54), rgba(16,24,20,.38), rgba(34,26,16,.24))",
-  },
-
-  topBar: {
-    position: "relative",
-    zIndex: 5,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    padding: "14px 18px 6px",
-  },
-
-  brand: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 2,
-  },
-
-  brandTitle: {
-    fontSize: ".88rem",
-    fontWeight: 900,
-    letterSpacing: ".22em",
-    color: "#e5c17a",
-  },
-
-  brandSub: {
-    fontSize: ".82rem",
-    color: "rgba(255,255,255,.9)",
-  },
-
-  counter: {
-    border: "1px solid rgba(255,255,255,.28)",
-    borderRadius: 999,
-    padding: "8px 16px",
-    fontWeight: 800,
-    fontSize: ".92rem",
-    backdropFilter: "blur(10px)",
-    background: "rgba(255,255,255,.05)",
-  },
-
-  content: {
-    position: "relative",
-    zIndex: 5,
-    flex: 1,
-    display: "grid",
-    gridTemplateColumns: "260px minmax(0, 1fr)",
-    gap: 28,
-    alignItems: "start",
-    padding: "0 18px 8px",
-    minHeight: 0,
-    overflow: "hidden",
-  },
-
-  textSide: {
-    maxWidth: 260,
-    paddingTop: 8,
-    display: "flex",
-    flexDirection: "column",
-  },
-
-  title: {
-    fontSize: "clamp(1.1rem, 1.9vw, 2rem)",
-    lineHeight: 0.96,
-    margin: 0,
-    marginBottom: 10,
-    fontWeight: 900,
-    letterSpacing: "-0.04em",
-    textShadow: "0 4px 18px rgba(0,0,0,.32)",
-  },
-
-  subtitle: {
-    fontSize: "clamp(.88rem, 1vw, 1.05rem)",
-    lineHeight: 1.28,
-    marginBottom: 12,
-    color: "#e7d2aa",
-    fontWeight: 700,
-  },
-
-  bodyBox: {
-    background: "rgba(10,10,10,.72)",
-    borderRadius: 16,
-    padding: "12px 14px",
-    backdropFilter: "blur(8px)",
-    border: "1px solid rgba(255,255,255,.06)",
-  },
-
-  bodyText: {
-    fontSize: ".86rem",
-    lineHeight: 1.42,
-    color: "rgba(255,255,255,.92)",
-  },
-
-  detailBox: {
-    marginTop: 10,
-    background: "rgba(0,0,0,.36)",
-    border: "1px solid rgba(197,138,52,.38)",
-    borderRadius: 16,
-    padding: 12,
-    maxHeight: 150,
-    overflow: "auto",
-  },
-
-  detailTitle: {
-    fontWeight: 900,
-    fontSize: ".76rem",
-    color: "#f1cb86",
-    marginBottom: 8,
-    letterSpacing: ".05em",
-    textTransform: "uppercase",
-  },
-
-  detailText: {
-    fontSize: ".78rem",
-    lineHeight: 1.35,
-    color: "rgba(255,255,255,.92)",
-    marginBottom: 8,
-  },
-
-  detailList: {
-    margin: 0,
-    paddingLeft: 16,
-    fontSize: ".75rem",
-    lineHeight: 1.3,
-  },
-
-  pathEndControls: {
-    display: "flex",
-    gap: 6,
-    flexWrap: "wrap",
-    marginTop: 8,
-  },
-
-  primarySmallBtn: {
-    border: "none",
-    borderRadius: 999,
-    padding: "7px 10px",
-    fontWeight: 900,
-    fontSize: ".7rem",
-    cursor: "pointer",
-    background: accent,
-    color: "#111",
-  },
-
-  secondarySmallBtn: {
-    border: "1px solid rgba(255,255,255,.18)",
-    borderRadius: 999,
-    padding: "7px 10px",
-    fontWeight: 800,
-    fontSize: ".7rem",
-    cursor: "pointer",
-    background: "rgba(255,255,255,.06)",
-    color: "white",
-  },
-
-  actionRow: {
-    display: "flex",
-    gap: 8,
-    flexWrap: "wrap",
-    marginTop: 12,
-  },
-
-  primaryBtn: {
-    border: "none",
-    borderRadius: 999,
-    padding: "9px 14px",
-    fontWeight: 900,
-    fontSize: ".78rem",
-    cursor: "pointer",
-    background: accent,
-    color: "#111",
-    boxShadow: "0 10px 25px rgba(0,0,0,.35)",
-  },
-
-  secondaryBtn: {
-    border: "1px solid rgba(255,255,255,.18)",
-    borderRadius: 999,
-    padding: "9px 14px",
-    fontWeight: 800,
-    fontSize: ".78rem",
-    cursor: "pointer",
-    background: "rgba(255,255,255,.06)",
-    color: "white",
-    backdropFilter: "blur(8px)",
-  },
-
-  ecosystemPanel: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingRight: 18,
-    overflow: "hidden",
-    minHeight: 0,
-  },
-
-  pathwayPanel: {
-    width: "100%",
-    maxWidth: 900,
-    background: "rgba(0,0,0,.22)",
-    border: "1px solid rgba(255,255,255,.08)",
-    borderRadius: 18,
-    padding: 12,
-    backdropFilter: "blur(5px)",
-    boxShadow: "0 18px 45px rgba(0,0,0,.38)",
-  },
-
-  pathwayMiniLabel: {
-    color: warm,
-    fontSize: ".72rem",
-    fontWeight: 900,
-    letterSpacing: ".12em",
-    marginBottom: 10,
-    opacity: 0.92,
-  },
-
-  pathwayList: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, minmax(245px, 1fr))",
-    gap: 8,
-  },
-
-  pathwayItem: {
-    width: "100%",
-    color: "white",
-    border: "2px solid",
-    borderRadius: 14,
-    padding: 9,
-    display: "grid",
-    gridTemplateColumns: "28px 1fr",
-    gap: 9,
-    textAlign: "left",
-    cursor: "pointer",
-    alignItems: "start",
-    boxSizing: "border-box",
-    minHeight: 72,
-  },
-
-  pathwayNumber: {
-    width: 24,
-    height: 24,
-    borderRadius: "50%",
-    background: accent,
-    color: "#111",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontWeight: 950,
-    flexShrink: 0,
-    fontSize: ".74rem",
-  },
-
-  pathwayTitle: {
-    fontWeight: 950,
-    fontSize: ".78rem",
-    marginBottom: 3,
-    lineHeight: 1.12,
-  },
-
-  pathwayText: {
-    fontSize: ".68rem",
-    lineHeight: 1.18,
-    opacity: 0.9,
-  },
-
-  pathwayFlow: {
-    marginTop: 8,
-    background: "rgba(197,138,52,.18)",
-    border: `1px solid ${accent}`,
-    borderRadius: 14,
-    padding: 8,
-    textAlign: "center",
-    color: warm,
-    fontWeight: 950,
-    fontSize: ".7rem",
-  },
-
-  progressWrap: {
-    position: "relative",
-    zIndex: 5,
-    height: 6,
-    margin: "0 18px",
-    background: "rgba(255,255,255,.16)",
-    borderRadius: 999,
-    overflow: "hidden",
-  },
-
-  progress: {
-    height: "100%",
-    background: accent,
-    transition: "width .6s ease",
-  },
-
-  bottomStrip: {
-    position: "relative",
-    zIndex: 5,
-    display: "flex",
-    gap: 8,
-    overflowX: "auto",
-    padding: "8px 18px 10px",
-    scrollbarWidth: "thin",
-  },
-
-  thumb: {
-    flex: "0 0 auto",
-    width: 118,
-    height: 58,
-    borderRadius: 12,
-    overflow: "hidden",
-    border: "2px solid rgba(255,255,255,.08)",
-    background: "rgba(255,255,255,.04)",
-    position: "relative",
-    cursor: "pointer",
-    padding: 0,
-  },
-
-  thumbActive: {
-    border: `2px solid ${accent}`,
-    boxShadow: "0 0 0 2px rgba(197,138,52,.18)",
-  },
-
-  thumbImg: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    filter: "brightness(.8)",
-  },
-
-  thumbOverlay: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(to top, rgba(0,0,0,.88), rgba(0,0,0,.12))",
-    display: "flex",
-    alignItems: "flex-end",
-    padding: 7,
-  },
-
-  thumbText: {
-    fontSize: ".6rem",
-    fontWeight: 800,
-    lineHeight: 1.1,
-    color: "#fff",
-    textAlign: "left",
-  },
-};
