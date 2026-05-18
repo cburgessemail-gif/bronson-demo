@@ -7,67 +7,79 @@ const pathways = [
   {
     id: "explore",
     label: "Explore the Farm",
-    short: "Guests experience the vision, story, and future of the farm.",
-    role: "Introduces people to the farm, the land, the story, and why the ecosystem exists.",
+    short:
+      "Explore the airport land, outdoor growing areas, and place-based purpose of the farm.",
+    role:
+      "This pathway introduces Bronson Family Farm as a place-based food ecosystem located at the Historic Lansdowne Airport in Youngstown, Ohio.",
     does: [
-      "Guests learn the story and purpose of Bronson Family Farm.",
-      "Guests experience the farm through tours, events, demonstrations, and storytelling.",
-      "Guests can become customers, volunteers, growers, advocates, donors, or partners.",
+      "Explains the airport setting and why this land matters.",
+      "Introduces the outdoor growing areas as demonstration, production, and education spaces.",
+      "Shows how the farm turns an underused place into infrastructure for food access, learning, workforce development, and community revitalization.",
     ],
   },
   {
     id: "food",
     label: "Healthy Food Access",
-    short: "Families access fresh, chemical-free produce and nutrition education.",
-    role: "Connects families to healthier food choices and repeated access to fresh local food.",
-    does: [
+    short:
       "Families access fresh, chemical-free produce, seedlings, and nutrition education.",
-      "Healthy food access supports stronger families and better health outcomes.",
-      "Customer participation strengthens growers and the local marketplace.",
+    role:
+      "This pathway explains how the ecosystem supports families through healthier food choices and repeated access to local food.",
+    does: [
+      "Connects families to fresh produce, seedlings, and nutrition education.",
+      "Explains why food access is connected to health, wellness, and household stability.",
+      "Shows how customer participation strengthens growers, the marketplace, and the local food system.",
     ],
   },
   {
     id: "marketplace",
     label: "Community Marketplace",
-    short: "Connecting growers to schools, businesses, organizations, and community buyers.",
-    role: "Moves food, money, orders, and opportunity through the community.",
+    short:
+      "Food moves through a coordinated system connecting growers, buyers, schools, and organizations.",
+    role:
+      "This pathway explains how the marketplace moves food, orders, money, and opportunity through the community.",
     does: [
-      "Connects growers to families, schools, businesses, organizations, and buyers.",
-      "Allows food to move through a coordinated system instead of every farmer traveling alone.",
-      "Keeps food and money circulating locally.",
+      "Connects growers to families, schools, businesses, organizations, and community buyers.",
+      "Explains the principle: the food moves — not every farmer alone.",
+      "Keeps food and money circulating locally through an organized community marketplace.",
     ],
   },
   {
     id: "growers",
     label: "Grower Support System",
-    short: "Education, tools, demonstrations, resources, and infrastructure support growers.",
-    role: "Strengthens local growers with the support they need to succeed.",
+    short:
+      "Growers receive education, tools, demonstrations, resources, and infrastructure support.",
+    role:
+      "This pathway explains how the ecosystem helps growers become stronger, more productive, and more connected.",
     does: [
-      "Provides education, demonstrations, tools, resources, and infrastructure learning.",
-      "Supports soil knowledge, irrigation, pest awareness, harvesting, and market readiness.",
-      "Helps growers become stronger, more productive, and more connected.",
+      "Supports growers with education, demonstrations, tools, and technical assistance.",
+      "Explains soil knowledge, irrigation, pest awareness, harvesting, and market readiness.",
+      "Helps growers participate in a shared system instead of working in isolation.",
     ],
   },
   {
     id: "youth",
     label: "Youth Workforce Development",
-    short: "Hands-on learning, leadership, responsibility, and job skills for the next generation.",
-    role: "Makes the farm an outdoor classroom for workforce development.",
+    short:
+      "Youth build responsibility, leadership, job skills, and confidence through real farm-based work.",
+    role:
+      "This pathway explains how the farm becomes an outdoor classroom for workforce development and future readiness.",
     does: [
-      "Youth build attendance, teamwork, communication, responsibility, and safety habits.",
-      "Hands-on farm work builds confidence, leadership, and job readiness.",
-      "Youth see visible results from their work and connect to community purpose.",
+      "Builds attendance, teamwork, communication, responsibility, and safety habits.",
+      "Uses real farm work to teach job readiness, leadership, and problem-solving.",
+      "Connects youth to visible results, community purpose, and future opportunity.",
     ],
   },
   {
     id: "partners",
     label: "Community Partnerships",
-    short: "Partners invest in education, health, workforce, and community revitalization.",
-    role: "Aligns organizations and resources so the ecosystem can serve more people.",
+    short:
+      "Partners align education, health, workforce, business, agriculture, and community resources.",
+    role:
+      "This pathway explains how partners strengthen the ecosystem so it can serve more people than one organization could alone.",
     does: [
       "Partners include the City of Youngstown, Central State University, Ohio State University, Northeast Ohio Regional Sewer District, Farm & Family Alliance, Parker Farms, Home Depot, Flying High, Jubilee Gardens, Inc., Elliott’s Garden Center, Petitti Garden Centers, and The Airport Association.",
       "Partners contribute education, materials, funding, technical assistance, outreach, and workforce support.",
-      "Partnerships expand capacity, credibility, and community impact.",
+      "Partnerships expand capacity, credibility, infrastructure, and community impact.",
     ],
   },
 ];
@@ -97,17 +109,17 @@ const slides = [
     color: "#3d332a",
     details: [
       "The land is the entry point for the story.",
-      "The airport setting gives the farm a unique identity and future destination value.",
+      "The airport setting gives the farm a unique identity and destination value.",
       "The site becomes a working demonstration space where people can see food systems in action.",
     ],
   },
   {
     id: "explore",
     title: "Explore the Farm",
-    subtitle: "Guests experience the vision, story, and future.",
+    subtitle: "Historic airport land becoming a place-based food ecosystem.",
     image: "/SAM_0220.JPG",
     body:
-      "Guests enter through tours, events, storytelling, demonstrations, and experiences that help them understand the ecosystem, the land, and why local food systems matter.",
+      "Explore the Farm introduces visitors to the Historic Lansdowne Airport, the outdoor growing areas, and the purpose of using this place to grow food, teach skills, support growers, and create community opportunity.",
     color: "#263322",
     pathwayId: "explore",
     nextPath: "food",
@@ -118,7 +130,7 @@ const slides = [
     subtitle: "Fresh food supports healthier families.",
     image: "/culniary_edibleflowers.jpeg",
     body:
-      "Families connect to fresh, chemical-free produce, seedlings, nutrition education, and healthier choices that support wellness, food security, and household stability.",
+      "Healthy Food Access explains how families connect to fresh, chemical-free produce, seedlings, nutrition education, and healthier choices that support wellness, food security, and household stability.",
     color: "#40351f",
     pathwayId: "food",
     nextPath: "marketplace",
@@ -129,7 +141,7 @@ const slides = [
     subtitle: "The food moves — not the farmer.",
     image: "/SAM_0301.JPG",
     body:
-      "The marketplace connects growers to schools, businesses, organizations, and buyers through a coordinated local food system where food and money circulate locally.",
+      "The Community Marketplace explains how food, buyers, growers, schools, businesses, organizations, and community programs can be coordinated so food and money circulate locally.",
     color: "#4a2f1d",
     pathwayId: "marketplace",
     nextPath: "growers",
@@ -140,7 +152,7 @@ const slides = [
     subtitle: "Tools, education, infrastructure, and opportunity.",
     image: "/SAM_0225.JPG",
     body:
-      "Growers receive demonstrations, technical assistance, irrigation knowledge, tools, market opportunities, education, and support to become more sustainable and successful.",
+      "The Grower Support System explains how growers receive demonstrations, technical assistance, irrigation knowledge, tools, market opportunities, education, and support to become more sustainable and successful.",
     color: "#263322",
     pathwayId: "growers",
     nextPath: "youth",
@@ -151,7 +163,7 @@ const slides = [
     subtitle: "The farm becomes an outdoor classroom.",
     image: "/SAM_0226.JPG",
     body:
-      "Youth build leadership, responsibility, teamwork, communication, safety, and workforce skills through real experiences connected to growing food and serving community.",
+      "Youth Workforce Development explains how young people build leadership, responsibility, teamwork, communication, safety, and workforce skills through real experiences connected to growing food and serving community.",
     color: "#29243d",
     pathwayId: "youth",
     nextPath: "partners",
@@ -162,7 +174,7 @@ const slides = [
     subtitle: "Stronger together.",
     image: "/SAM_0238.JPG",
     body:
-      "Community partnerships strengthen the ecosystem through shared education, workforce development, food access, infrastructure, health, and community investment.",
+      "Community Partnerships explains how organizations align resources, knowledge, funding, technical assistance, workforce support, and community investment to strengthen the ecosystem.",
     color: "#23364a",
     pathwayId: "partners",
     nextPath: "future",
@@ -206,7 +218,7 @@ function findPathway(id?: string) {
   return pathways.find((p) => p.id === id);
 }
 
-function KnowledgeBox({ slide, setIndex }: any) {
+function KnowledgeBox({ slide, setIndex, back }: any) {
   const pathway = findPathway(slide.pathwayId);
   const items = pathway ? pathway.does : slide.details || [];
 
@@ -228,14 +240,24 @@ function KnowledgeBox({ slide, setIndex }: any) {
         ))}
       </ul>
 
-      {slide.nextPath && (
-        <button
-          style={styles.nextPathBtn}
-          onClick={() => setIndex(findSlideIndex(slide.nextPath))}
-        >
-          Follow Next Path →
+      <div style={styles.pathEndControls}>
+        {slide.nextPath && (
+          <button
+            style={styles.nextPathBtn}
+            onClick={() => setIndex(findSlideIndex(slide.nextPath))}
+          >
+            Follow Next Path →
+          </button>
+        )}
+
+        <button style={styles.smallDarkBtn} onClick={back}>
+          Back
         </button>
-      )}
+
+        <button style={styles.smallDarkBtn} onClick={() => setIndex(0)}>
+          Start
+        </button>
+      </div>
     </div>
   );
 }
@@ -243,11 +265,7 @@ function KnowledgeBox({ slide, setIndex }: any) {
 function PathwayPanel({ activeId, setIndex }: any) {
   return (
     <div style={styles.pathwayPanel}>
-      <div style={styles.pathwayHeader}>Follow the Ecosystem Pathways</div>
-      <div style={styles.pathwaySub}>
-        These six pathways match the ecosystem image. Each number opens its role,
-        purpose, next step, and impact.
-      </div>
+      <div style={styles.pathwayMiniLabel}>ECOSYSTEM PATHWAYS</div>
 
       <div style={styles.pathwayList}>
         {pathways.map((p, i) => (
@@ -295,7 +313,7 @@ export default function App() {
 
     const timer = setTimeout(() => {
       setIndex((prev) => Math.min(prev + 1, slides.length - 1));
-    }, 14500);
+    }, 15000);
 
     return () => clearTimeout(timer);
   }, [guided, index]);
@@ -339,7 +357,7 @@ export default function App() {
                 <p style={styles.body}>{slide.body}</p>
               </div>
 
-              <KnowledgeBox slide={slide} setIndex={setIndex} />
+              <KnowledgeBox slide={slide} setIndex={setIndex} back={back} />
 
               <div style={styles.controls}>
                 <button
@@ -424,7 +442,7 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "10px 18px 8px",
     color: "white",
     display: "grid",
-    gridTemplateRows: "auto minmax(0, 1fr) 6px 72px",
+    gridTemplateRows: "auto minmax(0, 1fr) 6px 58px",
     gap: 7,
     boxSizing: "border-box",
     overflow: "hidden",
@@ -466,7 +484,7 @@ const styles: Record<string, React.CSSProperties> = {
     minHeight: 0,
   },
   title: {
-    fontSize: "clamp(1.65rem, 3.15vw, 3.35rem)",
+    fontSize: "clamp(1.45rem, 2.8vw, 3rem)",
     lineHeight: 0.92,
     margin: 0,
     fontWeight: 950,
@@ -500,7 +518,7 @@ const styles: Record<string, React.CSSProperties> = {
     border: `1px solid rgba(197,138,52,.45)`,
     borderRadius: 14,
     padding: 10,
-    maxHeight: 142,
+    maxHeight: 158,
     overflow: "auto",
   },
   detailTitle: {
@@ -523,13 +541,28 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: ".69rem",
     lineHeight: 1.22,
   },
+  pathEndControls: {
+    display: "flex",
+    gap: 7,
+    flexWrap: "wrap",
+    marginTop: 8,
+  },
   nextPathBtn: {
-    marginTop: 6,
     border: "none",
     borderRadius: 999,
     background: accent,
     color: "#111",
     fontWeight: 950,
+    padding: "7px 11px",
+    cursor: "pointer",
+    fontSize: ".72rem",
+  },
+  smallDarkBtn: {
+    border: "1px solid rgba(255,255,255,.18)",
+    borderRadius: 999,
+    background: "rgba(0,0,0,.42)",
+    color: "#fff",
+    fontWeight: 850,
     padding: "7px 11px",
     cursor: "pointer",
     fontSize: ".72rem",
@@ -563,26 +596,22 @@ const styles: Record<string, React.CSSProperties> = {
   pathwayPanel: {
     width: "100%",
     height: "100%",
-    maxHeight: "calc(100dvh - 145px)",
-    background: "rgba(0,0,0,.30)",
+    maxHeight: "calc(100dvh - 190px)",
+    background: "rgba(0,0,0,.18)",
     border: "1px solid rgba(255,255,255,.12)",
     borderRadius: 18,
-    padding: 12,
+    padding: 6,
     backdropFilter: "blur(5px)",
     overflow: "auto",
     boxSizing: "border-box",
   },
-  pathwayHeader: {
+  pathwayMiniLabel: {
     color: warm,
-    fontSize: "1.05rem",
-    fontWeight: 950,
-    marginBottom: 4,
-  },
-  pathwaySub: {
     fontSize: ".72rem",
-    lineHeight: 1.25,
-    marginBottom: 8,
-    opacity: 0.9,
+    fontWeight: 900,
+    letterSpacing: ".12em",
+    marginBottom: 10,
+    opacity: 0.92,
   },
   pathwayList: {
     display: "grid",
@@ -635,7 +664,8 @@ const styles: Record<string, React.CSSProperties> = {
     wordBreak: "normal",
   },
   pathwayFlow: {
-    marginTop: 8,
+    marginTop: 2,
+    marginBottom: 6,
     background: "rgba(197,138,52,.18)",
     border: `1px solid ${accent}`,
     borderRadius: 14,
@@ -661,13 +691,13 @@ const styles: Record<string, React.CSSProperties> = {
     gap: 7,
     overflowX: "auto",
     overflowY: "hidden",
-    height: 72,
+    height: 58,
     padding: 0,
     alignItems: "center",
   },
   navCard: {
     minWidth: 118,
-    height: 66,
+    height: 54,
     background: "rgba(0,0,0,.52)",
     borderRadius: 12,
     overflow: "hidden",
@@ -680,7 +710,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   navImage: {
     width: "100%",
-    height: 40,
+    height: 30,
     objectFit: "cover",
     display: "block",
   },
