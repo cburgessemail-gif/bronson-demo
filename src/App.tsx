@@ -28,9 +28,9 @@ const slides = [
     title: "Bronson Family Farm",
     subtitle: "Step into the Farm. Experience the wonders of life.",
     image: IMAGES.entrance,
-    color: "#2f5f3a",
+    color: "#315c46",
     body:
-      "Bronson Family Farm is more than a farm. It is a guided ecosystem experience rooted in land, legacy, food access, education, and community growth.",
+      "Bronson Family Farm is more than a farm. It is a guided ecosystem experience rooted in land, legacy, food access, education, workforce development, and community growth.",
     button: "Begin the Guided Tour",
   },
   {
@@ -38,7 +38,7 @@ const slides = [
     title: "The Place",
     subtitle: "Historic Lansdowne Airport · Youngstown, Ohio",
     image: IMAGES.place,
-    color: "#5b4636",
+    color: "#6b4f3d",
     body:
       "This farm is growing on historic land connected to aviation, community memory, and new possibility. What was once overlooked is becoming infrastructure for food, learning, workforce development, and agritourism.",
     button: "See the Ecosystem",
@@ -46,11 +46,12 @@ const slides = [
   {
     id: "ecosystem",
     title: "What Is the Ecosystem?",
-    subtitle: "A connected system where people, food, education, and opportunity move together.",
+    subtitle:
+      "A connected system where people, food, education, and opportunity move together.",
     image: IMAGES.ecosystem,
     color: "#6f4e25",
     body:
-      "An ecosystem means no one part stands alone. Growers, customers, youth, volunteers, partners, and marketplaces are connected so food can move through the community—not so every farmer has to travel alone.",
+      "An ecosystem means no one part stands alone. Growers, customers, youth, volunteers, partners, and marketplaces are connected so food can move through the community — not so every farmer has to travel alone.",
     button: "Explore the Pathways",
   },
   {
@@ -70,7 +71,7 @@ const slides = [
     image: IMAGES.customer,
     color: "#7a4f2a",
     body:
-      "Customers connect to chemical-free produce, seedlings, education, and nutrition. The goal is not just a one-time purchase. The goal is to help families make healthy food part of everyday life.",
+      "Customers connect to chemical-free produce, seedlings, nutrition education, and simple ways to make healthier choices. The goal is not just a one-time purchase. The goal is to help families return to fresh food again and again.",
     button: "Go to Marketplace Story",
   },
   {
@@ -128,7 +129,7 @@ const slides = [
     title: "Thank You",
     subtitle: "We need your feedback.",
     image: IMAGES.entrance,
-    color: "#2f5f3a",
+    color: "#315c46",
     body:
       "Thank you for experiencing the Bronson Family Farm demo. Your feedback helps shape the next version of this ecosystem and how it serves growers, families, youth, and partners.",
     button: "Contact Constance",
@@ -144,6 +145,7 @@ export default function App() {
 
   useEffect(() => {
     if (!guided) return;
+
     if (index >= slides.length - 1) {
       setGuided(false);
       return;
@@ -151,7 +153,7 @@ export default function App() {
 
     const timer = setTimeout(() => {
       setIndex((prev) => Math.min(prev + 1, slides.length - 1));
-    }, 8500);
+    }, 9000);
 
     return () => clearTimeout(timer);
   }, [guided, index]);
@@ -169,6 +171,11 @@ export default function App() {
     if (found >= 0) setIndex(found);
   };
 
+  const startGuidedTour = () => {
+    setIndex(0);
+    setGuided(true);
+  };
+
   const contact = () => {
     window.location.href =
       "mailto:cburgess@bronsonfamilyfarm.com?subject=Bronson Family Farm Demo Feedback";
@@ -179,7 +186,17 @@ export default function App() {
       <div style={styles.hero}>
         <img src={slide.image} alt={slide.title} style={styles.image} />
 
-        <div style={{ ...styles.overlay, background: `${slide.color}dd` }}>
+        <div
+          style={{
+            ...styles.overlay,
+            background: `linear-gradient(
+              135deg,
+              ${slide.color}66 0%,
+              ${slide.color}44 42%,
+              rgba(0,0,0,0.18) 100%
+            )`,
+          }}
+        >
           <div style={styles.topbar}>
             <div>
               <strong>Bronson Family Farm</strong>
@@ -190,6 +207,7 @@ export default function App() {
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
               style={styles.select}
+              aria-label="Select language"
             >
               {Object.entries(languages).map(([key, label]) => (
                 <option key={key} value={key}>
@@ -199,24 +217,24 @@ export default function App() {
             </select>
           </div>
 
-          <div style={styles.content}>
-            <div style={styles.kicker}>Pathway {index + 1} of {slides.length}</div>
+          <main style={styles.content}>
+            <div style={styles.kicker}>
+              Pathway {index + 1} of {slides.length}
+            </div>
+
             <h1 style={styles.title}>{slide.title}</h1>
             <h2 style={styles.subtitle}>{slide.subtitle}</h2>
             <p style={styles.body}>{slide.body}</p>
 
             <div style={styles.actions}>
-              <button style={styles.primary} onClick={index === slides.length - 1 ? contact : next}>
+              <button
+                style={styles.primary}
+                onClick={index === slides.length - 1 ? contact : next}
+              >
                 {slide.button}
               </button>
 
-              <button
-                style={styles.secondary}
-                onClick={() => {
-                  setIndex(0);
-                  setGuided(true);
-                }}
-              >
+              <button style={styles.secondary} onClick={startGuidedTour}>
                 Start Guided Tour
               </button>
 
@@ -227,7 +245,7 @@ export default function App() {
                 {guided ? "Pause Tour" : "Resume Tour"}
               </button>
             </div>
-          </div>
+          </main>
 
           <div style={styles.progressWrap}>
             <div style={{ ...styles.progress, width: `${progress}%` }} />
@@ -238,7 +256,11 @@ export default function App() {
               Back
             </button>
 
-            <button onClick={next} disabled={index === slides.length - 1} style={styles.navBtn}>
+            <button
+              onClick={next}
+              disabled={index === slides.length - 1}
+              style={styles.navBtn}
+            >
               Next
             </button>
           </div>
@@ -291,6 +313,7 @@ const styles: Record<string, React.CSSProperties> = {
     flexDirection: "column",
     justifyContent: "space-between",
     padding: "28px",
+    backdropFilter: "brightness(1.03)",
   },
   topbar: {
     display: "flex",
@@ -317,6 +340,7 @@ const styles: Record<string, React.CSSProperties> = {
     letterSpacing: "0.14em",
     fontSize: "0.85rem",
     marginBottom: "14px",
+    fontWeight: 800,
   },
   title: {
     fontSize: "clamp(2.8rem, 7vw, 6rem)",
@@ -326,13 +350,13 @@ const styles: Record<string, React.CSSProperties> = {
   subtitle: {
     fontSize: "clamp(1.2rem, 2.8vw, 2rem)",
     margin: "0 0 20px",
-    fontWeight: 500,
+    fontWeight: 600,
   },
   body: {
     fontSize: "clamp(1.05rem, 2vw, 1.45rem)",
     lineHeight: 1.45,
     maxWidth: "760px",
-    background: "rgba(0,0,0,0.25)",
+    background: "rgba(0,0,0,0.24)",
     padding: "18px 22px",
     borderRadius: "18px",
   },
