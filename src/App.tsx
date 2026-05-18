@@ -7,42 +7,42 @@ const pathways = [
   {
     id: "explore",
     label: "Explore the Farm",
-    short: "Guests enter, learn, engage, and become part of the vision.",
+    short: "Guests enter the farm story, learn the vision, and discover how they can participate.",
   },
   {
     id: "food",
     label: "Healthy Food Access",
-    short: "Families access fresh food, seedlings, and nutrition education.",
+    short: "Families connect to fresh food, seedlings, and nutrition education.",
   },
   {
     id: "marketplace",
     label: "Community Marketplace",
-    short: "Food moves through the community — not every farmer alone.",
+    short: "Food moves through a coordinated system so growers are not traveling alone.",
   },
   {
     id: "growers",
     label: "Grower Support System",
-    short: "Growers receive tools, knowledge, land support, and markets.",
+    short: "Growers receive tools, knowledge, demonstrations, support, and market access.",
   },
   {
     id: "valueadded",
     label: "Value-Added Production",
-    short: "Food becomes products, enterprise, income, and opportunity.",
+    short: "Food becomes products, enterprise, income, and local opportunity.",
   },
   {
     id: "youth",
     label: "Youth Workforce Development",
-    short: "Youth build skills, confidence, leadership, and responsibility.",
+    short: "Youth build skills, confidence, leadership, responsibility, and future readiness.",
   },
   {
     id: "partners",
     label: "Community Partnerships",
-    short: "Partners align resources for health, education, and impact.",
+    short: "Partners align resources for health, education, workforce, and impact.",
   },
   {
     id: "future",
     label: "Future Agritourism",
-    short: "The farm grows into a regional food and learning destination.",
+    short: "The farm grows into a regional food, learning, and agritourism destination.",
   },
 ];
 
@@ -140,20 +140,19 @@ const slides = [
   },
 ];
 
-function EcosystemOverview({ activeId, setIndex }: any) {
+function PathwayPanel({ activeId, setIndex }: any) {
   return (
     <div style={styles.pathwayPanel}>
       <div style={styles.pathwayHeader}>Ecosystem Pathways</div>
-
       <div style={styles.pathwaySub}>
-        Every pathway has a role. Together they move food,
-        knowledge, money, opportunity, and participation
-        throughout the community.
+        Every pathway has a role. Together they move food, knowledge, money,
+        opportunity, and participation throughout the community.
       </div>
 
       <div style={styles.pathwayList}>
         {pathways.map((p, i) => {
           const slideIndex = slides.findIndex((s) => s.id === p.id);
+          const active = activeId === p.id;
 
           return (
             <button
@@ -161,28 +160,16 @@ function EcosystemOverview({ activeId, setIndex }: any) {
               onClick={() => setIndex(slideIndex)}
               style={{
                 ...styles.pathwayItem,
-                borderColor:
-                  activeId === p.id
-                    ? accent
-                    : "rgba(255,255,255,.18)",
-                background:
-                  activeId === p.id
-                    ? "rgba(197,138,52,.22)"
-                    : "rgba(0,0,0,.38)",
+                borderColor: active ? accent : "rgba(255,255,255,.14)",
+                background: active
+                  ? "rgba(197,138,52,.24)"
+                  : "rgba(0,0,0,.34)",
               }}
             >
-              <div style={styles.pathwayNumber}>
-                {i + 1}
-              </div>
-
-              <div>
-                <div style={styles.pathwayTitle}>
-                  {p.label}
-                </div>
-
-                <div style={styles.pathwayText}>
-                  {p.short}
-                </div>
+              <div style={styles.pathwayNumber}>{i + 1}</div>
+              <div style={styles.pathwayCopy}>
+                <div style={styles.pathwayTitle}>{p.label}</div>
+                <div style={styles.pathwayText}>{p.short}</div>
               </div>
             </button>
           );
@@ -190,8 +177,8 @@ function EcosystemOverview({ activeId, setIndex }: any) {
       </div>
 
       <div style={styles.pathwayFlow}>
-        Explore → Access → Marketplace → Grow →
-        Produce → Workforce → Partner → Reinvest
+        Explore → Access → Marketplace → Grow → Produce → Workforce → Partner →
+        Reinvest
       </div>
     </div>
   );
@@ -201,20 +188,13 @@ function EcosystemMap({ setIndex }: any) {
   return (
     <div style={styles.ecosystemMap}>
       <div style={styles.centerCircle}>
-        <div style={styles.centerTitle}>
-          BRONSON FAMILY FARM
-        </div>
-
-        <div style={styles.centerText}>
-          A Connected Ecosystem
-        </div>
+        <div style={styles.centerTitle}>BRONSON FAMILY FARM</div>
+        <div style={styles.centerText}>A Connected Ecosystem</div>
       </div>
 
       <div style={styles.mapGrid}>
-        {pathways.slice(0, 6).map((p, i) => {
-          const slideIndex = slides.findIndex(
-            (s) => s.id === p.id
-          );
+        {pathways.map((p, i) => {
+          const slideIndex = slides.findIndex((s) => s.id === p.id);
 
           return (
             <button
@@ -222,16 +202,10 @@ function EcosystemMap({ setIndex }: any) {
               onClick={() => setIndex(slideIndex)}
               style={styles.mapCard}
             >
-              <div style={styles.pathwayNumber}>
-                {i + 1}
-              </div>
-
-              <div>
-                <strong>{p.label}</strong>
-
-                <div style={styles.mapText}>
-                  {p.short}
-                </div>
+              <div style={styles.pathwayNumber}>{i + 1}</div>
+              <div style={styles.pathwayCopy}>
+                <div style={styles.pathwayTitle}>{p.label}</div>
+                <div style={styles.pathwayText}>{p.short}</div>
               </div>
             </button>
           );
@@ -239,8 +213,7 @@ function EcosystemMap({ setIndex }: any) {
       </div>
 
       <div style={styles.flow}>
-        Enter → Learn → Grow → Buy → Sell →
-        Work → Partner → Reinvest
+        Enter → Learn → Grow → Buy → Sell → Work → Partner → Reinvest
       </div>
     </div>
   );
@@ -261,35 +234,21 @@ export default function App() {
     }
 
     const timer = setTimeout(() => {
-      setIndex((prev) =>
-        Math.min(prev + 1, slides.length - 1)
-      );
+      setIndex((prev) => Math.min(prev + 1, slides.length - 1));
     }, 11500);
 
     return () => clearTimeout(timer);
   }, [guided, index]);
 
-  const progress = useMemo(
-    () => ((index + 1) / slides.length) * 100,
-    [index]
-  );
+  const progress = useMemo(() => ((index + 1) / slides.length) * 100, [index]);
 
-  const next = () =>
-    setIndex((i) =>
-      Math.min(i + 1, slides.length - 1)
-    );
-
-  const back = () =>
-    setIndex((i) => Math.max(i - 1, 0));
+  const next = () => setIndex((i) => Math.min(i + 1, slides.length - 1));
+  const back = () => setIndex((i) => Math.max(i - 1, 0));
 
   return (
     <div style={styles.page}>
       <section style={styles.hero}>
-        <img
-          src={slide.image}
-          alt={slide.title}
-          style={styles.bg}
-        />
+        <img src={slide.image} alt={slide.title} style={styles.bg} />
 
         <div
           style={{
@@ -304,13 +263,8 @@ export default function App() {
         >
           <header style={styles.top}>
             <div>
-              <div style={styles.brand}>
-                BRONSON FAMILY FARM
-              </div>
-
-              <div style={styles.demo}>
-                Guided Ecosystem Demo
-              </div>
+              <div style={styles.brand}>BRONSON FAMILY FARM</div>
+              <div style={styles.demo}>Guided Ecosystem Demo</div>
             </div>
 
             <div style={styles.counter}>
@@ -320,18 +274,11 @@ export default function App() {
 
           <main style={styles.content}>
             <section style={styles.textSide}>
-              <h1 style={styles.title}>
-                {slide.title}
-              </h1>
-
-              <h2 style={styles.subtitle}>
-                {slide.subtitle}
-              </h2>
+              <h1 style={styles.title}>{slide.title}</h1>
+              <h2 style={styles.subtitle}>{slide.subtitle}</h2>
 
               <div style={styles.bodyBox}>
-                <p style={styles.body}>
-                  {slide.body}
-                </p>
+                <p style={styles.body}>{slide.body}</p>
               </div>
 
               <div style={styles.controls}>
@@ -347,26 +294,16 @@ export default function App() {
 
                 <button
                   style={styles.darkBtn}
-                  onClick={() =>
-                    setGuided((g) => !g)
-                  }
+                  onClick={() => setGuided((g) => !g)}
                 >
-                  {guided
-                    ? "Pause Tour"
-                    : "Resume Tour"}
+                  {guided ? "Pause Tour" : "Resume Tour"}
                 </button>
 
-                <button
-                  style={styles.darkBtn}
-                  onClick={back}
-                >
+                <button style={styles.darkBtn} onClick={back}>
                   Back
                 </button>
 
-                <button
-                  style={styles.accentBtn}
-                  onClick={next}
-                >
+                <button style={styles.accentBtn} onClick={next}>
                   Next
                 </button>
               </div>
@@ -375,20 +312,12 @@ export default function App() {
             {slide.ecosystem ? (
               <EcosystemMap setIndex={setIndex} />
             ) : (
-              <EcosystemOverview
-                activeId={slide.id}
-                setIndex={setIndex}
-              />
+              <PathwayPanel activeId={slide.id} setIndex={setIndex} />
             )}
           </main>
 
           <div style={styles.progressWrap}>
-            <div
-              style={{
-                ...styles.progress,
-                width: `${progress}%`,
-              }}
-            />
+            <div style={{ ...styles.progress, width: `${progress}%` }} />
           </div>
 
           <nav style={styles.bottomNav}>
@@ -398,22 +327,12 @@ export default function App() {
                 onClick={() => setIndex(i)}
                 style={{
                   ...styles.navCard,
-                  borderColor:
-                    i === index
-                      ? accent
-                      : "rgba(255,255,255,.16)",
+                  borderColor: i === index ? accent : "rgba(255,255,255,.16)",
                 }}
               >
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  style={styles.navImage}
-                />
-
+                <img src={s.image} alt={s.title} style={styles.navImage} />
                 <div style={styles.navText}>
-                  <div style={styles.navTitle}>
-                    {s.title}
-                  </div>
+                  <div style={styles.navTitle}>{s.title}</div>
                 </div>
               </button>
             ))}
@@ -424,10 +343,7 @@ export default function App() {
   );
 }
 
-const styles: Record<
-  string,
-  React.CSSProperties
-> = {
+const styles: Record<string, React.CSSProperties> = {
   page: {
     minHeight: "100vh",
     background: "#080b07",
@@ -463,6 +379,7 @@ const styles: Record<
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    flexShrink: 0,
   },
 
   brand: {
@@ -488,10 +405,11 @@ const styles: Record<
 
   content: {
     display: "grid",
-    gridTemplateColumns: "420px 1fr",
+    gridTemplateColumns: "420px minmax(640px, 1fr)",
     gap: "26px",
     alignItems: "center",
     flex: 1,
+    minHeight: 0,
     padding: "8px 0",
   },
 
@@ -500,19 +418,17 @@ const styles: Record<
   },
 
   title: {
-    fontSize: "clamp(2.4rem, 4.7vw, 4.8rem)",
+    fontSize: "clamp(2.35rem, 4.4vw, 4.55rem)",
     lineHeight: 0.92,
     margin: 0,
     fontWeight: 950,
     letterSpacing: "-0.045em",
-    textShadow:
-      "0 5px 20px rgba(0,0,0,.35)",
+    textShadow: "0 5px 20px rgba(0,0,0,.35)",
   },
 
   subtitle: {
     color: warm,
-    fontSize:
-      "clamp(1rem, 1.55vw, 1.42rem)",
+    fontSize: "clamp(1rem, 1.5vw, 1.35rem)",
     marginTop: 12,
     marginBottom: 12,
     fontWeight: 850,
@@ -524,8 +440,7 @@ const styles: Record<
     borderRadius: 20,
     padding: "18px",
     backdropFilter: "blur(8px)",
-    border:
-      "1px solid rgba(255,255,255,.08)",
+    border: "1px solid rgba(255,255,255,.08)",
   },
 
   body: {
@@ -553,8 +468,7 @@ const styles: Record<
   },
 
   darkBtn: {
-    border:
-      "2px solid rgba(255,255,255,.18)",
+    border: "2px solid rgba(255,255,255,.18)",
     borderRadius: 999,
     background: "rgba(0,0,0,.42)",
     color: "#fff",
@@ -564,19 +478,20 @@ const styles: Record<
   },
 
   pathwayPanel: {
-    background: "rgba(0,0,0,.38)",
-    border:
-      "1px solid rgba(255,255,255,.12)",
+    width: "100%",
+    background: "rgba(0,0,0,.34)",
+    border: "1px solid rgba(255,255,255,.12)",
     borderRadius: 26,
     padding: 18,
     backdropFilter: "blur(8px)",
-    maxHeight: "62vh",
+    maxHeight: "61vh",
     overflow: "auto",
+    boxSizing: "border-box",
   },
 
   pathwayHeader: {
     color: warm,
-    fontSize: "1.5rem",
+    fontSize: "1.45rem",
     fontWeight: 950,
     marginBottom: 6,
   },
@@ -586,30 +501,34 @@ const styles: Record<
     lineHeight: 1.4,
     marginBottom: 14,
     opacity: 0.9,
+    maxWidth: 760,
   },
 
   pathwayList: {
     display: "grid",
-    gridTemplateColumns:
-      "repeat(2, minmax(220px, 1fr))",
-    gap: 10,
+    gridTemplateColumns: "repeat(2, minmax(300px, 1fr))",
+    gap: 12,
   },
 
   pathwayItem: {
+    width: "100%",
     color: "white",
     border: "2px solid",
     borderRadius: 18,
-    padding: 12,
+    padding: 14,
     display: "grid",
-    gridTemplateColumns: "34px 1fr",
-    gap: 10,
+    gridTemplateColumns: "36px 1fr",
+    gap: 12,
     textAlign: "left",
     cursor: "pointer",
+    alignItems: "start",
+    boxSizing: "border-box",
+    minHeight: 116,
   },
 
   pathwayNumber: {
-    width: 28,
-    height: 28,
+    width: 30,
+    height: 30,
     borderRadius: "50%",
     background: accent,
     color: "#111",
@@ -617,24 +536,33 @@ const styles: Record<
     alignItems: "center",
     justifyContent: "center",
     fontWeight: 950,
+    flexShrink: 0,
+  },
+
+  pathwayCopy: {
+    minWidth: 0,
   },
 
   pathwayTitle: {
     fontWeight: 950,
-    fontSize: ".96rem",
-    marginBottom: 4,
+    fontSize: "1rem",
+    marginBottom: 6,
+    lineHeight: 1.15,
+    whiteSpace: "normal",
   },
 
   pathwayText: {
-    fontSize: ".78rem",
-    lineHeight: 1.28,
-    opacity: 0.88,
+    fontSize: ".9rem",
+    lineHeight: 1.35,
+    opacity: 0.9,
+    whiteSpace: "normal",
+    overflowWrap: "normal",
+    wordBreak: "normal",
   },
 
   pathwayFlow: {
     marginTop: 14,
-    background:
-      "rgba(197,138,52,.18)",
+    background: "rgba(197,138,52,.18)",
     border: `1px solid ${accent}`,
     borderRadius: 18,
     padding: 14,
@@ -645,24 +573,26 @@ const styles: Record<
   },
 
   ecosystemMap: {
+    width: "100%",
     background: "rgba(0,0,0,.34)",
-    border:
-      "1px solid rgba(255,255,255,.12)",
+    border: "1px solid rgba(255,255,255,.12)",
     borderRadius: 28,
     padding: 20,
     backdropFilter: "blur(8px)",
     display: "grid",
-    gridTemplateColumns: "230px 1fr",
+    gridTemplateColumns: "220px 1fr",
     gap: 18,
     alignItems: "center",
+    boxSizing: "border-box",
+    maxHeight: "61vh",
+    overflow: "auto",
   },
 
   centerCircle: {
-    width: 220,
-    height: 220,
+    width: 200,
+    height: 200,
     borderRadius: "50%",
-    background:
-      "radial-gradient(circle at center, #173512 0%, #071207 100%)",
+    background: "radial-gradient(circle at center, #173512 0%, #071207 100%)",
     border: `4px solid ${accent}`,
     display: "flex",
     flexDirection: "column",
@@ -670,12 +600,11 @@ const styles: Record<
     justifyContent: "center",
     textAlign: "center",
     padding: 18,
-    boxShadow:
-      "0 0 48px rgba(0,0,0,.46)",
+    boxShadow: "0 0 48px rgba(0,0,0,.46)",
   },
 
   centerTitle: {
-    fontSize: "1.35rem",
+    fontSize: "1.2rem",
     fontWeight: 950,
     lineHeight: 1.08,
   },
@@ -689,36 +618,30 @@ const styles: Record<
 
   mapGrid: {
     display: "grid",
-    gridTemplateColumns:
-      "repeat(2, minmax(210px, 1fr))",
-    gap: 10,
+    gridTemplateColumns: "repeat(2, minmax(280px, 1fr))",
+    gap: 12,
   },
 
   mapCard: {
-    border:
-      "2px solid rgba(255,255,255,.18)",
+    width: "100%",
+    minHeight: 112,
+    border: "2px solid rgba(255,255,255,.18)",
     borderRadius: 18,
-    padding: 12,
+    padding: 14,
     color: "white",
     background: "rgba(0,0,0,.38)",
     textAlign: "left",
     display: "grid",
-    gridTemplateColumns: "34px 1fr",
-    gap: 10,
+    gridTemplateColumns: "36px 1fr",
+    gap: 12,
     cursor: "pointer",
-  },
-
-  mapText: {
-    marginTop: 4,
-    fontSize: ".76rem",
-    opacity: 0.88,
-    lineHeight: 1.3,
+    alignItems: "start",
+    boxSizing: "border-box",
   },
 
   flow: {
     gridColumn: "1 / -1",
-    background:
-      "rgba(197,138,52,.22)",
+    background: "rgba(197,138,52,.22)",
     border: `1px solid ${accent}`,
     borderRadius: 18,
     padding: 14,
@@ -729,10 +652,10 @@ const styles: Record<
 
   progressWrap: {
     height: 7,
-    background:
-      "rgba(255,255,255,.16)",
+    background: "rgba(255,255,255,.16)",
     borderRadius: 999,
     overflow: "hidden",
+    flexShrink: 0,
   },
 
   progress: {
@@ -747,6 +670,7 @@ const styles: Record<
     overflowX: "auto",
     paddingTop: 10,
     maxHeight: 108,
+    flexShrink: 0,
   },
 
   navCard: {
@@ -754,8 +678,7 @@ const styles: Record<
     background: "rgba(0,0,0,.52)",
     borderRadius: 16,
     overflow: "hidden",
-    border:
-      "3px solid rgba(255,255,255,.15)",
+    border: "3px solid rgba(255,255,255,.15)",
     cursor: "pointer",
     color: "#fff",
     padding: 0,
