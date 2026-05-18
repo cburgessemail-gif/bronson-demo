@@ -7,9 +7,11 @@ const IMAGES = {
   customer: "/SAM_0222.JPG",
   marketplace: "/SAM_0223.JPG",
   grower: "/SAM_0225.JPG",
+  valueadded: "/culniary_edibleflowers.jpeg",
   youth: "/SAM_0226.JPG",
-  partners: "/SAM_0229.JPG",
-  future: "/GrowArea.jpg",
+  volunteer: "/SAM_0229.JPG",
+  partner: "/SAM_0238.JPG",
+  future: "/SAM_0249.JPG",
 };
 
 const slides = [
@@ -20,7 +22,7 @@ const slides = [
     image: IMAGES.entrance,
     color: "#315c46",
     body:
-      "Step into Bronson Family Farm — a place where land, food, people, education, workforce development, and community opportunity are being connected into one living ecosystem.",
+      "Step into Bronson Family Farm — a place where land, food, people, education, workforce development, and community opportunity are connected into one living ecosystem.",
     button: "Enter the Story",
   },
   {
@@ -30,7 +32,7 @@ const slides = [
     image: IMAGES.place,
     color: "#6b4f3d",
     body:
-      "This farm is growing on historic land connected to aviation, community memory, and new possibility. What was once overlooked is becoming infrastructure for food access, learning, workforce development, wellness, and agritourism.",
+      "This farm is growing on historic land connected to aviation, community memory, and new possibility. What was once overlooked is becoming infrastructure for food access, learning, wellness, workforce development, and agritourism.",
     button: "Why This Matters",
   },
   {
@@ -40,17 +42,18 @@ const slides = [
     image: IMAGES.entrance,
     color: "#7a4f2a",
     body:
-      "Families need access to healthy food. Growers need tools, markets, and support. Youth need real places to learn responsibility and work. Partners need a system where their resources can make a visible difference. Bronson Family Farm connects those needs into one ecosystem.",
+      "Families need healthy food access. Growers need tools, support, markets, and distribution. Youth need meaningful places to learn responsibility and work. Partners need a system where their resources can make a visible difference.",
     button: "See the Ecosystem",
   },
   {
     id: "ecosystem",
     title: "The Ecosystem Story Map",
-    subtitle: "People enter, learn, participate, grow, buy, sell, work, partner, and reinvest.",
+    subtitle:
+      "People enter, learn, participate, grow, buy, sell, work, partner, and reinvest.",
     image: IMAGES.entrance,
     color: "#6f4e25",
     body:
-      "Bronson Family Farm sits at the center. Around it are pathways for guests, customers, growers, youth, volunteers, value-added producers, marketplace participation, and partners. Each pathway strengthens the others so food, money, knowledge, labor, and opportunity circulate through the community.",
+      "Bronson Family Farm sits at the center. Around it are connected pathways for guests, customers, marketplace access, growers, value-added producers, youth workforce, volunteers, and partners. Each pathway strengthens the others.",
     button: "Explore the Pathways",
     diagram: true,
   },
@@ -61,7 +64,7 @@ const slides = [
     image: IMAGES.guest,
     color: "#365f46",
     body:
-      "Guests enter through events, tours, stories, demonstrations, and the physical experience of the farm. They learn why growing matters, why local food matters, and why this place exists. A guest can become a customer, volunteer, grower, donor, advocate, or partner.",
+      "Guests enter through events, tours, stories, demonstrations, and the physical experience of the farm. They learn why growing matters and why this place exists. A guest can become a customer, volunteer, grower, donor, advocate, or partner.",
     button: "Next Pathway",
   },
   {
@@ -71,7 +74,7 @@ const slides = [
     image: IMAGES.customer,
     color: "#7a4f2a",
     body:
-      "Customers connect to fresh, chemical-free produce, seedlings, nutrition education, and seasonal food access. The goal is not a single purchase. The goal is to help families return again and again to food that supports health, wellness, and household stability.",
+      "Customers connect to fresh, chemical-free produce, seedlings, nutrition education, and seasonal food access. The goal is not one purchase. The goal is to help families return again and again to food that supports health and household stability.",
     button: "Next Pathway",
   },
   {
@@ -81,7 +84,7 @@ const slides = [
     image: IMAGES.marketplace,
     color: "#8a6a2f",
     body:
-      "The marketplace organizes food, orders, distribution, customers, growers, schools, businesses, and community programs. This allows growers to participate in a shared system instead of traveling everywhere alone. Food and money begin to circulate locally.",
+      "The marketplace organizes food, orders, distribution, customers, growers, schools, businesses, and community programs. Growers participate in a shared system instead of traveling everywhere alone. Food and money begin to circulate locally.",
     button: "Next Pathway",
   },
   {
@@ -91,17 +94,17 @@ const slides = [
     image: IMAGES.grower,
     color: "#466b3f",
     body:
-      "Growers need more than land. They need seeds, tools, demonstrations, soil knowledge, irrigation support, pest education, harvesting guidance, business knowledge, and markets. This pathway helps growers become more confident, productive, and connected.",
+      "Growers need more than land. They need seeds, tools, demonstrations, soil knowledge, irrigation support, pest education, harvesting guidance, business knowledge, and markets. This pathway builds grower confidence and productivity.",
     button: "Next Pathway",
   },
   {
     id: "valueadded",
     title: "Value-Added Producer Pathway",
     subtitle: "Food becomes products, enterprise, and income.",
-    image: IMAGES.marketplace,
+    image: IMAGES.valueadded,
     color: "#7d5f32",
     body:
-      "Produce can become sauces, canned goods, herbal products, prepared foods, seedlings, educational kits, farm experiences, and small business opportunities. This pathway helps turn growing into enterprise and strengthens the local food economy.",
+      "Produce can become sauces, canned goods, herbal products, prepared foods, seedlings, educational kits, farm experiences, and small business opportunities. This pathway turns growing into enterprise and strengthens the local food economy.",
     button: "Next Pathway",
   },
   {
@@ -118,20 +121,20 @@ const slides = [
     id: "volunteer",
     title: "Volunteer Pathway",
     subtitle: "Community members help the ecosystem move.",
-    image: IMAGES.guest,
+    image: IMAGES.volunteer,
     color: "#55704f",
     body:
-      "Volunteers support planting, setup, events, education, mentoring, distribution, logistics, harvesting, and community outreach. Volunteers make the farm more than a site — they make it a shared community effort.",
+      "Volunteers support planting, setup, events, education, mentoring, harvesting, distribution, logistics, and outreach. Volunteers make the farm more than a site — they make it a shared community effort.",
     button: "Next Pathway",
   },
   {
     id: "partner",
     title: "Partner Pathway",
     subtitle: "Organizations align resources for community benefit.",
-    image: IMAGES.partners,
+    image: IMAGES.partner,
     color: "#51406b",
     body:
-      "Partners bring education, health, agriculture, workforce development, arts, business support, equipment, funding, technical assistance, and civic leadership. Their participation helps the ecosystem become stronger than any single organization could be alone.",
+      "Partners bring education, health, agriculture, workforce development, arts, business support, equipment, funding, technical assistance, and civic leadership. Their participation helps the ecosystem become stronger than any single organization.",
     button: "Next Pathway",
   },
   {
@@ -199,6 +202,7 @@ export default function App() {
 
   useEffect(() => {
     if (!guided) return;
+
     if (index >= slides.length - 1) {
       setGuided(false);
       return;
@@ -211,10 +215,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [guided, index]);
 
-  const progress = useMemo(
-    () => ((index + 1) / slides.length) * 100,
-    [index]
-  );
+  const progress = useMemo(() => ((index + 1) / slides.length) * 100, [index]);
 
   const next = () => setIndex((i) => Math.min(i + 1, slides.length - 1));
   const back = () => setIndex((i) => Math.max(i - 1, 0));
