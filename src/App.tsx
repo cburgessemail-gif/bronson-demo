@@ -8,7 +8,7 @@ const pathways = [
     id: "explore",
     label: "Explore the Farm",
     short: "Guests experience the vision, story, and future of the farm.",
-    role: "Introduces people to the farm, the land, the story, and the reason the ecosystem exists.",
+    role: "Introduces people to the farm, the land, the story, and why the ecosystem exists.",
     does: [
       "Guests learn the story and purpose of Bronson Family Farm.",
       "Guests experience the farm through tours, events, demonstrations, and storytelling.",
@@ -77,11 +77,10 @@ const slides = [
     id: "intro",
     title: "A Connected Food Ecosystem",
     subtitle: "People. Resources. Opportunity. Circulating Together.",
-    image: "/GrowArea.jpg",
+    image: "/ConnectFoodEcosystem_withimages.jpeg",
     body:
       "Bronson Family Farm is a place-based ecosystem where growers, families, youth, partners, resources, and opportunities work together so food, knowledge, and economic value circulate locally and strengthen the whole community.",
     color: "#1d241b",
-    ecosystemImage: true,
     details: [
       "The ecosystem image shows six connected pathways.",
       "Each numbered section represents a role in the system.",
@@ -244,10 +243,10 @@ function KnowledgeBox({ slide, setIndex }: any) {
 function PathwayPanel({ activeId, setIndex }: any) {
   return (
     <div style={styles.pathwayPanel}>
-      <div style={styles.pathwayHeader}>Follow the Pathway</div>
+      <div style={styles.pathwayHeader}>Follow the Ecosystem Pathways</div>
       <div style={styles.pathwaySub}>
-        Each number matches the ecosystem image and opens its role, purpose, next
-        step, and impact.
+        These six pathways match the ecosystem image. Each number opens its role,
+        purpose, next step, and impact.
       </div>
 
       <div style={styles.pathwayList}>
@@ -276,30 +275,6 @@ function PathwayPanel({ activeId, setIndex }: any) {
       <div style={styles.pathwayFlow}>
         Explore → Healthy Food Access → Marketplace → Grower Support → Youth
         Workforce → Partnerships
-      </div>
-    </div>
-  );
-}
-
-function EcosystemImage({ setIndex }: any) {
-  return (
-    <div style={styles.ecosystemImageWrap}>
-      <img
-        src="/ConnectFoodEcosystem_withimages.jpeg"
-        alt="Bronson Family Farm Connected Food Ecosystem"
-        style={styles.ecosystemImage}
-      />
-
-      <div style={styles.imageButtonGrid}>
-        {pathways.map((p, i) => (
-          <button
-            key={p.id}
-            style={styles.imagePathButton}
-            onClick={() => setIndex(findSlideIndex(p.id))}
-          >
-            {i + 1}. {p.label}
-          </button>
-        ))}
       </div>
     </div>
   );
@@ -338,9 +313,10 @@ export default function App() {
         <div
           style={{
             ...styles.overlay,
-            background: slide.ecosystemImage
-              ? "linear-gradient(135deg, rgba(5,8,5,.72) 0%, rgba(0,0,0,.45) 100%)"
-              : `linear-gradient(135deg, rgba(18,18,18,.56) 0%, ${slide.color}aa 45%, rgba(0,0,0,.24) 100%)`,
+            background:
+              slide.id === "intro"
+                ? "linear-gradient(135deg, rgba(5,8,5,.50) 0%, rgba(0,0,0,.28) 100%)"
+                : `linear-gradient(135deg, rgba(18,18,18,.56) 0%, ${slide.color}aa 45%, rgba(0,0,0,.24) 100%)`,
           }}
         >
           <header style={styles.top}>
@@ -393,11 +369,7 @@ export default function App() {
               </div>
             </section>
 
-            {slide.ecosystemImage ? (
-              <EcosystemImage setIndex={setIndex} />
-            ) : (
-              <PathwayPanel activeId={slide.pathwayId} setIndex={setIndex} />
-            )}
+            <PathwayPanel activeId={slide.pathwayId} setIndex={setIndex} />
           </main>
 
           <div style={styles.progressWrap}>
@@ -588,56 +560,15 @@ const styles: Record<string, React.CSSProperties> = {
     cursor: "pointer",
     fontSize: ".78rem",
   },
-  ecosystemImageWrap: {
-    width: "100%",
-    height: "100%",
-    maxHeight: "calc(100dvh - 145px)",
-    background: "rgba(0,0,0,.34)",
-    border: "1px solid rgba(255,255,255,.12)",
-    borderRadius: 18,
-    padding: 10,
-    backdropFilter: "blur(8px)",
-    boxSizing: "border-box",
-    display: "grid",
-    gridTemplateRows: "minmax(0, 1fr) auto",
-    gap: 7,
-    overflow: "hidden",
-  },
-  ecosystemImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "contain",
-    borderRadius: 15,
-    boxShadow: "0 20px 50px rgba(0,0,0,.35)",
-    minHeight: 0,
-  },
-  imageButtonGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: 6,
-  },
-  imagePathButton: {
-    border: `1px solid ${accent}`,
-    borderRadius: 999,
-    background: "rgba(197,138,52,.22)",
-    color: warm,
-    fontWeight: 850,
-    padding: "6px 9px",
-    cursor: "pointer",
-    fontSize: ".68rem",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  },
   pathwayPanel: {
     width: "100%",
     height: "100%",
     maxHeight: "calc(100dvh - 145px)",
-    background: "rgba(0,0,0,.34)",
+    background: "rgba(0,0,0,.30)",
     border: "1px solid rgba(255,255,255,.12)",
     borderRadius: 18,
     padding: 12,
-    backdropFilter: "blur(8px)",
+    backdropFilter: "blur(5px)",
     overflow: "auto",
     boxSizing: "border-box",
   },
