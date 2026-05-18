@@ -3,23 +3,13 @@ import React, { useEffect, useMemo, useState } from "react";
 const IMAGES = {
   entrance: "/GrowArea.jpg",
   place: "/SAM_0220.JPG",
-  ecosystem: "/ecosystem.png",
   guest: "/SAM_0221.JPG",
   customer: "/SAM_0222.JPG",
   marketplace: "/SAM_0223.JPG",
   grower: "/SAM_0225.JPG",
   youth: "/SAM_0226.JPG",
   partners: "/SAM_0229.JPG",
-  future: "/GrowArea2.jpg",
-};
-
-const languages = {
-  en: "English",
-  es: "Español",
-  tl: "Tagalog",
-  it: "Italiano",
-  he: "Hebrew",
-  fr: "Français",
+  future: "/GrowArea.jpg",
 };
 
 const slides = [
@@ -45,14 +35,14 @@ const slides = [
   },
   {
     id: "ecosystem",
-    title: "What Is the Ecosystem?",
-    subtitle:
-      "A connected system where people, food, education, and opportunity move together.",
-    image: IMAGES.ecosystem,
+    title: "The Ecosystem",
+    subtitle: "A connected system where every pathway leads somewhere.",
+    image: IMAGES.entrance,
     color: "#6f4e25",
     body:
-      "An ecosystem means no one part stands alone. Growers, customers, youth, volunteers, partners, and marketplaces are connected so food can move through the community — not so every farmer has to travel alone.",
+      "The ecosystem connects guests, customers, growers, youth, partners, and the marketplace so food, knowledge, resources, and opportunity can move through the community.",
     button: "Explore the Pathways",
+    diagram: true,
   },
   {
     id: "guest",
@@ -71,7 +61,7 @@ const slides = [
     image: IMAGES.customer,
     color: "#7a4f2a",
     body:
-      "Customers connect to chemical-free produce, seedlings, nutrition education, and simple ways to make healthier choices. The goal is not just a one-time purchase. The goal is to help families return to fresh food again and again.",
+      "Customers connect to chemical-free produce, seedlings, nutrition education, and simple ways to make healthier choices again and again.",
     button: "Go to Marketplace Story",
   },
   {
@@ -81,7 +71,7 @@ const slides = [
     image: IMAGES.marketplace,
     color: "#8a6a2f",
     body:
-      "The marketplace helps convert interest into purchasing power. Food moves through an organized system that can support families, schools, businesses, growers, and community partners.",
+      "The marketplace converts interest into purchasing power. Food moves through an organized system that supports families, schools, businesses, growers, and community partners.",
     button: "Continue",
   },
   {
@@ -91,7 +81,7 @@ const slides = [
     image: IMAGES.grower,
     color: "#466b3f",
     body:
-      "Growers need more than encouragement. They need supplies, technical guidance, soil knowledge, demonstrations, markets, and support. This pathway helps growers become stronger and more connected.",
+      "Growers need supplies, technical guidance, soil knowledge, demonstrations, markets, and support. This pathway helps growers become stronger and more connected.",
     button: "Continue",
   },
   {
@@ -111,7 +101,7 @@ const slides = [
     image: IMAGES.partners,
     color: "#51406b",
     body:
-      "Partners help the ecosystem grow. Education, health, workforce, agriculture, arts, business, and civic partners each strengthen the farm’s ability to serve the community.",
+      "Partners strengthen the ecosystem through education, health, workforce, agriculture, arts, business, civic support, and community investment.",
     button: "See the Future",
   },
   {
@@ -131,50 +121,45 @@ const slides = [
     image: IMAGES.entrance,
     color: "#315c46",
     body:
-      "Thank you for experiencing the Bronson Family Farm demo. Your feedback helps shape the next version of this ecosystem and how it serves growers, families, youth, and partners.",
+      "Thank you for experiencing the Bronson Family Farm demo. Your feedback helps shape the next version of this ecosystem.",
     button: "Contact Constance",
   },
 ];
 
+function EcosystemDiagram() {
+  return (
+    <div style={styles.diagram}>
+      <div style={styles.centerNode}>Bronson Family Farm Ecosystem</div>
+      {["Guest", "Customer", "Marketplace", "Grower", "Youth Workforce", "Partners"].map(
+        (item) => (
+          <div key={item} style={styles.node}>
+            {item}
+          </div>
+        )
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   const [index, setIndex] = useState(0);
   const [guided, setGuided] = useState(false);
-  const [language, setLanguage] = useState("en");
-
   const slide = slides[index];
 
   useEffect(() => {
     if (!guided) return;
-
     if (index >= slides.length - 1) {
       setGuided(false);
       return;
     }
-
-    const timer = setTimeout(() => {
-      setIndex((prev) => Math.min(prev + 1, slides.length - 1));
-    }, 9000);
-
+    const timer = setTimeout(() => setIndex((i) => i + 1), 9500);
     return () => clearTimeout(timer);
   }, [guided, index]);
 
-  const progress = useMemo(
-    () => Math.round(((index + 1) / slides.length) * 100),
-    [index]
-  );
+  const progress = useMemo(() => ((index + 1) / slides.length) * 100, [index]);
 
   const next = () => setIndex((i) => Math.min(i + 1, slides.length - 1));
   const back = () => setIndex((i) => Math.max(i - 1, 0));
-
-  const jumpTo = (id: string) => {
-    const found = slides.findIndex((s) => s.id === id);
-    if (found >= 0) setIndex(found);
-  };
-
-  const startGuidedTour = () => {
-    setIndex(0);
-    setGuided(true);
-  };
 
   const contact = () => {
     window.location.href =
@@ -183,47 +168,30 @@ export default function App() {
 
   return (
     <div style={styles.page}>
-      <div style={styles.hero}>
-        <img src={slide.image} alt={slide.title} style={styles.image} />
+      <section style={styles.hero}>
+        <img src={slide.image} alt="" style={styles.image} />
 
         <div
           style={{
             ...styles.overlay,
-            background: `linear-gradient(
-              135deg,
-              ${slide.color}66 0%,
-              ${slide.color}44 42%,
-              rgba(0,0,0,0.18) 100%
-            )`,
+            background: `linear-gradient(135deg, ${slide.color}66 0%, ${slide.color}40 45%, rgba(0,0,0,.18) 100%)`,
           }}
         >
-          <div style={styles.topbar}>
+          <header style={styles.topbar}>
             <div>
               <strong>Bronson Family Farm</strong>
               <div style={styles.small}>Guided Ecosystem Demo</div>
             </div>
-
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              style={styles.select}
-              aria-label="Select language"
-            >
-              {Object.entries(languages).map(([key, label]) => (
-                <option key={key} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
+            <button style={styles.language}>Language</button>
+          </header>
 
           <main style={styles.content}>
-            <div style={styles.kicker}>
-              Pathway {index + 1} of {slides.length}
-            </div>
-
+            <div style={styles.kicker}>Pathway {index + 1} of {slides.length}</div>
             <h1 style={styles.title}>{slide.title}</h1>
             <h2 style={styles.subtitle}>{slide.subtitle}</h2>
+
+            {slide.diagram && <EcosystemDiagram />}
+
             <p style={styles.body}>{slide.body}</p>
 
             <div style={styles.actions}>
@@ -233,197 +201,141 @@ export default function App() {
               >
                 {slide.button}
               </button>
-
-              <button style={styles.secondary} onClick={startGuidedTour}>
-                Start Guided Tour
-              </button>
-
               <button
                 style={styles.secondary}
-                onClick={() => setGuided((g) => !g)}
+                onClick={() => {
+                  setIndex(0);
+                  setGuided(true);
+                }}
               >
+                Start Guided Tour
+              </button>
+              <button style={styles.secondary} onClick={() => setGuided(!guided)}>
                 {guided ? "Pause Tour" : "Resume Tour"}
               </button>
             </div>
           </main>
 
+          <div style={styles.nav}>
+            <button style={styles.navBtn} onClick={back}>Back</button>
+            <button style={styles.navBtn} onClick={next}>Next</button>
+          </div>
+
           <div style={styles.progressWrap}>
             <div style={{ ...styles.progress, width: `${progress}%` }} />
           </div>
-
-          <div style={styles.nav}>
-            <button onClick={back} disabled={index === 0} style={styles.navBtn}>
-              Back
-            </button>
-
-            <button
-              onClick={next}
-              disabled={index === slides.length - 1}
-              style={styles.navBtn}
-            >
-              Next
-            </button>
-          </div>
         </div>
-      </div>
+      </section>
 
-      <div style={styles.pathways}>
-        {slides.slice(1, -1).map((s) => (
-          <button
-            key={s.id}
-            onClick={() => jumpTo(s.id)}
-            style={{
-              ...styles.pathBtn,
-              borderColor: s.id === slide.id ? slide.color : "#ddd",
-              background: s.id === slide.id ? "#f5efe6" : "#fff",
-            }}
-          >
-            {s.title}
-          </button>
+      <section style={styles.pathwayMap}>
+        {slides.slice(1, -1).map((s, i) => (
+          <React.Fragment key={s.id}>
+            <button
+              onClick={() => setIndex(slides.findIndex((x) => x.id === s.id))}
+              style={{
+                ...styles.pathBtn,
+                background: s.id === slide.id ? "#efe2cf" : "#fff",
+                borderColor: s.id === slide.id ? s.color : "#ddd",
+              }}
+            >
+              {s.title}
+            </button>
+            {i < slides.slice(1, -1).length - 1 && <span style={styles.arrow}>→</span>}
+          </React.Fragment>
         ))}
-      </div>
+      </section>
     </div>
   );
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    background: "#f4efe7",
-    fontFamily: "Georgia, 'Times New Roman', serif",
-    color: "#1e1e1e",
-  },
-  hero: {
-    position: "relative",
-    minHeight: "calc(100vh - 115px)",
-    overflow: "hidden",
-  },
-  image: {
-    position: "absolute",
-    inset: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
+  page: { minHeight: "100vh", background: "#f4efe7", fontFamily: "Georgia, serif" },
+  hero: { position: "relative", minHeight: "calc(100vh - 140px)", overflow: "hidden" },
+  image: { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" },
   overlay: {
     position: "absolute",
     inset: 0,
     color: "white",
+    padding: 28,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    padding: "28px",
-    backdropFilter: "brightness(1.03)",
   },
-  topbar: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "16px",
-  },
-  small: {
-    fontSize: "0.9rem",
-    opacity: 0.9,
-  },
-  select: {
-    padding: "10px 14px",
-    borderRadius: "999px",
-    border: "none",
-    fontWeight: 700,
-  },
-  content: {
-    maxWidth: "850px",
-    marginBottom: "30px",
-  },
-  kicker: {
-    textTransform: "uppercase",
-    letterSpacing: "0.14em",
-    fontSize: "0.85rem",
-    marginBottom: "14px",
-    fontWeight: 800,
-  },
-  title: {
-    fontSize: "clamp(2.8rem, 7vw, 6rem)",
-    lineHeight: 0.95,
-    margin: "0 0 14px",
-  },
-  subtitle: {
-    fontSize: "clamp(1.2rem, 2.8vw, 2rem)",
-    margin: "0 0 20px",
-    fontWeight: 600,
-  },
+  topbar: { display: "flex", justifyContent: "space-between", alignItems: "center" },
+  small: { fontSize: 14, opacity: 0.9 },
+  language: { border: "none", borderRadius: 999, padding: "12px 30px", background: "#fff" },
+  content: { maxWidth: 940 },
+  kicker: { letterSpacing: ".15em", textTransform: "uppercase", fontWeight: 800 },
+  title: { fontSize: "clamp(3rem, 7vw, 6rem)", lineHeight: 0.95, margin: "22px 0 12px" },
+  subtitle: { fontSize: "clamp(1.25rem, 2.5vw, 2rem)", margin: "0 0 20px" },
   body: {
-    fontSize: "clamp(1.05rem, 2vw, 1.45rem)",
+    fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)",
     lineHeight: 1.45,
-    maxWidth: "760px",
-    background: "rgba(0,0,0,0.24)",
+    background: "rgba(0,0,0,.24)",
     padding: "18px 22px",
-    borderRadius: "18px",
+    borderRadius: 18,
+    maxWidth: 780,
   },
-  actions: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "12px",
-    marginTop: "22px",
-  },
-  primary: {
-    padding: "14px 22px",
-    borderRadius: "999px",
-    border: "none",
-    background: "#fff",
-    color: "#222",
-    fontWeight: 800,
-    cursor: "pointer",
-  },
+  actions: { display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 },
+  primary: { border: "none", borderRadius: 999, padding: "14px 22px", fontWeight: 800 },
   secondary: {
+    border: "1px solid rgba(255,255,255,.75)",
+    borderRadius: 999,
     padding: "14px 22px",
-    borderRadius: "999px",
-    border: "1px solid rgba(255,255,255,0.8)",
-    background: "rgba(255,255,255,0.16)",
-    color: "#fff",
     fontWeight: 800,
-    cursor: "pointer",
+    background: "rgba(255,255,255,.15)",
+    color: "#fff",
   },
+  nav: { position: "absolute", right: 28, bottom: 55, display: "flex", gap: 14 },
+  navBtn: { border: "none", background: "transparent", color: "#fff", fontWeight: 900, fontSize: 18 },
   progressWrap: {
-    height: "8px",
-    width: "100%",
-    background: "rgba(255,255,255,0.25)",
-    borderRadius: "999px",
+    height: 8,
+    background: "rgba(255,255,255,.25)",
+    borderRadius: 999,
     overflow: "hidden",
   },
-  progress: {
-    height: "100%",
-    background: "#fff",
-    transition: "width 0.6s ease",
-  },
-  nav: {
-    position: "absolute",
-    right: "28px",
-    bottom: "48px",
+  progress: { height: "100%", background: "#fff", transition: "width .6s ease" },
+  pathwayMap: {
+    minHeight: 140,
     display: "flex",
-    gap: "10px",
-  },
-  navBtn: {
-    padding: "12px 18px",
-    borderRadius: "999px",
-    border: "none",
-    fontWeight: 800,
-    cursor: "pointer",
-  },
-  pathways: {
-    minHeight: "115px",
-    display: "flex",
-    gap: "10px",
-    padding: "18px",
-    overflowX: "auto",
     alignItems: "center",
+    gap: 10,
+    padding: "18px 24px",
+    overflowX: "auto",
+    background: "#f4efe7",
   },
   pathBtn: {
     whiteSpace: "nowrap",
-    padding: "13px 18px",
-    borderRadius: "999px",
     border: "2px solid #ddd",
-    fontWeight: 800,
+    borderRadius: 999,
+    padding: "14px 20px",
+    fontWeight: 900,
     cursor: "pointer",
+  },
+  arrow: { fontSize: 24, fontWeight: 900, color: "#7b5b37" },
+  diagram: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 14,
+    alignItems: "center",
+    margin: "18px 0",
+    maxWidth: 900,
+  },
+  centerNode: {
+    background: "rgba(255,255,255,.92)",
+    color: "#2b2b2b",
+    padding: "18px 24px",
+    borderRadius: 22,
+    fontWeight: 900,
+    fontSize: 22,
+    boxShadow: "0 10px 30px rgba(0,0,0,.25)",
+  },
+  node: {
+    background: "rgba(255,255,255,.82)",
+    color: "#2b2b2b",
+    padding: "14px 18px",
+    borderRadius: 999,
+    fontWeight: 900,
+    boxShadow: "0 8px 20px rgba(0,0,0,.18)",
   },
 };
