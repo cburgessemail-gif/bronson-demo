@@ -333,7 +333,7 @@ export default function App() {
             ...styles.overlay,
             background:
               slide.id === "intro"
-                ? "linear-gradient(135deg, rgba(5,8,5,.38) 0%, rgba(0,0,0,.18) 100%)"
+                ? "linear-gradient(135deg, rgba(5,8,5,.28) 0%, rgba(0,0,0,.10) 100%)"
                 : `linear-gradient(135deg, rgba(18,18,18,.56) 0%, ${slide.color}aa 45%, rgba(0,0,0,.24) 100%)`,
           }}
         >
@@ -348,7 +348,15 @@ export default function App() {
             </div>
           </header>
 
-          <main style={styles.content}>
+          <main
+            style={{
+              ...styles.content,
+              gridTemplateColumns:
+                slide.id === "intro"
+                  ? "360px minmax(0, 1fr)"
+                  : "340px minmax(500px, 920px)",
+            }}
+          >
             <section style={styles.textSide}>
               <h1 style={styles.title}>{slide.title}</h1>
               <h2 style={styles.subtitle}>{slide.subtitle}</h2>
@@ -387,7 +395,9 @@ export default function App() {
               </div>
             </section>
 
-            <PathwayPanel activeId={slide.pathwayId} setIndex={setIndex} />
+            {slide.id !== "intro" && (
+              <PathwayPanel activeId={slide.pathwayId} setIndex={setIndex} />
+            )}
           </main>
 
           <div style={styles.progressWrap}>
@@ -475,7 +485,6 @@ const styles: Record<string, React.CSSProperties> = {
   },
   content: {
     display: "grid",
-    gridTemplateColumns: "340px minmax(500px, 920px)",
     gap: 18,
     alignItems: "start",
     paddingTop: 14,
@@ -483,7 +492,7 @@ const styles: Record<string, React.CSSProperties> = {
     overflow: "hidden",
   },
   textSide: {
-    maxWidth: 340,
+    maxWidth: 360,
     minHeight: 0,
   },
   title: {
