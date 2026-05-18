@@ -13,6 +13,7 @@ const slides = [
     detail:
       "Each section of the ecosystem wheel represents a role in the system. Visitors can follow each pathway to understand how food, knowledge, opportunity, and resources move through the community.",
   },
+
   {
     id: 2,
     title: "The Place",
@@ -24,6 +25,7 @@ const slides = [
     detail:
       "The airport environment provides open outdoor growing space, transportation access, visibility, and room for long-term ecosystem growth.",
   },
+
   {
     id: 3,
     title: "Explore the Farm",
@@ -35,6 +37,7 @@ const slides = [
     detail:
       "This pathway introduces guests to how agriculture, education, health, workforce development, and community reinvestment connect together.",
   },
+
   {
     id: 4,
     title: "Healthy Food Access",
@@ -46,6 +49,7 @@ const slides = [
     detail:
       "The ecosystem increases access to nutritious food while helping families reconnect to growing, cooking, wellness, and healthier long-term outcomes.",
   },
+
   {
     id: 5,
     title: "Community Marketplace",
@@ -57,6 +61,7 @@ const slides = [
     detail:
       "Instead of every grower searching independently for customers, the ecosystem helps organize food distribution so products, money, and opportunity circulate locally.",
   },
+
   {
     id: 6,
     title: "Grower Support System",
@@ -68,6 +73,7 @@ const slides = [
     detail:
       "The ecosystem lowers barriers for growers by connecting them to practical support systems, shared resources, and collaborative learning opportunities.",
   },
+
   {
     id: 7,
     title: "Youth Workforce Development",
@@ -79,6 +85,7 @@ const slides = [
     detail:
       "The ecosystem prepares young people for future careers while teaching ownership, discipline, environmental awareness, and community engagement.",
   },
+
   {
     id: 8,
     title: "Community Partnerships",
@@ -88,8 +95,9 @@ const slides = [
     body:
       "Community partnerships align education, workforce development, agriculture, health, business, and nonprofit collaboration around local food system growth.",
     detail:
-      "Partners include the City of Youngstown, Central State University, Ohio State University, Farm & Family Alliance, Parker Farms, Home Depot, Flying High, Jubilee Gardens, Inc., Elliott's Garden Center, Petitti Garden Centers, The Airport Association, and other community organizations.",
+      "Partners include the City of Youngstown, Central State University, Ohio State University, Farm & Family Alliance, Parker Farms, Home Depot, Flying High, Jubilee Gardens, Inc., Elliott's Garden Center, Petitti Garden Centers, and The Airport Association.",
   },
+
   {
     id: 9,
     title: "Future Growth",
@@ -101,6 +109,7 @@ const slides = [
     detail:
       "Future plans include expanded growers markets, agritourism experiences, educational demonstrations, family attractions, and year-round ecosystem participation.",
   },
+
   {
     id: 10,
     title: "The Purpose",
@@ -113,6 +122,235 @@ const slides = [
       "The ecosystem is designed so people can enter, learn, grow, participate, work, partner, reinvest, and help strengthen the future of the community.",
   },
 ];
+
+const styles: Record<string, React.CSSProperties> = {
+  app: {
+    width: "100vw",
+    height: "100vh",
+    overflow: "hidden",
+    position: "relative",
+    fontFamily: "Arial, sans-serif",
+    color: "white",
+    backgroundColor: "black",
+  },
+
+  background: {
+    position: "absolute",
+    inset: 0,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    filter: "blur(2px)",
+    transform: "scale(1.03)",
+  },
+
+  overlay: {
+    position: "absolute",
+    inset: 0,
+    background: "rgba(0,0,0,0.58)",
+  },
+
+  content: {
+    position: "relative",
+    zIndex: 5,
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "30px",
+    height: "100%",
+    padding: "24px 24px 120px 24px",
+    boxSizing: "border-box",
+  },
+
+  left: {
+    width: "29%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+
+  brand: {
+    letterSpacing: "5px",
+    color: "#e6c98a",
+    fontSize: "14px",
+    fontWeight: 700,
+    marginBottom: "20px",
+  },
+
+  title: {
+    fontSize: "56px",
+    fontWeight: 900,
+    lineHeight: 1,
+    marginBottom: "14px",
+  },
+
+  subtitle: {
+    fontSize: "22px",
+    color: "#e6cf96",
+    fontWeight: 700,
+    lineHeight: 1.3,
+    marginBottom: "20px",
+  },
+
+  panel: {
+    background: "rgba(0,0,0,0.55)",
+    border: "1px solid rgba(214,164,75,0.3)",
+    borderRadius: "28px",
+    padding: "22px",
+    marginBottom: "16px",
+    backdropFilter: "blur(12px)",
+  },
+
+  section: {
+    color: "#f0d088",
+    fontSize: "12px",
+    letterSpacing: "3px",
+    fontWeight: 700,
+    marginBottom: "14px",
+  },
+
+  body: {
+    fontSize: "16px",
+    lineHeight: 1.7,
+    color: "rgba(255,255,255,0.92)",
+  },
+
+  detailTitle: {
+    fontSize: "14px",
+    color: "#f0d088",
+    letterSpacing: "2px",
+    fontWeight: 900,
+    marginBottom: "14px",
+  },
+
+  detail: {
+    fontSize: "15px",
+    lineHeight: 1.7,
+    color: "rgba(255,255,255,0.88)",
+  },
+
+  buttonRow: {
+    display: "flex",
+    gap: "12px",
+    flexWrap: "wrap",
+    marginTop: "10px",
+  },
+
+  primaryButton: {
+    padding: "14px 22px",
+    borderRadius: "999px",
+    border: "none",
+    background: "#c99732",
+    color: "black",
+    fontWeight: 900,
+    cursor: "pointer",
+    fontSize: "15px",
+  },
+
+  secondaryButton: {
+    padding: "14px 22px",
+    borderRadius: "999px",
+    border: "1px solid rgba(255,255,255,0.2)",
+    background: "rgba(0,0,0,0.55)",
+    color: "white",
+    fontWeight: 700,
+    cursor: "pointer",
+    fontSize: "15px",
+  },
+
+  right: {
+    width: "69%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  imageFrame: {
+    width: "100%",
+    maxWidth: "1080px",
+    maxHeight: "74vh",
+    overflow: "hidden",
+    borderRadius: "34px",
+    border: "1px solid rgba(255,255,255,0.12)",
+    background: "rgba(0,0,0,0.2)",
+    backdropFilter: "blur(10px)",
+    boxShadow: "0 20px 60px rgba(0,0,0,0.55)",
+  },
+
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "contain",
+    display: "block",
+  },
+
+  counter: {
+    position: "absolute",
+    top: "20px",
+    right: "24px",
+    zIndex: 30,
+    borderRadius: "999px",
+    padding: "10px 18px",
+    border: "1px solid rgba(255,255,255,0.2)",
+    background: "rgba(0,0,0,0.45)",
+    fontWeight: 700,
+  },
+
+  bottomBar: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 30,
+    background: "rgba(0,0,0,0.5)",
+    borderTop: "1px solid rgba(255,255,255,0.08)",
+    padding: "12px",
+    backdropFilter: "blur(12px)",
+    overflowX: "auto",
+  },
+
+  thumbRow: {
+    display: "flex",
+    gap: "12px",
+  },
+
+  thumb: {
+    minWidth: "160px",
+    height: "82px",
+    borderRadius: "18px",
+    overflow: "hidden",
+    position: "relative",
+    cursor: "pointer",
+    border: "1px solid rgba(255,255,255,0.1)",
+    opacity: 0.75,
+  },
+
+  activeThumb: {
+    border: "2px solid #d8a64b",
+    opacity: 1,
+  },
+
+  thumbImage: {
+    position: "absolute",
+    inset: 0,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+
+  thumbOverlay: {
+    position: "absolute",
+    inset: 0,
+    background: "rgba(0,0,0,0.4)",
+  },
+
+  thumbText: {
+    position: "absolute",
+    left: "10px",
+    bottom: "10px",
+    right: "10px",
+    fontSize: "12px",
+    fontWeight: 700,
+    lineHeight: 1.2,
+  },
+};
 
 export default function App() {
   const [current, setCurrent] = useState(0);
@@ -130,127 +368,116 @@ export default function App() {
     return () => clearTimeout(timer);
   }, [current, playing]);
 
-  const next = () => setCurrent((prev) => (prev + 1) % slides.length);
-  const back = () =>
-    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-black text-white font-sans">
+    <div style={styles.app}>
       <div
-        className="absolute inset-0 bg-cover bg-center transition-all duration-[2500ms]"
-        style={{ backgroundImage: `url(${slide.image})` }}
+        style={{
+          ...styles.background,
+          backgroundImage: `url(${slide.image})`,
+        }}
       />
 
-      <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px]" />
+      <div style={styles.overlay} />
 
-      <div className="absolute top-5 right-5 z-30 rounded-full border border-white/20 bg-black/40 px-5 py-2 font-bold">
+      <div style={styles.counter}>
         {current + 1} / {slides.length}
       </div>
 
-      <div className="relative z-20 flex h-full items-center justify-between gap-8 px-6 pb-32 pt-16">
-        <section className="w-[27%] max-w-[380px]">
-          <div className="mb-5 tracking-[5px] text-[#e7c98a] text-sm font-bold">
-            BRONSON FAMILY FARM
+      <div style={styles.content}>
+        <div style={styles.left}>
+          <div style={styles.brand}>BRONSON FAMILY FARM</div>
+
+          <div style={styles.title}>{slide.title}</div>
+
+          <div style={styles.subtitle}>{slide.subtitle}</div>
+
+          <div style={styles.panel}>
+            <div style={styles.section}>{slide.section}</div>
+
+            <div style={styles.body}>{slide.body}</div>
           </div>
 
-          <h1 className="text-3xl font-black leading-tight">
-            {slide.title}
-          </h1>
-
-          <div className="mt-3 text-[#e6cf96] text-lg font-semibold leading-snug">
-            {slide.subtitle}
-          </div>
-
-          <div className="mt-5 rounded-3xl border border-[#caa04d]/30 bg-black/55 p-5 backdrop-blur-md">
-            <div className="mb-3 text-xs font-bold tracking-[3px] text-[#e6cf96]">
-              {slide.section}
-            </div>
-
-            <div className="text-[15px] leading-relaxed text-white/90">
-              {slide.body}
-            </div>
-          </div>
-
-          <div className="mt-4 max-h-[190px] overflow-y-auto rounded-3xl border border-[#caa04d]/30 bg-black/50 p-5 backdrop-blur-md">
-            <div className="mb-3 text-sm font-black tracking-[2px] text-[#f1d08a]">
+          <div style={styles.panel}>
+            <div style={styles.detailTitle}>
               WHAT THIS PATHWAY EXPLAINS
             </div>
 
-            <div className="text-[14px] leading-relaxed text-white/85">
-              {slide.detail}
-            </div>
+            <div style={styles.detail}>{slide.detail}</div>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div style={styles.buttonRow}>
             <button
+              style={styles.primaryButton}
               onClick={() => {
                 setCurrent(0);
                 setPlaying(true);
               }}
-              className="rounded-full bg-[#c99732] px-5 py-3 font-black text-black transition hover:scale-105"
             >
               Guided Tour
             </button>
 
             <button
+              style={styles.secondaryButton}
               onClick={() => setPlaying(false)}
-              className="rounded-full border border-white/20 bg-black/55 px-5 py-3 font-bold text-white"
             >
               Pause Tour
             </button>
 
             <button
-              onClick={back}
-              className="rounded-full border border-white/20 bg-black/55 px-5 py-3 font-bold text-white"
+              style={styles.secondaryButton}
+              onClick={() =>
+                setCurrent((prev) =>
+                  prev === 0 ? slides.length - 1 : prev - 1
+                )
+              }
             >
               Back
             </button>
 
             <button
-              onClick={next}
-              className="rounded-full bg-[#c99732] px-5 py-3 font-black text-black"
+              style={styles.primaryButton}
+              onClick={() =>
+                setCurrent((prev) => (prev + 1) % slides.length)
+              }
             >
               Next
             </button>
           </div>
-        </section>
+        </div>
 
-        <section className="flex h-full w-[69%] items-center justify-center">
-          <div className="max-h-[72vh] w-full max-w-[1080px] overflow-hidden rounded-[34px] border border-white/10 bg-black/20 shadow-2xl backdrop-blur-md">
+        <div style={styles.right}>
+          <div style={styles.imageFrame}>
             <img
               src={slide.featureImage || slide.image}
               alt={slide.title}
-              className="h-full max-h-[72vh] w-full object-contain"
+              style={styles.image}
             />
           </div>
-        </section>
+        </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-30 border-t border-white/10 bg-black/45 px-4 py-3 backdrop-blur-md">
-        <div className="flex gap-3 overflow-x-auto pb-1">
+      <div style={styles.bottomBar}>
+        <div style={styles.thumbRow}>
           {slides.map((s, index) => (
-            <button
+            <div
               key={s.id}
               onClick={() => setCurrent(index)}
-              className={`min-w-[160px] overflow-hidden rounded-2xl border transition-all ${
-                current === index
-                  ? "scale-[1.02] border-[#d8a64b]"
-                  : "border-white/10 opacity-75"
-              }`}
+              style={{
+                ...styles.thumb,
+                ...(current === index ? styles.activeThumb : {}),
+              }}
             >
               <div
-                className="relative h-[74px] bg-cover bg-center"
-                style={{ backgroundImage: `url(${s.featureImage || s.image})` }}
-              >
-                <div className="absolute inset-0 bg-black/45" />
+                style={{
+                  ...styles.thumbImage,
+                  backgroundImage: `url(${s.featureImage || s.image})`,
+                }}
+              />
 
-                <div className="absolute bottom-2 left-2 right-2 text-left">
-                  <div className="text-[12px] font-bold leading-tight text-white">
-                    {s.title}
-                  </div>
-                </div>
-              </div>
-            </button>
+              <div style={styles.thumbOverlay} />
+
+              <div style={styles.thumbText}>{s.title}</div>
+            </div>
           ))}
         </div>
       </div>
