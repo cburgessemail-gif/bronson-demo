@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useState } from "react";
 const IMAGES = {
   entrance: "/GrowArea.jpg",
   place: "/SAM_0220.JPG",
+  why: "/GrowArea.jpg",
+  ecosystem: "/GrowArea.jpg",
   guest: "/SAM_0221.JPG",
   customer: "/SAM_0222.JPG",
   marketplace: "/SAM_0223.JPG",
@@ -12,6 +14,7 @@ const IMAGES = {
   volunteer: "/SAM_0229.JPG",
   partner: "/SAM_0238.JPG",
   future: "/SAM_0249.JPG",
+  purpose: "/GrowArea.jpg",
 };
 
 const slides = [
@@ -22,7 +25,7 @@ const slides = [
     image: IMAGES.entrance,
     color: "#315c46",
     body:
-      "Step into Bronson Family Farm — a place where land, food, people, education, workforce development, and community opportunity are connected into one living ecosystem.",
+      "Step into Bronson Family Farm — a place where land, food, people, education, workforce development, wellness, and community opportunity are connected into one living ecosystem.",
     button: "Enter the Story",
   },
   {
@@ -32,17 +35,17 @@ const slides = [
     image: IMAGES.place,
     color: "#6b4f3d",
     body:
-      "This farm is growing on historic land connected to aviation, community memory, and new possibility. What was once overlooked is becoming infrastructure for food access, learning, wellness, workforce development, and agritourism.",
+      "This farm is growing on historic land connected to aviation, memory, family, and new possibility. What was once overlooked is becoming infrastructure for food access, learning, wellness, workforce development, and agritourism.",
     button: "Why This Matters",
   },
   {
     id: "why",
     title: "Why This Matters",
     subtitle: "Food insecurity is not solved by food alone.",
-    image: IMAGES.entrance,
+    image: IMAGES.why,
     color: "#7a4f2a",
     body:
-      "Families need healthy food access. Growers need tools, support, markets, and distribution. Youth need meaningful places to learn responsibility and work. Partners need a system where their resources can make a visible difference.",
+      "Families need healthy food access. Growers need tools, support, markets, and distribution. Youth need meaningful places to learn responsibility and work. Partners need a system where resources can make a visible difference.",
     button: "See the Ecosystem",
   },
   {
@@ -50,7 +53,7 @@ const slides = [
     title: "The Ecosystem Story Map",
     subtitle:
       "People enter, learn, participate, grow, buy, sell, work, partner, and reinvest.",
-    image: IMAGES.entrance,
+    image: IMAGES.ecosystem,
     color: "#6f4e25",
     body:
       "Bronson Family Farm sits at the center. Around it are connected pathways for guests, customers, marketplace access, growers, value-added producers, youth workforce, volunteers, and partners. Each pathway strengthens the others.",
@@ -151,7 +154,7 @@ const slides = [
     id: "purpose",
     title: "The Purpose",
     subtitle: "Grow food. Grow people. Grow community.",
-    image: IMAGES.entrance,
+    image: IMAGES.purpose,
     color: "#315c46",
     body:
       "The purpose of Bronson Family Farm is to help communities grow stronger through food access, education, workforce development, wellness, entrepreneurship, local circulation of resources, and shared participation in a living ecosystem.",
@@ -179,16 +182,16 @@ function EcosystemDiagram() {
       </div>
 
       <div style={styles.diagramGrid}>
-        {pathways.map((p) => (
+        {pathways.map((p, i) => (
           <div key={p} style={styles.diagramNode}>
-            <span style={styles.connector}>→</span>
+            <span style={styles.step}>{i + 1}</span>
             {p}
           </div>
         ))}
       </div>
 
       <div style={styles.flowLine}>
-        People enter → learn → participate → grow → buy → sell → work → partner → reinvest
+        Guest → Customer → Marketplace → Grower → Value-Added → Youth → Volunteer → Partner → Reinvestment
       </div>
     </div>
   );
@@ -210,7 +213,7 @@ export default function App() {
 
     const timer = setTimeout(() => {
       setIndex((prev) => Math.min(prev + 1, slides.length - 1));
-    }, 10500);
+    }, 11000);
 
     return () => clearTimeout(timer);
   }, [guided, index]);
@@ -238,7 +241,7 @@ export default function App() {
         <div
           style={{
             ...styles.overlay,
-            background: `linear-gradient(135deg, ${slide.color}66 0%, ${slide.color}40 45%, rgba(0,0,0,.18) 100%)`,
+            background: `linear-gradient(135deg, ${slide.color}55 0%, ${slide.color}38 45%, rgba(0,0,0,.16) 100%)`,
           }}
         >
           <header style={styles.topbar}>
@@ -397,7 +400,7 @@ const styles: Record<string, React.CSSProperties> = {
   body: {
     fontSize: "clamp(1rem, 1.8vw, 1.35rem)",
     lineHeight: 1.45,
-    background: "rgba(0,0,0,.25)",
+    background: "rgba(0,0,0,.22)",
     padding: "18px 22px",
     borderRadius: "18px",
     maxWidth: "820px",
@@ -476,27 +479,29 @@ const styles: Record<string, React.CSSProperties> = {
   },
   diagramWrap: {
     display: "grid",
-    gridTemplateColumns: "280px 1fr",
-    gap: "18px",
+    gridTemplateColumns: "300px 1fr",
+    gap: "22px",
     alignItems: "center",
-    maxWidth: "1050px",
+    maxWidth: "1100px",
     margin: "16px 0",
   },
   centerCircle: {
-    minHeight: "210px",
+    minHeight: "230px",
     borderRadius: "50%",
-    background: "rgba(255,255,255,.92)",
+    background:
+      "radial-gradient(circle at top left, rgba(255,255,255,.98), rgba(244,239,231,.88))",
     color: "#2b2b2b",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
-    padding: "24px",
-    boxShadow: "0 18px 40px rgba(0,0,0,.26)",
+    padding: "26px",
+    boxShadow: "0 22px 48px rgba(0,0,0,.28)",
+    border: "2px solid rgba(255,255,255,.8)",
   },
   centerTitle: {
-    fontSize: "26px",
+    fontSize: "28px",
     fontWeight: 900,
     lineHeight: 1.05,
   },
@@ -507,21 +512,31 @@ const styles: Record<string, React.CSSProperties> = {
   },
   diagramGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(2, minmax(190px, 1fr))",
-    gap: "12px",
+    gridTemplateColumns: "repeat(2, minmax(210px, 1fr))",
+    gap: "13px",
   },
   diagramNode: {
-    background: "rgba(255,255,255,.86)",
+    background: "rgba(255,255,255,.88)",
     color: "#2b2b2b",
     padding: "14px 18px",
     borderRadius: "999px",
     fontWeight: 900,
     boxShadow: "0 8px 20px rgba(0,0,0,.18)",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
   },
-  connector: {
-    color: "#7b5b37",
+  step: {
+    width: "28px",
+    height: "28px",
+    borderRadius: "50%",
+    background: "#7b5b37",
+    color: "#fff",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "14px",
     fontWeight: 900,
-    marginRight: "8px",
   },
   flowLine: {
     gridColumn: "1 / -1",
