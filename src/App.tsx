@@ -13,7 +13,6 @@ const slides = [
     detail:
       "Each section of the ecosystem wheel represents a role in the system. Visitors can follow each pathway to understand how food, knowledge, opportunity, and resources move through the community.",
   },
-
   {
     id: 2,
     title: "The Place",
@@ -25,7 +24,6 @@ const slides = [
     detail:
       "The airport environment provides open outdoor growing space, transportation access, visibility, and room for long-term ecosystem growth.",
   },
-
   {
     id: 3,
     title: "Explore the Farm",
@@ -37,7 +35,6 @@ const slides = [
     detail:
       "This pathway introduces guests to how agriculture, education, health, workforce development, and community reinvestment connect together.",
   },
-
   {
     id: 4,
     title: "Healthy Food Access",
@@ -49,7 +46,6 @@ const slides = [
     detail:
       "The ecosystem increases access to nutritious food while helping families reconnect to growing, cooking, wellness, and healthier long-term outcomes.",
   },
-
   {
     id: 5,
     title: "Community Marketplace",
@@ -61,7 +57,6 @@ const slides = [
     detail:
       "Instead of every grower searching independently for customers, the ecosystem helps organize food distribution so products, money, and opportunity circulate locally.",
   },
-
   {
     id: 6,
     title: "Grower Support System",
@@ -73,7 +68,6 @@ const slides = [
     detail:
       "The ecosystem lowers barriers for growers by connecting them to practical support systems, shared resources, and collaborative learning opportunities.",
   },
-
   {
     id: 7,
     title: "Youth Workforce Development",
@@ -85,7 +79,6 @@ const slides = [
     detail:
       "The ecosystem prepares young people for future careers while teaching ownership, discipline, environmental awareness, and community engagement.",
   },
-
   {
     id: 8,
     title: "Community Partnerships",
@@ -95,9 +88,8 @@ const slides = [
     body:
       "Community partnerships align education, workforce development, agriculture, health, business, and nonprofit collaboration around local food system growth.",
     detail:
-      "Partners include the City of Youngstown, Central State University, Ohio State University, Farm & Family Alliance, Parker Farms, Home Depot, Flying High, Jubilee Gardens, Inc., Elliott's Garden Center, Petitti Garden Centers, and The Airport Association.",
+      "Partners include the City of Youngstown, Central State University, Ohio State University, Farm & Family Alliance, Parker Farms, Home Depot, Flying High, Jubilee Gardens, Inc., Elliott's Garden Center, Petitti Garden Centers, The Airport Association, and other community organizations.",
   },
-
   {
     id: 9,
     title: "Future Growth",
@@ -109,7 +101,6 @@ const slides = [
     detail:
       "Future plans include expanded growers markets, agritourism experiences, educational demonstrations, family attractions, and year-round ecosystem participation.",
   },
-
   {
     id: 10,
     title: "The Purpose",
@@ -126,7 +117,7 @@ const slides = [
 const styles: Record<string, React.CSSProperties> = {
   app: {
     width: "100vw",
-    height: "100vh",
+    height: "100dvh",
     overflow: "hidden",
     position: "relative",
     fontFamily: "Arial, sans-serif",
@@ -139,14 +130,15 @@ const styles: Record<string, React.CSSProperties> = {
     inset: 0,
     backgroundSize: "cover",
     backgroundPosition: "center",
-    filter: "blur(2px)",
+    filter: "blur(2px) brightness(.52)",
     transform: "scale(1.03)",
   },
 
   overlay: {
     position: "absolute",
     inset: 0,
-    background: "rgba(0,0,0,0.58)",
+    background:
+      "linear-gradient(135deg, rgba(8,14,12,.54), rgba(16,24,20,.38), rgba(34,26,16,.24))",
   },
 
   content: {
@@ -154,17 +146,20 @@ const styles: Record<string, React.CSSProperties> = {
     zIndex: 5,
     display: "flex",
     justifyContent: "space-between",
-    gap: "30px",
-    height: "100%",
-    padding: "24px 24px 120px 24px",
+    gap: "26px",
+    height: "calc(100dvh - 120px)",
+    padding: "20px 20px 100px 20px",
     boxSizing: "border-box",
+    overflow: "hidden",
   },
 
   left: {
-    width: "29%",
+    width: "28%",
+    minWidth: "320px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    overflow: "hidden",
   },
 
   brand: {
@@ -172,30 +167,30 @@ const styles: Record<string, React.CSSProperties> = {
     color: "#e6c98a",
     fontSize: "14px",
     fontWeight: 700,
-    marginBottom: "20px",
+    marginBottom: "18px",
   },
 
   title: {
-    fontSize: "56px",
+    fontSize: "44px",
     fontWeight: 900,
     lineHeight: 1,
-    marginBottom: "14px",
+    marginBottom: "12px",
   },
 
   subtitle: {
-    fontSize: "22px",
+    fontSize: "19px",
     color: "#e6cf96",
     fontWeight: 700,
-    lineHeight: 1.3,
-    marginBottom: "20px",
+    lineHeight: 1.25,
+    marginBottom: "16px",
   },
 
   panel: {
     background: "rgba(0,0,0,0.55)",
     border: "1px solid rgba(214,164,75,0.3)",
-    borderRadius: "28px",
-    padding: "22px",
-    marginBottom: "16px",
+    borderRadius: "24px",
+    padding: "18px",
+    marginBottom: "14px",
     backdropFilter: "blur(12px)",
   },
 
@@ -204,56 +199,56 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: "12px",
     letterSpacing: "3px",
     fontWeight: 700,
-    marginBottom: "14px",
+    marginBottom: "12px",
   },
 
   body: {
-    fontSize: "16px",
-    lineHeight: 1.7,
+    fontSize: "15px",
+    lineHeight: 1.55,
     color: "rgba(255,255,255,0.92)",
   },
 
   detailTitle: {
-    fontSize: "14px",
+    fontSize: "13px",
     color: "#f0d088",
     letterSpacing: "2px",
     fontWeight: 900,
-    marginBottom: "14px",
+    marginBottom: "12px",
   },
 
   detail: {
-    fontSize: "15px",
-    lineHeight: 1.7,
+    fontSize: "14px",
+    lineHeight: 1.55,
     color: "rgba(255,255,255,0.88)",
   },
 
   buttonRow: {
     display: "flex",
-    gap: "12px",
+    gap: "10px",
     flexWrap: "wrap",
-    marginTop: "10px",
+    marginTop: "8px",
   },
 
   primaryButton: {
-    padding: "14px 22px",
+    padding: "12px 18px",
     borderRadius: "999px",
     border: "none",
     background: "#c99732",
     color: "black",
     fontWeight: 900,
     cursor: "pointer",
-    fontSize: "15px",
+    fontSize: "14px",
   },
 
   secondaryButton: {
-    padding: "14px 22px",
+    padding: "12px 18px",
     borderRadius: "999px",
     border: "1px solid rgba(255,255,255,0.2)",
     background: "rgba(0,0,0,0.55)",
     color: "white",
     fontWeight: 700,
     cursor: "pointer",
-    fontSize: "15px",
+    fontSize: "14px",
   },
 
   right: {
@@ -261,12 +256,13 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
 
   imageFrame: {
     width: "100%",
-    maxWidth: "1080px",
-    maxHeight: "74vh",
+    maxWidth: "1040px",
+    maxHeight: "68vh",
     overflow: "hidden",
     borderRadius: "34px",
     border: "1px solid rgba(255,255,255,0.12)",
@@ -298,13 +294,14 @@ const styles: Record<string, React.CSSProperties> = {
     position: "absolute",
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: "0px",
     zIndex: 30,
-    background: "rgba(0,0,0,0.5)",
+    background: "rgba(0,0,0,0.72)",
     borderTop: "1px solid rgba(255,255,255,0.08)",
-    padding: "12px",
+    padding: "10px 12px 8px 12px",
     backdropFilter: "blur(12px)",
     overflowX: "auto",
+    overflowY: "hidden",
   },
 
   thumbRow: {
@@ -313,8 +310,8 @@ const styles: Record<string, React.CSSProperties> = {
   },
 
   thumb: {
-    minWidth: "160px",
-    height: "82px",
+    minWidth: "150px",
+    height: "74px",
     borderRadius: "18px",
     overflow: "hidden",
     position: "relative",
@@ -393,15 +390,11 @@ export default function App() {
 
           <div style={styles.panel}>
             <div style={styles.section}>{slide.section}</div>
-
             <div style={styles.body}>{slide.body}</div>
           </div>
 
           <div style={styles.panel}>
-            <div style={styles.detailTitle}>
-              WHAT THIS PATHWAY EXPLAINS
-            </div>
-
+            <div style={styles.detailTitle}>WHAT THIS PATHWAY EXPLAINS</div>
             <div style={styles.detail}>{slide.detail}</div>
           </div>
 
