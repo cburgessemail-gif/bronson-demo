@@ -16,12 +16,12 @@ const slides = [
   {
     id: "entrance",
     title: "Bronson Family Farm",
-    subtitle: "Step into the Farm. Experience the wonders of life.",
+    subtitle: "A Community Food Ecosystem",
     image: IMAGES.entrance,
     color: "#315c46",
     body:
-      "Bronson Family Farm is more than a farm. It is a guided ecosystem experience rooted in land, legacy, food access, education, workforce development, and community growth.",
-    button: "Begin the Guided Tour",
+      "Step into Bronson Family Farm — a place where land, food, people, education, workforce development, and community opportunity are being connected into one living ecosystem.",
+    button: "Enter the Story",
   },
   {
     id: "place",
@@ -30,113 +30,163 @@ const slides = [
     image: IMAGES.place,
     color: "#6b4f3d",
     body:
-      "This farm is growing on historic land connected to aviation, community memory, and new possibility. What was once overlooked is becoming infrastructure for food, learning, workforce development, and agritourism.",
+      "This farm is growing on historic land connected to aviation, community memory, and new possibility. What was once overlooked is becoming infrastructure for food access, learning, workforce development, wellness, and agritourism.",
+    button: "Why This Matters",
+  },
+  {
+    id: "why",
+    title: "Why This Matters",
+    subtitle: "Food insecurity is not solved by food alone.",
+    image: IMAGES.entrance,
+    color: "#7a4f2a",
+    body:
+      "Families need access to healthy food. Growers need tools, markets, and support. Youth need real places to learn responsibility and work. Partners need a system where their resources can make a visible difference. Bronson Family Farm connects those needs into one ecosystem.",
     button: "See the Ecosystem",
   },
   {
     id: "ecosystem",
-    title: "The Ecosystem",
-    subtitle: "A connected system where every pathway leads somewhere.",
+    title: "The Ecosystem Story Map",
+    subtitle: "People enter, learn, participate, grow, buy, sell, work, partner, and reinvest.",
     image: IMAGES.entrance,
     color: "#6f4e25",
     body:
-      "The ecosystem connects guests, customers, growers, youth, partners, and the marketplace so food, knowledge, resources, and opportunity can move through the community.",
+      "Bronson Family Farm sits at the center. Around it are pathways for guests, customers, growers, youth, volunteers, value-added producers, marketplace participation, and partners. Each pathway strengthens the others so food, money, knowledge, labor, and opportunity circulate through the community.",
     button: "Explore the Pathways",
     diagram: true,
   },
   {
     id: "guest",
     title: "Guest Pathway",
-    subtitle: "Understand the vision, story, and purpose.",
+    subtitle: "People first experience the vision.",
     image: IMAGES.guest,
     color: "#365f46",
     body:
-      "Guests enter the farm story first. They learn why food access matters, why growing skills matter, and how the farm is becoming a place where families, educators, growers, and partners can see what is possible.",
-    button: "Continue",
+      "Guests enter through events, tours, stories, demonstrations, and the physical experience of the farm. They learn why growing matters, why local food matters, and why this place exists. A guest can become a customer, volunteer, grower, donor, advocate, or partner.",
+    button: "Next Pathway",
   },
   {
     id: "customer",
     title: "Customer Pathway",
-    subtitle: "Fresh food, nutrition, and repeat healthy choices.",
+    subtitle: "Fresh food becomes a repeated healthy choice.",
     image: IMAGES.customer,
     color: "#7a4f2a",
     body:
-      "Customers connect to chemical-free produce, seedlings, nutrition education, and simple ways to make healthier choices again and again.",
-    button: "Go to Marketplace Story",
+      "Customers connect to fresh, chemical-free produce, seedlings, nutrition education, and seasonal food access. The goal is not a single purchase. The goal is to help families return again and again to food that supports health, wellness, and household stability.",
+    button: "Next Pathway",
   },
   {
     id: "marketplace",
     title: "Marketplace Pathway",
-    subtitle: "Food and money circulate through the community.",
+    subtitle: "The food moves — not the farmer.",
     image: IMAGES.marketplace,
     color: "#8a6a2f",
     body:
-      "The marketplace converts interest into purchasing power. Food moves through an organized system that supports families, schools, businesses, growers, and community partners.",
-    button: "Continue",
+      "The marketplace organizes food, orders, distribution, customers, growers, schools, businesses, and community programs. This allows growers to participate in a shared system instead of traveling everywhere alone. Food and money begin to circulate locally.",
+    button: "Next Pathway",
   },
   {
     id: "grower",
     title: "Grower Pathway",
-    subtitle: "Tools, knowledge, supplies, and market participation.",
+    subtitle: "Growers receive tools, knowledge, supplies, and opportunity.",
     image: IMAGES.grower,
     color: "#466b3f",
     body:
-      "Growers need supplies, technical guidance, soil knowledge, demonstrations, markets, and support. This pathway helps growers become stronger and more connected.",
-    button: "Continue",
+      "Growers need more than land. They need seeds, tools, demonstrations, soil knowledge, irrigation support, pest education, harvesting guidance, business knowledge, and markets. This pathway helps growers become more confident, productive, and connected.",
+    button: "Next Pathway",
+  },
+  {
+    id: "valueadded",
+    title: "Value-Added Producer Pathway",
+    subtitle: "Food becomes products, enterprise, and income.",
+    image: IMAGES.marketplace,
+    color: "#7d5f32",
+    body:
+      "Produce can become sauces, canned goods, herbal products, prepared foods, seedlings, educational kits, farm experiences, and small business opportunities. This pathway helps turn growing into enterprise and strengthens the local food economy.",
+    button: "Next Pathway",
   },
   {
     id: "youth",
     title: "Youth Workforce Pathway",
-    subtitle: "Skills, responsibility, safety, and future readiness.",
+    subtitle: "The farm becomes an outdoor classroom.",
     image: IMAGES.youth,
     color: "#345c72",
     body:
-      "Youth learn by doing. The farm becomes an outdoor classroom where young people practice responsibility, teamwork, attendance, communication, safety, growing, and business skills.",
-    button: "Continue",
+      "Youth learn by doing. They practice attendance, teamwork, communication, safety, responsibility, growing, customer service, leadership, and problem-solving. The farm gives youth a real environment where work has purpose and visible results.",
+    button: "Next Pathway",
   },
   {
-    id: "partners",
+    id: "volunteer",
+    title: "Volunteer Pathway",
+    subtitle: "Community members help the ecosystem move.",
+    image: IMAGES.guest,
+    color: "#55704f",
+    body:
+      "Volunteers support planting, setup, events, education, mentoring, distribution, logistics, harvesting, and community outreach. Volunteers make the farm more than a site — they make it a shared community effort.",
+    button: "Next Pathway",
+  },
+  {
+    id: "partner",
     title: "Partner Pathway",
-    subtitle: "Align resources for community benefit.",
+    subtitle: "Organizations align resources for community benefit.",
     image: IMAGES.partners,
     color: "#51406b",
     body:
-      "Partners strengthen the ecosystem through education, health, workforce, agriculture, arts, business, civic support, and community investment.",
-    button: "See the Future",
+      "Partners bring education, health, agriculture, workforce development, arts, business support, equipment, funding, technical assistance, and civic leadership. Their participation helps the ecosystem become stronger than any single organization could be alone.",
+    button: "Next Pathway",
   },
   {
     id: "future",
-    title: "Future Agritourism Destination",
-    subtitle: "Food, family, learning, recreation, and legacy.",
+    title: "The Future",
+    subtitle: "A regional agritourism and food innovation destination.",
     image: IMAGES.future,
     color: "#9a5a2f",
     body:
-      "Bronson Family Farm is growing toward an agritourism destination with food, education, camping, youth experiences, RC activities, mini-golf, sensory spaces, and community-centered enterprise.",
-    button: "Finish Tour",
+      "Bronson Family Farm is growing toward a future with food experiences, camping, youth activities, RC programming, mini-golf, sensory spaces, education, wellness, grower supply systems, and community-centered economic development.",
+    button: "Finish the Story",
   },
   {
-    id: "thanks",
-    title: "Thank You",
-    subtitle: "We need your feedback.",
+    id: "purpose",
+    title: "The Purpose",
+    subtitle: "Grow food. Grow people. Grow community.",
     image: IMAGES.entrance,
     color: "#315c46",
     body:
-      "Thank you for experiencing the Bronson Family Farm demo. Your feedback helps shape the next version of this ecosystem.",
+      "The purpose of Bronson Family Farm is to help communities grow stronger through food access, education, workforce development, wellness, entrepreneurship, local circulation of resources, and shared participation in a living ecosystem.",
     button: "Contact Constance",
   },
 ];
 
 function EcosystemDiagram() {
+  const pathways = [
+    "Guest",
+    "Customer",
+    "Marketplace",
+    "Grower",
+    "Value-Added Producer",
+    "Youth Workforce",
+    "Volunteer",
+    "Partner",
+  ];
+
   return (
-    <div style={styles.diagram}>
-      <div style={styles.centerNode}>Bronson Family Farm Ecosystem</div>
-      {["Guest", "Customer", "Marketplace", "Grower", "Youth Workforce", "Partners"].map(
-        (item) => (
-          <div key={item} style={styles.node}>
-            {item}
+    <div style={styles.diagramWrap}>
+      <div style={styles.centerCircle}>
+        <div style={styles.centerTitle}>Bronson Family Farm</div>
+        <div style={styles.centerText}>Community Food Ecosystem</div>
+      </div>
+
+      <div style={styles.diagramGrid}>
+        {pathways.map((p) => (
+          <div key={p} style={styles.diagramNode}>
+            <span style={styles.connector}>→</span>
+            {p}
           </div>
-        )
-      )}
+        ))}
+      </div>
+
+      <div style={styles.flowLine}>
+        People enter → learn → participate → grow → buy → sell → work → partner → reinvest
+      </div>
     </div>
   );
 }
@@ -144,6 +194,7 @@ function EcosystemDiagram() {
 export default function App() {
   const [index, setIndex] = useState(0);
   const [guided, setGuided] = useState(false);
+
   const slide = slides[index];
 
   useEffect(() => {
@@ -152,14 +203,26 @@ export default function App() {
       setGuided(false);
       return;
     }
-    const timer = setTimeout(() => setIndex((i) => i + 1), 9500);
+
+    const timer = setTimeout(() => {
+      setIndex((prev) => Math.min(prev + 1, slides.length - 1));
+    }, 10500);
+
     return () => clearTimeout(timer);
   }, [guided, index]);
 
-  const progress = useMemo(() => ((index + 1) / slides.length) * 100, [index]);
+  const progress = useMemo(
+    () => ((index + 1) / slides.length) * 100,
+    [index]
+  );
 
   const next = () => setIndex((i) => Math.min(i + 1, slides.length - 1));
   const back = () => setIndex((i) => Math.max(i - 1, 0));
+
+  const startTour = () => {
+    setIndex(0);
+    setGuided(true);
+  };
 
   const contact = () => {
     window.location.href =
@@ -169,7 +232,7 @@ export default function App() {
   return (
     <div style={styles.page}>
       <section style={styles.hero}>
-        <img src={slide.image} alt="" style={styles.image} />
+        <img src={slide.image} alt={slide.title} style={styles.image} />
 
         <div
           style={{
@@ -182,11 +245,22 @@ export default function App() {
               <strong>Bronson Family Farm</strong>
               <div style={styles.small}>Guided Ecosystem Demo</div>
             </div>
-            <button style={styles.language}>Language</button>
+
+            <select style={styles.select} defaultValue="en">
+              <option value="en">English</option>
+              <option value="es">Español</option>
+              <option value="tl">Tagalog</option>
+              <option value="it">Italiano</option>
+              <option value="he">Hebrew</option>
+              <option value="fr">Français</option>
+            </select>
           </header>
 
           <main style={styles.content}>
-            <div style={styles.kicker}>Pathway {index + 1} of {slides.length}</div>
+            <div style={styles.kicker}>
+              Pathway {index + 1} of {slides.length}
+            </div>
+
             <h1 style={styles.title}>{slide.title}</h1>
             <h2 style={styles.subtitle}>{slide.subtitle}</h2>
 
@@ -201,24 +275,31 @@ export default function App() {
               >
                 {slide.button}
               </button>
-              <button
-                style={styles.secondary}
-                onClick={() => {
-                  setIndex(0);
-                  setGuided(true);
-                }}
-              >
+
+              <button style={styles.secondary} onClick={startTour}>
                 Start Guided Tour
               </button>
-              <button style={styles.secondary} onClick={() => setGuided(!guided)}>
+
+              <button
+                style={styles.secondary}
+                onClick={() => setGuided((g) => !g)}
+              >
                 {guided ? "Pause Tour" : "Resume Tour"}
               </button>
             </div>
           </main>
 
           <div style={styles.nav}>
-            <button style={styles.navBtn} onClick={back}>Back</button>
-            <button style={styles.navBtn} onClick={next}>Next</button>
+            <button style={styles.navBtn} onClick={back} disabled={index === 0}>
+              Back
+            </button>
+            <button
+              style={styles.navBtn}
+              onClick={next}
+              disabled={index === slides.length - 1}
+            >
+              Next
+            </button>
           </div>
 
           <div style={styles.progressWrap}>
@@ -228,19 +309,19 @@ export default function App() {
       </section>
 
       <section style={styles.pathwayMap}>
-        {slides.slice(1, -1).map((s, i) => (
+        {slides.map((s, i) => (
           <React.Fragment key={s.id}>
             <button
-              onClick={() => setIndex(slides.findIndex((x) => x.id === s.id))}
+              onClick={() => setIndex(i)}
               style={{
                 ...styles.pathBtn,
-                background: s.id === slide.id ? "#efe2cf" : "#fff",
-                borderColor: s.id === slide.id ? s.color : "#ddd",
+                background: i === index ? "#efe2cf" : "#fff",
+                borderColor: i === index ? s.color : "#ddd",
               }}
             >
               {s.title}
             </button>
-            {i < slides.slice(1, -1).length - 1 && <span style={styles.arrow}>→</span>}
+            {i < slides.length - 1 && <span style={styles.arrow}>→</span>}
           </React.Fragment>
         ))}
       </section>
@@ -249,57 +330,132 @@ export default function App() {
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  page: { minHeight: "100vh", background: "#f4efe7", fontFamily: "Georgia, serif" },
-  hero: { position: "relative", minHeight: "calc(100vh - 140px)", overflow: "hidden" },
-  image: { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" },
+  page: {
+    minHeight: "100vh",
+    background: "#f4efe7",
+    fontFamily: "Georgia, 'Times New Roman', serif",
+    color: "#1f1f1f",
+  },
+  hero: {
+    position: "relative",
+    minHeight: "calc(100vh - 142px)",
+    overflow: "hidden",
+  },
+  image: {
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
   overlay: {
     position: "absolute",
     inset: 0,
     color: "white",
-    padding: 28,
+    padding: "28px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
   },
-  topbar: { display: "flex", justifyContent: "space-between", alignItems: "center" },
-  small: { fontSize: 14, opacity: 0.9 },
-  language: { border: "none", borderRadius: 999, padding: "12px 30px", background: "#fff" },
-  content: { maxWidth: 940 },
-  kicker: { letterSpacing: ".15em", textTransform: "uppercase", fontWeight: 800 },
-  title: { fontSize: "clamp(3rem, 7vw, 6rem)", lineHeight: 0.95, margin: "22px 0 12px" },
-  subtitle: { fontSize: "clamp(1.25rem, 2.5vw, 2rem)", margin: "0 0 20px" },
-  body: {
-    fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)",
-    lineHeight: 1.45,
-    background: "rgba(0,0,0,.24)",
-    padding: "18px 22px",
-    borderRadius: 18,
-    maxWidth: 780,
+  topbar: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "16px",
   },
-  actions: { display: "flex", gap: 12, flexWrap: "wrap", marginTop: 20 },
-  primary: { border: "none", borderRadius: 999, padding: "14px 22px", fontWeight: 800 },
+  small: {
+    fontSize: "14px",
+    opacity: 0.9,
+  },
+  select: {
+    border: "none",
+    borderRadius: "999px",
+    padding: "12px 24px",
+    fontWeight: 800,
+  },
+  content: {
+    maxWidth: "1080px",
+  },
+  kicker: {
+    letterSpacing: ".15em",
+    textTransform: "uppercase",
+    fontWeight: 900,
+    fontSize: "14px",
+  },
+  title: {
+    fontSize: "clamp(3rem, 7vw, 6rem)",
+    lineHeight: 0.95,
+    margin: "20px 0 12px",
+  },
+  subtitle: {
+    fontSize: "clamp(1.2rem, 2.6vw, 2rem)",
+    margin: "0 0 18px",
+    fontWeight: 700,
+    maxWidth: "980px",
+  },
+  body: {
+    fontSize: "clamp(1rem, 1.8vw, 1.35rem)",
+    lineHeight: 1.45,
+    background: "rgba(0,0,0,.25)",
+    padding: "18px 22px",
+    borderRadius: "18px",
+    maxWidth: "820px",
+  },
+  actions: {
+    display: "flex",
+    gap: "12px",
+    flexWrap: "wrap",
+    marginTop: "20px",
+  },
+  primary: {
+    border: "none",
+    borderRadius: "999px",
+    padding: "14px 22px",
+    fontWeight: 900,
+    cursor: "pointer",
+    background: "#fff",
+    color: "#1f1f1f",
+  },
   secondary: {
     border: "1px solid rgba(255,255,255,.75)",
-    borderRadius: 999,
+    borderRadius: "999px",
     padding: "14px 22px",
-    fontWeight: 800,
+    fontWeight: 900,
+    cursor: "pointer",
     background: "rgba(255,255,255,.15)",
     color: "#fff",
   },
-  nav: { position: "absolute", right: 28, bottom: 55, display: "flex", gap: 14 },
-  navBtn: { border: "none", background: "transparent", color: "#fff", fontWeight: 900, fontSize: 18 },
+  nav: {
+    position: "absolute",
+    right: "28px",
+    bottom: "55px",
+    display: "flex",
+    gap: "18px",
+  },
+  navBtn: {
+    border: "none",
+    background: "transparent",
+    color: "#fff",
+    fontWeight: 900,
+    fontSize: "18px",
+    cursor: "pointer",
+  },
   progressWrap: {
-    height: 8,
-    background: "rgba(255,255,255,.25)",
-    borderRadius: 999,
+    height: "8px",
+    background: "rgba(255,255,255,.28)",
+    borderRadius: "999px",
     overflow: "hidden",
   },
-  progress: { height: "100%", background: "#fff", transition: "width .6s ease" },
+  progress: {
+    height: "100%",
+    background: "#fff",
+    transition: "width .6s ease",
+  },
   pathwayMap: {
-    minHeight: 140,
+    minHeight: "142px",
     display: "flex",
     alignItems: "center",
-    gap: 10,
+    gap: "10px",
     padding: "18px 24px",
     overflowX: "auto",
     background: "#f4efe7",
@@ -307,35 +463,71 @@ const styles: Record<string, React.CSSProperties> = {
   pathBtn: {
     whiteSpace: "nowrap",
     border: "2px solid #ddd",
-    borderRadius: 999,
+    borderRadius: "999px",
     padding: "14px 20px",
     fontWeight: 900,
     cursor: "pointer",
   },
-  arrow: { fontSize: 24, fontWeight: 900, color: "#7b5b37" },
-  diagram: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 14,
-    alignItems: "center",
-    margin: "18px 0",
-    maxWidth: 900,
+  arrow: {
+    fontSize: "24px",
+    fontWeight: 900,
+    color: "#7b5b37",
   },
-  centerNode: {
+  diagramWrap: {
+    display: "grid",
+    gridTemplateColumns: "280px 1fr",
+    gap: "18px",
+    alignItems: "center",
+    maxWidth: "1050px",
+    margin: "16px 0",
+  },
+  centerCircle: {
+    minHeight: "210px",
+    borderRadius: "50%",
     background: "rgba(255,255,255,.92)",
     color: "#2b2b2b",
-    padding: "18px 24px",
-    borderRadius: 22,
-    fontWeight: 900,
-    fontSize: 22,
-    boxShadow: "0 10px 30px rgba(0,0,0,.25)",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    padding: "24px",
+    boxShadow: "0 18px 40px rgba(0,0,0,.26)",
   },
-  node: {
-    background: "rgba(255,255,255,.82)",
+  centerTitle: {
+    fontSize: "26px",
+    fontWeight: 900,
+    lineHeight: 1.05,
+  },
+  centerText: {
+    marginTop: "8px",
+    fontSize: "16px",
+    fontWeight: 700,
+  },
+  diagramGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(190px, 1fr))",
+    gap: "12px",
+  },
+  diagramNode: {
+    background: "rgba(255,255,255,.86)",
     color: "#2b2b2b",
     padding: "14px 18px",
-    borderRadius: 999,
+    borderRadius: "999px",
     fontWeight: 900,
     boxShadow: "0 8px 20px rgba(0,0,0,.18)",
+  },
+  connector: {
+    color: "#7b5b37",
+    fontWeight: 900,
+    marginRight: "8px",
+  },
+  flowLine: {
+    gridColumn: "1 / -1",
+    background: "rgba(0,0,0,.28)",
+    padding: "14px 18px",
+    borderRadius: "16px",
+    fontWeight: 800,
+    textAlign: "center",
   },
 };
