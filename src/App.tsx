@@ -4,7 +4,8 @@ import "./App.css";
 const slides = [
   {
     nav: "1. Bronson Family Farm",
-    image: "/GrowArea.jpg",
+    image: "/ConnectFoodEcosystem_withimages.jpeg",
+    contain: true,
     kicker: "BRONSON FAMILY FARM DEMO",
     title: "Enter the Farm",
     text: [
@@ -13,7 +14,6 @@ const slides = [
       "The goal is to help food, knowledge, opportunity, and resources circulate locally."
     ]
   },
-
   {
     nav: "2. Connected Ecosystem",
     image: "/ConnectFoodEcosystem_withimages.jpeg",
@@ -27,7 +27,6 @@ const slides = [
       "The food moves through the system so growers do not have to carry distribution alone."
     ]
   },
-
   {
     nav: "3. Explore the Farm",
     image: "/GrowArea.jpg",
@@ -37,10 +36,9 @@ const slides = [
       "Bronson Family Farm grows from the Historic Lansdowne Airport in Youngstown.",
       "The farm combines outdoor growing, education, agritourism, and community engagement.",
       "Visitors experience the land, the story, the vision, and the future of the farm.",
-      "This is not simply farmland. It is infrastructure for a connected food ecosystem."
+      "This is infrastructure for a connected food ecosystem."
     ]
   },
-
   {
     nav: "4. Guest",
     image: "/SAM_0220.JPG",
@@ -53,7 +51,6 @@ const slides = [
       "Visitors experience a living ecosystem instead of simply attending an event."
     ]
   },
-
   {
     nav: "5. Customer",
     image: "/SAM_0221.JPG",
@@ -66,7 +63,6 @@ const slides = [
       "The goal is long-term healthy choices and stronger communities."
     ]
   },
-
   {
     nav: "6. Marketplace",
     image: "/SAM_0222.JPG",
@@ -79,7 +75,6 @@ const slides = [
       "The marketplace becomes a circulation point for food, relationships, and opportunity."
     ]
   },
-
   {
     nav: "7. Grower",
     image: "/SAM_0223.JPG",
@@ -92,7 +87,6 @@ const slides = [
       "Stronger growers help build a stronger regional food system."
     ]
   },
-
   {
     nav: "8. Youth Workforce",
     image: "/SAM_0225.JPG",
@@ -105,7 +99,6 @@ const slides = [
       "Youth begin to see themselves as part of the future food ecosystem."
     ]
   },
-
   {
     nav: "9. Partner",
     image: "/SAM_0226.JPG",
@@ -118,7 +111,6 @@ const slides = [
       "Partnership transforms individual effort into coordinated community impact."
     ]
   },
-
   {
     nav: "10. Value-Added",
     image: "/SAM_0229.JPG",
@@ -131,7 +123,6 @@ const slides = [
       "The ecosystem supports both growing and transformation."
     ]
   },
-
   {
     nav: "11. Thank You",
     image: "/ConnectFoodEcosystem_withimages.jpeg",
@@ -184,7 +175,9 @@ export default function App() {
           className="background"
           style={{
             backgroundImage: `url(${slide.image})`,
-            backgroundSize: slide.contain ? "contain" : "cover"
+            backgroundSize: slide.contain ? "contain" : "cover",
+            backgroundPosition: slide.contain ? "center right" : "center",
+            backgroundRepeat: "no-repeat"
           }}
         />
 
@@ -193,7 +186,6 @@ export default function App() {
         <header className="top">
           <div>
             <p className="kicker">BRONSON FAMILY FARM DEMO</p>
-
             <h1>Connected Food Ecosystem Experience</h1>
           </div>
 
@@ -229,7 +221,6 @@ export default function App() {
         <section className="content">
           <div className="panel">
             <p className="kicker">{slide.kicker}</p>
-
             <h2>{slide.title}</h2>
 
             {slide.text.map((line) => (
@@ -246,20 +237,14 @@ export default function App() {
                 Start
               </button>
 
-              <button
-                onClick={() =>
-                  setIndex((prev) => Math.max(0, prev - 1))
-                }
-              >
+              <button onClick={() => setIndex((prev) => Math.max(0, prev - 1))}>
                 Back
               </button>
 
               <button
                 className="next"
                 onClick={() =>
-                  setIndex((prev) =>
-                    Math.min(slides.length - 1, prev + 1)
-                  )
+                  setIndex((prev) => Math.min(slides.length - 1, prev + 1))
                 }
               >
                 Next
@@ -276,7 +261,7 @@ export default function App() {
         </section>
 
         <footer className="footerCards">
-          {slides.slice(1, 10).map((item, i) => (
+          {slides.slice(1).map((item, i) => (
             <button
               key={item.nav}
               className="card"
@@ -286,7 +271,6 @@ export default function App() {
               }}
             >
               <img src={item.image} alt={item.title} />
-
               <div className="cardOverlay" />
 
               <div className="cardText">
