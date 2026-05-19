@@ -657,14 +657,14 @@ const styles: any = {
     inset: 0,
     backgroundRepeat: "no-repeat",
     backgroundColor: "#10140f",
-    opacity: 0.52,
+    opacity: 0.58,
     transition: "all .7s ease",
   },
   overlay: {
     position: "absolute",
     inset: 0,
     background:
-      "linear-gradient(to right, rgba(0,0,0,.88), rgba(0,0,0,.60), rgba(0,0,0,.16)), linear-gradient(to top, rgba(0,0,0,.72), transparent 58%)",
+      "linear-gradient(to right, rgba(0,0,0,.78), rgba(0,0,0,.46), rgba(0,0,0,.08)), linear-gradient(to top, rgba(0,0,0,.38), transparent 72%)",
   },
   screen: {
     position: "relative",
@@ -744,7 +744,7 @@ const styles: any = {
     overflow: "hidden",
     borderRadius: 28,
     padding: "30px 36px",
-    background: "rgba(0,0,0,.78)",
+    background: "rgba(0,0,0,.80)",
     border: "1px solid rgba(255,255,255,.18)",
     boxShadow: "0 22px 55px rgba(0,0,0,.45)",
   },
