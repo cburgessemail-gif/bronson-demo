@@ -12,7 +12,6 @@ const englishSlides = [
       "The goal is to circulate food, knowledge, opportunity, and resources locally.",
     ],
   },
-
   {
     image: "/ConnectFoodEcosystem_withimages.jpeg",
     contain: true,
@@ -24,7 +23,6 @@ const englishSlides = [
       "Youth build skills. Partners bring resources. Food moves through a coordinated system.",
     ],
   },
-
   {
     image: "/GrowArea.jpg",
     kicker: "PLACE · LAND · AIRPORT HISTORY",
@@ -34,7 +32,6 @@ const englishSlides = [
       "Visitors experience the land, the story, and the purpose of the farm.",
     ],
   },
-
   {
     image: "/SAM_0220.JPG",
     kicker: "GUEST PATHWAY",
@@ -44,7 +41,6 @@ const englishSlides = [
       "They learn why the farm exists and how local food strengthens families and neighborhoods.",
     ],
   },
-
   {
     image: "/SAM_0221.JPG",
     kicker: "CUSTOMER PATHWAY",
@@ -54,7 +50,6 @@ const englishSlides = [
       "Every purchase helps strengthen growers and keep food dollars circulating locally.",
     ],
   },
-
   {
     image: "/SAM_0222.JPG",
     kicker: "COMMUNITY MARKETPLACE",
@@ -64,7 +59,6 @@ const englishSlides = [
       "Growers do not have to travel everywhere alone. The ecosystem helps organize distribution.",
     ],
   },
-
   {
     image: "/SAM_0223.JPG",
     kicker: "GROWER SUPPORT SYSTEM",
@@ -74,7 +68,6 @@ const englishSlides = [
       "This pathway supports gardeners, urban growers, and small farms.",
     ],
   },
-
   {
     image: "/SAM_0225.JPG",
     kicker: "YOUTH WORKFORCE",
@@ -84,7 +77,6 @@ const englishSlides = [
       "The farm becomes a classroom for responsibility, teamwork, safety, and leadership.",
     ],
   },
-
   {
     image: "/SAM_0226.JPG",
     kicker: "COMMUNITY PARTNERSHIPS",
@@ -94,7 +86,6 @@ const englishSlides = [
       "Partnership turns individual effort into coordinated community impact.",
     ],
   },
-
   {
     image: "/SAM_0229.JPG",
     kicker: "VALUE-ADDED PATHWAY",
@@ -104,7 +95,6 @@ const englishSlides = [
       "This pathway expands opportunity beyond the field.",
     ],
   },
-
   {
     image: "/ConnectFoodEcosystem_withimages.jpeg",
     contain: true,
@@ -166,17 +156,7 @@ const languageData: any = {
       begin: "Iniciar Recorrido",
       pause: "Pausar Recorrido",
     },
-    slides: englishSlides.map((s, i) => ({
-      ...s,
-      ...(i === 0 && {
-        title: "Entrar a la Granja",
-        text: [
-          "Bronson Family Farm comienza con tierra, legado, alimentos y comunidad.",
-          "Este ecosistema crece desde el histórico Aeropuerto Lansdowne en Youngstown.",
-          "La meta es circular alimentos, conocimiento, oportunidades y recursos localmente.",
-        ],
-      }),
-    })),
+    slides: englishSlides,
   },
 
   Tagalog: {
@@ -329,7 +309,6 @@ export default function App() {
         <header style={styles.header}>
           <div>
             <p style={styles.kicker}>BRONSON FAMILY FARM DEMO</p>
-
             <h1 style={styles.h1}>{data.title}</h1>
           </div>
 
@@ -349,12 +328,7 @@ export default function App() {
         </header>
 
         <div style={styles.progress}>
-          <div
-            style={{
-              ...styles.progressFill,
-              width: `${progress}%`,
-            }}
-          />
+          <div style={{ ...styles.progressFill, width: `${progress}%` }} />
         </div>
 
         <nav style={styles.nav}>
@@ -377,7 +351,6 @@ export default function App() {
 
         <article style={styles.panel}>
           <p style={styles.kicker}>{slide.kicker}</p>
-
           <h2 style={styles.h2}>{slide.title}</h2>
 
           <div style={styles.textBlock}>
@@ -389,46 +362,31 @@ export default function App() {
           </div>
 
           <div style={styles.controls}>
-            <button
-              style={styles.controlButton}
-              onClick={() => setIndex(0)}
-            >
+            <button style={styles.controlButton} onClick={() => setIndex(0)}>
               {data.buttons.start}
             </button>
 
             <button
               style={styles.controlButton}
-              onClick={() =>
-                setIndex((p) => Math.max(0, p - 1))
-              }
+              onClick={() => setIndex((p) => Math.max(0, p - 1))}
             >
               {data.buttons.back}
             </button>
 
             <button
-              style={{
-                ...styles.controlButton,
-                ...styles.nextButton,
-              }}
+              style={{ ...styles.controlButton, ...styles.nextButton }}
               onClick={() =>
-                setIndex((p) =>
-                  Math.min(data.slides.length - 1, p + 1)
-                )
+                setIndex((p) => Math.min(data.slides.length - 1, p + 1))
               }
             >
               {data.buttons.next}
             </button>
 
             <button
-              style={{
-                ...styles.controlButton,
-                ...styles.guidedButton,
-              }}
+              style={{ ...styles.controlButton, ...styles.guidedButton }}
               onClick={() => setGuided((p) => !p)}
             >
-              {guided
-                ? data.buttons.pause
-                : data.buttons.begin}
+              {guided ? data.buttons.pause : data.buttons.begin}
             </button>
           </div>
         </article>
@@ -453,7 +411,7 @@ const styles: any = {
     inset: 0,
     backgroundRepeat: "no-repeat",
     backgroundColor: "#10140f",
-    opacity: 0.22,
+    opacity: 0.34,
     transition: "all .7s ease",
   },
 
@@ -461,7 +419,7 @@ const styles: any = {
     position: "absolute",
     inset: 0,
     background:
-      "linear-gradient(to right, rgba(0,0,0,.98), rgba(0,0,0,.86), rgba(0,0,0,.55)), linear-gradient(to top, rgba(0,0,0,.96), transparent 48%)",
+      "linear-gradient(to right, rgba(0,0,0,.94), rgba(0,0,0,.76), rgba(0,0,0,.34)), linear-gradient(to top, rgba(0,0,0,.90), transparent 52%)",
   },
 
   screen: {
