@@ -29,6 +29,7 @@ const IMG = {
 const screens: Record<
   ScreenKey,
   {
+    nav: string;
     title: string;
     subtitle: string;
     image?: string;
@@ -38,8 +39,10 @@ const screens: Record<
   }
 > = {
   entrance: {
+    nav: "Bronson Family Farm",
     title: "Bronson Family Farm",
-    subtitle: "A place-based food ecosystem growing from Youngstown’s historic Lansdowne Airport.",
+    subtitle:
+      "A place-based food ecosystem growing from Youngstown’s historic Lansdowne Airport.",
     image: IMG.entrance,
     accent: "#6f7d4d",
     body: [
@@ -49,9 +52,12 @@ const screens: Record<
     ],
     next: "ecosystem",
   },
+
   ecosystem: {
-    title: "A Connected Ecosystem",
-    subtitle: "Each pathway has a role. Together, they create movement, opportunity, and circulation.",
+    nav: "A Connected Ecosystem",
+    title: "Growing Opportunity Together",
+    subtitle:
+      "Each pathway has a role. Together, they create movement, opportunity, and circulation.",
     image: IMG.ecosystem,
     accent: "#7a5c36",
     body: [
@@ -60,9 +66,12 @@ const screens: Record<
     ],
     next: "explore",
   },
+
   explore: {
+    nav: "Explore the Farm",
     title: "Explore the Farm",
-    subtitle: "The airport, the land, the growing space, and the future agritourism destination.",
+    subtitle:
+      "The airport, the land, the growing space, and the future agritourism destination.",
     image: IMG.explore,
     accent: "#6b705c",
     body: [
@@ -72,9 +81,12 @@ const screens: Record<
     ],
     next: "guest",
   },
+
   guest: {
+    nav: "Guest",
     title: "Guest Pathway",
-    subtitle: "For visitors who need to understand the vision, story, and purpose.",
+    subtitle:
+      "For visitors who need to understand the vision, story, and purpose.",
     image: IMG.guest,
     accent: "#8a6f48",
     body: [
@@ -84,9 +96,12 @@ const screens: Record<
     ],
     next: "customer",
   },
+
   customer: {
+    nav: "Customer",
     title: "Customer Pathway",
-    subtitle: "For families and residents seeking fresh, chemical-free food and repeat access.",
+    subtitle:
+      "For families and residents seeking fresh, chemical-free food and repeat access.",
     image: IMG.customer,
     accent: "#7f4f24",
     body: [
@@ -96,9 +111,12 @@ const screens: Record<
     ],
     next: "marketplace",
   },
+
   marketplace: {
+    nav: "Marketplace",
     title: "Marketplace Pathway",
-    subtitle: "Where food, growers, customers, and local dollars connect.",
+    subtitle:
+      "Where food, growers, customers, and local dollars connect.",
     image: IMG.marketplace,
     accent: "#9a6735",
     body: [
@@ -108,9 +126,12 @@ const screens: Record<
     ],
     next: "grower",
   },
+
   grower: {
+    nav: "Grower",
     title: "Grower Pathway",
-    subtitle: "For farmers, gardeners, and community growers who need tools, knowledge, and markets.",
+    subtitle:
+      "For farmers, gardeners, and community growers who need tools, knowledge, and markets.",
     image: IMG.grower,
     accent: "#5f6f52",
     body: [
@@ -120,9 +141,12 @@ const screens: Record<
     ],
     next: "youth",
   },
+
   youth: {
+    nav: "Youth Workforce",
     title: "Youth Workforce Pathway",
-    subtitle: "Building responsibility, skill, confidence, and future readiness.",
+    subtitle:
+      "Building responsibility, skill, confidence, and future readiness.",
     image: IMG.youth,
     accent: "#8b5e34",
     body: [
@@ -132,9 +156,12 @@ const screens: Record<
     ],
     next: "partners",
   },
+
   partners: {
+    nav: "Partner",
     title: "Partner Pathway",
-    subtitle: "Aligning resources, expertise, and collaboration for community benefit.",
+    subtitle:
+      "Aligning resources, expertise, and collaboration for community benefit.",
     image: IMG.partners,
     accent: "#6d597a",
     body: [
@@ -144,9 +171,12 @@ const screens: Record<
     ],
     next: "valueadded",
   },
+
   valueadded: {
+    nav: "Value-Added",
     title: "Value-Added Pathway",
-    subtitle: "Helping food become products, enterprise, education, and sustainability.",
+    subtitle:
+      "Helping food become products, enterprise, education, and sustainability.",
     image: IMG.valueadded,
     accent: "#99582a",
     body: [
@@ -156,9 +186,12 @@ const screens: Record<
     ],
     next: "feedback",
   },
+
   feedback: {
+    nav: "Thank You",
     title: "Thank You",
-    subtitle: "Your feedback helps us improve the Bronson Family Farm ecosystem demo.",
+    subtitle:
+      "Your feedback helps us improve the Bronson Family Farm ecosystem demo.",
     accent: "#5c6b35",
     body: [
       "Thank you for walking through this demo experience.",
@@ -192,14 +225,14 @@ export default function App() {
 
   useEffect(() => {
     if (!guided) return;
+
     if (current === "feedback") {
       setGuided(false);
       return;
     }
 
     const timer = window.setTimeout(() => {
-      const next = screen.next;
-      if (next) setCurrent(next);
+      if (screen.next) setCurrent(screen.next);
     }, 9000);
 
     return () => window.clearTimeout(timer);
@@ -228,7 +261,9 @@ export default function App() {
         <header style={styles.header}>
           <div>
             <p style={styles.kicker}>Bronson Family Farm Demo</p>
-            <h1 style={styles.mainTitle}>Connected Food Ecosystem Experience</h1>
+            <h1 style={styles.mainTitle}>
+              Connected Food Ecosystem Experience
+            </h1>
           </div>
 
           <select
@@ -263,7 +298,7 @@ export default function App() {
                 color: current === key ? "#fff" : "#3f3f2f",
               }}
             >
-              {i + 1}. {screens[key].title.replace(" Pathway", "")}
+              {i + 1}. {screens[key].nav}
             </button>
           ))}
         </nav>
@@ -285,7 +320,10 @@ export default function App() {
           </div>
 
           <div style={styles.content}>
-            <p style={{ ...styles.sectionLabel, color: screen.accent }}>{language}</p>
+            <p style={{ ...styles.sectionLabel, color: screen.accent }}>
+              {language}
+            </p>
+
             <h2 style={styles.title}>{screen.title}</h2>
             <h3 style={styles.subtitle}>{screen.subtitle}</h3>
 
