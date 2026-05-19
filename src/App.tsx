@@ -141,12 +141,9 @@ const slides = [
 export default function App() {
   const [index, setIndex] = useState(0);
   const [guided, setGuided] = useState(false);
-
   const slide = slides[index];
 
-  const progress = useMemo(() => {
-    return ((index + 1) / slides.length) * 100;
-  }, [index]);
+  const progress = useMemo(() => ((index + 1) / slides.length) * 100, [index]);
 
   useEffect(() => {
     document.title = "Bronson Family Farm";
@@ -175,8 +172,8 @@ export default function App() {
           className="background"
           style={{
             backgroundImage: `url(${slide.image})`,
-            backgroundSize: slide.contain ? "contain" : "cover",
-            backgroundPosition: slide.contain ? "center right" : "center",
+            backgroundSize: slide.contain ? "58%" : "cover",
+            backgroundPosition: slide.contain ? "right center" : "center center",
             backgroundRepeat: "no-repeat"
           }}
         />
@@ -250,10 +247,7 @@ export default function App() {
                 Next
               </button>
 
-              <button
-                className="guided"
-                onClick={() => setGuided((prev) => !prev)}
-              >
+              <button className="guided" onClick={() => setGuided((prev) => !prev)}>
                 {guided ? "Pause Tour" : "Begin Guided Tour"}
               </button>
             </div>
@@ -272,7 +266,6 @@ export default function App() {
             >
               <img src={item.image} alt={item.title} />
               <div className="cardOverlay" />
-
               <div className="cardText">
                 <span>{item.kicker.split(" ")[0]}</span>
                 <strong>{item.title}</strong>
