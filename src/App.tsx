@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-const baseSlides = [
+const englishSlides = [
   {
     image: "/ConnectFoodEcosystem_withimages.jpeg",
     contain: true,
@@ -118,30 +118,179 @@ const baseSlides = [
   },
 ];
 
-const navLabels = [
-  "1. Bronson Family Farm",
-  "2. Connected Ecosystem",
-  "3. Explore the Farm",
-  "4. Guest",
-  "5. Customer",
-  "6. Marketplace",
-  "7. Grower",
-  "8. Youth Workforce",
-  "9. Partner",
-  "10. Value-Added",
-  "11. Thank You",
-];
+const languageData: any = {
+  English: {
+    title: "Connected Food Ecosystem Experience",
+    nav: [
+      "1. Bronson Family Farm",
+      "2. Connected Ecosystem",
+      "3. Explore the Farm",
+      "4. Guest",
+      "5. Customer",
+      "6. Marketplace",
+      "7. Grower",
+      "8. Youth Workforce",
+      "9. Partner",
+      "10. Value-Added",
+      "11. Thank You",
+    ],
+    buttons: {
+      start: "Start",
+      back: "Back",
+      next: "Next",
+      begin: "Begin Guided Tour",
+      pause: "Pause Tour",
+    },
+    slides: englishSlides,
+  },
+
+  Spanish: {
+    title: "Experiencia de Ecosistema Alimentario Conectado",
+    nav: [
+      "1. Granja Bronson",
+      "2. Ecosistema Conectado",
+      "3. Explorar la Granja",
+      "4. Invitado",
+      "5. Cliente",
+      "6. Mercado",
+      "7. Productor",
+      "8. Jóvenes",
+      "9. Socio",
+      "10. Valor Agregado",
+      "11. Gracias",
+    ],
+    buttons: {
+      start: "Inicio",
+      back: "Atrás",
+      next: "Siguiente",
+      begin: "Iniciar Recorrido",
+      pause: "Pausar Recorrido",
+    },
+    slides: englishSlides.map((s, i) => ({
+      ...s,
+      ...(i === 0 && {
+        title: "Entrar a la Granja",
+        text: [
+          "Bronson Family Farm comienza con tierra, legado, alimentos y comunidad.",
+          "Este ecosistema crece desde el histórico Aeropuerto Lansdowne en Youngstown.",
+          "La meta es circular alimentos, conocimiento, oportunidades y recursos localmente.",
+        ],
+      }),
+    })),
+  },
+
+  Tagalog: {
+    title: "Karanasan sa Konektadong Food Ecosystem",
+    nav: [
+      "1. Bronson Family Farm",
+      "2. Konektadong Ecosystem",
+      "3. Tuklasin ang Farm",
+      "4. Panauhin",
+      "5. Customer",
+      "6. Marketplace",
+      "7. Grower",
+      "8. Kabataan",
+      "9. Partner",
+      "10. Value-Added",
+      "11. Salamat",
+    ],
+    buttons: {
+      start: "Simula",
+      back: "Balik",
+      next: "Susunod",
+      begin: "Simulan ang Tour",
+      pause: "I-pause ang Tour",
+    },
+    slides: englishSlides,
+  },
+
+  Italian: {
+    title: "Esperienza di Ecosistema Alimentare Connesso",
+    nav: [
+      "1. Bronson Family Farm",
+      "2. Ecosistema Connesso",
+      "3. Esplora la Fattoria",
+      "4. Ospite",
+      "5. Cliente",
+      "6. Mercato",
+      "7. Coltivatore",
+      "8. Giovani",
+      "9. Partner",
+      "10. Valore Aggiunto",
+      "11. Grazie",
+    ],
+    buttons: {
+      start: "Inizio",
+      back: "Indietro",
+      next: "Avanti",
+      begin: "Inizia Tour Guidato",
+      pause: "Pausa Tour",
+    },
+    slides: englishSlides,
+  },
+
+  Hebrew: {
+    title: "חוויה של מערכת מזון מחוברת",
+    nav: [
+      "1. חוות ברונסון",
+      "2. מערכת מחוברת",
+      "3. לחקור את החווה",
+      "4. אורח",
+      "5. לקוח",
+      "6. שוק",
+      "7. מגדל",
+      "8. נוער",
+      "9. שותף",
+      "10. ערך מוסף",
+      "11. תודה",
+    ],
+    buttons: {
+      start: "התחלה",
+      back: "חזרה",
+      next: "הבא",
+      begin: "התחל סיור",
+      pause: "השהה סיור",
+    },
+    slides: englishSlides,
+  },
+
+  French: {
+    title: "Expérience d’un Écosystème Alimentaire Connecté",
+    nav: [
+      "1. Ferme Bronson",
+      "2. Écosystème Connecté",
+      "3. Explorer la Ferme",
+      "4. Invité",
+      "5. Client",
+      "6. Marché",
+      "7. Producteur",
+      "8. Jeunesse",
+      "9. Partenaire",
+      "10. Valeur Ajoutée",
+      "11. Merci",
+    ],
+    buttons: {
+      start: "Début",
+      back: "Retour",
+      next: "Suivant",
+      begin: "Commencer la Visite",
+      pause: "Pause",
+    },
+    slides: englishSlides,
+  },
+};
 
 export default function App() {
+  const [language, setLanguage] = useState("English");
   const [index, setIndex] = useState(0);
   const [guided, setGuided] = useState(false);
-  const [language, setLanguage] = useState("English");
 
-  const slide = baseSlides[index];
+  const data = languageData[language];
+  const slide = data.slides[index];
 
   const progress = useMemo(() => {
-    return ((index + 1) / baseSlides.length) * 100;
-  }, [index]);
+    return ((index + 1) / data.slides.length) * 100;
+  }, [index, data.slides.length]);
 
   useEffect(() => {
     document.title = "Bronson Family Farm";
@@ -152,152 +301,64 @@ export default function App() {
 
     const timer = setTimeout(() => {
       setIndex((prev) => {
-        if (prev >= baseSlides.length - 1) {
+        if (prev >= data.slides.length - 1) {
           setGuided(false);
           return prev;
         }
-
         return prev + 1;
       });
     }, 9500);
 
     return () => clearTimeout(timer);
-  }, [guided, index]);
+  }, [guided, index, data.slides.length]);
 
   return (
-    <main
-      style={{
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden",
-        position: "relative",
-        background: "#10140f",
-        color: "#fff",
-        fontFamily: "Arial, Helvetica, sans-serif",
-      }}
-    >
+    <main style={styles.main}>
       <div
         style={{
-          position: "absolute",
-          inset: 0,
+          ...styles.bg,
           backgroundImage: `url(${slide.image})`,
           backgroundSize: slide.contain ? "48%" : "cover",
-          backgroundPosition: slide.contain
-            ? "right 58%"
-            : "center center",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: "#10140f",
-          opacity: 0.22,
-          transition: "all .7s ease",
+          backgroundPosition: slide.contain ? "right 58%" : "center",
         }}
       />
 
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "linear-gradient(to right, rgba(0,0,0,.98), rgba(0,0,0,.86), rgba(0,0,0,.55)), linear-gradient(to top, rgba(0,0,0,.96), transparent 48%)",
-        }}
-      />
+      <div style={styles.overlay} />
 
-      <section
-        style={{
-          position: "relative",
-          zIndex: 2,
-          height: "100vh",
-          padding: "20px 40px",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <header
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 24,
-            flexShrink: 0,
-          }}
-        >
+      <section style={styles.screen}>
+        <header style={styles.header}>
           <div>
-            <p
-              style={{
-                letterSpacing: ".32em",
-                color: "#e8d7a2",
-                fontWeight: 800,
-                fontSize: 12,
-                margin: "0 0 8px",
-              }}
-            >
-              BRONSON FAMILY FARM DEMO
-            </p>
+            <p style={styles.kicker}>BRONSON FAMILY FARM DEMO</p>
 
-            <h1
-              style={{
-                fontSize: "clamp(32px, 4.1vw, 56px)",
-                lineHeight: 0.95,
-                fontWeight: 400,
-                margin: 0,
-                maxWidth: 760,
-              }}
-            >
-              Connected Food Ecosystem Experience
-            </h1>
+            <h1 style={styles.h1}>{data.title}</h1>
           </div>
 
           <select
             value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            style={{
-              height: 46,
-              borderRadius: 999,
-              padding: "0 22px",
-              background: "rgba(255,255,255,.18)",
-              color: "white",
-              fontWeight: 800,
-              fontSize: 16,
-              border: "1px solid rgba(255,255,255,.35)",
+            onChange={(e) => {
+              setLanguage(e.target.value);
+              setIndex(0);
+              setGuided(false);
             }}
+            style={styles.select}
           >
-            <option>English</option>
-            <option>Spanish</option>
-            <option>Tagalog</option>
-            <option>Italian</option>
-            <option>Hebrew</option>
-            <option>French</option>
+            {Object.keys(languageData).map((lang) => (
+              <option key={lang}>{lang}</option>
+            ))}
           </select>
         </header>
 
-        <div
-          style={{
-            height: 8,
-            background: "rgba(255,255,255,.28)",
-            borderRadius: 99,
-            margin: "16px 0 16px",
-            flexShrink: 0,
-          }}
-        >
+        <div style={styles.progress}>
           <div
             style={{
-              height: "100%",
+              ...styles.progressFill,
               width: `${progress}%`,
-              background: "#8cc63f",
-              borderRadius: 99,
             }}
           />
         </div>
 
-        <nav
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 10,
-            marginBottom: 22,
-            flexShrink: 0,
-            maxWidth: "920px",
-          }}
-        >
-          {navLabels.map((label, i) => (
+        <nav style={styles.nav}>
+          {data.nav.map((label: string, i: number) => (
             <button
               key={label}
               onClick={() => {
@@ -305,17 +366,8 @@ export default function App() {
                 setIndex(i);
               }}
               style={{
-                borderRadius: 999,
-                padding: "9px 15px",
-                color: "white",
-                fontWeight: 800,
-                fontSize: 14,
-                border: "1px solid rgba(255,255,255,.3)",
-                background:
-                  i === index
-                    ? "#9a6a38"
-                    : "rgba(255,255,255,.15)",
-                cursor: "pointer",
+                ...styles.navButton,
+                ...(i === index ? styles.activeButton : {}),
               }}
             >
               {label}
@@ -323,109 +375,60 @@ export default function App() {
           ))}
         </nav>
 
-        <article
-          style={{
-            width: "min(760px, 52vw)",
-            maxHeight: "calc(100vh - 245px)",
-            overflow: "hidden",
-            borderRadius: 28,
-            padding: "30px 36px",
-            background: "rgba(0,0,0,.72)",
-            border: "1px solid rgba(255,255,255,.18)",
-            boxShadow: "0 22px 55px rgba(0,0,0,.45)",
-          }}
-        >
-          <p
-            style={{
-              letterSpacing: ".32em",
-              color: "#e8d7a2",
-              fontWeight: 800,
-              fontSize: 12,
-              margin: "0 0 8px",
-            }}
-          >
-            {slide.kicker}
-          </p>
+        <article style={styles.panel}>
+          <p style={styles.kicker}>{slide.kicker}</p>
 
-          <h2
-            style={{
-              fontSize: "clamp(40px, 4.8vw, 64px)",
-              lineHeight: 0.94,
-              fontWeight: 400,
-              margin: "0 0 18px",
-            }}
-          >
-            {slide.title}
-          </h2>
+          <h2 style={styles.h2}>{slide.title}</h2>
 
-          <div
-            style={{
-              maxHeight: "160px",
-              overflow: "hidden",
-            }}
-          >
-            {slide.text.map((line) => (
-              <p
-                key={line}
-                style={{
-                  fontSize: "clamp(15px, 1.2vw, 18px)",
-                  lineHeight: 1.32,
-                  margin: "0 0 9px",
-                }}
-              >
+          <div style={styles.textBlock}>
+            {slide.text.map((line: string) => (
+              <p key={line} style={styles.p}>
                 {line}
               </p>
             ))}
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 10,
-              marginTop: 22,
-            }}
-          >
+          <div style={styles.controls}>
             <button
+              style={styles.controlButton}
               onClick={() => setIndex(0)}
-              style={buttonStyle}
             >
-              Start
+              {data.buttons.start}
             </button>
 
             <button
+              style={styles.controlButton}
               onClick={() =>
                 setIndex((p) => Math.max(0, p - 1))
               }
-              style={buttonStyle}
             >
-              Back
+              {data.buttons.back}
             </button>
 
             <button
+              style={{
+                ...styles.controlButton,
+                ...styles.nextButton,
+              }}
               onClick={() =>
                 setIndex((p) =>
-                  Math.min(baseSlides.length - 1, p + 1)
+                  Math.min(data.slides.length - 1, p + 1)
                 )
               }
-              style={{
-                ...buttonStyle,
-                background: "#9a6a38",
-                borderColor: "#e4c98b",
-              }}
             >
-              Next
+              {data.buttons.next}
             </button>
 
             <button
-              onClick={() => setGuided((p) => !p)}
               style={{
-                ...buttonStyle,
-                background: "#3f7f22",
-                borderColor: "#9fc56a",
+                ...styles.controlButton,
+                ...styles.guidedButton,
               }}
+              onClick={() => setGuided((p) => !p)}
             >
-              {guided ? "Pause Tour" : "Begin Guided Tour"}
+              {guided
+                ? data.buttons.pause
+                : data.buttons.begin}
             </button>
           </div>
         </article>
@@ -434,13 +437,169 @@ export default function App() {
   );
 }
 
-const buttonStyle: any = {
-  borderRadius: 999,
-  padding: "10px 16px",
-  color: "white",
-  fontWeight: 800,
-  fontSize: 14,
-  border: "1px solid rgba(255,255,255,.3)",
-  background: "rgba(255,255,255,.15)",
-  cursor: "pointer",
+const styles: any = {
+  main: {
+    width: "100vw",
+    height: "100vh",
+    overflow: "hidden",
+    position: "relative",
+    background: "#10140f",
+    color: "#fff",
+    fontFamily: "Arial, Helvetica, sans-serif",
+  },
+
+  bg: {
+    position: "absolute",
+    inset: 0,
+    backgroundRepeat: "no-repeat",
+    backgroundColor: "#10140f",
+    opacity: 0.22,
+    transition: "all .7s ease",
+  },
+
+  overlay: {
+    position: "absolute",
+    inset: 0,
+    background:
+      "linear-gradient(to right, rgba(0,0,0,.98), rgba(0,0,0,.86), rgba(0,0,0,.55)), linear-gradient(to top, rgba(0,0,0,.96), transparent 48%)",
+  },
+
+  screen: {
+    position: "relative",
+    zIndex: 2,
+    height: "100vh",
+    padding: "20px 40px",
+    display: "flex",
+    flexDirection: "column",
+  },
+
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: 24,
+    flexShrink: 0,
+  },
+
+  kicker: {
+    letterSpacing: ".32em",
+    color: "#e8d7a2",
+    fontWeight: 800,
+    fontSize: 12,
+    margin: "0 0 8px",
+  },
+
+  h1: {
+    fontSize: "clamp(32px, 4.1vw, 56px)",
+    lineHeight: 0.95,
+    fontWeight: 400,
+    margin: 0,
+    maxWidth: 760,
+  },
+
+  select: {
+    height: 46,
+    borderRadius: 999,
+    padding: "0 22px",
+    background: "rgba(255,255,255,.18)",
+    color: "white",
+    fontWeight: 800,
+    fontSize: 16,
+    border: "1px solid rgba(255,255,255,.35)",
+  },
+
+  progress: {
+    height: 8,
+    background: "rgba(255,255,255,.28)",
+    borderRadius: 99,
+    margin: "16px 0",
+    flexShrink: 0,
+  },
+
+  progressFill: {
+    height: "100%",
+    background: "#8cc63f",
+    borderRadius: 99,
+  },
+
+  nav: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 10,
+    marginBottom: 22,
+    flexShrink: 0,
+    maxWidth: "960px",
+  },
+
+  navButton: {
+    borderRadius: 999,
+    padding: "9px 15px",
+    color: "white",
+    fontWeight: 800,
+    fontSize: 14,
+    border: "1px solid rgba(255,255,255,.3)",
+    background: "rgba(255,255,255,.15)",
+    cursor: "pointer",
+  },
+
+  activeButton: {
+    background: "#9a6a38",
+    borderColor: "#e4c98b",
+  },
+
+  panel: {
+    width: "min(760px, 52vw)",
+    maxHeight: "calc(100vh - 245px)",
+    overflow: "hidden",
+    borderRadius: 28,
+    padding: "30px 36px",
+    background: "rgba(0,0,0,.72)",
+    border: "1px solid rgba(255,255,255,.18)",
+    boxShadow: "0 22px 55px rgba(0,0,0,.45)",
+  },
+
+  h2: {
+    fontSize: "clamp(40px, 4.8vw, 64px)",
+    lineHeight: 0.94,
+    fontWeight: 400,
+    margin: "0 0 18px",
+  },
+
+  textBlock: {
+    maxHeight: "160px",
+    overflow: "hidden",
+  },
+
+  p: {
+    fontSize: "clamp(15px, 1.2vw, 18px)",
+    lineHeight: 1.32,
+    margin: "0 0 9px",
+  },
+
+  controls: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 10,
+    marginTop: 22,
+  },
+
+  controlButton: {
+    borderRadius: 999,
+    padding: "10px 16px",
+    color: "white",
+    fontWeight: 800,
+    fontSize: 14,
+    border: "1px solid rgba(255,255,255,.3)",
+    background: "rgba(255,255,255,.15)",
+    cursor: "pointer",
+  },
+
+  nextButton: {
+    background: "#9a6a38",
+    borderColor: "#e4c98b",
+  },
+
+  guidedButton: {
+    background: "#3f7f22",
+    borderColor: "#9fc56a",
+  },
 };
