@@ -1,6 +1,4 @@
 // src/App.tsx
-// Bronson Family Farm Demo Recovery Build
-// Self-contained demo: no website button, ecosystem image restored, guided pathway experience.
 
 import React, { useEffect, useMemo, useState } from "react";
 import {
@@ -337,6 +335,7 @@ export default function App() {
   const slide = slides[current];
   const Icon = slide.icon;
   const isHebrew = lang === "he";
+  const isEcosystem = slide.id === "ecosystem" || slide.id === "thankyou";
 
   const pathwaySlides = useMemo(
     () => slides.filter((s) => pathwayIds.includes(s.id)),
@@ -373,14 +372,16 @@ export default function App() {
       dir={isHebrew ? "rtl" : "ltr"}
       className="relative h-screen w-screen overflow-hidden bg-[#132016] text-white"
     >
-      <img
-        src={slide.image}
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      {!isEcosystem && (
+        <img
+          src={slide.image}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
 
-      <div className="absolute inset-0 bg-gradient-to-br from-[#102015]/95 via-[#23391f]/88 to-[#62451f]/88" />
-      <div className="absolute inset-0 bg-black/25" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#102015] via-[#23391f] to-[#62451f]" />
+      <div className="absolute inset-0 bg-black/20" />
 
       <section className="relative z-10 flex h-full flex-col">
         <header className="flex items-start justify-between gap-5 px-7 py-4">
@@ -390,7 +391,7 @@ export default function App() {
               {slide.eyebrow}
             </div>
 
-            <h1 className="mt-1 text-4xl font-black tracking-tight md:text-5xl">
+            <h1 className="mt-1 text-3xl font-black tracking-tight md:text-4xl">
               {current === 0 ? t.title : slide.title}
             </h1>
 
@@ -416,7 +417,7 @@ export default function App() {
           </div>
         </header>
 
-        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 px-7 pb-3 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 px-7 pb-3 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="flex min-h-0 flex-col justify-center">
             <div className="rounded-[1.8rem] border border-white/15 bg-black/35 p-5 shadow-2xl backdrop-blur-md">
               <div className="mb-4 flex items-center gap-4">
@@ -428,9 +429,12 @@ export default function App() {
                   <p className="text-xs font-black uppercase tracking-[0.22em] text-lime-200">
                     {slide.nav}
                   </p>
-                  <h2 className="text-3xl font-black md:text-4xl">
-                    {slide.title}
-                  </h2>
+
+                  {slide.id !== "ecosystem" && (
+                    <h2 className="text-3xl font-black md:text-4xl">
+                      {slide.title}
+                    </h2>
+                  )}
                 </div>
               </div>
 
@@ -460,14 +464,14 @@ export default function App() {
               <img
                 src={slide.image}
                 alt={slide.title}
-                className={`h-[48vh] w-full ${
-                  slide.layout === "ecosystem" || slide.layout === "closing"
-                    ? "object-contain bg-white/95 p-3"
+                className={`h-[52vh] w-full ${
+                  isEcosystem
+                    ? "object-contain bg-white/95 p-4"
                     : "object-cover"
                 }`}
               />
 
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 to-transparent p-4">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                 <p className="text-xl font-black">{slide.nav}</p>
                 <p className="text-sm text-white/80">
                   {current + 1} of {slides.length}
