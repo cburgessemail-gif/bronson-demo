@@ -417,9 +417,9 @@ export default function App() {
           </div>
         </header>
 
-        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 px-7 pb-3 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 px-7 pb-3 lg:grid-cols-[0.72fr_1.28fr]">
           <div className="flex min-h-0 flex-col justify-center">
-            <div className="rounded-[1.8rem] border border-white/15 bg-black/35 p-5 shadow-2xl backdrop-blur-md">
+            <div className="rounded-[1.8rem] border border-white/15 bg-black/22 p-5 shadow-2xl backdrop-blur-md">
               <div className="mb-4 flex items-center gap-4">
                 <div className="rounded-2xl bg-white/15 p-4 ring-1 ring-white/20">
                   <Icon size={32} />
@@ -460,26 +460,28 @@ export default function App() {
           </div>
 
           <div className="flex min-h-0 flex-col justify-center gap-3">
-            <div className="relative overflow-hidden rounded-[1.8rem] border border-white/20 bg-black/30 shadow-2xl">
+            <div className="relative overflow-hidden rounded-[1.8rem] border border-white/20 bg-black/20 shadow-2xl">
               <img
                 src={slide.image}
                 alt={slide.title}
-                className={`h-[52vh] w-full ${
+                className={`h-[60vh] w-full ${
                   isEcosystem
                     ? "object-contain bg-white/95 p-4"
                     : "object-cover"
                 }`}
               />
 
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <p className="text-xl font-black">{slide.nav}</p>
-                <p className="text-sm text-white/80">
-                  {current + 1} of {slides.length}
-                </p>
-              </div>
+              {!isEcosystem && (
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                  <p className="text-xl font-black">{slide.nav}</p>
+                  <p className="text-sm text-white/80">
+                    {current + 1} of {slides.length}
+                  </p>
+                </div>
+              )}
             </div>
 
-            <div className="rounded-[1.8rem] border border-white/15 bg-black/35 p-4 backdrop-blur-md">
+            <div className="rounded-[1.8rem] border border-white/15 bg-black/22 p-4 backdrop-blur-md">
               <div className="mb-3 flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-lime-200">
                 <Route size={16} />
                 {t.pathways}
