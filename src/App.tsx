@@ -1,868 +1,948 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-type Lang = "en" | "es" | "tl" | "it" | "he" | "fr";
+type LangKey = "English" | "Español" | "Tagalog" | "Italiano" | "עברית" | "Français";
 
-const EVENTBRITE =
-  "https://www.eventbrite.com/e/bronson-family-farm-growers-supply-market-tickets-1984126092554?aff=oddtdtcreator";
-
-const GROWNBY = "https://grownby.com/farms/bronson-family-farm/shop";
-const EMAIL = "cburgess@bronsonfamilyfarm.com";
-const PHONE = "330-275-1604";
-
-const languages: Record<Lang, string> = {
-  en: "English",
-  es: "Español",
-  tl: "Tagalog",
-  it: "Italiano",
-  he: "עברית",
-  fr: "Français",
+type Slide = {
+  id: number;
+  nav: string;
+  title: Record<LangKey, string>;
+  subtitle: Record<LangKey, string>;
+  bullets: Record<LangKey, string[]>;
+  journey?: {
+    need: string;
+    role: string;
+    benefit: string;
+    decision: string;
+  };
+  image: string;
+  imageAlt: string;
+  containImage?: boolean;
 };
 
-const ui: Record<Lang, any> = {
-  en: {
-    startTour: "Start Guided Tour",
-    explore: "Explore Yourself",
+const LANGS: LangKey[] = ["English", "Español", "Tagalog", "Italiano", "עברית", "Français"];
+
+const ui: Record<LangKey, any> = {
+  English: {
+    demo: "BRONSON FAMILY FARM DEMO",
+    mainTitle: "Connected Food Ecosystem Experience",
+    start: "Start",
     back: "Back",
     next: "Next",
-    home: "Start",
+    guided: "Begin Guided Tour",
     pause: "Pause Tour",
-    resume: "Resume Tour",
-    choose: "Choose a Pathway",
+    restart: "Restart Tour",
     feedback: "Share Feedback",
-    contact: "Contact Us",
-    visitStore: "Visit Marketplace",
-    register: "Event Registration",
-    call: "Call",
   },
-  es: {
-    startTour: "Iniciar recorrido guiado",
-    explore: "Explorar",
+  Español: {
+    demo: "DEMO DE BRONSON FAMILY FARM",
+    mainTitle: "Experiencia del Ecosistema Alimentario Conectado",
+    start: "Inicio",
     back: "Atrás",
     next: "Siguiente",
-    home: "Inicio",
-    pause: "Pausar recorrido",
-    resume: "Continuar recorrido",
-    choose: "Elija un camino",
-    feedback: "Compartir comentarios",
-    contact: "Contáctenos",
-    visitStore: "Visitar mercado",
-    register: "Registro del evento",
-    call: "Llamar",
+    guided: "Comenzar Recorrido Guiado",
+    pause: "Pausar Recorrido",
+    restart: "Reiniciar Recorrido",
+    feedback: "Compartir Comentarios",
   },
-  tl: {
-    startTour: "Simulan ang Guided Tour",
-    explore: "Mag-explore",
+  Tagalog: {
+    demo: "BRONSON FAMILY FARM DEMO",
+    mainTitle: "Karanasan sa Konektadong Ecosystem ng Pagkain",
+    start: "Simula",
     back: "Bumalik",
     next: "Susunod",
-    home: "Simula",
+    guided: "Simulan ang Guided Tour",
     pause: "I-pause ang Tour",
-    resume: "Ipagpatuloy ang Tour",
-    choose: "Pumili ng Pathway",
+    restart: "Ulitin ang Tour",
     feedback: "Magbigay ng Feedback",
-    contact: "Makipag-ugnayan",
-    visitStore: "Bisitahin ang Marketplace",
-    register: "Mag-register",
-    call: "Tumawag",
   },
-  it: {
-    startTour: "Avvia tour guidato",
-    explore: "Esplora",
+  Italiano: {
+    demo: "DEMO BRONSON FAMILY FARM",
+    mainTitle: "Esperienza dell’Ecosistema Alimentare Connesso",
+    start: "Inizio",
     back: "Indietro",
     next: "Avanti",
-    home: "Inizio",
-    pause: "Pausa tour",
-    resume: "Riprendi tour",
-    choose: "Scegli un percorso",
-    feedback: "Invia feedback",
-    contact: "Contattaci",
-    visitStore: "Visita il mercato",
-    register: "Registrazione evento",
-    call: "Chiama",
+    guided: "Inizia Tour Guidato",
+    pause: "Pausa Tour",
+    restart: "Ricomincia Tour",
+    feedback: "Condividi Feedback",
   },
-  he: {
-    startTour: "התחל סיור מודרך",
-    explore: "חקירה עצמאית",
+  עברית: {
+    demo: "הדגמת BRONSON FAMILY FARM",
+    mainTitle: "חוויית מערכת מזון קהילתית מחוברת",
+    start: "התחלה",
     back: "חזרה",
     next: "הבא",
-    home: "התחלה",
-    pause: "השהה סיור",
-    resume: "המשך סיור",
-    choose: "בחרו מסלול",
-    feedback: "שליחת משוב",
-    contact: "צור קשר",
-    visitStore: "כניסה לשוק",
-    register: "הרשמה לאירוע",
-    call: "התקשר",
+    guided: "התחל סיור מודרך",
+    pause: "עצור סיור",
+    restart: "התחל מחדש",
+    feedback: "שלח משוב",
   },
-  fr: {
-    startTour: "Commencer la visite guidée",
-    explore: "Explorer",
+  Français: {
+    demo: "DÉMO BRONSON FAMILY FARM",
+    mainTitle: "Expérience d’un Écosystème Alimentaire Connecté",
+    start: "Début",
     back: "Retour",
     next: "Suivant",
-    home: "Début",
+    guided: "Commencer la Visite Guidée",
     pause: "Pause",
-    resume: "Reprendre",
-    choose: "Choisissez un parcours",
-    feedback: "Partager un avis",
-    contact: "Nous contacter",
-    visitStore: "Visiter le marché",
-    register: "Inscription",
-    call: "Appeler",
+    restart: "Recommencer",
+    feedback: "Partager un Avis",
   },
 };
 
-const slides = [
+const blank = {
+  Español: "",
+  Tagalog: "",
+  Italiano: "",
+  עברית: "",
+  Français: "",
+};
+
+const slides: Slide[] = [
   {
-    key: "welcome",
-    title: "Welcome to Bronson Family Farm",
-    subtitle: "Step into the farm. Experience the wonders of life.",
-    image: "/GrowArea.jpg",
-    type: "intro",
-    body: [
-      "Bronson Family Farm is a place-based food ecosystem growing from Youngstown’s Historic Lansdowne Airport.",
-      "This demo shows how land, food, growers, youth workforce, marketplace activity, partners, and community education connect into one system.",
-      "Each pathway helps a viewer understand where they fit, what need is being met, and what decision they can make next.",
-    ],
-    decision: "Begin the guided experience or choose your own pathway.",
-  },
-  {
-    key: "place",
-    title: "The Place: Historic Lansdowne Airport",
-    subtitle: "A farm growing from a unique Youngstown location.",
-    image: "/Grow Area.png",
-    body: [
-      "Bronson Family Farm is not just a garden or a market. It is a growing destination rooted in land, history, and local need.",
-      "The farm uses outdoor growing space at the Historic Lansdowne Airport to demonstrate food production, learning, health, and community-centered economic activity.",
-      "The airport setting makes the work memorable, visible, and different.",
-    ],
-    need: "The community needs access to fresh food, practical growing knowledge, and a place where people can see opportunity being built.",
-    role: "The farm becomes the place where the story starts.",
-    benefit: "Visitors understand that this is a destination, not just a single event.",
-    destination: "Continue into the ecosystem and see how each role connects.",
-  },
-  {
-    key: "ecosystem",
-    title: "A Connected Food Ecosystem",
-    subtitle: "Food, people, knowledge, tools, and opportunity working together.",
+    id: 1,
+    nav: "Bronson Family Farm",
     image: "/ConnectFoodEcosystem_withimages.jpeg",
-    body: [
-      "An ecosystem is a connected system where every part supports the whole.",
-      "At Bronson Family Farm, growers, customers, youth, partners, volunteers, value-added producers, and marketplace activity all connect.",
-      "The food moves through the system so families, schools, businesses, and community partners do not have to figure everything out alone.",
-    ],
-    need: "People need fresh, chemical-free food, but growers also need tools, markets, training, support, and coordination.",
-    role: "The ecosystem organizes the relationships so food and money can circulate locally.",
-    benefit: "The farmer does not have to move everywhere. The food, knowledge, and opportunity move through the ecosystem.",
-    destination: "Choose a pathway and decide how you want to participate.",
+    imageAlt: "Bronson Family Farm connected ecosystem graphic",
+    containImage: true,
+    title: { English: "Enter the Farm", ...blank },
+    subtitle: {
+      English: "The journey begins at the Historic Lansdowne Airport in Youngstown.",
+      Español: "El recorrido comienza en el histórico Aeropuerto Lansdowne en Youngstown.",
+      Tagalog: "Nagsisimula ang paglalakbay sa Historic Lansdowne Airport sa Youngstown.",
+      Italiano: "Il viaggio inizia allo storico Lansdowne Airport di Youngstown.",
+      עברית: "המסע מתחיל בשדה התעופה ההיסטורי Lansdowne ביונגסטאון.",
+      Français: "Le parcours commence à l’aéroport historique Lansdowne de Youngstown.",
+    },
+    bullets: {
+      English: [
+        "118+ acres of growing opportunity",
+        "Food, knowledge, workforce, and community",
+        "A place-based ecosystem designed to circulate resources locally",
+      ],
+      Español: [
+        "Más de 118 acres de oportunidad agrícola",
+        "Alimentos, conocimiento, fuerza laboral y comunidad",
+        "Un ecosistema local diseñado para circular recursos en la comunidad",
+      ],
+      Tagalog: [
+        "118+ acres ng oportunidad para sa pagtatanim",
+        "Pagkain, kaalaman, trabaho, at komunidad",
+        "Isang lokal na ecosystem na nagpapalibot ng yaman sa komunidad",
+      ],
+      Italiano: [
+        "Oltre 118 acri di opportunità agricola",
+        "Cibo, conoscenza, lavoro e comunità",
+        "Un ecosistema locale progettato per far circolare risorse",
+      ],
+      עברית: [
+        "יותר מ־118 אקרים של הזדמנות חקלאית",
+        "מזון, ידע, עבודה וקהילה",
+        "מערכת מקומית המחברת משאבים בתוך הקהילה",
+      ],
+      Français: [
+        "Plus de 118 acres d’opportunités agricoles",
+        "Nourriture, savoir, main-d’œuvre et communauté",
+        "Un écosystème local conçu pour faire circuler les ressources",
+      ],
+    },
+    journey: {
+      need: "The community needs a visible place where food access, learning, land use, and opportunity come together.",
+      role: "The farm is the entry point into the ecosystem.",
+      benefit: "Viewers understand that this is not just a farm; it is a destination and community infrastructure.",
+      decision: "Begin the tour, choose a pathway, or share the vision with someone who should know about it.",
+    },
   },
+
   {
-    key: "guest",
-    title: "Guest Pathway",
-    subtitle: "Come see, learn, and understand the vision.",
+    id: 2,
+    nav: "Connected Ecosystem",
+    image: "/ConnectFoodEcosystem_withimages.jpeg",
+    imageAlt: "Connected food ecosystem diagram",
+    containImage: true,
+    title: {
+      English: "What Is the Ecosystem?",
+      Español: "¿Qué es el Ecosistema?",
+      Tagalog: "Ano ang Ecosystem?",
+      Italiano: "Che Cos’è l’Ecosistema?",
+      עברית: "מהי המערכת המחוברת?",
+      Français: "Qu’est-ce que l’Écosystème?",
+    },
+    subtitle: {
+      English: "An ecosystem is a living network where each role strengthens the whole.",
+      Español: "Un ecosistema es una red viva donde cada función fortalece al conjunto.",
+      Tagalog: "Ang ecosystem ay buhay na ugnayan kung saan mahalaga ang bawat papel.",
+      Italiano: "Un ecosistema è una rete viva in cui ogni ruolo rafforza l’insieme.",
+      עברית: "מערכת חיה שבה כל תפקיד מחזק את הכלל.",
+      Français: "Un écosystème est un réseau vivant où chaque rôle renforce l’ensemble.",
+    },
+    bullets: {
+      English: [
+        "Growers produce food",
+        "Customers support local circulation",
+        "Partners, youth, and value-added producers expand impact",
+      ],
+      Español: ["Los agricultores producen alimentos", "Los clientes apoyan la circulación local", "Socios, jóvenes y productores agregan valor e impacto"],
+      Tagalog: ["Ang growers ang nagtatanim ng pagkain", "Ang customers ang sumusuporta sa lokal na daloy", "Ang partners, kabataan, at producers ay nagpapalawak ng impact"],
+      Italiano: ["I coltivatori producono cibo", "I clienti sostengono la circolazione locale", "Partner, giovani e produttori ampliano l’impatto"],
+      עברית: ["המגדלים מייצרים מזון", "הלקוחות מחזקים את הכלכלה המקומית", "שותפים, נוער ויצרנים מרחיבים את ההשפעה"],
+      Français: ["Les producteurs cultivent la nourriture", "Les clients soutiennent la circulation locale", "Les partenaires, les jeunes et les producteurs élargissent l’impact"],
+    },
+    journey: {
+      need: "People need food, but growers also need tools, knowledge, buyers, infrastructure, and coordination.",
+      role: "The ecosystem connects the people and resources so the work does not remain scattered.",
+      benefit: "The food moves through the system. The grower does not have to travel everywhere alone.",
+      decision: "Choose the role that fits you: guest, customer, grower, youth, partner, or value-added producer.",
+    },
+  },
+
+  {
+    id: 3,
+    nav: "Explore the Farm",
+    image: "/GrowArea.jpg",
+    imageAlt: "Bronson Family Farm grow area",
+    title: {
+      English: "Explore the Farm",
+      Español: "Explorar la Granja",
+      Tagalog: "Tuklasin ang Bukid",
+      Italiano: "Esplora la Fattoria",
+      עברית: "סיור בחווה",
+      Français: "Explorer la Ferme",
+    },
+    subtitle: {
+      English: "This is agriculture rooted in place, history, and purpose.",
+      Español: "Esta agricultura está arraigada en lugar, historia y propósito.",
+      Tagalog: "Ito ay pagsasakang nakaugat sa lugar, kasaysayan, at layunin.",
+      Italiano: "Questa agricoltura nasce da luogo, storia e scopo.",
+      עברית: "חקלאות המחוברת למקום, היסטוריה ומטרה.",
+      Français: "Une agriculture enracinée dans le lieu, l’histoire et le but.",
+    },
+    bullets: {
+      English: ["Historic airport land becomes food infrastructure", "Outdoor growing demonstrates practical food access", "The farm grows into agritourism, education, and community use"],
+      Español: ["Terreno histórico se convierte en infraestructura alimentaria", "El cultivo exterior demuestra acceso práctico a alimentos", "La granja crece hacia agroturismo, educación y comunidad"],
+      Tagalog: ["Ang makasaysayang lupa ay nagiging imprastraktura ng pagkain", "Ang outdoor growing ay nagpapakita ng praktikal na food access", "Ang bukid ay lumalago bilang agritourism, edukasyon, at komunidad"],
+      Italiano: ["La terra storica diventa infrastruttura alimentare", "La coltivazione esterna dimostra accesso pratico al cibo", "La fattoria cresce in agriturismo, educazione e uso comunitario"],
+      עברית: ["קרקע היסטורית הופכת לתשתית מזון", "גידול חוץ מדגים גישה מעשית למזון", "החווה מתפתחת לתיירות חקלאית, חינוך וקהילה"],
+      Français: ["Une terre historique devient infrastructure alimentaire", "La culture extérieure démontre l’accès pratique à la nourriture", "La ferme devient agritourisme, éducation et usage communautaire"],
+    },
+    journey: {
+      need: "The community needs productive land, practical food demonstrations, and visible examples of what can be built locally.",
+      role: "The farm shows how land can become food infrastructure, education, workforce development, and destination development.",
+      benefit: "Visitors see that the airport site has a living purpose connected to food, families, and community growth.",
+      decision: "Decide whether to visit, volunteer, support land development, or help build the destination.",
+    },
+  },
+
+  {
+    id: 4,
+    nav: "Guest",
     image: "/SAM_0220.JPG",
-    body: [
-      "The guest pathway introduces visitors to the farm, the airport, the growing areas, and the purpose behind the work.",
-      "Guests experience the farm as a destination for learning, food access, health, and community connection.",
-      "This pathway helps people understand the story before they decide how they want to participate.",
-    ],
-    need: "Many people need to see the vision before they understand why it matters.",
-    role: "Guests become witnesses, learners, storytellers, and future supporters.",
-    benefit: "A guest can share the story with family, neighbors, funders, schools, businesses, and community partners.",
-    destination: "Decide whether to visit, share, volunteer, support, or introduce the farm to someone else.",
+    imageAlt: "Guests at Bronson Family Farm",
+    title: { English: "Guest Pathway", Español: "Camino del Invitado", Tagalog: "Pathway ng Bisita", Italiano: "Percorso dell’Ospite", עברית: "מסלול אורח", Français: "Parcours Invité" },
+    subtitle: {
+      English: "Guests enter to understand the story, the land, and the purpose.",
+      Español: "Los invitados entran para comprender la historia, la tierra y el propósito.",
+      Tagalog: "Ang bisita ay pumapasok upang maunawaan ang kuwento, lupa, at layunin.",
+      Italiano: "Gli ospiti entrano per capire storia, terra e scopo.",
+      עברית: "האורחים נכנסים להבין את הסיפור, הקרקע והמטרה.",
+      Français: "Les invités découvrent l’histoire, la terre et le but.",
+    },
+    bullets: {
+      English: ["Learn why food access matters", "See how the farm connects people to opportunity", "Leave with a clear invitation to participate"],
+      Español: ["Aprender por qué importa el acceso a alimentos", "Ver cómo la granja conecta personas con oportunidades", "Salir con una invitación clara a participar"],
+      Tagalog: ["Matutunan kung bakit mahalaga ang food access", "Makita kung paano nag-uugnay ang bukid ng oportunidad", "Umalis na may malinaw na paanyaya na makilahok"],
+      Italiano: ["Capire perché l’accesso al cibo è importante", "Vedere come la fattoria collega persone e opportunità", "Uscire con un invito chiaro a partecipare"],
+      עברית: ["להבין למה גישה למזון חשובה", "לראות איך החווה מחברת אנשים להזדמנות", "לצאת עם הזמנה ברורה להשתתף"],
+      Français: ["Comprendre pourquoi l’accès alimentaire compte", "Voir comment la ferme relie les personnes aux opportunités", "Repartir avec une invitation claire à participer"],
+    },
+    journey: {
+      need: "Guests need a clear, welcoming way to understand what Bronson Family Farm is and why it matters.",
+      role: "Guests become witnesses, storytellers, future volunteers, customers, donors, and connectors.",
+      benefit: "The story spreads through people who have seen the place and understand the purpose.",
+      decision: "Visit again, share the story, invite someone else, or choose another pathway.",
+    },
   },
+
   {
-    key: "customer",
-    title: "Customer Pathway",
-    subtitle: "Fresh, local, chemical-free food connected to healthier choices.",
-    image: "/SAM_0281.JPG",
-    body: [
-      "The customer pathway helps people understand how to access fresh food and support local growing.",
-      "Customers are not only buying food. They are helping create a local food economy.",
-      "Every purchase supports growers, youth workforce, education, and community food access.",
-    ],
-    need: "Families need better access to fresh, chemical-free food and trusted local sources.",
-    role: "Customers create demand that helps the ecosystem become sustainable.",
-    benefit: "Food dollars stay connected to local growers, youth, and community benefit.",
-    destination: "Decide what to buy, how to order, and how to keep supporting the marketplace.",
-    action: "marketplace",
+    id: 5,
+    nav: "Customer",
+    image: "/SAM_0221.JPG",
+    imageAlt: "Fresh food access and families",
+    title: { English: "Customer Pathway", Español: "Camino del Cliente", Tagalog: "Pathway ng Customer", Italiano: "Percorso Cliente", עברית: "מסלול לקוח", Français: "Parcours Client" },
+    subtitle: {
+      English: "Customers support healthier choices and local circulation.",
+      Español: "Los clientes apoyan decisiones saludables y circulación local.",
+      Tagalog: "Sinusuportahan ng customers ang mas malusog na pagpili at lokal na daloy.",
+      Italiano: "I clienti sostengono scelte sane e circolazione locale.",
+      עברית: "לקוחות מחזקים בחירות בריאות וכלכלה מקומית.",
+      Français: "Les clients soutiennent des choix sains et la circulation locale.",
+    },
+    bullets: {
+      English: ["Fresh, local, chemical-free produce", "Health and nutrition education", "Purchasing power stays closer to the community"],
+      Español: ["Productos frescos, locales y sin químicos", "Educación sobre salud y nutrición", "El poder de compra permanece más cerca de la comunidad"],
+      Tagalog: ["Sariwa, lokal, at chemical-free na ani", "Edukasyon sa kalusugan at nutrisyon", "Ang pera ay nananatiling mas malapit sa komunidad"],
+      Italiano: ["Prodotti freschi, locali e senza sostanze chimiche", "Educazione alla salute e nutrizione", "Il potere d’acquisto resta nella comunità"],
+      עברית: ["תוצרת טרייה, מקומית וללא כימיקלים", "חינוך לבריאות ותזונה", "כוח הקנייה נשאר קרוב לקהילה"],
+      Français: ["Produits frais, locaux et sans produits chimiques", "Éducation santé et nutrition", "Le pouvoir d’achat reste dans la communauté"],
+    },
+    journey: {
+      need: "Families need better access to fresh, chemical-free food and trusted local sources.",
+      role: "Customers create demand that helps growers, youth workforce, and marketplace activity continue.",
+      benefit: "Every purchase helps circulate food dollars closer to the community.",
+      decision: "Buy, preorder, share the marketplace, or become a repeat customer.",
+    },
   },
+
   {
-    key: "grower",
-    title: "Grower Pathway",
-    subtitle: "Do I want to become a grower?",
-    image: "/SAM_0274.JPG",
-    body: [
-      "The grower pathway is for people who want to grow food, improve their growing, or connect their production to a larger system.",
-      "Growers may need soil knowledge, seeds, compost, fencing, tools, irrigation, pest guidance, marketing, and a place to sell.",
-      "Bronson Family Farm helps growers see that they do not have to grow alone.",
-    ],
-    need: "Many people want to grow but need supplies, education, confidence, demonstrations, and market connection.",
-    role: "Growers produce food and help expand community food access.",
-    benefit: "Growers become part of a network that supports learning, production, distribution, and sales.",
-    destination: "Decide whether to start growing, improve your growing, join the network, or request support.",
+    id: 6,
+    nav: "Marketplace",
+    image: "/SAM_0222.JPG",
+    imageAlt: "Community marketplace",
+    title: { English: "Marketplace Pathway", Español: "Camino del Mercado", Tagalog: "Pathway ng Marketplace", Italiano: "Percorso Mercato", עברית: "מסלול שוק", Français: "Parcours Marché" },
+    subtitle: {
+      English: "The food moves. The grower does not have to travel everywhere.",
+      Español: "La comida se mueve. El agricultor no tiene que viajar a todas partes.",
+      Tagalog: "Ang pagkain ang gumagalaw. Hindi kailangang bumiyahe ang grower sa lahat ng lugar.",
+      Italiano: "Il cibo si muove. Il coltivatore non deve andare ovunque.",
+      עברית: "המזון נע. המגדל לא צריך לנסוע לכל מקום.",
+      Français: "La nourriture circule. Le producteur n’a pas besoin d’aller partout.",
+    },
+    bullets: {
+      English: ["Coordinates growers, customers, schools, and businesses", "Supports ordering, pickup, and future distribution", "Keeps food and money circulating locally"],
+      Español: ["Coordina agricultores, clientes, escuelas y negocios", "Apoya pedidos, recogida y distribución futura", "Mantiene alimentos y dinero circulando localmente"],
+      Tagalog: ["Nag-uugnay ng growers, customers, schools, at businesses", "Sumusuporta sa orders, pickup, at distribution", "Pinapanatiling lokal ang daloy ng pagkain at pera"],
+      Italiano: ["Coordina coltivatori, clienti, scuole e imprese", "Supporta ordini, ritiro e distribuzione futura", "Mantiene cibo e denaro in circolazione locale"],
+      עברית: ["מתאם מגדלים, לקוחות, בתי ספר ועסקים", "תומך בהזמנות, איסוף והפצה עתידית", "משאיר מזון וכסף בתנועה מקומית"],
+      Français: ["Coordonne producteurs, clients, écoles et entreprises", "Soutient commandes, retrait et distribution future", "Garde la nourriture et l’argent en circulation locale"],
+    },
+    journey: {
+      need: "Growers need buyers, customers need access, and the community needs a coordinated way to move food.",
+      role: "The marketplace organizes demand, visibility, orders, pickup, and future distribution.",
+      benefit: "Food and money circulate locally without every grower having to manage every connection alone.",
+      decision: "Shop, sell, sponsor, refer buyers, or help expand distribution.",
+    },
   },
+
   {
-    key: "marketplace",
-    title: "Marketplace Pathway",
-    subtitle: "Where interest becomes purchasing power.",
-    image: "/SAM_0301.JPG",
-    body: [
-      "The marketplace pathway connects customers to food and growers to opportunity.",
-      "This is where produce, seedlings, value-added products, education, and community demand begin to move together.",
-      "The marketplace helps the ecosystem become financially sustainable while keeping the mission centered on food access.",
-    ],
-    need: "Growers need buyers. Customers need access. The community needs food dollars to circulate locally.",
-    role: "The marketplace organizes buying, selling, visibility, and repeat participation.",
-    benefit: "It gives people a practical next step: shop, sell, support, or share.",
-    destination: "Decide whether to purchase, become a vendor, sponsor the market, or help expand access.",
-    action: "marketplace",
+    id: 7,
+    nav: "Grower",
+    image: "/SAM_0223.JPG",
+    imageAlt: "Grower support pathway",
+    title: { English: "Grower Pathway", Español: "Camino del Agricultor", Tagalog: "Pathway ng Grower", Italiano: "Percorso Coltivatore", עברית: "מסלול מגדל", Français: "Parcours Producteur" },
+    subtitle: {
+      English: "Growers need tools, knowledge, visibility, and market support.",
+      Español: "Los agricultores necesitan herramientas, conocimiento, visibilidad y mercado.",
+      Tagalog: "Kailangan ng growers ng tools, kaalaman, visibility, at market support.",
+      Italiano: "I coltivatori hanno bisogno di strumenti, conoscenza, visibilità e mercato.",
+      עברית: "מגדלים צריכים כלים, ידע, נראות ותמיכת שוק.",
+      Français: "Les producteurs ont besoin d’outils, de savoir, de visibilité et de marché.",
+    },
+    bullets: {
+      English: ["Shared resources and practical education", "Support for growing, selling, and connecting", "A stronger grower network across the region"],
+      Español: ["Recursos compartidos y educación práctica", "Apoyo para cultivar, vender y conectarse", "Una red agrícola regional más fuerte"],
+      Tagalog: ["Shared resources at praktikal na edukasyon", "Suporta sa pagtatanim, pagbebenta, at koneksyon", "Mas malakas na grower network sa rehiyon"],
+      Italiano: ["Risorse condivise ed educazione pratica", "Supporto per coltivare, vendere e connettersi", "Una rete agricola regionale più forte"],
+      עברית: ["משאבים משותפים וחינוך מעשי", "תמיכה בגידול, מכירה וחיבור", "רשת מגדלים אזורית חזקה יותר"],
+      Français: ["Ressources partagées et éducation pratique", "Soutien pour cultiver, vendre et se connecter", "Un réseau régional de producteurs plus fort"],
+    },
+    journey: {
+      need: "Many people want to grow but need supplies, confidence, technical help, and market connection.",
+      role: "Growers produce food and strengthen regional food access.",
+      benefit: "Growers are connected to knowledge, resources, buyers, and a larger support system.",
+      decision: "Decide: Do I want to become a grower, improve my growing, or join the network?",
+    },
   },
+
   {
-    key: "youth",
-    title: "Youth Workforce Pathway",
-    subtitle: "More than a job. Building our future.",
-    image: "/SAM_0255.JPG",
-    body: [
-      "The youth workforce pathway gives young people structured, supervised, outdoor work connected to real community needs.",
-      "Youth learn safety, responsibility, communication, teamwork, food systems, and practical work habits.",
-      "They are helping build a destination while gaining skills they can carry forward.",
-    ],
-    need: "Young people need meaningful work experiences that build confidence, responsibility, and future readiness.",
-    role: "Youth help grow, prepare, organize, welcome, document, and support farm activity.",
-    benefit: "The farm becomes a living classroom and a workforce development site.",
-    destination: "Decide whether to participate, supervise, sponsor, refer youth, or support the program.",
+    id: 8,
+    nav: "Youth Workforce",
+    image: "/SAM_0225.JPG",
+    imageAlt: "Youth workforce development",
+    title: { English: "Youth Workforce Pathway", Español: "Camino de Fuerza Laboral Juvenil", Tagalog: "Pathway ng Youth Workforce", Italiano: "Percorso Giovani Lavoratori", עברית: "מסלול נוער ועבודה", Français: "Parcours Jeunesse et Travail" },
+    subtitle: {
+      English: "Young people build responsibility, skill, leadership, and confidence.",
+      Español: "Los jóvenes desarrollan responsabilidad, habilidades, liderazgo y confianza.",
+      Tagalog: "Ang kabataan ay bumubuo ng responsibilidad, kakayahan, leadership, at confidence.",
+      Italiano: "I giovani sviluppano responsabilità, competenze, leadership e fiducia.",
+      עברית: "צעירים בונים אחריות, מיומנות, מנהיגות וביטחון.",
+      Français: "Les jeunes développent responsabilité, compétences, leadership et confiance.",
+    },
+    bullets: {
+      English: ["Outdoor learning and farm-based work", "Safety, teamwork, attendance, and life skills", "Future readiness through real responsibility"],
+      Español: ["Aprendizaje al aire libre y trabajo agrícola", "Seguridad, trabajo en equipo, asistencia y habilidades de vida", "Preparación futura mediante responsabilidad real"],
+      Tagalog: ["Outdoor learning at farm-based work", "Safety, teamwork, attendance, at life skills", "Future readiness sa pamamagitan ng totoong responsibilidad"],
+      Italiano: ["Apprendimento all’aperto e lavoro agricolo", "Sicurezza, squadra, presenza e competenze di vita", "Preparazione al futuro con responsabilità reale"],
+      עברית: ["למידה בחוץ ועבודה חקלאית", "בטיחות, עבודת צוות, נוכחות וכישורי חיים", "הכנה לעתיד דרך אחריות אמיתית"],
+      Français: ["Apprentissage extérieur et travail agricole", "Sécurité, équipe, présence et compétences de vie", "Préparation à l’avenir par une vraie responsabilité"],
+    },
+    journey: {
+      need: "Youth need meaningful work experiences that build skill, responsibility, and confidence.",
+      role: "Youth help grow, organize, welcome, document, maintain, and support farm activity.",
+      benefit: "The farm becomes a living classroom and workforce development site.",
+      decision: "Participate, supervise, refer youth, sponsor youth wages, or support training.",
+    },
   },
+
   {
-    key: "partners",
-    title: "Partner Pathway",
-    subtitle: "Aligning resources for community benefit.",
-    image: "/Partners.png",
-    body: [
-      "The partner pathway shows how organizations, businesses, schools, funders, and public agencies can connect to shared outcomes.",
-      "Partners may provide education, supplies, funding, health services, equipment, volunteers, technical assistance, or visibility.",
-      "No single organization has to carry the full system alone.",
-    ],
-    need: "The community needs coordinated resources, not scattered efforts.",
-    role: "Partners strengthen the ecosystem by contributing what they do best.",
-    benefit: "Partnership turns individual resources into collective impact.",
-    destination: "Decide whether to fund, sponsor, teach, donate, volunteer, refer, or collaborate.",
+    id: 9,
+    nav: "Partner",
+    image: "/SAM_0226.JPG",
+    imageAlt: "Community partners pathway",
+    title: { English: "Partner Pathway", Español: "Camino del Socio", Tagalog: "Pathway ng Partner", Italiano: "Percorso Partner", עברית: "מסלול שותפים", Français: "Parcours Partenaire" },
+    subtitle: {
+      English: "Partners help align resources, knowledge, infrastructure, and impact.",
+      Español: "Los socios alinean recursos, conocimiento, infraestructura e impacto.",
+      Tagalog: "Tumutulong ang partners sa resources, kaalaman, infrastructure, at impact.",
+      Italiano: "I partner allineano risorse, conoscenza, infrastruttura e impatto.",
+      עברית: "שותפים מחברים משאבים, ידע, תשתית והשפעה.",
+      Français: "Les partenaires alignent ressources, savoir, infrastructure et impact.",
+    },
+    bullets: {
+      English: ["Education, health, agriculture, business, and civic partners", "Shared responsibility for community benefit", "Collaboration that makes the ecosystem stronger"],
+      Español: ["Socios en educación, salud, agricultura, negocios y comunidad", "Responsabilidad compartida por el beneficio comunitario", "Colaboración que fortalece el ecosistema"],
+      Tagalog: ["Partners sa edukasyon, kalusugan, agrikultura, negosyo, at civic work", "Shared responsibility para sa komunidad", "Collaboration na nagpapalakas ng ecosystem"],
+      Italiano: ["Partner educativi, sanitari, agricoli, aziendali e civici", "Responsabilità condivisa per il bene comunitario", "Collaborazione che rafforza l’ecosistema"],
+      עברית: ["שותפים בחינוך, בריאות, חקלאות, עסקים וציבור", "אחריות משותפת לטובת הקהילה", "שיתוף פעולה שמחזק את המערכת"],
+      Français: ["Partenaires en éducation, santé, agriculture, affaires et civisme", "Responsabilité partagée pour le bien communautaire", "Collaboration qui renforce l’écosystème"],
+    },
+    journey: {
+      need: "The community needs coordinated resources, not disconnected efforts.",
+      role: "Partners contribute education, health support, supplies, funding, visibility, and technical expertise.",
+      benefit: "Partnership turns individual resources into collective impact.",
+      decision: "Fund, sponsor, teach, donate, volunteer, refer, or collaborate.",
+    },
   },
+
   {
-    key: "jubilee",
-    title: "Seed-to-Community Pathway",
-    subtitle: "Jubilee Gardens, Inc. made so much possible through seed donation.",
-    image: "/Seeds_Jubilee Gardens.png",
-    body: [
-      "Seeds are the beginning of the food system.",
-      "Jubilee Gardens, Inc. provided generous seed donations that helped make farm production, community sharing, Bubble Babies™, and grower education possible.",
-      "This pathway shows how one donation can multiply into food, learning, seedlings, and community participation.",
-    ],
-    need: "Growers and communities need affordable access to seeds and starting materials.",
-    role: "Seed donors help launch production and expand access.",
-    benefit: "Seeds become seedlings, food, education, and community momentum.",
-    destination: "Decide whether to donate seeds, sponsor supplies, support education, or help distribute growing resources.",
+    id: 10,
+    nav: "Value-Added",
+    image: "/SAM_0229.JPG",
+    imageAlt: "Value-added agritourism pathway",
+    title: { English: "Value-Added Pathway", Español: "Camino de Valor Agregado", Tagalog: "Pathway ng Value-Added", Italiano: "Percorso Valore Aggiunto", עברית: "מסלול ערך מוסף", Français: "Parcours Valeur Ajoutée" },
+    subtitle: {
+      English: "The farm grows beyond food into education, tourism, wellness, and enterprise.",
+      Español: "La granja crece más allá de alimentos hacia educación, turismo, bienestar y empresa.",
+      Tagalog: "Ang bukid ay lumalago lampas sa pagkain—edukasyon, turismo, wellness, at negosyo.",
+      Italiano: "La fattoria cresce oltre il cibo: educazione, turismo, benessere e impresa.",
+      עברית: "החווה מתפתחת מעבר למזון: חינוך, תיירות, בריאות ויזמות.",
+      Français: "La ferme dépasse l’alimentation: éducation, tourisme, bien-être et entreprise.",
+    },
+    bullets: {
+      English: ["Agritourism, culinary experiences, and preservation", "Future kids’ zone, mini-golf, camping, and learning spaces", "New revenue streams that sustain the ecosystem"],
+      Español: ["Agroturismo, experiencias culinarias y conservación", "Futura zona infantil, mini golf, campamento y aprendizaje", "Nuevas fuentes de ingresos que sostienen el ecosistema"],
+      Tagalog: ["Agritourism, culinary experiences, at preservation", "Future kids’ zone, mini-golf, camping, at learning spaces", "Bagong revenue streams para suportahan ang ecosystem"],
+      Italiano: ["Agriturismo, esperienze culinarie e conservazione", "Future aree bambini, mini-golf, campeggio e spazi didattici", "Nuove entrate per sostenere l’ecosistema"],
+      עברית: ["תיירות חקלאית, חוויות קולינריות ושימור מזון", "אזור ילדים עתידי, מיני־גולף, קמפינג ומרחבי למידה", "מקורות הכנסה חדשים שמחזקים את המערכת"],
+      Français: ["Agritourisme, expériences culinaires et conservation", "Futur espace enfants, mini-golf, camping et lieux d’apprentissage", "Nouvelles sources de revenus pour soutenir l’écosystème"],
+    },
+    journey: {
+      need: "Growers and food entrepreneurs need ways to create more value from what they grow and teach.",
+      role: "Value-added activity connects food to products, education, culinary experiences, tourism, and enterprise.",
+      benefit: "The ecosystem gains new revenue streams and more reasons for people to return.",
+      decision: "Create, package, teach, sell, preserve, host, or partner.",
+    },
   },
+
   {
-    key: "csu",
-    title: "Education + Training Pathway",
-    subtitle: "Central State University representation and grower education.",
-    image: "/CSU_MParker.png",
-    body: [
-      "Education is part of the ecosystem.",
-      "Central State University representation connects farming knowledge, training, and agricultural learning to the work happening at Bronson Family Farm.",
-      "This pathway helps growers and participants understand that food production requires knowledge, planning, and continued learning.",
-    ],
-    need: "New and emerging growers need practical agricultural education.",
-    role: "Education partners help translate knowledge into action.",
-    benefit: "Participants gain confidence, skill, and access to trusted information.",
-    destination: "Decide whether to attend training, request guidance, teach, or connect educational resources.",
-  },
-  {
-    key: "valueadded",
-    title: "Value-Added Pathway",
-    subtitle: "Turning food knowledge into products, skills, and enterprise.",
-    image: "/culniary_edibleflowers.jpeg",
-    body: [
-      "The value-added pathway helps participants think beyond raw produce.",
-      "Food can become education, prepared products, culinary learning, demonstrations, and small enterprise opportunities.",
-      "Parker Farms and culinary partners help show how growers can expand value through knowledge and creativity.",
-    ],
-    need: "Growers and entrepreneurs need ways to increase value and create income from food.",
-    role: "Value-added education connects growing to enterprise.",
-    benefit: "Participants see how food can support business, culture, nutrition, and creativity.",
-    destination: "Decide whether to learn, create, package, sell, teach, or partner.",
-  },
-  {
-    key: "health",
-    title: "Health + Nutrition Pathway",
-    subtitle: "Food access is health access.",
-    image: "/Queens Village.png",
-    body: [
-      "The health pathway connects fresh food, nutrition education, wellness, and community care.",
-      "Food is not separate from health. What people can access, afford, and understand affects their daily lives.",
-      "The ecosystem creates space for health education, screenings, family engagement, and culturally meaningful wellness activities.",
-    ],
-    need: "Families need food that supports health, not just calories.",
-    role: "Health and wellness partners help connect food to prevention, education, and quality of life.",
-    benefit: "The farm becomes a place where nourishment, learning, and wellness meet.",
-    destination: "Decide whether to attend, teach, screen, refer, sponsor, or share health resources.",
-  },
-  {
-    key: "infrastructure",
-    title: "Infrastructure Pathway",
-    subtitle: "Fencing, compost, water, tools, and supplies make growing possible.",
-    image: "/Deer Fencing.png",
-    body: [
-      "Growing requires infrastructure.",
-      "Fencing protects crops. Compost builds soil. Tools, water, storage, and equipment allow growers to work safely and productively.",
-      "Home Depot’s fencing support and Elliott’s compost support are examples of how practical resources directly strengthen the farm.",
-    ],
-    need: "Food production cannot grow without physical infrastructure and reliable supplies.",
-    role: "Infrastructure partners help turn land into a productive growing environment.",
-    benefit: "Every donated material becomes part of the farm’s ability to grow and serve.",
-    destination: "Decide whether to donate materials, sponsor equipment, volunteer, or support site development.",
-  },
-  {
-    key: "media",
-    title: "Story + Media Pathway",
-    subtitle: "The community needs to see what is being built.",
-    image: "/WKBN Interview.png",
-    body: [
-      "The story pathway helps the farm communicate clearly with the public, partners, funders, growers, and families.",
-      "Media, interviews, photography, flyers, QR codes, and digital tools help people understand the vision.",
-      "When the story is shared well, more people can find their place in the ecosystem.",
-    ],
-    need: "People cannot support what they do not understand or see.",
-    role: "Storytellers, media partners, and community messengers help carry the vision outward.",
-    benefit: "The farm becomes easier to explain, share, fund, and join.",
-    destination: "Decide whether to share the story, invite media, create content, or connect new supporters.",
-  },
-  {
-    key: "future",
-    title: "Future Destination",
-    subtitle: "Growing into an agritourism and community food destination.",
-    image: "/SAM_0313.JPG",
-    body: [
-      "Bronson Family Farm is growing toward a larger destination.",
-      "The future includes expanded growing, youth workforce, marketplace activity, education, camping, RC activities, family experiences, sensory spaces, and future attractions such as mini-golf.",
-      "The goal is to create a place where food, learning, family, health, and local enterprise come together.",
-    ],
-    need: "The community needs hopeful places where people can learn, gather, work, eat, and build together.",
-    role: "The farm becomes a destination for food, family, education, and opportunity.",
-    benefit: "A stronger ecosystem can create jobs, support growers, feed families, and attract investment.",
-    destination: "Decide how you want to help build what comes next.",
-  },
-  {
-    key: "feedback",
-    title: "Thank You + Feedback",
-    subtitle: "Your response helps shape the next version.",
-    image: "/GrowArea2.jpg",
-    body: [
-      "Thank you for walking through the Bronson Family Farm demo.",
-      "This experience is designed to help viewers understand the ecosystem, choose a pathway, and see how they may participate.",
-      "Please share what was clear, what moved you, what was missing, and how you would like to connect.",
-    ],
-    need: "The farm needs feedback, relationships, and aligned support.",
-    role: "Viewers become contributors by responding, sharing, connecting, or partnering.",
-    benefit: "Feedback helps improve the demo, strengthen the message, and prepare the farm for funding and partnership conversations.",
-    destination: "Share feedback, contact Bronson Family Farm, visit the marketplace, or return to the beginning.",
-    action: "feedback",
+    id: 11,
+    nav: "Thank You",
+    image: "/ConnectFoodEcosystem_withimages.jpeg",
+    imageAlt: "Bronson Family Farm ecosystem closing slide",
+    containImage: true,
+    title: { English: "Thank You", Español: "Gracias", Tagalog: "Salamat", Italiano: "Grazie", עברית: "תודה", Français: "Merci" },
+    subtitle: {
+      English: "This demo is an invitation to respond, participate, and help shape what comes next.",
+      Español: "Esta demo es una invitación a responder, participar y ayudar a formar lo que sigue.",
+      Tagalog: "Ang demo na ito ay paanyaya na tumugon, makilahok, at tumulong sa susunod.",
+      Italiano: "Questa demo è un invito a rispondere, partecipare e costruire il futuro.",
+      עברית: "ההדגמה היא הזמנה להגיב, להשתתף ולעצב את ההמשך.",
+      Français: "Cette démo invite à répondre, participer et façonner la suite.",
+    },
+    bullets: {
+      English: ["Contact: 330-275-1604", "Bronson Family Farm • Farm & Family Alliance", "Feedback helps us improve the experience before sharing it wider"],
+      Español: ["Contacto: 330-275-1604", "Bronson Family Farm • Farm & Family Alliance", "Sus comentarios nos ayudan a mejorar la experiencia"],
+      Tagalog: ["Contact: 330-275-1604", "Bronson Family Farm • Farm & Family Alliance", "Ang feedback ay tumutulong pagandahin ang experience"],
+      Italiano: ["Contatto: 330-275-1604", "Bronson Family Farm • Farm & Family Alliance", "Il feedback aiuta a migliorare l’esperienza"],
+      עברית: ["יצירת קשר: 330-275-1604", "Bronson Family Farm • Farm & Family Alliance", "המשוב עוזר לשפר את החוויה"],
+      Français: ["Contact : 330-275-1604", "Bronson Family Farm • Farm & Family Alliance", "Vos commentaires nous aident à améliorer l’expérience"],
+    },
+    journey: {
+      need: "The farm needs feedback, relationships, support, and clear next steps.",
+      role: "Viewers become contributors by responding, sharing, connecting, investing, or participating.",
+      benefit: "Feedback helps improve the demo before it is shared with funders, partners, growers, and community members.",
+      decision: "Share feedback, contact Bronson Family Farm, return to a pathway, or introduce the project to someone else.",
+    },
   },
 ];
 
+function SmartImage({ slide }: { slide: Slide }) {
+  const [currentSrc, setCurrentSrc] = useState(slide.image);
+
+  useEffect(() => setCurrentSrc(slide.image), [slide.image]);
+
+  return (
+    <img
+      src={currentSrc}
+      alt={slide.imageAlt}
+      onError={() => {
+        if (!currentSrc.startsWith("/images/")) setCurrentSrc(`/images${slide.image}`);
+      }}
+      className={`hero-image ${slide.containImage ? "contain" : "cover"}`}
+    />
+  );
+}
+
 export default function App() {
-  const [lang, setLang] = useState<Lang>("en");
-  const [index, setIndex] = useState(0);
+  const [current, setCurrent] = useState(0);
+  const [language, setLanguage] = useState<LangKey>("English");
   const [guided, setGuided] = useState(false);
 
-  const t = ui[lang];
-  const slide = slides[index];
+  const t = ui[language];
+  const slide = slides[current];
+  const progress = useMemo(() => ((current + 1) / slides.length) * 100, [current]);
+  const isRTL = language === "עברית";
 
   useEffect(() => {
     if (!guided) return;
-    if (index >= slides.length - 1) {
+    if (current === slides.length - 1) {
       setGuided(false);
       return;
     }
 
-    const timer = setTimeout(() => {
-      setIndex((current) => Math.min(current + 1, slides.length - 1));
-    }, 9500);
+    const delay = [1, 2, 5, 7, 8, 9].includes(current) ? 9500 : 7600;
+    const timer = window.setTimeout(() => {
+      setCurrent((prev) => Math.min(prev + 1, slides.length - 1));
+    }, delay);
 
-    return () => clearTimeout(timer);
-  }, [guided, index]);
-
-  const goTo = (nextIndex: number) => {
-    setGuided(false);
-    setIndex(Math.max(0, Math.min(nextIndex, slides.length - 1)));
-  };
-
-  const startGuided = () => {
-    setIndex(0);
-    setGuided(true);
-  };
-
-  const next = () => goTo(index + 1);
-  const back = () => goTo(index - 1);
+    return () => window.clearTimeout(timer);
+  }, [guided, current]);
 
   return (
-    <main className="demo">
-      <div className="background">
-        <img src={slide.image} alt="" />
-      </div>
-
-      <div className="wash" />
-
-      <section className="frame">
-        <header className="header">
-          <div>
-            <p className="kicker">Bronson Family Farm</p>
-            <h1>{slide.title}</h1>
-            <p className="subtitle">{slide.subtitle}</p>
-          </div>
-
-          <div className="headerControls">
-            <select value={lang} onChange={(e) => setLang(e.target.value as Lang)}>
-              {Object.entries(languages).map(([code, label]) => (
-                <option value={code} key={code}>
-                  {label}
-                </option>
-              ))}
-            </select>
-
-            <button onClick={startGuided}>{t.startTour}</button>
-
-            <button onClick={() => setGuided((v) => !v)}>
-              {guided ? t.pause : t.resume}
-            </button>
-          </div>
-        </header>
-
-        <div className="mainGrid">
-          <aside className="pathways">
-            <h2>{t.choose}</h2>
-
-            {slides.map((item, i) => (
-              <button
-                key={item.key}
-                className={i === index ? "active" : ""}
-                onClick={() => goTo(i)}
-              >
-                <span>{String(i + 1).padStart(2, "0")}</span>
-                {item.title}
-              </button>
-            ))}
-          </aside>
-
-          <section className="story">
-            <div className="storyInner">
-              {slide.body.map((line: string, i: number) => (
-                <p key={i}>{line}</p>
-              ))}
-
-              {slide.need && (
-                <div className="journey">
-                  <div>
-                    <strong>Need Being Met</strong>
-                    <p>{slide.need}</p>
-                  </div>
-                  <div>
-                    <strong>Role in the Ecosystem</strong>
-                    <p>{slide.role}</p>
-                  </div>
-                  <div>
-                    <strong>Benefit</strong>
-                    <p>{slide.benefit}</p>
-                  </div>
-                  <div>
-                    <strong>Final Destination / Decision</strong>
-                    <p>{slide.destination}</p>
-                  </div>
-                </div>
-              )}
-
-              {slide.decision && (
-                <div className="decision">
-                  <strong>Decision:</strong> {slide.decision}
-                </div>
-              )}
-
-              <div className="actions">
-                {slide.action === "marketplace" && (
-                  <a href={GROWNBY} target="_blank" rel="noreferrer">
-                    {t.visitStore}
-                  </a>
-                )}
-
-                {slide.action === "feedback" && (
-                  <>
-                    <a
-                      href={`mailto:${EMAIL}?subject=Bronson Family Farm Demo Feedback`}
-                    >
-                      {t.feedback}
-                    </a>
-                    <a href={`mailto:${EMAIL}`}>{t.contact}</a>
-                    <a href={`tel:${PHONE}`}>
-                      {t.call}: {PHONE}
-                    </a>
-                  </>
-                )}
-
-                {slide.key === "welcome" && (
-                  <>
-                    <button onClick={startGuided}>{t.startTour}</button>
-                    <button onClick={() => goTo(2)}>{t.explore}</button>
-                  </>
-                )}
-
-                {slide.key !== "welcome" && slide.key !== "feedback" && (
-                  <>
-                    <a
-                      href={`mailto:${EMAIL}?subject=Bronson Family Farm Pathway: ${slide.title}`}
-                    >
-                      {t.contact}
-                    </a>
-                    <a href={EVENTBRITE} target="_blank" rel="noreferrer">
-                      {t.register}
-                    </a>
-                  </>
-                )}
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <footer className="footer">
-          <button onClick={back} disabled={index === 0}>
-            {t.back}
-          </button>
-
-          <div className="progress">
-            <span>
-              {index + 1} / {slides.length}
-            </span>
-            <div>
-              <i style={{ width: `${((index + 1) / slides.length) * 100}%` }} />
-            </div>
-          </div>
-
-          <button onClick={() => goTo(0)}>{t.home}</button>
-
-          <button onClick={next} disabled={index === slides.length - 1}>
-            {t.next}
-          </button>
-        </footer>
-      </section>
-
+    <main className="app" dir={isRTL ? "rtl" : "ltr"}>
       <style>{`
-        * {
-          box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
-        body {
+        html, body, #root {
           margin: 0;
-          font-family: Georgia, "Times New Roman", serif;
-          background: #172515;
+          min-height: 100%;
+          background: #000;
+          color: white;
+          font-family: Inter, Arial, Helvetica, sans-serif;
         }
 
-        .demo {
+        .app {
           min-height: 100vh;
-          position: relative;
-          overflow: hidden;
-          color: #fff8e6;
-        }
-
-        .background {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-        }
-
-        .background img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-          filter: saturate(1.08) brightness(0.9);
-        }
-
-        .wash {
-          position: absolute;
-          inset: 0;
-          z-index: 1;
           background:
-            radial-gradient(circle at 25% 20%, rgba(244, 208, 113, 0.22), transparent 28%),
-            linear-gradient(90deg, rgba(19, 37, 20, 0.94), rgba(54, 42, 23, 0.76), rgba(18, 35, 20, 0.92));
+            radial-gradient(circle at 72% 38%, rgba(99,135,43,.16), transparent 34%),
+            radial-gradient(circle at 18% 80%, rgba(191,139,72,.1), transparent 28%),
+            #000;
+          overflow-x: hidden;
         }
 
-        .frame {
-          position: relative;
-          z-index: 2;
-          width: min(1240px, calc(100vw - 28px));
-          height: calc(100vh - 28px);
-          margin: 14px auto;
-          display: flex;
-          flex-direction: column;
-          border: 1px solid rgba(255, 255, 255, 0.22);
-          border-radius: 30px;
-          background: rgba(20, 40, 22, 0.74);
-          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
-          backdrop-filter: blur(9px);
-          overflow: hidden;
+        .wrap {
+          width: min(1480px, calc(100vw - 48px));
+          margin: 0 auto;
+          padding: 24px 0 20px;
         }
 
         .header {
           display: flex;
           justify-content: space-between;
-          align-items: flex-start;
           gap: 20px;
-          padding: 22px 26px 14px;
-          flex-shrink: 0;
+          align-items: flex-start;
         }
 
-        .kicker {
-          margin: 0 0 5px;
-          font-size: 0.82rem;
-          text-transform: uppercase;
-          letter-spacing: 0.18em;
-          color: #f1ca70;
-          font-weight: 900;
+        .eyebrow {
+          color: #d8b56d;
+          letter-spacing: 7px;
+          font-size: 13px;
+          font-weight: 800;
+          margin-bottom: 12px;
         }
 
-        h1 {
+        .main-title {
           margin: 0;
-          font-size: clamp(2rem, 4vw, 4.1rem);
-          line-height: 0.95;
-          max-width: 760px;
+          max-width: 820px;
+          font-size: clamp(40px, 4.5vw, 68px);
+          line-height: .96;
+          font-weight: 300;
+          letter-spacing: -2px;
+        }
+
+        .language {
+          margin-top: 6px;
+          background: rgba(255,255,255,.1);
+          color: white;
+          border: 1px solid rgba(255,255,255,.25);
+          border-radius: 999px;
+          padding: 13px 21px;
+          font-size: 18px;
+          outline: none;
+          backdrop-filter: blur(12px);
+        }
+
+        .language option { color: black; }
+
+        .progress {
+          height: 8px;
+          background: rgba(255,255,255,.18);
+          border-radius: 999px;
+          overflow: hidden;
+          margin-top: 24px;
+        }
+
+        .progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #8cc63e, #d7b56d);
+          border-radius: 999px;
+          transition: width 700ms ease;
+        }
+
+        .nav {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 22px;
+        }
+
+        .nav-button {
+          border: 1px solid rgba(255,255,255,.22);
+          background: rgba(255,255,255,.1);
+          color: white;
+          border-radius: 999px;
+          padding: 12px 19px;
+          font-size: 16px;
+          font-weight: 800;
+          cursor: pointer;
+          transition: 220ms ease;
+        }
+
+        .nav-button.active {
+          background: linear-gradient(135deg, #b77b38, #d2a85d);
+          border-color: #f0d59b;
+          box-shadow: 0 0 22px rgba(210,168,93,.28);
+        }
+
+        .nav-button.completed {
+          background: rgba(70,112,39,.75);
+          border-color: rgba(154,205,50,.6);
+        }
+
+        .stage {
+          display: grid;
+          grid-template-columns: .98fr 1.02fr;
+          gap: 34px;
+          align-items: stretch;
+          padding-top: 54px;
+        }
+
+        .panel {
+          min-height: 420px;
+          border: 1px solid rgba(255,255,255,.12);
+          background: rgba(3,3,3,.84);
+          border-radius: 32px;
+          padding: 38px 42px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          box-shadow: 0 24px 70px rgba(0,0,0,.35);
+        }
+
+        .slide-title {
+          margin: 0 0 18px;
+          font-size: clamp(46px, 4.8vw, 72px);
+          line-height: .94;
+          font-weight: 300;
+          letter-spacing: -2px;
         }
 
         .subtitle {
-          margin: 10px 0 0;
-          font-size: clamp(1rem, 1.6vw, 1.3rem);
-          color: #fff1c8;
-          max-width: 760px;
+          margin: 0 0 24px;
+          font-size: clamp(21px, 1.85vw, 30px);
+          line-height: 1.26;
         }
 
-        .headerControls {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          gap: 10px;
-          flex-wrap: wrap;
-          max-width: 460px;
-        }
-
-        select,
-        button,
-        a {
-          border: 0;
-          border-radius: 999px;
-          padding: 10px 15px;
-          font-weight: 800;
-          font-size: 0.92rem;
-        }
-
-        select {
-          background: #fff8e6;
-          color: #21371f;
-        }
-
-        button,
-        a {
-          background: #efc86c;
-          color: #21371f;
-          cursor: pointer;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-        }
-
-        button:hover,
-        a:hover {
-          filter: brightness(1.06);
-        }
-
-        button:disabled {
-          opacity: 0.35;
-          cursor: not-allowed;
-        }
-
-        .mainGrid {
-          flex: 1;
-          min-height: 0;
-          display: grid;
-          grid-template-columns: 310px 1fr;
-          gap: 16px;
-          padding: 0 22px 14px;
-        }
-
-        .pathways {
-          overflow: auto;
-          border-radius: 24px;
-          padding: 16px;
-          background: rgba(255, 248, 230, 0.13);
-          border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .pathways h2 {
-          margin: 0 0 12px;
-          font-size: 1.25rem;
-          color: #ffe39c;
-        }
-
-        .pathways button {
-          width: 100%;
-          margin: 5px 0;
-          padding: 10px 11px;
-          border-radius: 15px;
-          justify-content: flex-start;
-          gap: 8px;
-          background: rgba(255, 248, 230, 0.92);
-          color: #24391f;
-          text-align: left;
-          font-size: 0.86rem;
-        }
-
-        .pathways button span {
-          opacity: 0.7;
-          font-size: 0.75rem;
-        }
-
-        .pathways button.active {
-          background: #efc86c;
-          outline: 3px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .story {
-          min-height: 0;
-          border-radius: 24px;
-          background: rgba(255, 248, 230, 0.13);
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          overflow: auto;
-        }
-
-        .storyInner {
-          min-height: 100%;
-          padding: clamp(22px, 3.5vw, 44px);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-
-        .story p {
-          font-size: clamp(1rem, 1.45vw, 1.22rem);
-          line-height: 1.46;
-          margin: 0 0 12px;
-          max-width: 920px;
-        }
-
-        .journey {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 12px;
-          margin: 14px 0 16px;
-        }
-
-        .journey div,
-        .decision {
-          background: rgba(20, 36, 18, 0.72);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          border-left: 5px solid #efc86c;
-          border-radius: 18px;
-          padding: 13px 15px;
-        }
-
-        .journey strong,
-        .decision strong {
-          display: block;
-          margin-bottom: 5px;
-          color: #ffe39c;
-          font-size: 0.95rem;
-        }
-
-        .journey p {
+        .bullets {
           margin: 0;
-          font-size: 0.98rem;
-          line-height: 1.35;
+          padding: 0;
+          list-style: none;
+          display: grid;
+          gap: 13px;
         }
 
-        .decision {
-          font-size: 1.02rem;
-          margin-bottom: 15px;
+        .bullets li {
+          font-size: clamp(18px, 1.48vw, 25px);
+          line-height: 1.27;
+          display: grid;
+          grid-template-columns: 24px 1fr;
+          gap: 12px;
         }
 
-        .actions {
+        .dot {
+          width: 11px;
+          height: 11px;
+          margin-top: 9px;
+          border-radius: 50%;
+          background: #9acd32;
+          box-shadow: 0 0 15px rgba(154,205,50,.6);
+        }
+
+        .journey-box {
+          margin-top: 22px;
+          display: grid;
+          gap: 10px;
+        }
+
+        .journey-row {
+          border-left: 4px solid #d8b56d;
+          background: rgba(255,255,255,.07);
+          border-radius: 14px;
+          padding: 10px 13px;
+        }
+
+        .journey-row strong {
+          display: block;
+          color: #d8b56d;
+          font-size: 13px;
+          margin-bottom: 4px;
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+        }
+
+        .journey-row span {
+          display: block;
+          font-size: 16px;
+          line-height: 1.32;
+          color: rgba(255,255,255,.92);
+        }
+
+        .controls {
           display: flex;
           flex-wrap: wrap;
-          gap: 10px;
-          margin-top: 4px;
+          gap: 13px;
+          margin-top: 32px;
         }
 
-        .footer {
-          flex-shrink: 0;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 0 22px 20px;
-        }
-
-        .progress {
-          flex: 1;
-          min-width: 160px;
-        }
-
-        .progress span {
-          display: block;
-          text-align: center;
-          font-size: 0.88rem;
-          color: #fff1c8;
-          margin-bottom: 5px;
-        }
-
-        .progress div {
-          height: 8px;
-          background: rgba(255, 255, 255, 0.18);
+        .control {
+          border: 1px solid rgba(255,255,255,.22);
           border-radius: 999px;
-          overflow: hidden;
+          padding: 14px 23px;
+          color: white;
+          font-size: 16px;
+          font-weight: 800;
+          cursor: pointer;
+          background: rgba(255,255,255,.1);
         }
 
-        .progress i {
-          display: block;
+        .gold { background: linear-gradient(135deg, #b77b38, #d2a85d); }
+        .green { background: linear-gradient(135deg, #3f7f1f, #78a933); }
+
+        .image-card {
+          position: relative;
+          min-height: 420px;
           height: 100%;
-          background: #efc86c;
-          border-radius: 999px;
+          border-radius: 32px;
+          border: 1px solid rgba(255,255,255,.12);
+          overflow: hidden;
+          background: #050505;
+          box-shadow: 0 24px 70px rgba(0,0,0,.35);
         }
 
-        @media (max-width: 900px) {
-          .frame {
-            height: auto;
-            min-height: calc(100vh - 20px);
-            margin: 10px auto;
-          }
+        .hero-image {
+          width: 100%;
+          height: 100%;
+          min-height: 420px;
+          display: block;
+          filter: brightness(1.16) contrast(1.08) saturate(1.08);
+        }
 
-          .header {
-            flex-direction: column;
-          }
+        .hero-image.cover {
+          object-fit: cover;
+          object-position: center center;
+        }
 
-          .mainGrid {
-            grid-template-columns: 1fr;
-          }
+        .hero-image.contain {
+          object-fit: contain;
+          object-position: center center;
+          background: #050505;
+          padding: 8px;
+        }
 
-          .pathways {
-            max-height: 210px;
-          }
+        .image-card::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.05));
+          pointer-events: none;
+        }
 
-          .journey {
-            grid-template-columns: 1fr;
-          }
+        .counter {
+          position: absolute;
+          top: 18px;
+          right: 18px;
+          z-index: 2;
+          background: rgba(0,0,0,.58);
+          border: 1px solid rgba(255,255,255,.18);
+          backdrop-filter: blur(10px);
+          border-radius: 999px;
+          padding: 9px 14px;
+          font-weight: 900;
+          font-size: 18px;
+        }
 
-          .footer {
-            flex-wrap: wrap;
-          }
+        .image-label {
+          position: absolute;
+          left: 20px;
+          bottom: 18px;
+          z-index: 2;
+          max-width: calc(100% - 40px);
+          background: rgba(0,0,0,.62);
+          border: 1px solid rgba(255,255,255,.16);
+          backdrop-filter: blur(10px);
+          border-radius: 20px;
+          padding: 13px 16px;
+        }
+
+        .image-label strong {
+          display: block;
+          font-size: 18px;
+        }
+
+        .image-label span {
+          display: block;
+          margin-top: 4px;
+          color: rgba(255,255,255,.82);
+          font-size: 14px;
+        }
+
+        @media (max-width: 1100px) {
+          .stage { grid-template-columns: 1fr; padding-top: 34px; }
+          .image-card, .hero-image { min-height: 390px; }
+        }
+
+        @media (max-width: 760px) {
+          .wrap { width: min(100vw - 28px, 1480px); }
+          .header { flex-direction: column; }
+          .main-title { font-size: 42px; }
+          .slide-title { font-size: 42px; }
+          .panel { padding: 24px; }
+          .nav-button, .control { font-size: 14px; padding: 11px 15px; }
         }
       `}</style>
+
+      <div className="wrap">
+        <header className="header">
+          <div>
+            <div className="eyebrow">{t.demo}</div>
+            <h1 className="main-title">{t.mainTitle}</h1>
+          </div>
+
+          <select
+            className="language"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as LangKey)}
+          >
+            {LANGS.map((lang) => (
+              <option key={lang} value={lang}>{lang}</option>
+            ))}
+          </select>
+        </header>
+
+        <div className="progress">
+          <div className="progress-fill" style={{ width: `${progress}%` }} />
+        </div>
+
+        <nav className="nav">
+          {slides.map((item, index) => (
+            <button
+              key={item.id}
+              className={`nav-button ${index === current ? "active" : ""} ${index < current ? "completed" : ""}`}
+              onClick={() => {
+                setCurrent(index);
+                setGuided(false);
+              }}
+            >
+              {item.id}. {item.nav}
+            </button>
+          ))}
+        </nav>
+
+        <section className="stage">
+          <article className="panel">
+            <div>
+              <div className="eyebrow">{t.demo}</div>
+              <h2 className="slide-title">{slide.title[language] || slide.title.English}</h2>
+              <p className="subtitle">{slide.subtitle[language]}</p>
+
+              <ul className="bullets">
+                {slide.bullets[language].map((point) => (
+                  <li key={point}>
+                    <span className="dot" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {slide.journey && (
+                <div className="journey-box">
+                  <div className="journey-row">
+                    <strong>Need Being Met</strong>
+                    <span>{slide.journey.need}</span>
+                  </div>
+                  <div className="journey-row">
+                    <strong>Role in the Ecosystem</strong>
+                    <span>{slide.journey.role}</span>
+                  </div>
+                  <div className="journey-row">
+                    <strong>Benefit</strong>
+                    <span>{slide.journey.benefit}</span>
+                  </div>
+                  <div className="journey-row">
+                    <strong>Final Decision</strong>
+                    <span>{slide.journey.decision}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="controls">
+              <button className="control" onClick={() => { setCurrent(0); setGuided(false); }}>{t.start}</button>
+              <button className="control" onClick={() => setCurrent((p) => Math.max(p - 1, 0))}>{t.back}</button>
+              <button className="control gold" onClick={() => setCurrent((p) => Math.min(p + 1, slides.length - 1))}>{t.next}</button>
+              <button
+                className="control green"
+                onClick={() => {
+                  if (current === slides.length - 1) setCurrent(0);
+                  setGuided((p) => !p);
+                }}
+              >
+                {guided ? t.pause : current === slides.length - 1 ? t.restart : t.guided}
+              </button>
+
+              {current === slides.length - 1 && (
+                <button
+                  className="control gold"
+                  onClick={() => {
+                    window.location.href =
+                      "mailto:cburgess@bronsonfamilyfarm.com?subject=Bronson%20Family%20Farm%20Demo%20Feedback";
+                  }}
+                >
+                  {t.feedback}
+                </button>
+              )}
+            </div>
+          </article>
+
+          <aside className="image-card">
+            <SmartImage slide={slide} />
+            <div className="counter">{current + 1} / {slides.length}</div>
+            <div className="image-label">
+              <strong>{slide.nav}</strong>
+              <span>{slide.subtitle[language]}</span>
+            </div>
+          </aside>
+        </section>
+      </div>
     </main>
   );
 }
