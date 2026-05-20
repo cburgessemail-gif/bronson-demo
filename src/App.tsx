@@ -1,4 +1,5 @@
 // src/App.tsx
+// Bronson Family Farm Final Ecosystem Demo
 
 import React, { useEffect, useMemo, useState } from "react";
 import {
@@ -26,7 +27,7 @@ import {
 
 type Lang = "en" | "es" | "tl" | "it" | "he" | "fr";
 
-const LANGS: { key: Lang; label: string }[] = [
+const LANGS = [
   { key: "en", label: "English" },
   { key: "es", label: "Español" },
   { key: "tl", label: "Tagalog" },
@@ -34,15 +35,6 @@ const LANGS: { key: Lang; label: string }[] = [
   { key: "he", label: "עברית" },
   { key: "fr", label: "Français" },
 ];
-
-const ui = {
-  en: { guided: "Guided Tour", pause: "Pause Tour", next: "Next", back: "Back", home: "Start", pathways: "Pathways", feedback: "Feedback" },
-  es: { guided: "Tour Guiado", pause: "Pausar", next: "Siguiente", back: "Atrás", home: "Inicio", pathways: "Caminos", feedback: "Comentarios" },
-  tl: { guided: "Guided Tour", pause: "Pause", next: "Susunod", back: "Bumalik", home: "Simula", pathways: "Pathways", feedback: "Feedback" },
-  it: { guided: "Tour Guidato", pause: "Pausa", next: "Avanti", back: "Indietro", home: "Inizio", pathways: "Percorsi", feedback: "Feedback" },
-  he: { guided: "סיור מודרך", pause: "עצור", next: "הבא", back: "חזור", home: "התחלה", pathways: "מסלולים", feedback: "משוב" },
-  fr: { guided: "Visite Guidée", pause: "Pause", next: "Suivant", back: "Retour", home: "Début", pathways: "Parcours", feedback: "Commentaires" },
-};
 
 const images = {
   entrance: "/GrowArea.jpg",
@@ -52,326 +44,332 @@ const images = {
   customer: "/SAM_0226.JPG",
   marketplace: "/SAM_0229.JPG",
   youth: "/SAM_0221.JPG",
-  partner: "/SAM_0225.JPG",
-  value: "/SAM_0222.JPG",
+  partners: "/SAM_0225.JPG",
+  destination: "/SAM_0222.JPG",
   future: "/GrowArea2.jpg",
+};
+
+const translations: any = {
+  en: {
+    guided: "Guided Tour",
+    pause: "Pause Tour",
+    next: "Next",
+    back: "Back",
+    home: "Start",
+    pathways: "Pathways",
+    feedback: "Send Feedback",
+    finalQuestion: "Where do you see yourself in the ecosystem?",
+  },
+  es: {
+    guided: "Tour Guiado",
+    pause: "Pausar",
+    next: "Siguiente",
+    back: "Atrás",
+    home: "Inicio",
+    pathways: "Caminos",
+    feedback: "Enviar Comentarios",
+    finalQuestion: "¿Dónde se ve usted en el ecosistema?",
+  },
+  tl: {
+    guided: "Guided Tour",
+    pause: "Pause",
+    next: "Susunod",
+    back: "Bumalik",
+    home: "Simula",
+    pathways: "Pathways",
+    feedback: "Feedback",
+    finalQuestion: "Saan mo nakikita ang sarili mo sa ecosystem?",
+  },
+  it: {
+    guided: "Tour Guidato",
+    pause: "Pausa",
+    next: "Avanti",
+    back: "Indietro",
+    home: "Inizio",
+    pathways: "Percorsi",
+    feedback: "Feedback",
+    finalQuestion: "Dove ti vedi nell’ecosistema?",
+  },
+  he: {
+    guided: "סיור מודרך",
+    pause: "עצור",
+    next: "הבא",
+    back: "חזור",
+    home: "התחלה",
+    pathways: "מסלולים",
+    feedback: "שלח משוב",
+    finalQuestion: "איפה אתה רואה את עצמך במערכת?",
+  },
+  fr: {
+    guided: "Visite Guidée",
+    pause: "Pause",
+    next: "Suivant",
+    back: "Retour",
+    home: "Début",
+    pathways: "Parcours",
+    feedback: "Commentaires",
+    finalQuestion: "Où vous voyez-vous dans l’écosystème ?",
+  },
 };
 
 type Slide = {
   id: string;
-  pathway?: string;
   nav: string;
-  eyebrow: string;
   title: string;
+  eyebrow: string;
+  body: string;
   image: string;
   icon: any;
-  body: string;
+  pathway?: string;
   points: string[];
+  decision?: string[];
 };
 
-const copy: Record<Lang, Slide[]> = {
-  en: [
-    {
-      id: "start",
-      nav: "Start",
-      eyebrow: "Bronson Family Farm • Youngstown, Ohio",
-      title: "Step Into the Farm. Experience the Wonders of Life.",
-      image: images.entrance,
-      icon: Trees,
-      body: "Bronson Family Farm is a place-based farm experience at the Historic Lansdowne Airport. This demo introduces a connected food ecosystem where food access, education, health, youth workforce, growers, partners, and marketplace activity work together.",
-      points: ["Working farm rooted in Youngstown’s East Side", "Future agritourism destination", "Food access, learning, wellness, and community revitalization"],
-    },
-    {
-      id: "place",
-      nav: "Place",
-      eyebrow: "Airport • Land • History • Access",
-      title: "A Farm Rooted in Place",
-      image: images.place,
-      icon: Plane,
-      body: "The Historic Lansdowne Airport setting matters. It represents movement, access, innovation, and possibility. Bronson Family Farm uses the land to grow food, teach skills, welcome families, and build a destination connected to Youngstown’s future.",
-      points: ["Outdoor growing space becomes community infrastructure", "The airport creates a memorable sense of place", "The farm connects land, history, food, education, and opportunity"],
-    },
-    {
-      id: "ecosystem",
-      nav: "Ecosystem",
-      eyebrow: "Food • Knowledge • People • Distribution",
-      title: "What Is a Connected Food Ecosystem?",
-      image: images.ecosystem,
-      icon: Route,
-      body: "A connected food ecosystem is a coordinated system where growers, customers, youth, partners, education, health, marketplace activity, and distribution support one another. Food, knowledge, and money circulate locally.",
-      points: ["Growers receive tools, education, market access, and support", "Customers receive fresh, local, chemical-free food and nutrition education", "Youth receive workforce experience in a living classroom", "Partners align resources around food access and wellness", "The food moves — not the farmer — because distribution is coordinated"],
-    },
-    {
-      id: "grower",
-      pathway: "grower",
-      nav: "Grower",
-      eyebrow: "Tools • Knowledge • Support • Market Access",
-      title: "Grower Pathway",
-      image: images.grower,
-      icon: Sprout,
-      body: "The Grower Pathway helps people grow successfully. A grower may be a backyard gardener, small farmer, community grower, or value-added producer.",
-      points: ["Access growing knowledge, seedlings, supplies, and demonstrations", "Learn through hands-on instruction", "Connect to markets, customers, schools, and organizations", "Participate in a system where growers are supported instead of isolated"],
-    },
-    {
-      id: "grower-detail",
-      pathway: "grower",
-      nav: "Grower",
-      eyebrow: "How the Grower Pathway Works",
-      title: "From Learning to Market Opportunity",
-      image: images.grower,
-      icon: Sprout,
-      body: "Growers enter the ecosystem through education, demonstrations, supplies, planning, and coordinated market opportunities. The goal is practical support that helps people grow, sell, and stay connected.",
-      points: ["Learn what to grow and how to grow it", "Use farm demonstrations to build confidence", "Bring products into a coordinated marketplace", "Reduce the burden on individual growers by organizing distribution"],
-    },
-    {
-      id: "customer",
-      pathway: "customer",
-      nav: "Customer",
-      eyebrow: "Fresh Food • Nutrition • Healthy Choices",
-      title: "Customer Pathway",
-      image: images.customer,
-      icon: ShoppingBasket,
-      body: "The Customer Pathway helps families access fresh, local, chemical-free produce while learning how food choices support health and long-term quality of life.",
-      points: ["Access fresh, local produce", "Learn practical nutrition and food-use information", "Support local growers and community circulation", "Return for repeat healthy choices"],
-    },
-    {
-      id: "customer-detail",
-      pathway: "customer",
-      nav: "Customer",
-      eyebrow: "How Customers Participate",
-      title: "Healthy Food Becomes a Repeat Choice",
-      image: images.customer,
-      icon: ShoppingBasket,
-      body: "Customers are not only buying food. They are participating in a local food system that connects health, family, education, growers, and community resilience.",
-      points: ["Food is connected to wellness education", "Purchases support growers and the local economy", "Marketplace access makes healthy choices easier", "Families become part of the farm ecosystem"],
-    },
-    {
-      id: "marketplace",
-      pathway: "marketplace",
-      nav: "Marketplace",
-      eyebrow: "Sales • Access • Distribution • Sustainability",
-      title: "Marketplace Pathway",
-      image: images.marketplace,
-      icon: Building2,
-      body: "The Marketplace Pathway connects growers, customers, value-added products, education, and distribution. This is where food access, economic circulation, and sustainability come together.",
-      points: ["Create a coordinated outlet for growers", "Help customers find fresh food and return", "Support value-added products and income opportunities", "Keep food and money circulating locally"],
-    },
-    {
-      id: "marketplace-detail",
-      pathway: "marketplace",
-      nav: "Marketplace",
-      eyebrow: "The Food Moves — Not the Farmer",
-      title: "Distribution Makes the Ecosystem Work",
-      image: images.marketplace,
-      icon: Building2,
-      body: "The marketplace is not just a sales table. It is the circulation point where products, customers, growers, schools, organizations, and community buyers can connect.",
-      points: ["Growers do not have to reach every buyer alone", "The system can support schools, families, businesses, and partners", "Customers can return through a familiar marketplace experience", "Distribution strengthens long-term sustainability"],
-    },
-    {
-      id: "youth",
-      pathway: "youth",
-      nav: "Youth",
-      eyebrow: "Responsibility • Skills • Leadership • Future Readiness",
-      title: "Youth Workforce Pathway",
-      image: images.youth,
-      icon: Users,
-      body: "The Youth Workforce Pathway gives young people ages 14–18 real outdoor work experience. The farm becomes a living classroom where youth learn responsibility, teamwork, safety, leadership, and service.",
-      points: ["Build practical work habits through farm tasks", "Learn safety, attendance, communication, and teamwork", "Develop confidence through real responsibility", "Connect workforce readiness to food, land, and community purpose"],
-    },
-    {
-      id: "youth-detail",
-      pathway: "youth",
-      nav: "Youth",
-      eyebrow: "A Living Classroom",
-      title: "Youth Help Build the Future",
-      image: images.youth,
-      icon: Users,
-      body: "Youth are not watching from the outside. They help build the farm, support food access, and learn how their work contributes to a larger community ecosystem.",
-      points: ["Supervisors guide safety and accountability", "Youth learn through visible, meaningful work", "Progress can be connected to life skills and leadership", "The experience builds pride, responsibility, and future readiness"],
-    },
-    {
-      id: "partners",
-      pathway: "partners",
-      nav: "Partners",
-      eyebrow: "Collaboration • Resources • Demonstrations • Shared Impact",
-      title: "Partner Pathway",
-      image: images.partner,
-      icon: HandHeart,
-      body: "The Partner Pathway shows how public, private, nonprofit, education, health, and community partners strengthen the ecosystem.",
-      points: ["Align resources around food access and wellness", "Support demonstrations, education, infrastructure, and outreach", "Create shared community benefit", "Build something no single organization can build alone"],
-    },
-    {
-      id: "partners-detail",
-      pathway: "partners",
-      nav: "Partners",
-      eyebrow: "Shared Investment",
-      title: "Partners Turn Vision Into Capacity",
-      image: images.partner,
-      icon: HandHeart,
-      body: "Partners help move the farm from idea to infrastructure. They bring tools, volunteers, funding, demonstrations, health education, technical assistance, and credibility.",
-      points: ["Health partners support wellness education", "Education partners support learning pathways", "Business partners support tools and infrastructure", "Community partners expand trust and participation"],
-    },
-    {
-      id: "destination",
-      pathway: "destination",
-      nav: "Destination",
-      eyebrow: "Agritourism • Value-Added • Family Experience",
-      title: "Value-Added and Agritourism Pathway",
-      image: images.value,
-      icon: Star,
-      body: "Bronson Family Farm is growing toward a destination experience with value-added products, demonstrations, family activities, wellness experiences, youth activities, camping, mini-golf, and farm-based education.",
-      points: ["Create reasons for families to visit and return", "Support value-added products and grower income", "Build agritourism as part of sustainability", "Honor family legacy, culture, food, land, and community pride"],
-    },
-    {
-      id: "future",
-      nav: "Future",
-      eyebrow: "Food Security • Health • Economic Resilience",
-      title: "Why This Matters Now",
-      image: images.future,
-      icon: Wheat,
-      body: "Rising food costs, health disparities, food insecurity, and disconnected systems require local solutions. Bronson Family Farm demonstrates how agriculture, education, wellness, youth workforce, partners, and marketplace activity can strengthen community resilience.",
-      points: ["Healthy food access is community infrastructure", "Growing food locally builds resilience", "Youth and families need places to learn, work, gather, and belong", "The ecosystem is a model for a stronger regional food future"],
-    },
-    {
-      id: "thankyou",
-      nav: "Thank You",
-      eyebrow: "Feedback • Partnership • Participation",
-      title: "Thank You for Experiencing Bronson Family Farm",
-      image: images.ecosystem,
-      icon: BadgeCheck,
-      body: "This demo is an invitation to understand the vision, respond to the pathway that speaks to you, and help shape the next stage of Bronson Family Farm and Farm & Family Alliance.",
-      points: ["What did you understand clearly?", "Which pathway felt most meaningful?", "Where do you see yourself or your organization participating?", "What support, partnership, or investment could help this grow?"],
-    },
-  ],
+const slides: Slide[] = [
+  {
+    id: "start",
+    nav: "Start",
+    title: "Step Into the Farm. Experience the Wonders of Life.",
+    eyebrow: "Bronson Family Farm • Youngstown, Ohio",
+    body:
+      "Bronson Family Farm is a connected food ecosystem where growers, customers, youth, partners, education, wellness, and marketplace activity work together to strengthen community resilience.",
+    image: images.entrance,
+    icon: Trees,
+    points: [
+      "A working farm rooted in Youngstown’s East Side",
+      "A future agritourism destination",
+      "Food access, learning, wellness, and community revitalization",
+    ],
+  },
 
-  es: [],
-  tl: [],
-  it: [],
-  he: [],
-  fr: [],
-};
+  {
+    id: "place",
+    nav: "Place",
+    title: "A Farm Rooted in Place",
+    eyebrow: "Airport • Land • History • Access",
+    body:
+      "The Historic Lansdowne Airport setting represents movement, innovation, and possibility. Bronson Family Farm transforms open land into productive growing space and community infrastructure.",
+    image: images.place,
+    icon: Plane,
+    points: [
+      "Outdoor growing space becomes community infrastructure",
+      "The airport creates a memorable sense of place",
+      "The farm connects land, food, education, and opportunity",
+    ],
+  },
 
-copy.es = copy.en.map((s) => ({
-  ...s,
-  eyebrow: s.eyebrow,
-  title:
-    s.id === "ecosystem" ? "¿Qué es un Ecosistema Alimentario Conectado?" :
-    s.id === "grower" ? "Camino del Productor" :
-    s.id === "customer" ? "Camino del Cliente" :
-    s.id === "marketplace" ? "Camino del Mercado" :
-    s.id === "youth" ? "Camino de la Fuerza Laboral Juvenil" :
-    s.id === "partners" ? "Camino de Socios" :
-    s.id === "destination" ? "Camino de Agroturismo y Valor Agregado" :
-    s.id === "future" ? "Por Qué Importa Ahora" :
-    s.id === "thankyou" ? "Gracias por Experimentar Bronson Family Farm" :
-    s.title,
-  body:
-    s.id === "ecosystem"
-      ? "Un ecosistema alimentario conectado es un sistema coordinado donde productores, clientes, jóvenes, socios, educación, salud, mercado y distribución se apoyan mutuamente. La comida, el conocimiento y el dinero circulan localmente."
-      : s.body,
-  points: s.points.map((p) =>
-    p.replace("Growers", "Los productores")
-      .replace("Customers", "Los clientes")
-      .replace("Youth", "Los jóvenes")
-      .replace("Partners", "Los socios")
-      .replace("food", "comida")
-      .replace("community", "comunidad")
-  ),
-}));
+  {
+    id: "ecosystem",
+    nav: "Ecosystem",
+    title: "What Is a Connected Food Ecosystem?",
+    eyebrow: "Food • Knowledge • People • Distribution",
+    body:
+      "A connected food ecosystem is a coordinated system where growers, customers, youth, education, health, marketplace activity, and distribution support one another. Food, knowledge, and money circulate locally.",
+    image: images.ecosystem,
+    icon: Route,
+    points: [
+      "Growers receive support, education, and market access",
+      "Customers receive fresh, local, chemical-free food",
+      "Youth receive workforce experience in a living classroom",
+      "Partners align resources around food access and wellness",
+      "The food moves — not the farmer — because distribution is coordinated",
+    ],
+  },
 
-copy.tl = copy.en.map((s) => ({
-  ...s,
-  title:
-    s.id === "ecosystem" ? "Ano ang Connected Food Ecosystem?" :
-    s.id === "grower" ? "Grower Pathway" :
-    s.id === "customer" ? "Customer Pathway" :
-    s.id === "marketplace" ? "Marketplace Pathway" :
-    s.id === "youth" ? "Youth Workforce Pathway" :
-    s.id === "partners" ? "Partner Pathway" :
-    s.id === "destination" ? "Value-Added at Agritourism Pathway" :
-    s.id === "future" ? "Bakit Mahalaga Ngayon" :
-    s.id === "thankyou" ? "Salamat sa Pagbisita sa Bronson Family Farm" :
-    s.title,
-  body:
-    s.id === "ecosystem"
-      ? "Ang connected food ecosystem ay pinag-uugnay ang growers, customers, kabataan, partners, edukasyon, kalusugan, marketplace, at distribution upang ang pagkain, kaalaman, at pera ay umikot sa komunidad."
-      : s.body,
-}));
+  {
+    id: "grower",
+    pathway: "grower",
+    nav: "Grower",
+    title: "Grower Pathway",
+    eyebrow: "Tools • Knowledge • Market Access",
+    body:
+      "The Grower Pathway helps people grow successfully through demonstrations, supplies, support, and coordinated marketplace access.",
+    image: images.grower,
+    icon: Sprout,
+    points: [
+      "Learn through hands-on demonstrations",
+      "Access seedlings, tools, and knowledge",
+      "Connect to markets and customers",
+      "Participate in a coordinated ecosystem",
+    ],
+    decision: [
+      "I want to grow food",
+      "I want to learn how to grow",
+      "I already grow and want support",
+      "I want market access",
+    ],
+  },
 
-copy.it = copy.en.map((s) => ({
-  ...s,
-  title:
-    s.id === "ecosystem" ? "Cos’è un Ecosistema Alimentare Connesso?" :
-    s.id === "grower" ? "Percorso del Coltivatore" :
-    s.id === "customer" ? "Percorso del Cliente" :
-    s.id === "marketplace" ? "Percorso del Marketplace" :
-    s.id === "youth" ? "Percorso Giovani e Lavoro" :
-    s.id === "partners" ? "Percorso dei Partner" :
-    s.id === "destination" ? "Percorso Agriturismo e Valore Aggiunto" :
-    s.id === "future" ? "Perché Conta Ora" :
-    s.id === "thankyou" ? "Grazie per Aver Visitato Bronson Family Farm" :
-    s.title,
-  body:
-    s.id === "ecosystem"
-      ? "Un ecosistema alimentare connesso è un sistema coordinato in cui coltivatori, clienti, giovani, partner, educazione, salute, mercato e distribuzione si sostengono a vicenda."
-      : s.body,
-}));
+  {
+    id: "customer",
+    pathway: "customer",
+    nav: "Customer",
+    title: "Customer Pathway",
+    eyebrow: "Fresh Food • Nutrition • Wellness",
+    body:
+      "The Customer Pathway connects families to fresh, local, chemical-free produce while strengthening local growers and community food access.",
+    image: images.customer,
+    icon: ShoppingBasket,
+    points: [
+      "Access healthier food choices",
+      "Support local growers",
+      "Learn practical nutrition",
+      "Return to the marketplace experience",
+    ],
+    decision: [
+      "I want healthier food choices",
+      "I want to support local growers",
+      "I want to feed my family better",
+      "I want to return to this marketplace",
+    ],
+  },
 
-copy.he = copy.en.map((s) => ({
-  ...s,
-  title:
-    s.id === "ecosystem" ? "מהי מערכת מזון מחוברת?" :
-    s.id === "grower" ? "מסלול המגדלים" :
-    s.id === "customer" ? "מסלול הלקוחות" :
-    s.id === "marketplace" ? "מסלול השוק" :
-    s.id === "youth" ? "מסלול כוח עבודה לנוער" :
-    s.id === "partners" ? "מסלול השותפים" :
-    s.id === "destination" ? "מסלול תיירות חקלאית וערך מוסף" :
-    s.id === "future" ? "למה זה חשוב עכשיו" :
-    s.id === "thankyou" ? "תודה שחוויתם את Bronson Family Farm" :
-    s.title,
-  body:
-    s.id === "ecosystem"
-      ? "מערכת מזון מחוברת היא מערכת מתואמת שבה מגדלים, לקוחות, נוער, שותפים, חינוך, בריאות, שוק והפצה תומכים זה בזה."
-      : s.body,
-}));
+  {
+    id: "marketplace",
+    pathway: "marketplace",
+    nav: "Marketplace",
+    title: "Marketplace Pathway",
+    eyebrow: "Circulation • Sustainability • Distribution",
+    body:
+      "The marketplace connects growers, customers, value-added products, and distribution. It keeps food and money circulating locally.",
+    image: images.marketplace,
+    icon: Building2,
+    points: [
+      "Food reaches customers through coordinated distribution",
+      "Growers are supported instead of isolated",
+      "Value-added products create new opportunities",
+      "Local circulation strengthens sustainability",
+    ],
+    decision: [
+      "I want to participate in the local food economy",
+      "I want to buy local",
+      "I want to support food access",
+      "I want to help strengthen the marketplace",
+    ],
+  },
 
-copy.fr = copy.en.map((s) => ({
-  ...s,
-  title:
-    s.id === "ecosystem" ? "Qu’est-ce qu’un Écosystème Alimentaire Connecté ?" :
-    s.id === "grower" ? "Parcours Producteur" :
-    s.id === "customer" ? "Parcours Client" :
-    s.id === "marketplace" ? "Parcours Marketplace" :
-    s.id === "youth" ? "Parcours Jeunesse et Travail" :
-    s.id === "partners" ? "Parcours Partenaires" :
-    s.id === "destination" ? "Parcours Agritourisme et Valeur Ajoutée" :
-    s.id === "future" ? "Pourquoi Cela Compte Maintenant" :
-    s.id === "thankyou" ? "Merci d’avoir Découvert Bronson Family Farm" :
-    s.title,
-  body:
-    s.id === "ecosystem"
-      ? "Un écosystème alimentaire connecté est un système coordonné où producteurs, clients, jeunes, partenaires, éducation, santé, marché et distribution se soutiennent mutuellement."
-      : s.body,
-}));
+  {
+    id: "youth",
+    pathway: "youth",
+    nav: "Youth Workforce",
+    title: "Youth Workforce Pathway",
+    eyebrow: "Leadership • Skills • Responsibility",
+    body:
+      "Youth ages 14–18 gain real workforce experience while helping feed the community. The farm becomes a living classroom.",
+    image: images.youth,
+    icon: Users,
+    points: [
+      "Learn responsibility and teamwork",
+      "Build confidence through meaningful work",
+      "Develop workforce readiness",
+      "Connect food, purpose, and community",
+    ],
+    decision: [
+      "I want my child involved",
+      "I want workforce experience",
+      "I want to mentor youth",
+      "I want to support youth opportunities",
+    ],
+  },
 
-const pathwayIds = ["grower", "customer", "marketplace", "youth", "partners", "destination"];
+  {
+    id: "partners",
+    pathway: "partners",
+    nav: "Partners",
+    title: "Partner Pathway",
+    eyebrow: "Collaboration • Shared Impact",
+    body:
+      "Partners strengthen the ecosystem through demonstrations, resources, health education, infrastructure, funding, and collaboration.",
+    image: images.partners,
+    icon: HandHeart,
+    points: [
+      "Align resources around wellness and food access",
+      "Support infrastructure and outreach",
+      "Create measurable community benefit",
+      "Build together instead of alone",
+    ],
+    decision: [
+      "I see where my organization fits",
+      "I want to collaborate",
+      "I want to sponsor or support",
+      "I want to bring resources or demonstrations",
+    ],
+  },
+
+  {
+    id: "destination",
+    pathway: "destination",
+    nav: "Destination",
+    title: "Agritourism and Destination Pathway",
+    eyebrow: "Experience • Family • Community",
+    body:
+      "Bronson Family Farm is growing toward a destination experience where families can learn, gather, experience nature, and return.",
+    image: images.destination,
+    icon: Star,
+    points: [
+      "Family activities and demonstrations",
+      "Value-added products and experiences",
+      "Agritourism and wellness opportunities",
+      "A place people return to",
+    ],
+    decision: [
+      "I want to visit",
+      "I want to bring my family",
+      "I want to experience the farm",
+      "I want to help build this destination",
+    ],
+  },
+
+  {
+    id: "future",
+    nav: "Future",
+    title: "Why This Matters Now",
+    eyebrow: "Food Security • Wellness • Resilience",
+    body:
+      "Rising food costs, food insecurity, and disconnected systems require local solutions. Bronson Family Farm demonstrates how agriculture, education, wellness, workforce development, and marketplace activity can strengthen communities.",
+    image: images.future,
+    icon: Wheat,
+    points: [
+      "Healthy food access is community infrastructure",
+      "Growing food locally builds resilience",
+      "Youth and families need places to belong",
+      "The ecosystem is a model for regional food sustainability",
+    ],
+  },
+
+  {
+    id: "thankyou",
+    nav: "Thank You",
+    title: "Thank You for Experiencing Bronson Family Farm",
+    eyebrow: "Feedback • Participation • Partnership",
+    body:
+      "This demo is an invitation to understand the ecosystem and discover where you belong within it.",
+    image: images.ecosystem,
+    icon: BadgeCheck,
+    points: [
+      "What pathway connected with you most?",
+      "Where do you see yourself participating?",
+      "What questions or ideas do you have?",
+      "How can we continue the conversation?",
+    ],
+  },
+];
 
 export default function App() {
   const [lang, setLang] = useState<Lang>("en");
   const [current, setCurrent] = useState(0);
   const [guided, setGuided] = useState(false);
 
-  const slides = copy[lang];
-  const t = ui[lang];
   const slide = slides[current];
+  const t = translations[lang];
   const Icon = slide.icon;
+
   const isHebrew = lang === "he";
   const isEcosystem = slide.id === "ecosystem" || slide.id === "thankyou";
 
   const pathwaySlides = useMemo(
-    () => slides.filter((s) => pathwayIds.includes(s.id)),
-    [slides]
+    () => slides.filter((s) => s.pathway),
+    []
   );
 
   useEffect(() => {
@@ -385,18 +383,18 @@ export default function App() {
         }
         return prev + 1;
       });
-    }, 14500);
+    }, 15000);
 
     return () => window.clearTimeout(timer);
-  }, [guided, current, slides.length]);
+  }, [guided, current]);
 
-  const go = (index: number) => {
-    setCurrent(Math.max(0, Math.min(index, slides.length - 1)));
-  };
+  const next = () =>
+    setCurrent((prev) => Math.min(prev + 1, slides.length - 1));
 
-  const next = () => go(current + 1);
-  const back = () => go(current - 1);
-  const progress = ((current + 1) / slides.length) * 100;
+  const back = () =>
+    setCurrent((prev) => Math.max(prev - 1, 0));
+
+  const go = (index: number) => setCurrent(index);
 
   return (
     <main
@@ -404,31 +402,37 @@ export default function App() {
       className="relative h-screen w-screen overflow-hidden bg-[#132016] text-white"
     >
       {!isEcosystem && (
-        <img src={slide.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={slide.image}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
       )}
 
       <div className="absolute inset-0 bg-gradient-to-br from-[#102015] via-[#243a21] to-[#674a21]" />
-      <div className="absolute inset-0 bg-black/20" />
+      <div className="absolute inset-0 bg-black/25" />
 
       <section className="relative z-10 flex h-full flex-col">
-        <header className="flex items-start justify-between gap-5 px-7 py-4">
+
+        <header className="flex items-start justify-between gap-6 px-7 py-4">
+
           <div className="max-w-4xl">
             <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.24em] text-lime-200">
               <Leaf size={16} />
               {slide.eyebrow}
             </div>
 
-            <h1 className="mt-1 text-3xl font-black tracking-tight md:text-4xl">
+            <h1 className="mt-1 text-3xl font-black tracking-tight md:text-5xl">
               {slide.title}
             </h1>
 
-            <p className="mt-2 max-w-4xl text-base leading-relaxed text-white/90 md:text-lg">
+            <p className="mt-3 max-w-4xl text-base leading-relaxed text-white/90 md:text-lg">
               {slide.body}
             </p>
           </div>
 
           <div className="flex max-w-md flex-wrap justify-end gap-2">
-            {LANGS.map((item) => (
+            {LANGS.map((item: any) => (
               <button
                 key={item.key}
                 onClick={() => setLang(item.key)}
@@ -444,19 +448,26 @@ export default function App() {
           </div>
         </header>
 
-        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 px-7 pb-3 lg:grid-cols-[0.72fr_1.28fr]">
+        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 px-7 pb-3 lg:grid-cols-[0.7fr_1.3fr]">
+
           <div className="flex min-h-0 flex-col justify-center">
+
             <div className="rounded-[1.8rem] border border-white/15 bg-black/25 p-5 shadow-2xl backdrop-blur-md">
+
               <div className="mb-4 flex items-center gap-4">
                 <div className="rounded-2xl bg-white/15 p-4 ring-1 ring-white/20">
                   <Icon size={32} />
                 </div>
+
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.22em] text-lime-200">
                     {slide.nav}
                   </p>
-                  {slide.id !== "ecosystem" && (
-                    <h2 className="text-2xl font-black md:text-3xl">{slide.title}</h2>
+
+                  {!isEcosystem && (
+                    <h2 className="text-2xl font-black md:text-3xl">
+                      {slide.title}
+                    </h2>
                   )}
                 </div>
               </div>
@@ -473,29 +484,130 @@ export default function App() {
                 ))}
               </div>
 
+              {slide.decision && (
+                <div className="mt-5">
+                  <div className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-lime-200">
+                    Possible Next Step
+                  </div>
+
+                  <div className="grid gap-2">
+                    {slide.decision.map((d, i) => (
+                      <div
+                        key={i}
+                        className="rounded-xl border border-lime-200/20 bg-lime-200/10 px-4 py-3 text-sm font-semibold text-lime-50"
+                      >
+                        {d}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {slide.id === "thankyou" && (
-                <div className="mt-4 rounded-2xl border border-lime-200/30 bg-lime-200/15 p-4 text-base font-semibold text-lime-50">
-                  Contact: Constance Burgess • 330-275-1604 • cburgess@bronsonfamilyfarm.com
+                <div className="mt-6 space-y-3">
+
+                  <div className="rounded-2xl border border-lime-200/25 bg-lime-200/10 p-4">
+                    <div className="text-lg font-black text-lime-100">
+                      {t.finalQuestion}
+                    </div>
+                  </div>
+
+                  <div className="grid gap-2">
+
+                    <button className="rounded-xl bg-white/10 px-4 py-3 text-left font-semibold hover:bg-white/20">
+                      I want to grow food
+                    </button>
+
+                    <button className="rounded-xl bg-white/10 px-4 py-3 text-left font-semibold hover:bg-white/20">
+                      I want healthier food choices
+                    </button>
+
+                    <button className="rounded-xl bg-white/10 px-4 py-3 text-left font-semibold hover:bg-white/20">
+                      I want my youth involved
+                    </button>
+
+                    <button className="rounded-xl bg-white/10 px-4 py-3 text-left font-semibold hover:bg-white/20">
+                      I want to collaborate or partner
+                    </button>
+
+                    <button className="rounded-xl bg-white/10 px-4 py-3 text-left font-semibold hover:bg-white/20">
+                      I want to support the destination vision
+                    </button>
+
+                  </div>
+
+                  <div className="rounded-2xl border border-lime-200/25 bg-lime-200/10 p-4">
+                    <div className="text-sm text-lime-50">
+                      Share this experience with others and continue the conversation.
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+
+                      <a
+                        href="mailto:?subject=Bronson Family Farm Ecosystem Demo"
+                        className="rounded-xl bg-white px-4 py-2 text-sm font-black text-[#172111]"
+                      >
+                        Share by Email
+                      </a>
+
+                      <a
+                        href="sms:&body=Take a look at the Bronson Family Farm ecosystem demo."
+                        className="rounded-xl bg-white px-4 py-2 text-sm font-black text-[#172111]"
+                      >
+                        Share by Text
+                      </a>
+
+                    </div>
+
+                    <div className="mt-5 rounded-xl bg-black/25 p-4">
+                      <div className="text-sm font-bold uppercase tracking-[0.2em] text-lime-200">
+                        Contact & Feedback
+                      </div>
+
+                      <div className="mt-2 text-sm">
+                        Constance Burgess
+                      </div>
+
+                      <div className="text-sm">
+                        330-275-1604
+                      </div>
+
+                      <div className="text-sm">
+                        cburgess@bronsonfamilyfarm.com
+                      </div>
+
+                      <a
+                        href="mailto:cburgess@bronsonfamilyfarm.com?subject=Bronson%20Family%20Farm%20Demo%20Feedback"
+                        className="mt-4 inline-flex rounded-xl bg-lime-300 px-4 py-2 text-sm font-black text-[#172111]"
+                      >
+                        {t.feedback}
+                      </a>
+                    </div>
+                  </div>
+
                 </div>
               )}
             </div>
           </div>
 
           <div className="flex min-h-0 flex-col justify-center gap-3">
+
             <div className="relative overflow-hidden rounded-[1.8rem] border border-white/20 bg-black/20 shadow-2xl">
+
               <img
                 src={slide.image}
                 alt={slide.title}
-                className={`h-[60vh] w-full ${
+                className={`h-[62vh] w-full ${
                   isEcosystem
-                    ? "object-contain bg-transparent p-0"
+                    ? "object-contain bg-transparent"
                     : "object-cover"
                 }`}
               />
 
               {!isEcosystem && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 to-transparent p-4">
                   <p className="text-xl font-black">{slide.nav}</p>
+
                   <p className="text-sm text-white/80">
                     {current + 1} of {slides.length}
                   </p>
@@ -504,12 +616,14 @@ export default function App() {
             </div>
 
             <div className="rounded-[1.8rem] border border-white/15 bg-black/25 p-4 backdrop-blur-md">
+
               <div className="mb-3 flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-lime-200">
                 <Route size={16} />
                 {t.pathways}
               </div>
 
               <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+
                 {pathwaySlides.map((p) => {
                   const PIcon = p.icon;
                   const index = slides.findIndex((s) => s.id === p.id);
@@ -519,7 +633,7 @@ export default function App() {
                       key={p.id}
                       onClick={() => go(index)}
                       className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-xs font-bold transition md:text-sm ${
-                        current === index || slide.pathway === p.pathway
+                        current === index
                           ? "border-lime-200 bg-lime-200 text-[#172111]"
                           : "border-white/15 bg-white/10 hover:bg-white/20"
                       }`}
@@ -535,42 +649,63 @@ export default function App() {
         </div>
 
         <footer className="px-7 pb-4">
+
           <div className="mb-3 h-2 overflow-hidden rounded-full bg-white/15">
-            <div className="h-full rounded-full bg-lime-300 transition-all duration-500" style={{ width: `${progress}%` }} />
+            <div
+              className="h-full rounded-full bg-lime-300 transition-all duration-500"
+              style={{
+                width: `${((current + 1) / slides.length) * 100}%`,
+              }}
+            />
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-3">
+
             <div className="flex flex-wrap items-center gap-2">
-              <button onClick={back} disabled={current === 0} className="flex items-center gap-2 rounded-2xl bg-black/45 px-4 py-3 text-sm font-black ring-1 ring-white/15 hover:bg-black/65 disabled:opacity-35">
-                <ArrowLeft size={17} /> {t.back}
+
+              <button
+                onClick={back}
+                disabled={current === 0}
+                className="flex items-center gap-2 rounded-2xl bg-black/45 px-4 py-3 text-sm font-black ring-1 ring-white/15 hover:bg-black/65 disabled:opacity-35"
+              >
+                <ArrowLeft size={17} />
+                {t.back}
               </button>
 
-              <button onClick={next} disabled={current === slides.length - 1} className="flex items-center gap-2 rounded-2xl bg-lime-300 px-5 py-3 text-sm font-black text-[#172111] hover:bg-lime-200 disabled:opacity-35">
-                {t.next} <ArrowRight size={17} />
+              <button
+                onClick={next}
+                disabled={current === slides.length - 1}
+                className="flex items-center gap-2 rounded-2xl bg-lime-300 px-5 py-3 text-sm font-black text-[#172111] hover:bg-lime-200 disabled:opacity-35"
+              >
+                {t.next}
+                <ArrowRight size={17} />
               </button>
 
-              <button onClick={() => go(0)} className="flex items-center gap-2 rounded-2xl bg-black/45 px-4 py-3 text-sm font-black ring-1 ring-white/15 hover:bg-black/65">
-                <Home size={17} /> {t.home}
+              <button
+                onClick={() => go(0)}
+                className="flex items-center gap-2 rounded-2xl bg-black/45 px-4 py-3 text-sm font-black ring-1 ring-white/15 hover:bg-black/65"
+              >
+                <Home size={17} />
+                {t.home}
               </button>
 
-              <button onClick={() => go(2)} className="flex items-center gap-2 rounded-2xl bg-black/45 px-4 py-3 text-sm font-black ring-1 ring-white/15 hover:bg-black/65">
-                <Route size={17} /> Ecosystem
-              </button>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <button onClick={() => setGuided((v) => !v)} className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-black text-[#172111] hover:bg-lime-100">
+
+              <button
+                onClick={() => setGuided((v) => !v)}
+                className="flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-black text-[#172111] hover:bg-lime-100"
+              >
                 {guided ? <Pause size={17} /> : <Play size={17} />}
                 {guided ? t.pause : t.guided}
               </button>
 
-              <a href="mailto:cburgess@bronsonfamilyfarm.com?subject=Bronson%20Family%20Farm%20Demo%20Feedback" className="flex items-center gap-2 rounded-2xl bg-black/45 px-4 py-3 text-sm font-black ring-1 ring-white/15 hover:bg-black/65">
-                <Mail size={17} /> {t.feedback}
-              </a>
-
               <div className="flex items-center gap-2 rounded-2xl bg-black/45 px-4 py-3 text-sm font-black ring-1 ring-white/15">
-                <MapPin size={17} /> Youngstown, Ohio
+                <MapPin size={17} />
+                Youngstown, Ohio
               </div>
+
             </div>
           </div>
         </footer>
