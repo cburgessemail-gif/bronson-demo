@@ -49,7 +49,7 @@ const imageSets: Record<PathwayKey | "hero" | TourStepKey, string[]> = {
 
   problem: ["/SAM_0238.JPG", "/SAM_0249.JPG", "/SAM_0255.JPG"],
 
-  solution: ["/SAM_0257.JPG", "/SAM_0260.JPG", "/SAM_0274.JPG"],
+  solution: ["/ConnectFoodEcosystem_withimages.jpeg", "/SAM_0257.JPG", "/SAM_0260.JPG", "/SAM_0274.JPG"],
 
   guest: ["/SAM_0275.JPG", "/SAM_0281.JPG", "/SAM_0282.JPG"],
 
@@ -75,7 +75,7 @@ const imageSets: Record<PathwayKey | "hero" | TourStepKey, string[]> = {
 
   future: ["/Samerra5.jpg", "/Samerra6.jpg", "/SAM_0313.JPG"],
 
-  ending: ["/GrowArea.jpg", "/snake.jpg", "/WolfSpider.jpg"],
+  ending: ["/ConnectFoodEcosystem_withimages.jpeg", "/GrowArea.jpg", "/snake.jpg", "/WolfSpider.jpg"],
 };
 
 function SmartImage({
