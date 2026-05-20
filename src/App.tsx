@@ -19,16 +19,11 @@ type Slide = {
   title: Text;
   subtitle: Text;
 
-  purpose: Text;
-  need: Text;
-
-  journey: Text[];
-
-  benefits: Text[];
-
-  connection: Text;
-
-  decision: Text;
+  startsAs: Text;
+  experiences: Text[];
+  growsInto: Text[];
+  ecosystem: Text;
+  nextStep: Text;
 };
 
 const LANGS: LangKey[] = [
@@ -70,63 +65,54 @@ const ui = {
     "Connected Food Ecosystem Experience",
     "Experiencia del Ecosistema Alimentario Conectado",
     "Connected Food Ecosystem Experience",
-    "Esperienza dell’Ecosistema Alimentare Connesso",
+    "Esperienza Ecosistema Alimentare Connesso",
     "חוויית מערכת מזון מחוברת",
     "Expérience d’un Écosystème Alimentaire Connecté"
   ),
 
-  purpose: tx(
-    "Purpose",
-    "Propósito",
-    "Purpose",
-    "Scopo",
-    "מטרה",
-    "Objectif"
+  startsAs: tx(
+    "Starts As",
+    "Comienza Como",
+    "Starts As",
+    "Inizia Come",
+    "מתחיל כ",
+    "Commence Comme"
   ),
 
-  need: tx(
-    "Need Being Met",
-    "Necesidad Atendida",
-    "Need Being Met",
-    "Bisogno Risolto",
-    "צורך שנענה",
-    "Besoin Satisfait"
+  experiences: tx(
+    "Experiences",
+    "Experiencias",
+    "Experiences",
+    "Esperienze",
+    "חוויות",
+    "Expériences"
   ),
 
-  journey: tx(
-    "Journey",
-    "Recorrido",
-    "Journey",
-    "Percorso",
-    "מסע",
-    "Parcours"
+  growsInto: tx(
+    "Grows Into",
+    "Se Convierte En",
+    "Grows Into",
+    "Cresce In",
+    "צומח ל",
+    "Devient"
   ),
 
-  benefits: tx(
-    "Benefits",
-    "Beneficios",
-    "Benefits",
-    "Benefici",
-    "יתרונות",
-    "Bénéfices"
+  ecosystem: tx(
+    "Connects Back To",
+    "Conecta de Regreso",
+    "Connects Back To",
+    "Ricollega A",
+    "מתחבר חזרה אל",
+    "Reconnecte À"
   ),
 
-  connection: tx(
-    "Ecosystem Connection",
-    "Conexión del Ecosistema",
-    "Ecosystem Connection",
-    "Connessione Ecosistema",
-    "חיבור למערכת",
-    "Connexion Écosystème"
-  ),
-
-  decision: tx(
-    "Final Decision",
-    "Decisión Final",
-    "Final Decision",
-    "Decisione Finale",
-    "החלטה סופית",
-    "Décision Finale"
+  nextStep: tx(
+    "Next Step",
+    "Próximo Paso",
+    "Next Step",
+    "Prossimo Passo",
+    "השלב הבא",
+    "Prochaine Étape"
   ),
 
   start: tx(
@@ -201,96 +187,87 @@ const slides: Slide[] = [
     ),
 
     subtitle: tx(
-      "The journey begins at the Historic Lansdowne Airport in Youngstown.",
-      "El recorrido comienza en el histórico Aeropuerto Lansdowne.",
-      "Nagsisimula ang paglalakbay sa Historic Lansdowne Airport.",
-      "Il viaggio inizia allo storico Lansdowne Airport.",
-      "המסע מתחיל בשדה התעופה ההיסטורי לנסדאון.",
-      "Le parcours commence à l’aéroport historique Lansdowne."
+      "The ecosystem begins at the Historic Lansdowne Airport in Youngstown.",
+      "El ecosistema comienza en el histórico aeropuerto Lansdowne.",
+      "Nagsisimula ang ecosystem sa Historic Lansdowne Airport.",
+      "L’ecosistema inizia allo storico aeroporto Lansdowne.",
+      "המערכת מתחילה בשדה התעופה ההיסטורי לנסדאון.",
+      "L’écosystème commence à l’aéroport historique Lansdowne."
     ),
 
-    purpose: tx(
-      "Introduce the connected ecosystem experience.",
-      "Introducir la experiencia del ecosistema conectado.",
-      "Ipakilala ang connected ecosystem experience.",
-      "Introdurre l’esperienza dell’ecosistema connesso.",
-      "להציג את חוויית המערכת המחוברת.",
-      "Présenter l’expérience de l’écosystème connecté."
+    startsAs: tx(
+      "A visitor entering a connected ecosystem experience.",
+      "Un visitante entrando a una experiencia conectada.",
+      "Bisitang pumapasok sa connected ecosystem.",
+      "Un visitatore entra nell’ecosistema.",
+      "מבקר הנכנס למערכת מחוברת.",
+      "Un visiteur entrant dans un écosystème connecté."
     ),
 
-    need: tx(
-      "Food, education, workforce, health, and community must be connected locally.",
-      "Los alimentos, educación y comunidad deben conectarse localmente.",
-      "Ang pagkain, edukasyon, trabaho, at komunidad ay dapat konektado.",
-      "Cibo, educazione e comunità devono essere collegati localmente.",
-      "מזון, חינוך וקהילה צריכים להיות מחוברים מקומית.",
-      "La nourriture, l’éducation et la communauté doivent être reliées localement."
-    ),
-
-    journey: [
+    experiences: [
       tx(
-        "Enter the ecosystem",
-        "Entrar al ecosistema",
-        "Pumasok sa ecosystem",
-        "Entrare nell’ecosistema",
-        "להיכנס למערכת",
-        "Entrer dans l’écosystème"
+        "Explore the ecosystem",
+        "Explorar el ecosistema",
+        "Tuklasin ang ecosystem",
+        "Esplorare l’ecosistema",
+        "לחקור את המערכת",
+        "Explorer l’écosystème"
       ),
 
       tx(
-        "Understand the purpose",
-        "Comprender el propósito",
-        "Unawain ang layunin",
-        "Capire lo scopo",
-        "להבין את המטרה",
-        "Comprendre l’objectif"
+        "Understand the mission",
+        "Comprender la misión",
+        "Unawain ang mission",
+        "Comprendere la missione",
+        "להבין את המשימה",
+        "Comprendre la mission"
       ),
 
       tx(
-        "Choose your pathway",
-        "Elegir su camino",
-        "Piliin ang pathway",
-        "Scegliere il percorso",
+        "Choose a pathway",
+        "Elegir un camino",
+        "Pumili ng pathway",
+        "Scegliere un percorso",
         "לבחור מסלול",
         "Choisir un parcours"
       ),
     ],
 
-    benefits: [
+    growsInto: [
       tx(
-        "Clear understanding of the ecosystem",
-        "Comprensión clara del ecosistema",
-        "Malinaw na pag-unawa sa ecosystem",
-        "Chiara comprensione dell’ecosistema",
-        "הבנה ברורה של המערכת",
-        "Compréhension claire de l’écosystème"
+        "A connected participant",
+        "Un participante conectado",
+        "Connected participant",
+        "Un partecipante connesso",
+        "משתתף מחובר",
+        "Un participant connecté"
       ),
 
       tx(
-        "Introduction to community opportunity",
-        "Introducción a oportunidades comunitarias",
-        "Panimula sa community opportunity",
-        "Introduzione alle opportunità comunitarie",
-        "היכרות עם הזדמנויות קהילתיות",
-        "Introduction aux opportunités communautaires"
+        "A future supporter or partner",
+        "Un futuro socio o apoyo",
+        "Future supporter or partner",
+        "Un futuro partner",
+        "תומך או שותף עתידי",
+        "Un futur partenaire"
       ),
     ],
 
-    connection: tx(
-      "This pathway introduces every role in the ecosystem.",
-      "Este camino presenta cada función del ecosistema.",
-      "Ipinapakilala ng pathway na ito ang bawat role.",
-      "Questo percorso introduce ogni ruolo dell’ecosistema.",
-      "מסלול זה מציג את כל התפקידים במערכת.",
-      "Ce parcours présente chaque rôle dans l’écosystème."
+    ecosystem: tx(
+      "Every pathway supports the larger ecosystem.",
+      "Cada camino apoya el ecosistema.",
+      "Sinusuportahan ng bawat pathway ang ecosystem.",
+      "Ogni percorso sostiene l’ecosistema.",
+      "כל מסלול מחזק את המערכת.",
+      "Chaque parcours soutient l’écosystème."
     ),
 
-    decision: tx(
-      "Begin the tour or select a pathway.",
-      "Comience el recorrido o seleccione un camino.",
-      "Simulan ang tour o pumili ng pathway.",
-      "Inizia il tour o scegli un percorso.",
-      "התחל סיור או בחר מסלול.",
+    nextStep: tx(
+      "Begin the guided tour or select a pathway.",
+      "Comenzar el recorrido o elegir un camino.",
+      "Simulan ang guided tour o pumili ng pathway.",
+      "Iniziare il tour o scegliere un percorso.",
+      "להתחיל את הסיור או לבחור מסלול.",
       "Commencer la visite ou choisir un parcours."
     ),
   },
@@ -310,37 +287,28 @@ const slides: Slide[] = [
     ),
 
     subtitle: tx(
-      "Young people build responsibility, skill, leadership, and confidence.",
-      "Los jóvenes desarrollan responsabilidad y liderazgo.",
-      "Nagkakaroon ng responsibility at leadership ang youth.",
-      "I giovani sviluppano responsabilità e leadership.",
-      "צעירים בונים אחריות ומנהיגות.",
-      "Les jeunes développent responsabilité et leadership."
+      "June 8 – August 28, 2026",
+      "8 de Junio – 28 de Agosto de 2026",
+      "Hunyo 8 – Agosto 28, 2026",
+      "8 Giugno – 28 Agosto 2026",
+      "8 ביוני – 28 באוגוסט 2026",
+      "8 Juin – 28 Août 2026"
     ),
 
-    purpose: tx(
-      "Provide a structured summer workforce and leadership experience.",
-      "Brindar una experiencia estructurada de trabajo y liderazgo.",
-      "Magbigay ng structured workforce experience.",
-      "Fornire un’esperienza strutturata di lavoro e leadership.",
-      "לספק חוויית עבודה ומנהיגות מובנית.",
-      "Offrir une expérience structurée de travail et leadership."
+    startsAs: tx(
+      "A young person entering a structured summer workforce experience.",
+      "Un joven entrando a una experiencia laboral estructurada.",
+      "Kabataang papasok sa structured workforce experience.",
+      "Un giovane entra in un’esperienza strutturata.",
+      "צעיר הנכנס לחוויית עבודה מובנית.",
+      "Un jeune entrant dans une expérience structurée."
     ),
 
-    need: tx(
-      "Youth need structure, mentorship, outdoor learning, accountability, and future readiness.",
-      "Los jóvenes necesitan estructura, mentoría y preparación futura.",
-      "Kailangan ng youth ng structure, mentorship, at future readiness.",
-      "I giovani hanno bisogno di struttura e preparazione futura.",
-      "צעירים צריכים מסגרת, חניכה והכנה לעתיד.",
-      "Les jeunes ont besoin de structure et préparation."
-    ),
-
-    journey: [
+    experiences: [
       tx(
         "Parent and youth orientation",
         "Orientación para padres y jóvenes",
-        "Orientation ng parent at youth",
+        "Parent at youth orientation",
         "Orientamento genitori e giovani",
         "הכוונת הורים ונוער",
         "Orientation parents et jeunes"
@@ -356,25 +324,34 @@ const slides: Slide[] = [
       ),
 
       tx(
-        "Farm-based team participation",
-        "Participación en equipos agrícolas",
         "Farm-based teamwork",
-        "Partecipazione agricola",
+        "Trabajo agrícola en equipo",
+        "Farm-based teamwork",
+        "Lavoro agricolo di squadra",
         "עבודת צוות חקלאית",
-        "Participation agricole"
+        "Travail agricole en équipe"
       ),
 
       tx(
-        "Leadership and life-skill growth",
-        "Crecimiento de liderazgo y habilidades",
-        "Leadership at life skills",
-        "Leadership e crescita personale",
-        "פיתוח מנהיגות וכישורי חיים",
-        "Leadership et compétences de vie"
+        "Proverbs, mentorship, and reflection",
+        "Proverbios y mentoría",
+        "Proverbs at mentorship",
+        "Proverbi e mentorship",
+        "פתגמים וחניכה",
+        "Proverbes et mentorat"
       ),
     ],
 
-    benefits: [
+    growsInto: [
+      tx(
+        "Confidence and leadership",
+        "Confianza y liderazgo",
+        "Confidence at leadership",
+        "Fiducia e leadership",
+        "ביטחון ומנהיגות",
+        "Confiance et leadership"
+      ),
+
       tx(
         "Workforce readiness",
         "Preparación laboral",
@@ -385,26 +362,17 @@ const slides: Slide[] = [
       ),
 
       tx(
-        "Confidence and teamwork",
-        "Confianza y trabajo en equipo",
-        "Confidence at teamwork",
-        "Fiducia e lavoro di squadra",
-        "ביטחון ועבודת צוות",
-        "Confiance et travail d’équipe"
-      ),
-
-      tx(
-        "Parent engagement and visibility",
-        "Participación de padres",
-        "Parent engagement",
-        "Coinvolgimento dei genitori",
-        "מעורבות הורים",
-        "Implication des parents"
+        "Responsibility and teamwork",
+        "Responsabilidad y trabajo en equipo",
+        "Responsibility at teamwork",
+        "Responsabilità e lavoro di squadra",
+        "אחריות ועבודת צוות",
+        "Responsabilité et travail d’équipe"
       ),
     ],
 
-    connection: tx(
-      "Youth become future growers, leaders, customers, and ecosystem participants.",
+    ecosystem: tx(
+      "Youth become future growers, marketplace participants, volunteers, entrepreneurs, and community leaders.",
       "Los jóvenes se convierten en futuros líderes y participantes.",
       "Nagiging future leaders at ecosystem participants ang youth.",
       "I giovani diventano futuri leader e partecipanti.",
@@ -412,13 +380,13 @@ const slides: Slide[] = [
       "Les jeunes deviennent futurs leaders et participants."
     ),
 
-    decision: tx(
-      "Do I want youth to participate in this summer workforce experience?",
-      "¿Quiero que los jóvenes participen en esta experiencia?",
-      "Gusto ko bang sumali ang youth sa experience na ito?",
-      "Voglio che i giovani partecipino?",
-      "האם אני רוצה שנוער ישתתף בחוויה הזו?",
-      "Est-ce que je veux que les jeunes participent?"
+    nextStep: tx(
+      "Enroll, complete orientation, and participate June 8 – August 28, 2026.",
+      "Inscribirse y participar del 8 de Junio al 28 de Agosto.",
+      "Mag-enroll at sumali sa program.",
+      "Iscriversi e partecipare al programma.",
+      "להירשם ולהשתתף בתוכנית.",
+      "S’inscrire et participer au programme."
     ),
   },
 ];
@@ -475,7 +443,7 @@ export default function App() {
       setCurrent((p) =>
         Math.min(p + 1, slides.length - 1)
       );
-    }, 9500);
+    }, 9000);
 
     return () => window.clearTimeout(timer);
   }, [guided, current]);
@@ -487,6 +455,7 @@ export default function App() {
 
   return (
     <main className="app">
+
       <style>{`
         * {
           box-sizing: border-box;
@@ -508,13 +477,14 @@ export default function App() {
           overflow: hidden;
 
           background:
-            radial-gradient(circle at 72% 38%, rgba(99,135,43,.16), transparent 34%),
-            radial-gradient(circle at 18% 80%, rgba(191,139,72,.1), transparent 28%),
+            radial-gradient(circle at 74% 36%, rgba(92,128,38,.16), transparent 34%),
+            radial-gradient(circle at 15% 80%, rgba(197,139,62,.08), transparent 30%),
             #000;
         }
 
         .wrap {
           width: min(1480px, calc(100vw - 44px));
+
           height: 100vh;
 
           margin: 0 auto;
@@ -594,8 +564,6 @@ export default function App() {
             #8cc63e,
             #d7b56d
           );
-
-          transition: width .6s ease;
         }
 
         .nav {
@@ -654,10 +622,6 @@ export default function App() {
 
         .panel,
         .image-card {
-          height: 100%;
-
-          min-height: 0;
-
           border-radius: 30px;
 
           border: 1px solid rgba(255,255,255,.12);
@@ -676,9 +640,9 @@ export default function App() {
         }
 
         .slide-title {
-          margin: 0 0 5px;
+          margin: 0 0 4px;
 
-          font-size: clamp(26px, 2.6vw, 42px);
+          font-size: clamp(28px, 2.8vw, 44px);
 
           line-height: .92;
 
@@ -688,12 +652,12 @@ export default function App() {
         .subtitle {
           margin: 0 0 10px;
 
-          font-size: clamp(14px, 1vw, 17px);
+          font-size: clamp(14px, .98vw, 17px);
 
-          line-height: 1.12;
+          line-height: 1.08;
         }
 
-        .ecosystem-grid {
+        .journey-grid {
           display: grid;
 
           grid-template-columns: 1fr 1fr;
@@ -701,16 +665,14 @@ export default function App() {
           gap: 10px;
         }
 
-        .ecosystem-box {
-          border: 1px solid rgba(255,255,255,.11);
+        .journey-box {
+          border: 1px solid rgba(255,255,255,.1);
 
           background: rgba(255,255,255,.04);
 
           border-radius: 16px;
 
           padding: 10px;
-
-          min-height: 104px;
         }
 
         .section-title {
@@ -718,7 +680,7 @@ export default function App() {
 
           font-size: 9px;
 
-          letter-spacing: 1.8px;
+          letter-spacing: 1.7px;
 
           font-weight: 900;
 
@@ -727,21 +689,21 @@ export default function App() {
           text-transform: uppercase;
         }
 
-        .section-text {
-          font-size: clamp(12px, .85vw, 14px);
+        .section-text,
+        .grow-text {
+          font-size: clamp(12px, .84vw, 14px);
 
-          line-height: 1.1;
+          line-height: 1.06;
         }
 
-        .journey-list,
-        .benefits-list {
+        .experience-list,
+        .grow-list {
           display: grid;
-
           gap: 5px;
         }
 
-        .journey-step,
-        .benefit-row {
+        .experience-row,
+        .grow-row {
           display: grid;
 
           grid-template-columns: 18px 1fr;
@@ -749,9 +711,8 @@ export default function App() {
           gap: 7px;
         }
 
-        .journey-number {
+        .num {
           width: 17px;
-
           height: 17px;
 
           border-radius: 50%;
@@ -771,41 +732,36 @@ export default function App() {
           justify-content: center;
         }
 
-        .benefit-dot {
+        .dot {
           width: 7px;
-
           height: 7px;
-
-          margin-top: 5px;
 
           border-radius: 50%;
 
-          background: #9acd32;
+          margin-top: 5px;
+
+          background: #8cc63e;
         }
 
-        .journey-text,
-        .benefit-text {
-          font-size: clamp(12px, .84vw, 14px);
-
-          line-height: 1.06;
-        }
-
-        .decision {
+        .ecosystem-box,
+        .next-box {
           margin-top: 10px;
-
-          border: 1px solid rgba(216,181,109,.45);
-
-          background: rgba(216,181,109,.1);
 
           border-radius: 16px;
 
           padding: 10px;
         }
 
-        .decision-text {
-          font-size: clamp(13px, .9vw, 15px);
+        .ecosystem-box {
+          border: 1px solid rgba(255,255,255,.1);
 
-          line-height: 1.1;
+          background: rgba(255,255,255,.04);
+        }
+
+        .next-box {
+          border: 1px solid rgba(216,181,109,.4);
+
+          background: rgba(216,181,109,.08);
         }
 
         .controls {
@@ -860,14 +816,13 @@ export default function App() {
 
         .hero-image {
           width: 100%;
-
           height: 100%;
 
           display: block;
 
           filter:
             brightness(1.12)
-            contrast(1.06)
+            contrast(1.05)
             saturate(1.06);
         }
 
@@ -887,10 +842,7 @@ export default function App() {
           position: absolute;
 
           top: 18px;
-
           right: 18px;
-
-          z-index: 2;
 
           background: rgba(0,0,0,.62);
 
@@ -909,10 +861,7 @@ export default function App() {
           position: absolute;
 
           left: 18px;
-
           bottom: 18px;
-
-          z-index: 2;
 
           max-width: calc(100% - 36px);
 
@@ -927,41 +876,14 @@ export default function App() {
 
         .image-label strong {
           display: block;
-
           font-size: 17px;
         }
 
         .image-label span {
           display: block;
-
           margin-top: 4px;
-
           font-size: 13px;
-
           color: rgba(255,255,255,.82);
-        }
-
-        @media (max-width: 1100px) {
-          html,
-          body,
-          #root,
-          .app {
-            height: auto;
-
-            overflow: auto;
-          }
-
-          .wrap {
-            height: auto;
-          }
-
-          .stage {
-            grid-template-columns: 1fr;
-          }
-
-          .image-card {
-            height: 420px;
-          }
         }
       `}</style>
 
@@ -1010,6 +932,7 @@ export default function App() {
         </div>
 
         <nav className="nav">
+
           {slides.map((s, i) => (
             <button
               key={s.id}
@@ -1026,6 +949,7 @@ export default function App() {
               {s.id}. {s.nav}
             </button>
           ))}
+
         </nav>
 
         <section className="stage">
@@ -1044,104 +968,98 @@ export default function App() {
               {slide.subtitle[language]}
             </p>
 
-            <div className="ecosystem-grid">
+            <div className="journey-grid">
 
-              <div className="ecosystem-box">
+              <div className="journey-box">
+
                 <div className="section-title">
-                  {ui.purpose[language]}
+                  {ui.startsAs[language]}
                 </div>
 
                 <div className="section-text">
-                  {slide.purpose[language]}
+                  {slide.startsAs[language]}
                 </div>
+
               </div>
 
-              <div className="ecosystem-box">
-                <div className="section-title">
-                  {ui.need[language]}
-                </div>
-
-                <div className="section-text">
-                  {slide.need[language]}
-                </div>
-              </div>
-
-              <div className="ecosystem-box">
+              <div className="journey-box">
 
                 <div className="section-title">
-                  {ui.journey[language]}
+                  {ui.experiences[language]}
                 </div>
 
-                <div className="journey-list">
+                <div className="experience-list">
 
-                  {slide.journey.map(
-                    (step, i) => (
+                  {slide.experiences.map(
+                    (item, i) => (
                       <div
-                        className="journey-step"
+                        className="experience-row"
                         key={i}
                       >
-                        <div className="journey-number">
+                        <div className="num">
                           {i + 1}
                         </div>
 
-                        <div className="journey-text">
-                          {step[language]}
+                        <div className="section-text">
+                          {item[language]}
                         </div>
                       </div>
                     )
                   )}
 
                 </div>
+
               </div>
 
-              <div className="ecosystem-box">
+              <div className="journey-box">
 
                 <div className="section-title">
-                  {ui.benefits[language]}
+                  {ui.growsInto[language]}
                 </div>
 
-                <div className="benefits-list">
+                <div className="grow-list">
 
-                  {slide.benefits.map(
-                    (benefit, i) => (
+                  {slide.growsInto.map(
+                    (item, i) => (
                       <div
-                        className="benefit-row"
+                        className="grow-row"
                         key={i}
                       >
-                        <div className="benefit-dot" />
+                        <div className="dot" />
 
-                        <div className="benefit-text">
-                          {benefit[language]}
+                        <div className="grow-text">
+                          {item[language]}
                         </div>
                       </div>
                     )
                   )}
 
                 </div>
+
+              </div>
+
+              <div className="journey-box">
+
+                <div className="section-title">
+                  {ui.ecosystem[language]}
+                </div>
+
+                <div className="section-text">
+                  {slide.ecosystem[language]}
+                </div>
+
               </div>
 
             </div>
 
-            <div className="decision">
+            <div className="next-box">
 
               <div className="section-title">
-                {ui.connection[language]}
+                {ui.nextStep[language]}
               </div>
 
-              <div className="decision-text">
-                {slide.connection[language]}
-              </div>
-
-            </div>
-
-            <div className="decision">
-
-              <div className="section-title">
-                {ui.decision[language]}
-              </div>
-
-              <div className="decision-text">
-                {slide.decision[language]}
+              <div className="section-text">
+                {slide.nextStep[language]}
               </div>
 
             </div>
@@ -1230,6 +1148,7 @@ export default function App() {
         </section>
 
       </div>
+
     </main>
   );
 }
