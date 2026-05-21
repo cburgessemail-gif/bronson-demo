@@ -151,7 +151,7 @@ export default function App() {
       {
         id: 6,
         nav: "Marketplace",
-        image: "/GrowersSupplyMarket.jpg",
+        image: "/SAM_0222.JPG",
         title: tx("Marketplace Journey", "Recorrido del Mercado", "Marketplace Journey", "Percorso Mercato", "מסלול שוק", "Parcours Marché"),
         subtitle: tx("Food, tools, knowledge, growers, buyers, and opportunity move through one shared market system.", "Alimentos, herramientas, conocimiento, agricultores, compradores y oportunidad se mueven por un mercado compartido.", "Food, tools, knowledge, growers, buyers, and opportunity move through one shared market system.", "Cibo, strumenti, conoscenza, coltivatori, clienti e opportunità si muovono in un sistema di mercato condiviso.", "מזון, כלים, ידע, מגדלים, קונים והזדמנות נעים במערכת שוק משותפת.", "Nourriture, outils, savoir, producteurs, acheteurs et opportunités circulent dans un marché partagé."),
         startsAs: tx("Separate growers, separate customers, scattered supply, and limited market access.", "Agricultores separados, clientes separados, suministro disperso y acceso limitado al mercado.", "Separate growers, customers, scattered supply, and limited market access.", "Coltivatori separati, clienti separati, offerta dispersa e accesso limitato al mercato.", "מגדלים נפרדים, לקוחות נפרדים, אספקה מפוזרת וגישה מוגבלת לשוק.", "Producteurs séparés, clients séparés, offre dispersée et accès limité au marché."),
@@ -166,14 +166,14 @@ export default function App() {
           tx("Stronger local grower economy", "Economía agrícola local más fuerte", "Stronger local grower economy", "Economia agricola locale più forte", "כלכלת מגדלים מקומית חזקה יותר", "Économie locale des producteurs renforcée"),
         ],
         ecosystem: tx("The marketplace is the circulation point where food, supplies, information, buyers, growers, and institutions connect.", "El mercado es el punto de circulación donde alimentos, suministros, información, compradores, agricultores e instituciones se conectan.", "The marketplace is where food, supplies, information, buyers, growers, and institutions connect.", "Il mercato è il punto dove cibo, forniture, informazioni, clienti, coltivatori e istituzioni si collegano.", "השוק הוא נקודת המחזור שבה מזון, אספקה, מידע, קונים, מגדלים ומוסדות מתחברים.", "Le marché est le point de circulation où nourriture, fournitures, information, acheteurs, producteurs et institutions se relient."),
-        nextStep: tx("Shop, sell, supply, preorder, educate, sponsor, or help build the regional market.", "Comprar, vender, proveer, preordenar, educar, patrocinar o construir el mercado regional.", "Shop, sell, supply, preorder, educate, sponsor, or help build the regional market.", "Comprare, vendere, fornire, preordinare, educare, sponsorizzare o costruire il mercato regionale.", "לקנות, למכור, לספק, להזמין מראש, ללמד, לתת חסות או לבנות את השוק האזורי.", "Acheter, vendre, fournir, précommander, éduquer, parrainer ou bâtir le marché régional."),
+        nextStep: tx("Decision: Shop as a customer, sell as a grower, supply tools, sponsor access, or help build the regional market.", "Comprar, vender, proveer, preordenar, educar, patrocinar o construir el mercado regional.", "Shop, sell, supply, preorder, educate, sponsor, or help build the regional market.", "Comprare, vendere, fornire, preordinare, educare, sponsorizzare o costruire il mercato regionale.", "לקנות, למכור, לספק, להזמין מראש, ללמד, לתת חסות או לבנות את השוק האזורי.", "Acheter, vendre, fournir, précommander, éduquer, parrainer ou bâtir le marché régional."),
         buttonLabel: tx("Go to Grower Journey", "Ir al Agricultor", "Go to Grower Journey", "Vai al Coltivatore", "לעבור למגדל", "Aller au producteur"),
         targetId: 7,
       },
       {
         id: 7,
         nav: "Grower",
-        image: "/SAM_0223.JPG",
+        image: "/GrowArea.jpg",
         title: tx("Grower Journey", "Recorrido del Agricultor", "Grower Journey", "Percorso Coltivatore", "מסלול מגדל", "Parcours Producteur"),
         subtitle: tx("Growers need tools, knowledge, infrastructure, visibility, and market support.", "Los agricultores necesitan herramientas, conocimiento, infraestructura, visibilidad y apoyo de mercado.", "Growers need tools, knowledge, infrastructure, visibility, and market support.", "I coltivatori hanno bisogno di strumenti, conoscenza, infrastruttura, visibilità e mercato.", "מגדלים צריכים כלים, ידע, תשתית, נראות ותמיכת שוק.", "Les producteurs ont besoin d’outils, de savoir, d’infrastructure, de visibilité et de marché."),
         startsAs: tx("A grower, gardener, farmer, or aspiring producer with land, interest, skill, or potential.", "Un agricultor, jardinero o productor potencial con tierra, interés, habilidad o potencial.", "Grower, gardener, farmer, or aspiring producer with land, interest, skill, or potential.", "Coltivatore, giardiniere, agricoltore o produttore emergente con terra, interesse, abilità o potenziale.", "מגדל, גנן, חקלאי או יצרן עתידי עם קרקע, עניין, מיומנות או פוטנציאל.", "Un producteur, jardinier, agriculteur ou aspirant producteur avec terre, intérêt, compétence ou potentiel."),
@@ -187,7 +187,7 @@ export default function App() {
           tx("Regional food contributor and possible enterprise owner", "Colaborador alimentario regional y posible empresario", "Regional food contributor and possible enterprise owner", "Contributore alimentare regionale e possibile imprenditore", "תורם מזון אזורי ואולי בעל עסק", "Contributeur alimentaire régional et possible entrepreneur"),
         ],
         ecosystem: tx("Growers are the production base. The ecosystem reduces isolation by connecting growers to tools, knowledge, buyers, and community demand.", "Los agricultores son la base productiva. El ecosistema reduce aislamiento conectándolos con herramientas, conocimiento, compradores y demanda comunitaria.", "Growers are the production base. The ecosystem reduces isolation by connecting them to tools, knowledge, buyers, and demand.", "I coltivatori sono la base produttiva. L’ecosistema riduce isolamento collegandoli a strumenti, conoscenza, clienti e domanda.", "המגדלים הם בסיס הייצור. המערכת מפחיתה בידוד ומחברת אותם לכלים, ידע, קונים וביקוש.", "Les producteurs sont la base productive. L’écosystème réduit l’isolement en les reliant aux outils, savoirs, acheteurs et demande."),
-        nextStep: tx("Become a grower, strengthen what you already grow, or connect your harvest to the marketplace.", "Conviértase en agricultor, fortalezca lo que cultiva o conecte su cosecha al mercado.", "Become a grower, strengthen what you grow, or connect your harvest to the marketplace.", "Diventa coltivatore, rafforza ciò che coltivi o collega il raccolto al mercato.", "להפוך למגדל, לחזק את מה שכבר מגדלים או לחבר את היבול לשוק.", "Devenir producteur, renforcer ce que vous cultivez ou connecter votre récolte au marché."),
+        nextStep: tx("Decision: Become a grower, strengthen what you already grow, request tools/education, or connect your harvest to the marketplace.", "Conviértase en agricultor, fortalezca lo que cultiva o conecte su cosecha al mercado.", "Become a grower, strengthen what you grow, or connect your harvest to the marketplace.", "Diventa coltivatore, rafforza ciò che coltivi o collega il raccolto al mercato.", "להפוך למגדל, לחזק את מה שכבר מגדלים או לחבר את היבול לשוק.", "Devenir producteur, renforcer ce que vous cultivez ou connecter votre récolte au marché."),
         buttonLabel: tx("Go to Youth Workforce", "Ir al Programa Juvenil", "Go to Youth Workforce", "Vai ai Giovani", "לעבור לנוער", "Aller au programme jeunesse"),
         targetId: 8,
       },
@@ -219,7 +219,7 @@ export default function App() {
       {
         id: 9,
         nav: "Partner",
-        image: "/SAM_0226.JPG",
+        image: "/SAM_0229.JPG",
         title: tx("Partner Journey", "Recorrido del Socio", "Partner Journey", "Percorso Partner", "מסלול שותף", "Parcours Partenaire"),
         subtitle: tx("Partners align resources, knowledge, infrastructure, funding, and impact.", "Los socios alinean recursos, conocimiento, infraestructura, fondos e impacto.", "Partners align resources, knowledge, infrastructure, funding, and impact.", "I partner allineano risorse, conoscenza, infrastruttura, fondi e impatto.", "שותפים מחברים משאבים, ידע, תשתית, מימון והשפעה.", "Les partenaires alignent ressources, savoir, infrastructure, financement et impact."),
         startsAs: tx("An organization, business, school, agency, funder, or community leader with an aligned mission.", "Una organización, negocio, escuela, agencia, financiador o líder comunitario con misión alineada.", "Organization, business, school, agency, funder, or community leader with aligned mission.", "Organizzazione, impresa, scuola, agenzia, finanziatore o leader con missione affine.", "ארגון, עסק, בית ספר, סוכנות, מממן או מנהיג קהילתי עם משימה מתאימה.", "Organisation, entreprise, école, agence, financeur ou leader communautaire avec mission alignée."),
@@ -233,14 +233,14 @@ export default function App() {
           tx("Community investor and ecosystem builder", "Inversionista comunitario y constructor del ecosistema", "Community investor and ecosystem builder", "Investitore comunitario e costruttore dell’ecosistema", "משקיע קהילתי ובונה מערכת", "Investisseur communautaire et bâtisseur d’écosystème"),
         ],
         ecosystem: tx("Partners expand capacity, credibility, education, funding, services, safety, and long-term sustainability.", "Los socios amplían capacidad, credibilidad, educación, fondos, servicios, seguridad y sostenibilidad.", "Partners expand capacity, credibility, education, funding, services, safety, and sustainability.", "I partner ampliano capacità, credibilità, educazione, fondi, servizi, sicurezza e sostenibilità.", "שותפים מרחיבים יכולת, אמינות, חינוך, מימון, שירותים, בטיחות וקיימות.", "Les partenaires renforcent capacité, crédibilité, éducation, financement, services, sécurité et durabilité."),
-        nextStep: tx("Partner, sponsor, educate, fund, volunteer, provide supplies, or open a new pathway.", "Asociarse, patrocinar, educar, financiar, servir, proveer suministros o abrir un nuevo camino.", "Partner, sponsor, educate, fund, volunteer, provide supplies, or open a new pathway.", "Collaborare, sponsorizzare, educare, finanziare, volontariato, fornire materiali o aprire un nuovo percorso.", "לשתף פעולה, לתת חסות, לחנך, לממן, להתנדב, לספק ציוד או לפתוח מסלול חדש.", "Collaborer, parrainer, éduquer, financer, faire du bénévolat, fournir ou ouvrir un nouveau parcours."),
+        nextStep: tx("Decision: Partner, sponsor, educate, fund, volunteer, provide supplies, or open a new pathway in the ecosystem.", "Asociarse, patrocinar, educar, financiar, servir, proveer suministros o abrir un nuevo camino.", "Partner, sponsor, educate, fund, volunteer, provide supplies, or open a new pathway.", "Collaborare, sponsorizzare, educare, finanziare, volontariato, fornire materiali o aprire un nuovo percorso.", "לשתף פעולה, לתת חסות, לחנך, לממן, להתנדב, לספק ציוד או לפתוח מסלול חדש.", "Collaborer, parrainer, éduquer, financer, faire du bénévolat, fournir ou ouvrir un nouveau parcours."),
         buttonLabel: tx("Go to Value-Added", "Ir a Valor Agregado", "Go to Value-Added", "Vai al Valore Aggiunto", "לעבור לערך מוסף", "Aller à la valeur ajoutée"),
         targetId: 10,
       },
       {
         id: 10,
         nav: "Value-Added",
-        image: "/SAM_0229.JPG",
+        image: "/SAM_0226.JPG",
         title: tx("Value-Added Journey", "Recorrido de Valor Agregado", "Value-Added Journey", "Percorso Valore Aggiunto", "מסלול ערך מוסף", "Parcours Valeur Ajoutée"),
         subtitle: tx("The farm grows beyond production into education, wellness, tourism, products, and enterprise.", "La granja crece más allá de producción hacia educación, bienestar, turismo, productos y empresa.", "The farm grows beyond production into education, wellness, tourism, products, and enterprise.", "La fattoria cresce oltre produzione verso educazione, benessere, turismo, prodotti e impresa.", "החווה גדלה מעבר לייצור אל חינוך, בריאות, תיירות, מוצרים ויזמות.", "La ferme dépasse la production vers éducation, bien-être, tourisme, produits et entreprise."),
         startsAs: tx("Fresh food, seedlings, land, skills, stories, demonstrations, and community knowledge.", "Alimentos frescos, plántulas, tierra, habilidades, historias, demostraciones y conocimiento comunitario.", "Fresh food, seedlings, land, skills, stories, demonstrations, and community knowledge.", "Cibo fresco, piantine, terra, competenze, storie, dimostrazioni e conoscenza comunitaria.", "מזון טרי, שתילים, קרקע, מיומנויות, סיפורים, הדגמות וידע קהילתי.", "Nourriture fraîche, plants, terre, compétences, histoires, démonstrations et savoir communautaire."),
@@ -254,7 +254,7 @@ export default function App() {
           tx("Entrepreneurship, agritourism, education, and long-term sustainability", "Emprendimiento, agroturismo, educación y sostenibilidad", "Entrepreneurship, agritourism, education, and long-term sustainability", "Imprenditoria, agriturismo, educazione e sostenibilità", "יזמות, תיירות חקלאית, חינוך וקיימות", "Entrepreneuriat, agritourisme, éducation et durabilité"),
         ],
         ecosystem: tx("Value-added activity helps the ecosystem sustain itself while creating more reasons to visit, learn, buy, invest, and return.", "El valor agregado ayuda al ecosistema a sostenerse y crea más razones para visitar, aprender, comprar, invertir y volver.", "Value-added activity helps sustain the ecosystem and creates more reasons to visit, learn, buy, invest, and return.", "Il valore aggiunto sostiene l’ecosistema e crea più motivi per visitare, imparare, comprare, investire e tornare.", "פעילות ערך מוסף מחזקת את קיימות המערכת ויוצרת סיבות לבקר, ללמוד, לקנות, להשקיע ולחזור.", "La valeur ajoutée soutient l’écosystème et crée plus de raisons de visiter, apprendre, acheter, investir et revenir."),
-        nextStep: tx("Create, teach, preserve, sell, sponsor, invest, or help design the next farm experience.", "Crear, enseñar, conservar, vender, patrocinar, invertir o diseñar la próxima experiencia.", "Create, teach, preserve, sell, sponsor, invest, or help design the next farm experience.", "Creare, insegnare, conservare, vendere, sponsorizzare, investire o progettare la prossima esperienza.", "ליצור, ללמד, לשמר, למכור, לתת חסות, להשקיע או לעצב את החוויה הבאה.", "Créer, enseigner, préserver, vendre, parrainer, investir ou concevoir la prochaine expérience."),
+        nextStep: tx("Decision: Create products, teach a skill, preserve food, host an experience, sponsor equipment, or invest in sustainability.", "Crear, enseñar, conservar, vender, patrocinar, invertir o diseñar la próxima experiencia.", "Create, teach, preserve, sell, sponsor, invest, or help design the next farm experience.", "Creare, insegnare, conservare, vendere, sponsorizzare, investire o progettare la prossima esperienza.", "ליצור, ללמד, לשמר, למכור, לתת חסות, להשקיע או לעצב את החוויה הבאה.", "Créer, enseigner, préserver, vendre, parrainer, investir ou concevoir la prochaine expérience."),
         buttonLabel: tx("Go to Feedback", "Ir a Comentarios", "Go to Feedback", "Vai al Feedback", "לעבור למשוב", "Aller aux commentaires"),
         targetId: 11,
       },
@@ -277,7 +277,7 @@ export default function App() {
           tx("Supporter, customer, grower, partner, investor, volunteer, or advocate", "Apoyo, cliente, agricultor, socio, inversionista, voluntario o defensor", "Supporter, customer, grower, partner, investor, volunteer, or advocate", "Sostenitore, cliente, coltivatore, partner, investitore, volontario o promotore", "תומך, לקוח, מגדל, שותף, משקיע, מתנדב או פעיל", "Soutien, client, producteur, partenaire, investisseur, bénévole ou ambassadeur"),
         ],
         ecosystem: tx("Feedback improves the ecosystem before it is shared more widely with partners, funders, growers, families, and the community.", "Los comentarios mejoran el ecosistema antes de compartirlo más ampliamente con socios, financiadores, agricultores, familias y la comunidad.", "Feedback improves the ecosystem before it is shared more widely with partners, funders, growers, families, and community.", "Il feedback migliora l’ecosistema prima che venga condiviso con partner, finanziatori, coltivatori, famiglie e comunità.", "משוב משפר את המערכת לפני שיתוף רחב יותר עם שותפים, מממנים, מגדלים, משפחות וקהילה.", "Les avis améliorent l’écosystème avant un partage plus large avec partenaires, financeurs, producteurs, familles et communauté."),
-        nextStep: tx("Contact: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "Contacto: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "Contact: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "Contatto: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "יצירת קשר: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "Contact : 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com"),
+        nextStep: tx("Decision: Share feedback, request a meeting, choose your role, or invite someone into the ecosystem. Contact: 330-275-1604 | cburgess@bronsonfamilyfarm.com", "Contacto: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "Contact: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "Contatto: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "יצירת קשר: 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com", "Contact : 330-275-1604 | cburgess@bronsonfamilyfarm.com | www.bronsonfamilyfarm.com"),
         buttonLabel: tx("Start Over", "Comenzar de Nuevo", "Start Over", "Ricomincia", "להתחיל מחדש", "Recommencer"),
         targetId: 1,
       },
@@ -321,7 +321,7 @@ export default function App() {
         * { box-sizing: border-box; }
         body { margin: 0; background: #020403; }
         .demo-shell {
-          min-height: 100vh;
+          height: 100vh;
           width: 100%;
           background:
             radial-gradient(circle at top left, rgba(245, 221, 161, 0.18), transparent 28%),
@@ -329,28 +329,28 @@ export default function App() {
             linear-gradient(135deg, #020403 0%, #101c0d 45%, #2f421e 100%);
           color: #fffaf0;
           font-family: Georgia, "Times New Roman", serif;
-          padding: 18px;
-          overflow-x: hidden;
+          padding: 10px 18px 12px;
+          overflow: hidden;
         }
         .topbar {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
-          gap: 14px;
-          margin-bottom: 12px;
+          gap: 8px;
+          margin-bottom: 6px;
         }
         .brand {
           color: #f3ce6d;
           letter-spacing: 0.42em;
-          font-size: 12px;
+          font-size: 10px;
           text-transform: uppercase;
           font-weight: 900;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         }
         .main-title {
           font-family: Arial, Helvetica, sans-serif;
-          font-size: clamp(34px, 5vw, 66px);
-          line-height: .88;
+          font-size: clamp(30px, 4.2vw, 54px);
+          line-height: .86;
           margin: 0;
           letter-spacing: -0.06em;
         }
@@ -365,7 +365,7 @@ export default function App() {
           background: rgba(255,255,255,0.09);
           color: #fffaf0;
           border-radius: 999px;
-          padding: 10px 16px;
+          padding: 8px 14px;
           font-weight: 900;
           cursor: pointer;
           backdrop-filter: blur(10px);
@@ -383,7 +383,7 @@ export default function App() {
           background: rgba(255,255,255,0.18);
           border-radius: 999px;
           overflow: hidden;
-          margin: 18px 0 12px;
+          margin: 8px 0 8px;
         }
         .progress div {
           height: 100%;
@@ -392,22 +392,22 @@ export default function App() {
           transition: width 0.35s ease;
         }
         .pathway-row {
-          margin-bottom: 14px;
+          margin-bottom: 8px;
         }
         .pathway-row button {
-          font-size: 13px;
-          padding: 9px 14px;
+          font-size: 12px;
+          padding: 7px 12px;
         }
         .stage {
-          height: calc(100vh - 245px);
-          min-height: 590px;
+          height: calc(100vh - 204px);
+          min-height: 0;
           display: grid;
           grid-template-columns: 1fr 1.05fr;
-          gap: 18px;
+          gap: 14px;
           align-items: stretch;
         }
         .image-panel, .content-panel {
-          border-radius: 30px;
+          border-radius: 24px;
           overflow: hidden;
           border: 1px solid rgba(255,255,255,0.16);
           background: rgba(6, 8, 6, 0.74);
@@ -425,45 +425,45 @@ export default function App() {
         }
         .image-panel.contain img {
           object-fit: contain;
-          padding: 18px;
+          padding: 12px;
           background: linear-gradient(135deg, rgba(253,244,214,0.94), rgba(232,220,176,0.9));
         }
         .image-label {
           position: absolute;
-          left: 18px;
-          bottom: 18px;
-          right: 18px;
+          left: 14px;
+          bottom: 14px;
+          right: 14px;
           background: rgba(4, 8, 4, 0.74);
           border: 1px solid rgba(255,255,255,0.20);
           border-radius: 20px;
-          padding: 12px 14px;
-          font-size: 15px;
+          padding: 9px 12px;
+          font-size: 13px;
         }
         .content-panel {
-          padding: 22px 26px;
+          padding: 16px 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          gap: 12px;
+          gap: 8px;
         }
         .eyebrow {
           color: #f2d27c;
-          font-size: 12px;
-          letter-spacing: 0.42em;
+          font-size: 10px;
+          letter-spacing: 0.36em;
           text-transform: uppercase;
           font-weight: 900;
-          margin-bottom: 8px;
+          margin-bottom: 4px;
         }
         h1 {
           font-family: Arial, Helvetica, sans-serif;
-          font-size: clamp(30px, 3.8vw, 54px);
-          line-height: 0.96;
-          margin: 4px 0 8px;
+          font-size: clamp(27px, 3.2vw, 46px);
+          line-height: 0.94;
+          margin: 2px 0 6px;
           letter-spacing: -0.04em;
         }
         .subtitle {
-          font-size: clamp(15px, 1.25vw, 20px);
-          line-height: 1.22;
+          font-size: clamp(13px, 1.05vw, 17px);
+          line-height: 1.14;
           color: #fff4cf;
           margin: 0;
           font-weight: 700;
@@ -471,44 +471,44 @@ export default function App() {
         .journey-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 10px;
+          gap: 8px;
         }
         .card {
           background: rgba(255,255,255,0.07);
           border: 1px solid rgba(255,255,255,0.13);
-          border-radius: 20px;
-          padding: 11px 13px;
+          border-radius: 16px;
+          padding: 9px 11px;
         }
         .card.full { grid-column: 1 / -1; }
         .card-title {
           color: #f2d27c;
-          font-size: 11px;
+          font-size: 10px;
           text-transform: uppercase;
           letter-spacing: 0.22em;
-          margin-bottom: 7px;
+          margin-bottom: 5px;
           font-weight: 900;
         }
         .card p {
           margin: 0;
-          line-height: 1.22;
-          font-size: 14.5px;
+          line-height: 1.14;
+          font-size: 12.8px;
         }
         ul {
           margin: 0;
-          padding-left: 18px;
+          padding-left: 16px;
         }
         li {
-          margin: 3px 0;
-          line-height: 1.18;
-          font-size: 13.5px;
+          margin: 2px 0;
+          line-height: 1.12;
+          font-size: 12.3px;
         }
         .actions {
           display: flex;
           flex-wrap: wrap;
-          gap: 10px;
+          gap: 8px;
           align-items: center;
           justify-content: space-between;
-          padding-top: 4px;
+          padding-top: 2px;
         }
         @media (max-width: 1050px) {
           .stage {
@@ -618,8 +618,9 @@ export default function App() {
             src={active.image}
             alt={active.nav}
             onError={(event) => {
-              event.currentTarget.src = "/ConnectFoodEcosystem_withimages.jpeg";
-              event.currentTarget.parentElement?.classList.add("contain");
+              const fallback = active.containImage ? "/ConnectFoodEcosystem_withimages.jpeg" : "/GrowArea.jpg";
+              event.currentTarget.src = fallback;
+              if (active.containImage) event.currentTarget.parentElement?.classList.add("contain");
             }}
           />
           <div className="image-label">
