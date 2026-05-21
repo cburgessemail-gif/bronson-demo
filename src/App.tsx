@@ -42,7 +42,7 @@ export default function App() {
     () => [
       {
         id: 1,
-        nav: "Enter",
+        nav: "Bronson Family Farm",
         image: "/ConnectFoodEcosystem_withimages.jpeg",
         containImage: true,
         title: tx("Enter the Farm", "Entrar a la Granja", "Pumasok sa Bukid", "Entra nella Fattoria", "כניסה לחווה", "Entrer dans la Ferme"),
@@ -51,13 +51,13 @@ export default function App() {
         experiences: [
           tx("See the ecosystem", "Ver el ecosistema", "Tingnan ang ecosystem", "Vedere l’ecosistema", "לראות את המערכת", "Voir l’écosystème"),
           tx("Understand the mission", "Comprender la misión", "Unawain ang mission", "Comprendere la missione", "להבין את המשימה", "Comprendre la mission"),
-          tx("Choose a role", "Elegir una función", "Pumili ng role", "Scegliere un ruolo", "לבחור תפקיד", "Choisir un rôle"),
+          tx("Choose a pathway", "Elegir un camino", "Pumili ng pathway", "Scegliere un percorso", "לבחור מסלול", "Choisir un parcours"),
         ],
         growsInto: [
-          tx("Informed participant", "Participante informado", "Informed participant", "Partecipante informato", "משתתף מודע", "Participant informé"),
-          tx("Supporter or partner", "Apoyo o socio", "Supporter or partner", "Sostenitore o partner", "תומך או שותף", "Soutien ou partenaire"),
+          tx("A connected participant", "Un participante conectado", "A connected participant", "Un partecipante connesso", "משתתף מחובר", "Un participant connecté"),
+          tx("A future supporter or partner", "Un futuro apoyo o socio", "Future supporter or partner", "Futuro sostenitore o partner", "תומך או שותף עתידי", "Futur soutien ou partenaire"),
         ],
-        ecosystem: tx("Every role connects back to food access, education, workforce, and community.", "Cada función conecta alimentos, educación, trabajo y comunidad.", "Bawat role ay konektado sa food access, education, workforce, at community.", "Ogni ruolo collega cibo, educazione, lavoro e comunità.", "כל תפקיד מתחבר למזון, חינוך, עבודה וקהילה.", "Chaque rôle relie nourriture, éducation, travail et communauté."),
+        ecosystem: tx("Every pathway supports the larger ecosystem.", "Cada camino apoya el ecosistema mayor.", "Every pathway supports the larger ecosystem.", "Ogni percorso sostiene l’ecosistema più ampio.", "כל מסלול תומך במערכת הרחבה.", "Chaque parcours soutient l’écosystème plus large."),
         nextStep: tx("Begin the guided tour or select a pathway.", "Comience el recorrido o seleccione un camino.", "Simulan ang tour o pumili ng pathway.", "Inizia il tour o scegli un percorso.", "התחל סיור או בחר מסלול.", "Commencer la visite ou choisir un parcours."),
         buttonLabel: tx("See the Ecosystem", "Ver el Ecosistema", "Tingnan ang Ecosystem", "Vedere l’Ecosistema", "לראות את המערכת", "Voir l’Écosystème"),
         targetId: 2,
@@ -86,7 +86,7 @@ export default function App() {
       },
       {
         id: 3,
-        nav: "Farm",
+        nav: "Explore the Farm",
         image: "/GrowArea.jpg",
         title: tx("Explore the Farm", "Explorar la Granja", "Tuklasin ang Bukid", "Esplora la Fattoria", "סיור בחווה", "Explorer la Ferme"),
         subtitle: tx("Agriculture rooted in place, history, and purpose.", "Agricultura con lugar, historia y propósito.", "Pagsasaka na may lugar, history, at purpose.", "Agricoltura radicata in luogo, storia e scopo.", "חקלאות המחוברת למקום, היסטוריה ומטרה.", "Agriculture enracinée dans le lieu, l’histoire et le but."),
@@ -192,7 +192,7 @@ export default function App() {
       },
       {
         id: 8,
-        nav: "Youth",
+        nav: "Youth Workforce",
         image: "/SAM_0225.JPG",
         title: tx("Youth Workforce Program Pathway", "Ruta del Programa Juvenil", "Youth Workforce Program Pathway", "Percorso Programma Giovani", "מסלול תוכנית נוער", "Parcours Programme Jeunesse"),
         subtitle: tx("June 8 – August 28, 2026 | 9:00 AM – 2:00 PM | Monday–Friday", "8 de junio – 28 de agosto de 2026 | 9:00 AM – 2:00 PM | lunes a viernes", "June 8 – August 28, 2026 | 9:00 AM – 2:00 PM | Monday–Friday", "8 giugno – 28 agosto 2026 | 9:00–14:00 | lunedì–venerdì", "8 ביוני – 28 באוגוסט 2026 | 9:00–14:00 | שני–שישי", "8 juin – 28 août 2026 | 9 h – 14 h | lundi–vendredi"),
@@ -239,7 +239,7 @@ export default function App() {
       },
       {
         id: 10,
-        nav: "Value",
+        nav: "Value-Added",
         image: "/SAM_0229.JPG",
         title: tx("Value-Added Journey", "Recorrido de Valor Agregado", "Value-Added Journey", "Percorso Valore Aggiunto", "מסלול ערך מוסף", "Parcours Valeur Ajoutée"),
         subtitle: tx("The farm grows beyond food into education, tourism, wellness, and enterprise.", "La granja crece hacia educación, turismo, bienestar y empresa.", "The farm grows into education, tourism, wellness, and enterprise.", "La fattoria cresce in educazione, turismo e impresa.", "החווה מתפתחת לחינוך, תיירות ויזמות.", "La ferme devient éducation, tourisme, bien-être et entreprise."),
@@ -286,6 +286,7 @@ export default function App() {
 
   const active = slides[current];
   const isRTL = lang === "עברית";
+  const progress = `${(current / (slides.length - 1)) * 100}%`;
 
   const goToId = (id: number) => {
     const index = slides.findIndex((slide) => slide.id === id);
@@ -311,20 +312,20 @@ export default function App() {
     return () => window.clearInterval(timer);
   }, [guidedTour, slides.length]);
 
-  const pathwayButtons = slides.slice(2, 11);
+  const pathwayButtons = slides;
 
   return (
     <main className="demo-shell" dir={isRTL ? "rtl" : "ltr"}>
       <style>{`
         * { box-sizing: border-box; }
-        body { margin: 0; }
+        body { margin: 0; background: #020403; }
         .demo-shell {
           min-height: 100vh;
           width: 100%;
           background:
-            radial-gradient(circle at top left, rgba(245, 221, 161, 0.32), transparent 32%),
-            radial-gradient(circle at bottom right, rgba(144, 171, 94, 0.38), transparent 35%),
-            linear-gradient(135deg, #20351f 0%, #314b2d 38%, #6c7d39 100%);
+            radial-gradient(circle at top left, rgba(245, 221, 161, 0.18), transparent 28%),
+            radial-gradient(circle at bottom right, rgba(144, 171, 94, 0.22), transparent 35%),
+            linear-gradient(135deg, #020403 0%, #101c0d 45%, #2f421e 100%);
           color: #fffaf0;
           font-family: Georgia, "Times New Roman", serif;
           padding: 18px;
@@ -333,15 +334,24 @@ export default function App() {
         .topbar {
           display: flex;
           justify-content: space-between;
-          align-items: center;
-          gap: 12px;
+          align-items: flex-start;
+          gap: 14px;
           margin-bottom: 12px;
         }
         .brand {
-          letter-spacing: 0.14em;
+          color: #f3ce6d;
+          letter-spacing: 0.42em;
           font-size: 12px;
           text-transform: uppercase;
-          opacity: 0.92;
+          font-weight: 900;
+          margin-bottom: 8px;
+        }
+        .main-title {
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: clamp(34px, 5vw, 66px);
+          line-height: .88;
+          margin: 0;
+          letter-spacing: -0.06em;
         }
         .language-row, .nav-row, .pathway-row {
           display: flex;
@@ -350,36 +360,57 @@ export default function App() {
           align-items: center;
         }
         button, select {
-          border: 1px solid rgba(255,255,255,0.25);
-          background: rgba(255,255,255,0.12);
+          border: 1px solid rgba(255,255,255,0.18);
+          background: rgba(255,255,255,0.09);
           color: #fffaf0;
           border-radius: 999px;
-          padding: 9px 14px;
-          font-weight: 700;
+          padding: 10px 16px;
+          font-weight: 900;
           cursor: pointer;
           backdrop-filter: blur(10px);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
         }
         select option { color: #1f2a1b; }
-        button:hover, select:hover { background: rgba(255,255,255,0.22); }
-        button.active {
-          background: #f2d27c;
-          color: #24351d;
-          border-color: #f2d27c;
+        button:hover, select:hover { background: rgba(255,255,255,0.18); }
+        button.active, .primary {
+          background: linear-gradient(135deg, #d89a3c, #f2d27c);
+          color: #22331d;
+          border-color: rgba(255,255,255,0.25);
+        }
+        .progress {
+          height: 8px;
+          background: rgba(255,255,255,0.18);
+          border-radius: 999px;
+          overflow: hidden;
+          margin: 18px 0 12px;
+        }
+        .progress div {
+          height: 100%;
+          background: linear-gradient(90deg, #81c341, #f2d27c);
+          width: ${progress};
+          transition: width 0.35s ease;
+        }
+        .pathway-row {
+          margin-bottom: 14px;
+        }
+        .pathway-row button {
+          font-size: 13px;
+          padding: 9px 14px;
         }
         .stage {
-          height: calc(100vh - 150px);
-          min-height: 630px;
+          height: calc(100vh - 245px);
+          min-height: 590px;
           display: grid;
-          grid-template-columns: 1.02fr 0.98fr;
+          grid-template-columns: 1fr 1.05fr;
           gap: 18px;
           align-items: stretch;
         }
         .image-panel, .content-panel {
-          border-radius: 28px;
+          border-radius: 30px;
           overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.22);
-          background: rgba(11, 21, 12, 0.42);
-          box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+          border: 1px solid rgba(255,255,255,0.16);
+          background: rgba(6, 8, 6, 0.74);
+          box-shadow: 0 24px 80px rgba(0,0,0,0.38);
         }
         .image-panel {
           position: relative;
@@ -401,14 +432,14 @@ export default function App() {
           left: 18px;
           bottom: 18px;
           right: 18px;
-          background: rgba(24, 36, 20, 0.74);
-          border: 1px solid rgba(255,255,255,0.25);
+          background: rgba(4, 8, 4, 0.74);
+          border: 1px solid rgba(255,255,255,0.20);
           border-radius: 20px;
           padding: 12px 14px;
-          font-size: 14px;
+          font-size: 15px;
         }
         .content-panel {
-          padding: 24px;
+          padding: 24px 28px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -416,21 +447,25 @@ export default function App() {
         }
         .eyebrow {
           color: #f2d27c;
-          font-size: 13px;
-          letter-spacing: 0.12em;
+          font-size: 12px;
+          letter-spacing: 0.42em;
           text-transform: uppercase;
-          font-weight: 800;
+          font-weight: 900;
+          margin-bottom: 8px;
         }
         h1 {
-          font-size: clamp(32px, 4.4vw, 62px);
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: clamp(32px, 4.2vw, 58px);
           line-height: 0.96;
           margin: 4px 0 8px;
+          letter-spacing: -0.04em;
         }
         .subtitle {
-          font-size: clamp(17px, 1.7vw, 24px);
-          line-height: 1.3;
+          font-size: clamp(16px, 1.4vw, 22px);
+          line-height: 1.25;
           color: #fff4cf;
           margin: 0;
+          font-weight: 700;
         }
         .journey-grid {
           display: grid;
@@ -438,23 +473,23 @@ export default function App() {
           gap: 10px;
         }
         .card {
-          background: rgba(255,255,255,0.105);
-          border: 1px solid rgba(255,255,255,0.18);
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.13);
           border-radius: 20px;
           padding: 12px 14px;
         }
         .card.full { grid-column: 1 / -1; }
         .card-title {
           color: #f2d27c;
-          font-size: 12px;
+          font-size: 11px;
           text-transform: uppercase;
-          letter-spacing: 0.12em;
-          margin-bottom: 6px;
+          letter-spacing: 0.22em;
+          margin-bottom: 7px;
           font-weight: 900;
         }
         .card p {
           margin: 0;
-          line-height: 1.3;
+          line-height: 1.25;
           font-size: 15px;
         }
         ul {
@@ -462,8 +497,8 @@ export default function App() {
           padding-left: 18px;
         }
         li {
-          margin: 2px 0;
-          line-height: 1.28;
+          margin: 3px 0;
+          line-height: 1.22;
           font-size: 14px;
         }
         .actions {
@@ -472,51 +507,24 @@ export default function App() {
           gap: 10px;
           align-items: center;
           justify-content: space-between;
+          padding-top: 4px;
         }
-        .primary {
-          background: #f2d27c;
-          color: #22331d;
-          border-color: #f2d27c;
-        }
-        .progress {
-          height: 8px;
-          background: rgba(255,255,255,0.16);
-          border-radius: 999px;
-          overflow: hidden;
-          margin-top: 6px;
-        }
-        .progress div {
-          height: 100%;
-          background: #f2d27c;
-          width: ${(current / (slides.length - 1)) * 100}%;
-          transition: width 0.35s ease;
-        }
-        .pathway-row {
-          margin-top: 12px;
-          justify-content: center;
-        }
-        .pathway-row button {
-          font-size: 12px;
-          padding: 7px 10px;
-        }
-        @media (max-width: 980px) {
+        @media (max-width: 1050px) {
           .stage {
             height: auto;
             min-height: auto;
             grid-template-columns: 1fr;
           }
-          .image-panel { height: 310px; }
-          .content-panel { min-height: auto; }
+          .image-panel { height: 340px; }
           .journey-grid { grid-template-columns: 1fr; }
+          .main-title { font-size: 42px; }
         }
       `}</style>
 
       <section className="topbar">
         <div>
           <div className="brand">Bronson Family Farm Demo</div>
-          <div className="progress">
-            <div />
-          </div>
+          <h1 className="main-title">Connected Food Ecosystem<br />Experience</h1>
         </div>
 
         <div className="language-row">
@@ -527,31 +535,27 @@ export default function App() {
               </option>
             ))}
           </select>
-
-          <button onClick={() => setGuidedTour((value) => !value)} className={guidedTour ? "active" : ""}>
-            {guidedTour ? "Pause Tour" : "Begin Guided Tour"}
-          </button>
         </div>
       </section>
 
-      <section className="stage">
-        <div className={`image-panel ${active.containImage ? "contain" : ""}`}>
-          <img
-            src={active.image}
-            alt={active.nav}
-            onError={(event) => {
-              event.currentTarget.src = "/ConnectFoodEcosystem_withimages.jpeg";
-              event.currentTarget.parentElement?.classList.add("contain");
-            }}
-          />
-          <div className="image-label">
-            {current + 1} / {slides.length} — {active.nav}
-          </div>
-        </div>
+      <div className="progress"><div /></div>
 
+      <section className="pathway-row">
+        {pathwayButtons.map((slide) => (
+          <button
+            key={slide.id}
+            onClick={() => goToId(slide.id)}
+            className={active.id === slide.id ? "active" : ""}
+          >
+            {slide.id}. {slide.nav}
+          </button>
+        ))}
+      </section>
+
+      <section className="stage">
         <div className="content-panel">
           <div>
-            <div className="eyebrow">{active.nav} Pathway</div>
+            <div className="eyebrow">Bronson Family Farm Demo</div>
             <h1>{t(active.title)}</h1>
             <p className="subtitle">{t(active.subtitle)}</p>
           </div>
@@ -563,15 +567,6 @@ export default function App() {
             </div>
 
             <div className="card">
-              <div className="card-title">Grows Into</div>
-              <ul>
-                {active.growsInto.map((item, index) => (
-                  <li key={index}>{t(item)}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="card full">
               <div className="card-title">Experiences</div>
               <ul>
                 {active.experiences.map((item, index) => (
@@ -581,11 +576,20 @@ export default function App() {
             </div>
 
             <div className="card">
-              <div className="card-title">Ecosystem Impact</div>
-              <p>{t(active.ecosystem)}</p>
+              <div className="card-title">Grows Into</div>
+              <ul>
+                {active.growsInto.map((item, index) => (
+                  <li key={index}>{t(item)}</li>
+                ))}
+              </ul>
             </div>
 
             <div className="card">
+              <div className="card-title">Connects Back To</div>
+              <p>{t(active.ecosystem)}</p>
+            </div>
+
+            <div className="card full">
               <div className="card-title">Next Step</div>
               <p>{t(active.nextStep)}</p>
             </div>
@@ -595,7 +599,11 @@ export default function App() {
             <div className="nav-row">
               <button onClick={() => goToId(1)}>Start</button>
               <button onClick={back}>Back</button>
-              <button onClick={next}>Next</button>
+              <button className="active" onClick={next}>Next</button>
+              <button className={guidedTour ? "active" : "primary"} onClick={() => setGuidedTour((value) => !value)}>
+                {guidedTour ? "Pause Tour" : "Begin Guided Tour"}
+              </button>
+              <button className="primary" onClick={() => goToId(11)}>Share Feedback</button>
             </div>
 
             <button className="primary" onClick={() => goToId(active.targetId)}>
@@ -603,18 +611,21 @@ export default function App() {
             </button>
           </div>
         </div>
-      </section>
 
-      <section className="pathway-row">
-        {pathwayButtons.map((slide) => (
-          <button
-            key={slide.id}
-            onClick={() => goToId(slide.id)}
-            className={active.id === slide.id ? "active" : ""}
-          >
-            {slide.nav}
-          </button>
-        ))}
+        <div className={`image-panel ${active.containImage ? "contain" : ""}`}>
+          <img
+            src={active.image}
+            alt={active.nav}
+            onError={(event) => {
+              event.currentTarget.src = "/ConnectFoodEcosystem_withimages.jpeg";
+              event.currentTarget.parentElement?.classList.add("contain");
+            }}
+          />
+          <div className="image-label">
+            <strong>{active.nav}</strong><br />
+            {t(active.subtitle)}
+          </div>
+        </div>
       </section>
     </main>
   );
