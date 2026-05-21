@@ -16,6 +16,7 @@ type Slide = {
   growsInto: MultiText[];
   ecosystem: MultiText;
   nextStep: MultiText;
+  journeySteps: MultiText[];
   buttonLabel: MultiText;
   targetId: number;
 };
@@ -59,6 +60,12 @@ export default function App() {
         ],
         ecosystem: tx("Every pathway supports the larger ecosystem.", "Cada camino apoya el ecosistema mayor.", "Every pathway supports the larger ecosystem.", "Ogni percorso sostiene l’ecosistema più ampio.", "כל מסלול תומך במערכת הרחבה.", "Chaque parcours soutient l’écosystème plus large."),
         nextStep: tx("Begin the guided tour or select a pathway.", "Comience el recorrido o seleccione un camino.", "Simulan ang tour o pumili ng pathway.", "Inizia il tour o scegli un percorso.", "התחל סיור או בחר מסלול.", "Commencer la visite ou choisir un parcours."),
+        journeySteps: [
+          tx("Enter the farm story", "Entrar en la historia de la granja", "Enter the farm story", "Entrare nella storia della fattoria", "להיכנס לסיפור החווה", "Entrer dans l’histoire de la ferme"),
+          tx("Understand why this place matters", "Entender por qué este lugar importa", "Understand why this place matters", "Capire perché questo luogo conta", "להבין מדוע המקום חשוב", "Comprendre pourquoi ce lieu compte"),
+          tx("Choose how to participate", "Elegir cómo participar", "Choose how to participate", "Scegliere come partecipare", "לבחור כיצד להשתתף", "Choisir comment participer"),
+          tx("Move into a role-based pathway", "Avanzar a un camino por función", "Move into a role-based pathway", "Passare a un percorso per ruolo", "לעבור למסלול לפי תפקיד", "Passer à un parcours par rôle"),
+        ],
         buttonLabel: tx("See the Ecosystem", "Ver el Ecosistema", "Tingnan ang Ecosystem", "Vedere l’Ecosistema", "לראות את המערכת", "Voir l’Écosystème"),
         targetId: 2,
       },
@@ -81,6 +88,12 @@ export default function App() {
         ],
         ecosystem: tx("The ecosystem turns individual participation into shared community benefit.", "El ecosistema convierte la participación individual en beneficio comunitario.", "Ginagawa ng ecosystem ang participation bilang community benefit.", "L’ecosistema trasforma la partecipazione in beneficio comune.", "המערכת הופכת השתתפות אישית לתועלת קהילתית.", "L’écosystème transforme la participation en bénéfice partagé."),
         nextStep: tx("Decide where you connect.", "Decida dónde se conecta.", "Piliin kung saan ka konektado.", "Decidi dove connetterti.", "בחר היכן להתחבר.", "Décidez où vous vous connectez."),
+        journeySteps: [
+          tx("See the whole system", "Ver todo el sistema", "See the whole system", "Vedere l’intero sistema", "לראות את כל המערכת", "Voir tout le système"),
+          tx("Recognize how needs connect", "Reconocer cómo se conectan las necesidades", "Recognize how needs connect", "Riconoscere come i bisogni si collegano", "להכיר כיצד צרכים מתחברים", "Reconnaître comment les besoins se relient"),
+          tx("Match people to roles", "Conectar personas con funciones", "Match people to roles", "Abbinare persone e ruoli", "להתאים אנשים לתפקידים", "Associer les personnes aux rôles"),
+          tx("Build shared community value", "Crear valor comunitario compartido", "Build shared community value", "Creare valore comunitario condiviso", "לבנות ערך קהילתי משותף", "Créer une valeur communautaire partagée"),
+        ],
         buttonLabel: tx("Explore the Farm", "Explorar la Granja", "Tuklasin ang Bukid", "Esplora la Fattoria", "סיור בחווה", "Explorer la Ferme"),
         targetId: 3,
       },
@@ -102,6 +115,12 @@ export default function App() {
         ],
         ecosystem: tx("The place becomes the physical home for growing, teaching, gathering, and distributing.", "El lugar se convierte en hogar físico para cultivar, enseñar y distribuir.", "Ang lugar ang nagiging home for growing, teaching, gathering, distribution.", "Il luogo diventa casa fisica per coltivare, insegnare e distribuire.", "המקום הופך לבית פיזי לגידול, הוראה, מפגש והפצה.", "Le lieu devient la base pour cultiver, enseigner, réunir et distribuer."),
         nextStep: tx("Experience the land as a destination.", "Experimente la tierra como destino.", "Maranasan ang land bilang destination.", "Vivi la terra come destinazione.", "לחוות את הקרקע כיעד.", "Découvrir la terre comme destination."),
+        journeySteps: [
+          tx("Arrive at the Historic Lansdowne Airport site", "Llegar al histórico aeropuerto Lansdowne", "Arrive at the Historic Lansdowne Airport site", "Arrivare allo storico aeroporto Lansdowne", "להגיע לאתר שדה התעופה לנסדאון", "Arriver au site historique de Lansdowne"),
+          tx("See the outdoor growing area", "Ver el área de cultivo exterior", "See the outdoor growing area", "Vedere l’area di coltivazione esterna", "לראות את אזור הגידול", "Voir la zone de culture extérieure"),
+          tx("Understand land, access, and infrastructure needs", "Entender tierra, acceso e infraestructura", "Understand land, access, and infrastructure needs", "Capire terra, accesso e infrastruttura", "להבין קרקע, גישה ותשתית", "Comprendre le terrain, l’accès et l’infrastructure"),
+          tx("Imagine the farm as a learning destination", "Imaginar la granja como destino educativo", "Imagine the farm as a learning destination", "Immaginare la fattoria come destinazione educativa", "לדמיין את החווה כיעד למידה", "Imaginer la ferme comme destination éducative"),
+        ],
         buttonLabel: tx("Go to Guest Journey", "Ir al Invitado", "Pumunta sa Guest", "Vai all’Ospite", "לעבור לאורח", "Aller au parcours invité"),
         targetId: 4,
       },
@@ -123,6 +142,12 @@ export default function App() {
         ],
         ecosystem: tx("Guests help carry the story outward and invite others in.", "Los invitados comparten la historia e invitan a otros.", "Guests share the story and invite others.", "Gli ospiti portano la storia ad altri.", "האורחים נושאים את הסיפור ומזמינים אחרים.", "Les invités partagent l’histoire et invitent d’autres personnes."),
         nextStep: tx("Visit, share, or invite someone else.", "Visite, comparta o invite a alguien.", "Bumisita, mag-share, o mag-imbita.", "Visita, condividi o invita qualcuno.", "לבקר, לשתף או להזמין מישהו.", "Visiter, partager ou inviter quelqu’un."),
+        journeySteps: [
+          tx("Arrive as a visitor", "Llegar como visitante", "Arrive as a visitor", "Arrivare come visitatore", "להגיע כמבקר", "Arriver comme visiteur"),
+          tx("Learn the story and purpose", "Aprender la historia y el propósito", "Learn the story and purpose", "Conoscere la storia e lo scopo", "ללמוד את הסיפור והמטרה", "Apprendre l’histoire et le but"),
+          tx("Experience food, land, and people", "Vivir alimentos, tierra y personas", "Experience food, land, and people", "Vivere cibo, terra e persone", "לחוות מזון, קרקע ואנשים", "Découvrir nourriture, terre et personnes"),
+          tx("Share the story with others", "Compartir la historia con otros", "Share the story with others", "Condividere la storia con altri", "לשתף את הסיפור עם אחרים", "Partager l’histoire avec d’autres"),
+        ],
         buttonLabel: tx("Go to Customer Journey", "Ir al Cliente", "Pumunta sa Customer", "Vai al Cliente", "לעבור ללקוח", "Aller au parcours client"),
         targetId: 5,
       },
@@ -144,6 +169,12 @@ export default function App() {
         ],
         ecosystem: tx("Customer purchases keep money and food circulating locally.", "Las compras mantienen dinero y alimentos circulando localmente.", "Purchases keep food and money local.", "Gli acquisti mantengono cibo e denaro locali.", "קניות משאירות מזון וכסף בקהילה.", "Les achats gardent nourriture et argent dans la communauté."),
         nextStep: tx("Buy fresh food and return regularly.", "Comprar alimentos frescos y volver.", "Buy fresh food and return.", "Comprare cibo fresco e tornare.", "לקנות מזון טרי ולחזור.", "Acheter des aliments frais et revenir."),
+        journeySteps: [
+          tx("Discover fresh food and seedlings", "Descubrir alimentos frescos y plantas", "Discover fresh food and seedlings", "Scoprire cibo fresco e piantine", "לגלות מזון טרי ושתילים", "Découvrir aliments frais et plants"),
+          tx("Understand nutrition and seasonal value", "Entender nutrición y valor de temporada", "Understand nutrition and seasonal value", "Capire nutrizione e valore stagionale", "להבין תזונה וערך עונתי", "Comprendre nutrition et valeur saisonnière"),
+          tx("Purchase or preorder from the marketplace", "Comprar o preordenar en el mercado", "Purchase or preorder from the marketplace", "Acquistare o preordinare dal mercato", "לקנות או להזמין מראש מהשוק", "Acheter ou précommander au marché"),
+          tx("Return as a repeat customer", "Volver como cliente frecuente", "Return as a repeat customer", "Tornare come cliente abituale", "לחזור כלקוח קבוע", "Revenir comme client régulier"),
+        ],
         buttonLabel: tx("Go to Marketplace", "Ir al Mercado", "Pumunta sa Marketplace", "Vai al Mercato", "לעבור לשוק", "Aller au marché"),
         targetId: 6,
       },
@@ -166,6 +197,12 @@ export default function App() {
         ],
         ecosystem: tx("The marketplace connects growers, customers, institutions, distribution, and community purchasing power.", "El mercado conecta agricultores, clientes, instituciones, distribución y poder de compra comunitario.", "Marketplace connects growers, customers, institutions, distribution, and community purchasing power.", "Il mercato collega coltivatori, clienti, istituzioni, distribuzione e potere d’acquisto comunitario.", "השוק מחבר מגדלים, לקוחות, מוסדות, הפצה וכוח קנייה קהילתי.", "Le marché relie producteurs, clients, institutions, distribution et pouvoir d’achat communautaire."),
         nextStep: tx("Shop, sell, supply, preorder, or help build the regional market.", "Comprar, vender, proveer, preordenar o construir el mercado regional.", "Shop, sell, supply, preorder, or help build the regional market.", "Comprare, vendere, fornire, preordinare o costruire il mercato regionale.", "לקנות, למכור, לספק, להזמין מראש או לבנות את השוק האזורי.", "Acheter, vendre, fournir, précommander ou aider à construire le marché régional."),
+        journeySteps: [
+          tx("Bring growers and buyers into one system", "Reunir agricultores y compradores en un sistema", "Bring growers and buyers into one system", "Portare coltivatori e clienti in un sistema", "לחבר מגדלים וקונים למערכת אחת", "Réunir producteurs et acheteurs dans un système"),
+          tx("List products and available supply", "Listar productos y oferta disponible", "List products and available supply", "Elencare prodotti e disponibilità", "לפרסם מוצרים ומלאי", "Lister produits et disponibilité"),
+          tx("Coordinate pickup, orders, and distribution", "Coordinar recogida, pedidos y distribución", "Coordinate pickup, orders, and distribution", "Coordinare ritiro, ordini e distribuzione", "לתאם איסוף, הזמנות והפצה", "Coordonner retrait, commandes et distribution"),
+          tx("Strengthen grower income and food access", "Fortalecer ingresos agrícolas y acceso a alimentos", "Strengthen grower income and food access", "Rafforzare reddito agricolo e accesso al cibo", "לחזק הכנסות מגדלים וגישה למזון", "Renforcer revenu des producteurs et accès alimentaire"),
+        ],
         buttonLabel: tx("Go to Grower Journey", "Ir al Agricultor", "Pumunta sa Grower", "Vai al Coltivatore", "לעבור למגדל", "Aller au producteur"),
         targetId: 7,
       },
@@ -187,6 +224,12 @@ export default function App() {
         ],
         ecosystem: tx("Growers are the production base of the ecosystem.", "Los agricultores son la base productiva del ecosistema.", "Growers are the production base.", "I coltivatori sono la base produttiva.", "המגדלים הם בסיס הייצור.", "Les producteurs sont la base productive."),
         nextStep: tx("Become a grower or strengthen what you already grow.", "Conviértase en agricultor o fortalezca lo que cultiva.", "Become a grower or strengthen what you grow.", "Diventa coltivatore o rafforza ciò che coltivi.", "להפוך למגדל או לחזק את מה שכבר גדל.", "Devenir producteur ou renforcer ce que vous cultivez."),
+        journeySteps: [
+          tx("Identify what you want to grow", "Identificar lo que quiere cultivar", "Identify what you want to grow", "Identificare cosa vuoi coltivare", "לזהות מה תרצה לגדל", "Identifier ce que vous voulez cultiver"),
+          tx("Learn methods, tools, and seasonal planning", "Aprender métodos, herramientas y planificación", "Learn methods, tools, and seasonal planning", "Imparare metodi, strumenti e pianificazione", "ללמוד שיטות, כלים ותכנון עונתי", "Apprendre méthodes, outils et planification"),
+          tx("Connect to market and support systems", "Conectar con mercado y sistemas de apoyo", "Connect to market and support systems", "Collegarsi al mercato e ai supporti", "להתחבר לשוק ולמערכות תמיכה", "Se connecter au marché et aux soutiens"),
+          tx("Grow into a producer within the ecosystem", "Crecer como productor dentro del ecosistema", "Grow into a producer within the ecosystem", "Crescere come produttore nell’ecosistema", "להתפתח כיצרן במערכת", "Devenir producteur dans l’écosystème"),
+        ],
         buttonLabel: tx("Go to Youth Workforce", "Ir al Programa Juvenil", "Pumunta sa Youth Workforce", "Vai ai Giovani", "לעבור לנוער", "Aller au programme jeunesse"),
         targetId: 8,
       },
@@ -213,13 +256,21 @@ export default function App() {
         ],
         ecosystem: tx("Youth are not just workers. They are learning how food, land, responsibility, family, and community connect.", "Los jóvenes no solo trabajan. Aprenden cómo se conectan alimentos, tierra, responsabilidad, familia y comunidad.", "Youth are not just workers. They learn how food, land, responsibility, family, and community connect.", "I giovani non sono solo lavoratori. Imparano come cibo, terra, responsabilità, famiglia e comunità si collegano.", "הנוער אינו רק כוח עבודה. הם לומדים כיצד מזון, קרקע, אחריות, משפחה וקהילה מתחברים.", "Les jeunes ne sont pas seulement des travailleurs. Ils apprennent comment nourriture, terre, responsabilité, famille et communauté se relient."),
         nextStep: tx("Complete orientation, join a supervised team, build skills, and finish the program ready for the next opportunity.", "Completar orientación, unirse a un equipo supervisado, desarrollar habilidades y terminar listo para la próxima oportunidad.", "Complete orientation, join a supervised team, build skills, and finish ready for the next opportunity.", "Completare l’orientamento, unirsi a un team supervisionato, sviluppare competenze e prepararsi alla prossima opportunità.", "להשלים הכוונה, להצטרף לצוות בפיקוח, לבנות מיומנויות ולהיות מוכן להזדמנות הבאה.", "Compléter l’orientation, rejoindre une équipe supervisée, développer des compétences et être prêt pour la prochaine opportunité."),
+        journeySteps: [
+          tx("Register and attend parent/youth orientation", "Registrarse y asistir a orientación de padres/jóvenes", "Register and attend parent/youth orientation", "Registrarsi e partecipare all’orientamento", "להירשם ולהשתתף בהכוונת הורים/נוער", "S’inscrire et assister à l’orientation"),
+          tx("Learn safety, PPE, attendance, and expectations", "Aprender seguridad, PPE, asistencia y expectativas", "Learn safety, PPE, attendance, and expectations", "Imparare sicurezza, DPI, presenza e aspettative", "ללמוד בטיחות, ציוד מגן ונוכחות", "Apprendre sécurité, EPI, présence et attentes"),
+          tx("Work in supervised farm teams", "Trabajar en equipos agrícolas supervisados", "Work in supervised farm teams", "Lavorare in squadre supervisionate", "לעבוד בצוותי חווה בפיקוח", "Travailler en équipes supervisées"),
+          tx("Build skills through tools, growing, teamwork, and responsibility", "Desarrollar habilidades con herramientas, cultivo, equipo y responsabilidad", "Build skills through tools, growing, teamwork, and responsibility", "Sviluppare competenze con strumenti, coltivazione e responsabilità", "לבנות מיומנויות דרך כלים, גידול, צוות ואחריות", "Développer compétences par outils, culture, équipe et responsabilité"),
+          tx("Reflect through proverbs and life lessons", "Reflexionar con proverbios y lecciones de vida", "Reflect through proverbs and life lessons", "Riflettere con proverbi e lezioni di vita", "להרהר דרך פתגמים ושיעורי חיים", "Réfléchir avec proverbes et leçons de vie"),
+          tx("Finish with progress, leadership, and next opportunity", "Terminar con progreso, liderazgo y próxima oportunidad", "Finish with progress, leadership, and next opportunity", "Finire con progresso, leadership e prossima opportunità", "לסיים עם התקדמות, מנהיגות והזדמנות הבאה", "Terminer avec progrès, leadership et prochaine opportunité"),
+        ],
         buttonLabel: tx("Go to Partner Journey", "Ir al Socio", "Pumunta sa Partner", "Vai al Partner", "לעבור לשותף", "Aller au partenaire"),
         targetId: 9,
       },
       {
         id: 9,
         nav: "Partner",
-        image: "/SAM_0226.JPG",
+        image: "/PartnerJourney.jpg",
         title: tx("Partner Journey", "Recorrido del Socio", "Partner Journey", "Percorso Partner", "מסלול שותף", "Parcours Partenaire"),
         subtitle: tx("Partners align resources, knowledge, infrastructure, and impact.", "Los socios alinean recursos, conocimiento e impacto.", "Partners align resources, knowledge, infrastructure, and impact.", "I partner allineano risorse e impatto.", "שותפים מחברים משאבים והשפעה.", "Les partenaires alignent ressources et impact."),
         startsAs: tx("An organization with resources or aligned mission.", "Una organización con recursos o misión alineada.", "Organization with resources or aligned mission.", "Un’organizzazione con risorse o missione affine.", "ארגון עם משאבים או משימה מתאימה.", "Une organisation avec ressources ou mission alignée."),
@@ -234,13 +285,19 @@ export default function App() {
         ],
         ecosystem: tx("Partners expand capacity, credibility, education, funding, and services.", "Los socios amplían capacidad, credibilidad, educación, fondos y servicios.", "Partners expand capacity, credibility, education, funding, services.", "I partner ampliano capacità, credibilità e servizi.", "שותפים מרחיבים יכולת, אמינות, חינוך ומימון.", "Les partenaires renforcent capacité, crédibilité, éducation et financement."),
         nextStep: tx("Partner, sponsor, educate, fund, or volunteer.", "Asociarse, patrocinar, educar, financiar o servir.", "Partner, sponsor, educate, fund, or volunteer.", "Collaborare, sponsorizzare, educare o finanziare.", "לשתף פעולה, לתת חסות, לחנך, לממן או להתנדב.", "Collaborer, parrainer, éduquer, financer ou servir."),
+        journeySteps: [
+          tx("Identify a shared community need", "Identificar una necesidad comunitaria compartida", "Identify a shared community need", "Identificare un bisogno comunitario condiviso", "לזהות צורך קהילתי משותף", "Identifier un besoin communautaire partagé"),
+          tx("Decide what resource, expertise, or support can be aligned", "Decidir qué recurso, experiencia o apoyo se puede alinear", "Decide what resource, expertise, or support can be aligned", "Decidere quali risorse o competenze allineare", "להחליט אילו משאבים או מומחיות לחבר", "Décider quelles ressources ou expertises aligner"),
+          tx("Create a practical collaboration", "Crear una colaboración práctica", "Create a practical collaboration", "Creare una collaborazione pratica", "ליצור שיתוף פעולה מעשי", "Créer une collaboration pratique"),
+          tx("Strengthen capacity, credibility, funding, and services", "Fortalecer capacidad, credibilidad, fondos y servicios", "Strengthen capacity, credibility, funding, and services", "Rafforzare capacità, credibilità, finanziamenti e servizi", "לחזק יכולת, אמינות, מימון ושירותים", "Renforcer capacité, crédibilité, financement et services"),
+        ],
         buttonLabel: tx("Go to Value-Added", "Ir a Valor Agregado", "Pumunta sa Value-Added", "Vai al Valore Aggiunto", "לעבור לערך מוסף", "Aller à la valeur ajoutée"),
         targetId: 10,
       },
       {
         id: 10,
         nav: "Value-Added",
-        image: "/SAM_0229.JPG",
+        image: "/ValueAddedJourney.jpg",
         title: tx("Value-Added Journey", "Recorrido de Valor Agregado", "Value-Added Journey", "Percorso Valore Aggiunto", "מסלול ערך מוסף", "Parcours Valeur Ajoutée"),
         subtitle: tx("The farm grows beyond food into education, tourism, wellness, and enterprise.", "La granja crece hacia educación, turismo, bienestar y empresa.", "The farm grows into education, tourism, wellness, and enterprise.", "La fattoria cresce in educazione, turismo e impresa.", "החווה מתפתחת לחינוך, תיירות ויזמות.", "La ferme devient éducation, tourisme, bien-être et entreprise."),
         startsAs: tx("Fresh food and raw farm products.", "Alimentos frescos y productos agrícolas.", "Fresh food and raw products.", "Cibo fresco e prodotti agricoli.", "מזון טרי ותוצרת חקלאית.", "Aliments frais et produits agricoles."),
@@ -255,6 +312,12 @@ export default function App() {
         ],
         ecosystem: tx("Value-added activity creates income that helps sustain the ecosystem.", "El valor agregado crea ingresos que sostienen el ecosistema.", "Value-added creates income to sustain the ecosystem.", "Il valore aggiunto sostiene l’ecosistema.", "ערך מוסף מייצר הכנסה שמחזיקה את המערכת.", "La valeur ajoutée crée des revenus qui soutiennent l’écosystème."),
         nextStep: tx("Create, teach, preserve, sell, or invest.", "Crear, enseñar, conservar, vender o invertir.", "Create, teach, preserve, sell, or invest.", "Creare, insegnare, conservare, vendere o investire.", "ליצור, ללמד, לשמר, למכור או להשקיע.", "Créer, enseigner, préserver, vendre ou investir."),
+        journeySteps: [
+          tx("Begin with farm products, skills, and experiences", "Comenzar con productos, habilidades y experiencias", "Begin with farm products, skills, and experiences", "Iniziare con prodotti, competenze ed esperienze", "להתחיל במוצרים, מיומנויות וחוויות", "Commencer avec produits, compétences et expériences"),
+          tx("Turn produce into education, preservation, tourism, or enterprise", "Convertir productos en educación, conservación, turismo o empresa", "Turn produce into education, preservation, tourism, or enterprise", "Trasformare prodotti in educazione, conservazione, turismo o impresa", "להפוך תוצרת לחינוך, שימור, תיירות או יזמות", "Transformer produits en éducation, conservation, tourisme ou entreprise"),
+          tx("Create revenue that supports sustainability", "Crear ingresos que apoyan la sostenibilidad", "Create revenue that supports sustainability", "Creare entrate che sostengono la sostenibilità", "ליצור הכנסה שתומכת בקיימות", "Créer des revenus qui soutiennent la durabilité"),
+          tx("Expand the farm into a destination and learning economy", "Expandir la granja como destino y economía educativa", "Expand the farm into a destination and learning economy", "Espandere la fattoria come destinazione ed economia educativa", "להרחיב את החווה ליעד וכלכלת למידה", "Développer la ferme comme destination et économie d’apprentissage"),
+        ],
         buttonLabel: tx("Go to Feedback", "Ir a Comentarios", "Pumunta sa Feedback", "Vai al Feedback", "לעבור למשוב", "Aller aux commentaires"),
         targetId: 11,
       },
@@ -277,6 +340,12 @@ export default function App() {
         ],
         ecosystem: tx("Feedback helps refine the ecosystem before sharing it more widely.", "Los comentarios ayudan a mejorar el ecosistema.", "Feedback helps improve the ecosystem.", "Il feedback migliora l’ecosistema.", "משוב עוזר לשפר את המערכת.", "Les avis aident à améliorer l’écosystème."),
         nextStep: tx("Contact: 330-275-1604 | cburgess@bronsonfamilyfarm.com", "Contacto: 330-275-1604 | cburgess@bronsonfamilyfarm.com", "Contact: 330-275-1604 | cburgess@bronsonfamilyfarm.com", "Contatto: 330-275-1604 | cburgess@bronsonfamilyfarm.com", "יצירת קשר: 330-275-1604 | cburgess@bronsonfamilyfarm.com", "Contact : 330-275-1604 | cburgess@bronsonfamilyfarm.com"),
+        journeySteps: [
+          tx("Review the ecosystem", "Revisar el ecosistema", "Review the ecosystem", "Rivedere l’ecosistema", "לסקור את המערכת", "Revoir l’écosystème"),
+          tx("Choose your connection", "Elegir su conexión", "Choose your connection", "Scegliere la connessione", "לבחור את החיבור שלך", "Choisir votre connexion"),
+          tx("Share feedback", "Compartir comentarios", "Share feedback", "Condividere feedback", "לשתף משוב", "Partager un avis"),
+          tx("Contact Bronson Family Farm", "Contactar a Bronson Family Farm", "Contact Bronson Family Farm", "Contattare Bronson Family Farm", "ליצור קשר עם ברונסון פמילי פארם", "Contacter Bronson Family Farm"),
+        ],
         buttonLabel: tx("Start Over", "Comenzar de Nuevo", "Start Over", "Ricomincia", "להתחיל מחדש", "Recommencer"),
         targetId: 1,
       },
@@ -296,6 +365,17 @@ export default function App() {
   const next = () => setCurrent((prev) => Math.min(prev + 1, slides.length - 1));
   const back = () => setCurrent((prev) => Math.max(prev - 1, 0));
 
+  const startGuidedOverview = () => {
+    if (guidedTour) {
+      setGuidedTour(false);
+      return;
+    }
+
+    setCurrent(0);
+    window.setTimeout(() => setGuidedTour(true), 120);
+  };
+
+
   useEffect(() => {
     if (!guidedTour) return;
 
@@ -307,7 +387,7 @@ export default function App() {
         }
         return prev + 1;
       });
-    }, 14000);
+    }, 18000);
 
     return () => window.clearInterval(timer);
   }, [guidedTour, slides.length]);
@@ -327,7 +407,7 @@ export default function App() {
             radial-gradient(circle at bottom right, rgba(144, 171, 94, 0.22), transparent 35%),
             linear-gradient(135deg, #020403 0%, #101c0d 45%, #2f421e 100%);
           color: #fffaf0;
-          font-family: Georgia, "Times New Roman", serif;
+          font-family: "Inter", "Segoe UI", Arial, Helvetica, sans-serif;
           padding: 18px;
           overflow-x: hidden;
         }
@@ -397,6 +477,14 @@ export default function App() {
           font-size: 13px;
           padding: 9px 14px;
         }
+
+        .tour-note {
+          margin: -4px 0 12px;
+          color: rgba(255,250,240,0.78);
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.01em;
+        }
         .stage {
           height: calc(100vh - 245px);
           min-height: 590px;
@@ -435,8 +523,8 @@ export default function App() {
           background: rgba(4, 8, 4, 0.74);
           border: 1px solid rgba(255,255,255,0.20);
           border-radius: 20px;
-          padding: 12px 14px;
-          font-size: 15px;
+          padding: 10px 12px;
+          font-size: 13px;
         }
         .content-panel {
           padding: 24px 28px;
@@ -455,13 +543,13 @@ export default function App() {
         }
         h1 {
           font-family: Arial, Helvetica, sans-serif;
-          font-size: clamp(32px, 4.2vw, 58px);
+          font-size: clamp(28px, 3.7vw, 50px);
           line-height: 0.96;
           margin: 4px 0 8px;
           letter-spacing: -0.04em;
         }
         .subtitle {
-          font-size: clamp(16px, 1.4vw, 22px);
+          font-size: clamp(15px, 1.25vw, 19px);
           line-height: 1.25;
           color: #fff4cf;
           margin: 0;
@@ -470,13 +558,13 @@ export default function App() {
         .journey-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 10px;
+          gap: 8px;
         }
         .card {
           background: rgba(255,255,255,0.07);
           border: 1px solid rgba(255,255,255,0.13);
           border-radius: 20px;
-          padding: 12px 14px;
+          padding: 10px 12px;
         }
         .card.full { grid-column: 1 / -1; }
         .card-title {
@@ -490,7 +578,7 @@ export default function App() {
         .card p {
           margin: 0;
           line-height: 1.25;
-          font-size: 15px;
+          font-size: 13px;
         }
         ul {
           margin: 0;
@@ -499,7 +587,7 @@ export default function App() {
         li {
           margin: 3px 0;
           line-height: 1.22;
-          font-size: 14px;
+          font-size: 13px;
         }
         .actions {
           display: flex;
@@ -510,7 +598,15 @@ export default function App() {
           padding-top: 4px;
         }
         @media (max-width: 1050px) {
-          .stage {
+  
+        .tour-note {
+          margin: -4px 0 12px;
+          color: rgba(255,250,240,0.78);
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.01em;
+        }
+        .stage {
             height: auto;
             min-height: auto;
             grid-template-columns: 1fr;
@@ -544,13 +640,20 @@ export default function App() {
         {pathwayButtons.map((slide) => (
           <button
             key={slide.id}
-            onClick={() => goToId(slide.id)}
+            onClick={() => {
+              setGuidedTour(false);
+              goToId(slide.id);
+            }}
             className={active.id === slide.id ? "active" : ""}
           >
             {slide.id}. {slide.nav}
           </button>
         ))}
       </section>
+
+      <div className="tour-note">
+        Guided Overview gives a slow walkthrough of the whole ecosystem. Pathway buttons let viewers explore each journey on their own.
+      </div>
 
       <section className="stage">
         <div className="content-panel">
@@ -590,6 +693,15 @@ export default function App() {
             </div>
 
             <div className="card full">
+              <div className="card-title">Individual Journey</div>
+              <ul>
+                {active.journeySteps.map((item, index) => (
+                  <li key={index}>{t(item)}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="card full">
               <div className="card-title">Next Step</div>
               <p>{t(active.nextStep)}</p>
             </div>
@@ -597,16 +709,16 @@ export default function App() {
 
           <div className="actions">
             <div className="nav-row">
-              <button onClick={() => goToId(1)}>Start</button>
-              <button onClick={back}>Back</button>
-              <button className="active" onClick={next}>Next</button>
-              <button className={guidedTour ? "active" : "primary"} onClick={() => setGuidedTour((value) => !value)}>
-                {guidedTour ? "Pause Tour" : "Begin Guided Tour"}
+              <button onClick={() => { setGuidedTour(false); goToId(1); }}>Start</button>
+              <button onClick={() => { setGuidedTour(false); back(); }}>Back</button>
+              <button className="active" onClick={() => { setGuidedTour(false); next(); }}>Next</button>
+              <button className={guidedTour ? "active" : "primary"} onClick={startGuidedOverview}>
+                {guidedTour ? "Pause Tour" : "Guided Overview"}
               </button>
-              <button className="primary" onClick={() => goToId(11)}>Share Feedback</button>
+              <button className="primary" onClick={() => { setGuidedTour(false); goToId(11); }}>Share Feedback</button>
             </div>
 
-            <button className="primary" onClick={() => goToId(active.targetId)}>
+            <button className="primary" onClick={() => { setGuidedTour(false); goToId(active.targetId); }}>
               {t(active.buttonLabel)}
             </button>
           </div>
